@@ -22,7 +22,13 @@ import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,12 +49,24 @@ public class OpenAPIController {
             Model model) {
         model.addAttribute("name", sd);
         try {
-            System.out.println( WebService.onpenapiJSON2("/openapi.json"));
+            System.out.println( onpenapiJSON2("/openapi.json"));
         } catch (ParseException ex) {
             Logger.getLogger(OpenAPIController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(OpenAPIController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "/semanticwfs/queryinterface";
+    }
+    
+       public static String onpenapiJSON2(String openapi) throws ParseException, IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet request = new HttpGet(openapi);
+        CloseableHttpResponse response;
+        response = httpClient.execute(request);
+        HttpEntity entity = response.getEntity();
+        String result = EntityUtils.toString(entity);
+        response.close();
+        httpClient.close();
+        return result;
     }
 }
