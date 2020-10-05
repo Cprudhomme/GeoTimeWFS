@@ -33,34 +33,80 @@
 
 </head>
 
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <script src="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/js/proj4.js"></script>
+    <script src="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/js/prefixes.js"></script>
+    <link rel="stylesheet" href="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/css/leaflet_legend.css" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet-coverage@0.7/leaflet-coverage.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/css/style.css">
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+    <script src="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/js/leaflet.pattern.js"></script>
+    <script src="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/js/Leaflet.geojsoncss.min.js"></script>
+    <script src="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/js/leaflet_legend.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://unpkg.com/covutils@0.6/covutils.min.js"></script>
+    <script src="https://unpkg.com/leaflet-coverage@0.7/leaflet-coverage.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/covjson-reader/0.16/covjson-reader.min.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css'
+        rel='stylesheet' />
+</head>
+
 <body>
     <header id="header">
-        <h1 th:text="${servicetitle}" />
+        <h1  style="text-align: right;">LandingPage: BKG WFS Service</h1>
     </header>
     <div class="sticky row crumbs">
-        <div class="col-sm-12 col-md-10 col-md-offset-1"><a href="/js">Landingpage</a></div>
+        <div class="col-sm-12 col-md-10 col-md-offset-1"><a
+                href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage</a></div>
     </div>
     <div class="container-fluid" role="main">
         <div class="row">
             <div class="col-sm-12">
-                <p th:text="${servicedescription}" />
+                <p>Testwebservice with a Triple Store backend</p>
                 <ul>
-                    <li>API Documentation in <a href="/js/api/">[HTML]</a> <a href="/js/openapi.yaml">[YAML]</a> <a
-                            href="/js/openapi.json">[JSON]</a></li>
-                    <li>Conformance Declaration in <a href="/js/conformance?f=html">[HTML]</a> <a
-                            href="/js/conformance?f=gml">[XML]</a> <a href="/js/conformance?f=json">[JSON]</a></li>
-                    <li>Collections Metadata in <a href="/js/collections?f=html">[HTML]</a> <a
-                            href="/js/collections?f=gml">[XML]</a> <a href="/js/collections?f=json">[JSON]</a></li>
+                    <li>API Documentation in <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/api/">[HTML]</a>
+                        <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/openapi.yaml">[YAML]</a> <a
+                            href="https://www.i3mainz.de/projekte/bkg/semanticwfs/openapi.json">[JSON]</a></li>
+                    <li>Conformance Declaration in <a
+                            href="https://www.i3mainz.de/projekte/bkg/semanticwfs/conformance?f=html">[HTML]</a> <a
+                            href="https://www.i3mainz.de/projekte/bkg/semanticwfs/conformance?f=gml">[XML]</a> <a
+                            href="https://www.i3mainz.de/projekte/bkg/semanticwfs/conformance?f=json">[JSON]</a></li>
+                    <li>Collections Metadata in <a
+                            href="https://www.i3mainz.de/projekte/bkg/semanticwfs/collections?f=html">[HTML]</a> <a
+                            href="https://www.i3mainz.de/projekte/bkg/semanticwfs/collections?f=gml">[XML]</a> <a
+                            href="https://www.i3mainz.de/projekte/bkg/semanticwfs/collections?f=json">[JSON]</a></li>
                 </ul>This homepage also exposes a WFS 1.0.0, 1.1.0, 2.0.0 compatible Webservice:<ul>
                     <li>GetCapabilities WFS 1.0.0 <a
-                            href="/js/wfs?REQUEST=getCapabilities&VERSION=1.0.0">[XML]</a><br /></li>
-                    <li>GetCapabilities WFS 1.1.0 <a href="/js/wfs?REQUEST=getCapabilities&VERSION=1.1.0">[XML]</a></li>
-                    <li>GetCapabilities WFS 2.0.0 <a href="/js/wfs?REQUEST=getCapabilities&VERSION=2.0.0">[XML]</a></li>
+                            href="https://www.i3mainz.de/projekte/bkg/semanticwfs/wfs?REQUEST=getCapabilities&VERSION=1.0.0">[XML]</a><br />
+                    </li>
+                    <li>GetCapabilities WFS 1.1.0 <a
+                            href="https://www.i3mainz.de/projekte/bkg/semanticwfs/wfs?REQUEST=getCapabilities&VERSION=1.1.0">[XML]</a>
+                    </li>
+                    <li>GetCapabilities WFS 2.0.0 <a
+                            href="https://www.i3mainz.de/projekte/bkg/semanticwfs/wfs?REQUEST=getCapabilities&VERSION=2.0.0">[XML]</a>
+                    </li>
                 </ul>Local Options:<ul>
-                    <li><a href="/semanticwfs/geotreeview">Ontology Browser</a></li>
-                    <li><a href="/queryinterface">SPARQL Query Interface</a></li>
-                    <li><a href="/configuration">Semantic WFS Configuration</a></li>
-                    <li><a href="/importer">Semantic Uplift Tools</a></li>
+                    <li><a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/geotreeview.html">Ontology
+                            Browser</a></li>
+                    <li><a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/queryinterface.html">SPARQL
+                            Query Interface</a></li>
+                    <li><a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/configuration.html">Semantic WFS
+                            Configuration</a></li>
+                    <li><a href="https://www.i3mainz.de/projekte/bkg/importer/">Semantic Uplift Tools</a></li>
                 </ul>
             </div>
         </div>
@@ -69,11 +115,15 @@
         <table width=100%>
             <tbody>
                 <tr>
-                    <td><a href="/js/?f=html">Back to LandingPage</a></td>
-                    <td>This page in <a href="/js/?f=xml">[XML]</a> <a href="/js/?f=json">[JSON]</a></td>
+                    <td><a href="/home">Back to LandingPage</a></td>
+                    <td style="text-align: right;">This page in <a
+                            href="https://www.i3mainz.de/projekte/bkg/semanticwfs/?f=xml">[XML]</a> <a
+                            href="https://www.i3mainz.de/projekte/bkg/semanticwfs/?f=json">[JSON]</a></td>
                 </tr>
         </table>
     </footer>
 </body>
+
+</html>
 
 </html>
