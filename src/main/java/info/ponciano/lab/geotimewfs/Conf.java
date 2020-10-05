@@ -18,7 +18,7 @@
  */
 package info.ponciano.lab.geotimewfs;
 
-import info.ponciano.lab.geotimewfs.controllers.ResController;
+import info.ponciano.lab.geotimewfs.controllers.examples.semanticwfs.ResController;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
