@@ -3059,8 +3059,8 @@ input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"
   height: 40px;
   font-size: 12pt;
   background-color: #3333339b;
-
 }
+
 @media screen and (max-width: 480px) {
   #footerinner {
     font-size: 9pt;
