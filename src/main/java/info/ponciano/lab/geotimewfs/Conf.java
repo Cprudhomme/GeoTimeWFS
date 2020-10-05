@@ -18,18 +18,37 @@
  */
 package info.ponciano.lab.geotimewfs;
 
-import de.hsmainz.cs.semgis.wfs.webservice.WebService;
+import info.ponciano.lab.geotimewfs.controllers.examples.semanticwfs.ResController;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.json.JSONObject;
 
-@SpringBootApplication
-public class GeotimewfsApplication {
+/**
+ *
+ * @author Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>
+ */
+public class Conf {
+    public static Conf instance;
+    protected JSONObject wfsconf;
 
-    public static void main(String[] args) {
-                    SpringApplication.run(GeotimewfsApplication.class, args);
+    private Conf() {
+        try {
+            this.wfsconf = new JSONObject(new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8));
+        } catch (IOException ex) {
+            Logger.getLogger(ResController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public static Conf get(){
+        if (instance==null)instance=new Conf();
+        return instance;
     }
 
+    public JSONObject getWfsconf() {
+        return wfsconf;
+    }
+    
 }

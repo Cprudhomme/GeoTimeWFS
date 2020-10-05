@@ -1,0 +1,104 @@
+/*
+Copyright (C) 2020 Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+MA 02110-1301  USA
+*/
+/* 
+    Created on : 5 Oct 2020, 18:37:43
+    Author     : Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>
+*/
+
+
+/*NAV BAR*/
+
+.topnav {
+  background-color: #870909;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#innernavBar {
+  min-height: 50px;
+  position: relative;
+}
+
+#innernavBar a {
+  margin: 0;
+  position: relative;
+  color: #ffffffb6;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 12pt;
+}
+
+#openspan {
+  cursor: pointer;
+  text-align: center;
+  font-size: 12pt;
+  color: white;
+}
+
+#innernavBar a:hover {
+  color: white;
+}
+
+#innernavBar a.active {
+  color: white;
+}
+
+.overlaynav {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.98);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.overlaynav-content {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.overlaynav #innernavBar a {
+  padding: 8px;
+  text-decoration: none;
+  display: block;
+  transition: 0.3s;
+  text-align: center;
+  font-size: 24pt;
+}
+
+.overlaynav a:hover, .overlaynav a:focus {
+  color: #f1f1f1;
+}
+
+.overlaynav #innernavBar .closebtn {
+  font-size: 40pt;
+}
+
+#openspan {
+  font-size: 24pt;
+}

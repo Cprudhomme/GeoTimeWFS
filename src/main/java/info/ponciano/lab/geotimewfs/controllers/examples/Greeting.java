@@ -16,20 +16,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package info.ponciano.lab.geotimewfs;
 
-import de.hsmainz.cs.semgis.wfs.webservice.WebService;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+package info.ponciano.lab.geotimewfs.controllers.examples;
 
-@SpringBootApplication
-public class GeotimewfsApplication {
+/**
+ *
+ * @author Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>
+ */
 
-    public static void main(String[] args) {
-                    SpringApplication.run(GeotimewfsApplication.class, args);
-    }
+public class Greeting {
 
+	private final long id;
+	private final String content;
+
+	public Greeting(long id, String content) {
+		this.id = id;
+		this.content = content;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public String getContent() {
+		return content;
+	}
 }

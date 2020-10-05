@@ -16,20 +16,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package info.ponciano.lab.geotimewfs;
+package info.ponciano.lab.geotimewfs.controllers.examples;
 
-import de.hsmainz.cs.semgis.wfs.webservice.WebService;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+/**
+ *
+ * @author Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>
+ */
 
-@SpringBootApplication
-public class GeotimewfsApplication {
+import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.ui.Model;
 
-    public static void main(String[] args) {
-                    SpringApplication.run(GeotimewfsApplication.class, args);
-    }
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+public class RestController_1 {
+
+	private static final String template = "Hello, %s!";
+	private final AtomicLong counter = new AtomicLong();
+
+	@GetMapping("/rest")
+	public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+		return new Greeting(counter.incrementAndGet(), String.format(template, name));
+	}
+  
 }
