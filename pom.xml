@@ -15,17 +15,7 @@
     <description>Source of Geotimewfs project</description>
     <repositories>
 
-
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>ECC</id>
-            <name>ECC</name>
-            <url>https://maven.ecc.no/releases</url>
-        </repository>
-        <repository>
+<repository>
             <id>central</id>
             <url>https://repo1.maven.org/maven2</url>
             <releases>
@@ -35,6 +25,16 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>ECC</id>
+            <name>ECC</name>
+            <url>https://maven.ecc.no/releases</url>
+        </repository>
+        
     </repositories>
     <properties>
         <java.version>15</java.version>
