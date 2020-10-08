@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>.
+ * Copyright (C) 2020 Dr Jean-Jacques Ponciano (Contact: jean-jacques@ponciano.info).
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Controller of geotreeview
- * @author Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>
+ * @author Dr Jean-Jacques Ponciano (Contact: jean-jacques@ponciano.info)
  */
 @Controller
 
