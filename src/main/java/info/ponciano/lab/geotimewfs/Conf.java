@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>.
+ * Copyright (C) 2020 Dr Jean-Jacques Ponciano (Contact: jean-jacques@ponciano.info).
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,7 +29,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>
+ * @author Dr Jean-Jacques Ponciano (Contact: jean-jacques@ponciano.info)
  */
 public class Conf {
     public static Conf instance;
