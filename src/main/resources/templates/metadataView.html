@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html >
+<head> 
+    <title>Getting Started: Serving Web Content</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+    <body>
+        <h1>Metadata View</h1>
+        <p> View to complete </p>
+        <form th:action="@{/metadata/update}" method="post">
+            <input type="submit" value="Metadata change"/>
+        </form>
+        <form th:action="@{/metadata/downlift}" method="post">
+            <input type="submit" value="Metadata download"/>
+        </form>
+    </body>
+</html>
