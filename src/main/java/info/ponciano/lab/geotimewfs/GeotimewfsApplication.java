@@ -18,10 +18,6 @@
  */
 package info.ponciano.lab.geotimewfs;
 
-import de.hsmainz.cs.semgis.wfs.webservice.WebService;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
