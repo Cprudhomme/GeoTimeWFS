@@ -18,6 +18,9 @@
  */
 package info.ponciano.lab.geotimewfs.controllers.examples;
 
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,11 +28,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class GreetingController {
-
-	@GetMapping("/greeting")
-	public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-		model.addAttribute("name", name);
-		return "hi";
-	}
+ protected OntModel ont;
+    @GetMapping("/greeting")
+    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
+        model.addAttribute("name", name);
+             this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+              this.ont.read("src/main/resources/ontologies/iso-19115.owl");
+            System.out.println(ont.listClasses());
+     
+        return "hi";
+    }
 
 }
