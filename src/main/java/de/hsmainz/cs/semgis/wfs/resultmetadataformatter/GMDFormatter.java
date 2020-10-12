@@ -25,7 +25,11 @@ public class GMDFormatter extends ResultMetadataFormatter {
 	}
 	
 	@Override
-	public String formatter(String collectionid, String collectioncall,String collectionurl,JSONObject workingobj,String format) throws XMLStreamException {
+	public String formatter(String collectionid,
+                String collectioncall,
+                String collectionurl,
+                JSONObject workingobj,
+                String format) throws XMLStreamException {
 		StringWriter strwriter = new StringWriter();
 		XMLOutputFactory output = XMLOutputFactory.newInstance();
 		XMLStreamWriter writer;
