@@ -7,6 +7,57 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
     <owl:Ontology rdf:about="http://lab.ponciano.info/geotime"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lab.ponciano.info/geotime#ObjectMetadataProperty -->
+
+    <owl:ObjectProperty rdf:about="http://lab.ponciano.info/geotime#ObjectMetadataProperty"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lab.ponciano.info/geotime#MetadataProperty -->
+
+    <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/geotime#MetadataProperty"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lab.ponciano.info/geotime#Metadata -->
+
+    <owl:Class rdf:about="http://lab.ponciano.info/geotime#Metadata"/>
 </rdf:RDF>
 
 
