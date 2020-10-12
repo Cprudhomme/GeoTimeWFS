@@ -37,7 +37,7 @@
         
     </repositories>
     <properties>
-        <java.version>15</java.version>
+        <java.version>14</java.version>
     </properties>
 
     <dependencies>
@@ -207,6 +207,12 @@
             <version>1.0</version>
             <type>jar</type>
         </dependency>
+<!--        <dependency>
+            <groupId>info.ponciano.lab</groupId>
+            <artifactId>pisemantic</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>-->
     </dependencies>
 
     <build>
