@@ -32,3 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 nbactions.xml
+src/main/resources/.DS_Store
