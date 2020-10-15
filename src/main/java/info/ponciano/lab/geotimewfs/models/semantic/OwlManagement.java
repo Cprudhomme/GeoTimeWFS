@@ -30,6 +30,11 @@ import org.w3c.dom.NodeList;
  */
 public class OwlManagement extends OntoManagement {
 
+    /**
+     * Loading information from an XML file into an ontology.
+     * @param xmlPathfile path of the XML file
+     * @return true if the uplift works, false otherwise.
+     */
     @Override
     public boolean uplift(String xmlPathfile) {
         try {
