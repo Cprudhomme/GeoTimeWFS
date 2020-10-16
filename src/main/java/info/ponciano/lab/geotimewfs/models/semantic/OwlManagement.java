@@ -56,8 +56,9 @@ public class OwlManagement extends OntoManagement {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return false;
         }
-        return false;
+        return true;
     }
 
     private void writeNodeList(NodeList nodeList, Individual indiv, OntProperty parentProperty) throws OntoManagementException {
