@@ -89,6 +89,9 @@ public class OwlManagement extends OntoManagement {
         }
     }
 
+    public void saveOntology(String path) throws IOException {
+        this.ont.write(new FileWriter(path));
+    }
 
     private Individual getIndividual(Node elemNode, String nodeName) throws DOMException {
         Individual n = null;
