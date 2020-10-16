@@ -35,6 +35,14 @@ public abstract class OntoManagement {
      */
     public abstract boolean uplift(String xml);
 
+    /**
+     * Downlifts ontology metadata information as a string formatted in XML.
+     *
+     * @param metadataURI URI of the metadata in the ontology
+     * @return the XML String in iso-119115 format.
+     */
+    public abstract String downlift(String metadataURI);
+
     public abstract boolean change(String... param);
 
     public abstract String getSPARQL(String... param);
