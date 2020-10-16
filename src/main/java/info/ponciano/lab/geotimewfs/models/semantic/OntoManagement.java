@@ -17,6 +17,17 @@ public abstract class OntoManagement {
 
     protected OntModel ont;
     public static final String NS = "http://lab.ponciano.info/ontology/2020/geotime/iso-19115#";
+    private static final List<String> possibleNS = List.of(NS,
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19112#",
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19103#",
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19109#",
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19107#",
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19106#",
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19108#",
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19111#"
+    );
+
+    ;
 
     public OntoManagement() throws OntoManagementException {
         this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
@@ -108,18 +119,9 @@ public abstract class OntoManagement {
      * the resource does not exist in the ontology.
      */
     public OntResource asOntResource(String nodeName) {
-        if (nodeName.equals("RS_Identifier")) {
-            System.out.println("here");
+        if (nodeName.contains("MD_ScopeCode")) {
+            System.out.println("hh");
         }
-        List<String> possibleNS = List.of(NS,
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19112#",
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19103#",
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19109#",
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19107#",
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19106#",
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19108#",
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19111#"
-        );
         for (String ns : possibleNS) {
             Resource resource = this.ont.getResource(ns + nodeName);
             if (this.ont.containsResource(resource)) {
@@ -147,6 +149,10 @@ public abstract class OntoManagement {
     public ExtendedIterator<Individual> listsMetadataIndividuals() {
         //Lists the Metadata individuals
         return this.ont.listIndividuals(this.ont.getOntClass(OntoManagement.NS + "MD_Metadata"));
+    }
+
+    public static boolean containsNS(String nameSpace) {
+        return possibleNS.contains(nameSpace);
     }
 
 }
