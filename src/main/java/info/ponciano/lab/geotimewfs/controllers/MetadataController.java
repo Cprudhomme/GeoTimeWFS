@@ -2,6 +2,8 @@ package info.ponciano.lab.geotimewfs.controllers;
 
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageFileNotFoundException;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
+import info.ponciano.lab.geotimewfs.models.semantic.OwlManagement;
+import java.io.IOException;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -55,11 +57,17 @@ public class MetadataController {
      */
     @PostMapping("/metadata/uplift")
     public String postUpliftAction(@RequestParam("file") MultipartFile file,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws IOException {
 
+                // store file
 		storageService.store(file);
+                
 		redirectAttributes.addFlashAttribute("message",
-				"You successfully uploaded " + file.getOriginalFilename() + "!");
+				"You successfully uplift " + file.getOriginalFilename() + "!");
+               
+                OwlManagement om= new OwlManagement();
+                om.uplift("upload-dir/"+file.getOriginalFilename());
+                om.saveOntology("upload-dir/metadataOnto.owl");
         //return "redirect:/metadata";
         return "redirect:/metadata/uplift";
     }
