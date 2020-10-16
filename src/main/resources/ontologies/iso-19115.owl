@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <rdf:RDF xmlns="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#"
      xml:base="http://lab.ponciano.info/ontology/2020/geotime/iso-19115"
+     xmlns:geotime="http://lab.ponciano.info/ontology/2020/geotime/"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
@@ -27,39 +28,39 @@
     
 
 
-    <!-- _condition -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/_condition -->
 
-    <owl:AnnotationProperty rdf:about="_condition"/>
+    <owl:AnnotationProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/_condition"/>
     
 
 
-    <!-- _domainCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/_domainCode -->
 
-    <owl:AnnotationProperty rdf:about="_domainCode"/>
+    <owl:AnnotationProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/_domainCode"/>
     
 
 
-    <!-- _shortName -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/_shortName -->
 
-    <owl:AnnotationProperty rdf:about="_shortName"/>
+    <owl:AnnotationProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/_shortName"/>
     
 
 
-    <!-- defaultValue -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/defaultValue -->
 
-    <owl:AnnotationProperty rdf:about="defaultValue"/>
+    <owl:AnnotationProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/defaultValue"/>
     
 
 
-    <!-- originalISOName -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/originalISOName -->
 
-    <owl:AnnotationProperty rdf:about="originalISOName"/>
+    <owl:AnnotationProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/originalISOName"/>
     
 
 
-    <!-- stereotypes -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/stereotypes -->
 
-    <owl:AnnotationProperty rdf:about="stereotypes"/>
+    <owl:AnnotationProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/stereotypes"/>
     
 
 
@@ -294,6 +295,12 @@
     
 
 
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#characterSet -->
+
+    <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#characterSet"/>
+    
+
+
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#citation -->
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#citation">
@@ -336,6 +343,7 @@ resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#conformanceSpecification -->
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#conformanceSpecification">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#specification"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#DQ_ConformanceResult"/>
         <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_Citation"/>
@@ -418,6 +426,7 @@ value</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataExtent -->
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataExtent">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#extent"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_DataIdentification"/>
         <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#EX_Extent"/>
         <_shortName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataExt</_shortName>
@@ -456,6 +465,7 @@ value</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#datasetCharacterSet -->
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#datasetCharacterSet">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#characterSet"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_DataIdentification"/>
         <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_CharacterSetCode"/>
         <_shortName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataChar</_shortName>
@@ -463,6 +473,12 @@ value</rdfs:comment>
         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">full name of the character coding standard used for the dataset</rdfs:comment>
         <rdfs:label xml:lang="en">characterSet</rdfs:label>
     </owl:ObjectProperty>
+    
+
+
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#date -->
+
+    <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#date"/>
     
 
 
@@ -733,6 +749,7 @@ decimal degrees (positive east)</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#exTemp -->
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#exTemp">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#extent"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#EX_TemporalExtent"/>
         <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19108#TM_Primitive"/>
@@ -778,6 +795,12 @@ required to describe geographic data</rdfs:comment>
         <rdfs:comment xml:lang="en">information about on-line sources containing the community profile name and the extended metadata elements. Information for all new metadata elements</rdfs:comment>
         <rdfs:label xml:lang="en">extensionOnLineResource</rdfs:label>
     </owl:ObjectProperty>
+    
+
+
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#extent -->
+
+    <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#extent"/>
     
 
 
@@ -1100,6 +1123,7 @@ procedure</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#metadataCharacterSet -->
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#metadataCharacterSet">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#characterSet"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_Metadata"/>
         <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_CharacterSetCode"/>
@@ -1419,6 +1443,7 @@ step</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#referenceDate -->
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#referenceDate">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#date"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_Citation"/>
         <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_Date"/>
         <_shortName>resRefDate</_shortName>
@@ -1586,6 +1611,7 @@ resource(s)</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#scopeExtent -->
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#scopeExtent">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#extent"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#DQ_Scope"/>
         <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#EX_Extent"/>
         <_shortName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">scpExt</_shortName>
@@ -1750,6 +1776,12 @@ geographic information</rdfs:comment>
     
 
 
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#specification -->
+
+    <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#specification"/>
+    
+
+
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#status -->
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#status">
@@ -1778,6 +1810,7 @@ geographic information</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#temporalExtent -->
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#temporalExtent">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#extent"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#EX_TemporalExtent"/>
         <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#EX_Extent"/>
@@ -2190,6 +2223,7 @@ corrections</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#catalogueLanguage -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#catalogueLanguage">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#language"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_FeatureCatalogueDescription"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
         <_shortName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">catLang</_shortName>
@@ -2402,6 +2436,7 @@ resource(s)</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataLanguage -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataLanguage">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#language"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_DataIdentification"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
         <_shortName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dataLang</_shortName>
@@ -2686,6 +2721,7 @@ resource(s)</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#extensionElementName -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#extensionElementName">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#name"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ExtendedElementInformation"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
@@ -2725,6 +2761,18 @@ resource(s)</rdfs:comment>
     
 
 
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#facsimile -->
+
+    <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#facsimile">
+        <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_Telephone"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <_shortName>faxNum</_shortName>
+        <rdfs:comment xml:lang="en">telephone number of a facsimile machine for the responsible organization or individual</rdfs:comment>
+        <rdfs:label xml:lang="en">fascimile</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#falseEasting -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#falseEasting">
@@ -2747,18 +2795,6 @@ resource(s)</rdfs:comment>
         <_shortName>falNorthng</_shortName>
         <rdfs:comment xml:lang="en">value added to all “y” values in the rectangular coordinates for a map projection. This value frequently is assigned to eliminate negative numbers. Expressed in the unit of measure identified in Planar Coordinate Units</rdfs:comment>
         <rdfs:label xml:lang="en">falseNorthing</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#fascimile -->
-
-    <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#fascimile">
-        <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_Telephone"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-        <_shortName>faxNum</_shortName>
-        <rdfs:comment xml:lang="en">telephone number of a facsimile machine for the responsible organization or individual</rdfs:comment>
-        <rdfs:label xml:lang="en">fascimile</rdfs:label>
     </owl:DatatypeProperty>
     
 
@@ -3052,6 +3088,12 @@ scanning device, refer to the centre pixel of the image</rdfs:comment>
     
 
 
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#language -->
+
+    <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#language"/>
+    
+
+
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#latitudeOfProjectionCenter -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#latitudeOfProjectionCenter">
@@ -3226,6 +3268,7 @@ determined</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#metadataLanguage -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#metadataLanguage">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#language"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_Metadata"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
@@ -3293,6 +3336,12 @@ band</rdfs:comment>
     
 
 
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#name -->
+
+    <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#name"/>
+    
+
+
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#nameOfMeasure -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#nameOfMeasure">
@@ -3308,6 +3357,7 @@ band</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#name_MD_Format -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#name_MD_Format">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#name"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_Format"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
@@ -3389,6 +3439,7 @@ band</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#onlineResourceName -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#onlineResourceName">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#name"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_OnlineResource"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
@@ -3772,6 +3823,7 @@ metadata is a subset (child)</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#seriesName -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#seriesName">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#name"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_Series"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
@@ -4199,159 +4251,159 @@ transformation exists</rdfs:comment>
     
 
 
-    <!-- CI_DateTypeCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/CI_DateTypeCode -->
 
-    <owl:Class rdf:about="CI_DateTypeCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/CI_DateTypeCode"/>
     
 
 
-    <!-- CI_OnLineFunctionCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/CI_OnLineFunctionCode -->
 
-    <owl:Class rdf:about="CI_OnLineFunctionCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/CI_OnLineFunctionCode"/>
     
 
 
-    <!-- CI_PresentationFormCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode -->
 
-    <owl:Class rdf:about="CI_PresentationFormCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
     
 
 
-    <!-- CI_RoleCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/CI_RoleCode -->
 
-    <owl:Class rdf:about="CI_RoleCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/CI_RoleCode"/>
     
 
 
-    <!-- DQ_EvaluationMethodTypeCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/DQ_EvaluationMethodTypeCode -->
 
-    <owl:Class rdf:about="DQ_EvaluationMethodTypeCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/DQ_EvaluationMethodTypeCode"/>
     
 
 
-    <!-- DS_AssociationTypeCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/DS_AssociationTypeCode -->
 
-    <owl:Class rdf:about="DS_AssociationTypeCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/DS_AssociationTypeCode"/>
     
 
 
-    <!-- DS_InitiativeTypeCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode -->
 
-    <owl:Class rdf:about="DS_InitiativeTypeCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
     
 
 
-    <!-- MD_CellGeometryCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_CellGeometryCode -->
 
-    <owl:Class rdf:about="MD_CellGeometryCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_CellGeometryCode"/>
     
 
 
-    <!-- MD_CharacterSetCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_CharacterSetCode -->
 
-    <owl:Class rdf:about="MD_CharacterSetCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_CharacterSetCode"/>
     
 
 
-    <!-- MD_ClassificationCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_ClassificationCode -->
 
-    <owl:Class rdf:about="MD_ClassificationCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_ClassificationCode"/>
     
 
 
-    <!-- MD_CoverageContentTypeCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_CoverageContentTypeCode -->
 
-    <owl:Class rdf:about="MD_CoverageContentTypeCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_CoverageContentTypeCode"/>
     
 
 
-    <!-- MD_DataTypeCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_DataTypeCode -->
 
-    <owl:Class rdf:about="MD_DataTypeCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_DataTypeCode"/>
     
 
 
-    <!-- MD_DimensionNameTypeCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_DimensionNameTypeCode -->
 
-    <owl:Class rdf:about="MD_DimensionNameTypeCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_DimensionNameTypeCode"/>
     
 
 
-    <!-- MD_GeometricObjectTypeCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_GeometricObjectTypeCode -->
 
-    <owl:Class rdf:about="MD_GeometricObjectTypeCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_GeometricObjectTypeCode"/>
     
 
 
-    <!-- MD_ImagingConditionCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_ImagingConditionCode -->
 
-    <owl:Class rdf:about="MD_ImagingConditionCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_ImagingConditionCode"/>
     
 
 
-    <!-- MD_KeywordTypeCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_KeywordTypeCode -->
 
-    <owl:Class rdf:about="MD_KeywordTypeCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_KeywordTypeCode"/>
     
 
 
-    <!-- MD_MaintenanceFrequenceCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_MaintenanceFrequenceCode -->
 
-    <owl:Class rdf:about="MD_MaintenanceFrequenceCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_MaintenanceFrequenceCode"/>
     
 
 
-    <!-- MD_MediumFormatCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_MediumFormatCode -->
 
-    <owl:Class rdf:about="MD_MediumFormatCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_MediumFormatCode"/>
     
 
 
-    <!-- MD_MediumNameCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_MediumNameCode -->
 
-    <owl:Class rdf:about="MD_MediumNameCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_MediumNameCode"/>
     
 
 
-    <!-- MD_ObligationCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_ObligationCode -->
 
-    <owl:Class rdf:about="MD_ObligationCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_ObligationCode"/>
     
 
 
-    <!-- MD_PixelOrientationCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_PixelOrientationCode -->
 
-    <owl:Class rdf:about="MD_PixelOrientationCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_PixelOrientationCode"/>
     
 
 
-    <!-- MD_ProgressCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_ProgressCode -->
 
-    <owl:Class rdf:about="MD_ProgressCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_ProgressCode"/>
     
 
 
-    <!-- MD_RestrictionCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_RestrictionCode -->
 
-    <owl:Class rdf:about="MD_RestrictionCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_RestrictionCode"/>
     
 
 
-    <!-- MD_ScopeCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_ScopeCode -->
 
-    <owl:Class rdf:about="MD_ScopeCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_ScopeCode"/>
     
 
 
-    <!-- MD_SpatialRepresentationTypeCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_SpatialRepresentationTypeCode -->
 
-    <owl:Class rdf:about="MD_SpatialRepresentationTypeCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_SpatialRepresentationTypeCode"/>
     
 
 
-    <!-- MD_TopologyLevelCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_TopologyLevelCode -->
 
-    <owl:Class rdf:about="MD_TopologyLevelCode"/>
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_TopologyLevelCode"/>
     
 
 
@@ -4966,7 +5018,7 @@ transformation exists</rdfs:comment>
     <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_Telephone">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#fascimile"/>
+                <owl:onProperty rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#facsimile"/>
                 <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -8721,7 +8773,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_pointOfContact -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_pointOfContact">
-        <rdf:type rdf:resource="CI_RoleCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_RoleCode"/>
         <_domainCode>007</_domainCode>
         <rdfs:comment xml:lang="en">party who can be contacted for acquiring knowledge about or acquisition of the resource</rdfs:comment>
     </owl:NamedIndividual>
@@ -8731,7 +8783,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_processor -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_processor">
-        <rdf:type rdf:resource="CI_RoleCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_RoleCode"/>
         <_domainCode>009</_domainCode>
         <rdfs:comment xml:lang="en">party who has processed the data in a manner such that the resource has been modified</rdfs:comment>
     </owl:NamedIndividual>
@@ -8761,7 +8813,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_source -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_source">
-        <rdf:type rdf:resource="DS_AssociationTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_AssociationTypeCode"/>
         <_domainCode>004</_domainCode>
         <rdfs:comment xml:lang="en">mapping and charting information from which the dataset content originates</rdfs:comment>
     </owl:NamedIndividual>
@@ -8911,7 +8963,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#campaign -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#campaign">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>001</_domainCode>
         <rdfs:comment xml:lang="en">series of organized planned actions</rdfs:comment>
     </owl:NamedIndividual>
@@ -9001,7 +9053,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#collection -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#collection">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>002</_domainCode>
         <rdfs:comment xml:lang="en">accumulation of datasets assembled for a specific purpose</rdfs:comment>
     </owl:NamedIndividual>
@@ -9121,7 +9173,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#creation -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#creation">
-        <rdf:type rdf:resource="CI_DateTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_DateTypeCode"/>
         <_domainCode>001</_domainCode>
         <rdfs:comment xml:lang="en">date identifies when the resource was brought into existence</rdfs:comment>
     </owl:NamedIndividual>
@@ -9131,7 +9183,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#crossReference -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#crossReference">
-        <rdf:type rdf:resource="DS_AssociationTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_AssociationTypeCode"/>
         <_domainCode>001</_domainCode>
         <rdfs:comment xml:lang="en">reference from one dataset to another</rdfs:comment>
     </owl:NamedIndividual>
@@ -9161,7 +9213,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#custodian -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#custodian">
-        <rdf:type rdf:resource="CI_RoleCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_RoleCode"/>
         <_domainCode>002</_domainCode>
         <rdfs:comment xml:lang="en">party that accepts accountability and responsibility for the data and ensures appropriate care and maintenance of the resource</rdfs:comment>
     </owl:NamedIndividual>
@@ -9221,7 +9273,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#directExternal -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#directExternal">
-        <rdf:type rdf:resource="DQ_EvaluationMethodTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DQ_EvaluationMethodTypeCode"/>
         <_domainCode>002</_domainCode>
         <rdfs:comment xml:lang="en">method of evaluating the quality of a dataset based on inspection of items within the dataset, where reference data external to the dataset being evaluated is required</rdfs:comment>
     </owl:NamedIndividual>
@@ -9231,7 +9283,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#directInternal -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#directInternal">
-        <rdf:type rdf:resource="DQ_EvaluationMethodTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DQ_EvaluationMethodTypeCode"/>
         <_domainCode>001</_domainCode>
         <rdfs:comment xml:lang="en">method of evaluating the quality of a dataset based on inspection of items within the dataset, where all data required is internal to the dataset being evaluated</rdfs:comment>
     </owl:NamedIndividual>
@@ -9251,7 +9303,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#distributors -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#distributors">
-        <rdf:type rdf:resource="CI_RoleCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_RoleCode"/>
         <_domainCode>005</_domainCode>
         <rdfs:comment xml:lang="en">party who distributes the resource</rdfs:comment>
     </owl:NamedIndividual>
@@ -9261,7 +9313,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#documentDigital -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#documentDigital">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>001</_domainCode>
         <rdfs:comment xml:lang="en">digital representation of a primarily textual item (can contain illustrations also)</rdfs:comment>
     </owl:NamedIndividual>
@@ -9271,7 +9323,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#documentHardcopy -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#documentHardcopy">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>002</_domainCode>
         <rdfs:comment xml:lang="en">representation of a primarily textual item (can contain illustrations also) on paper, photographic material, or other media</rdfs:comment>
     </owl:NamedIndividual>
@@ -9281,7 +9333,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#download -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#download">
-        <rdf:type rdf:resource="CI_OnLineFunctionCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_OnLineFunctionCode"/>
         <_domainCode>001</_domainCode>
         <rdfs:comment xml:lang="en">online instructions for transferring data from one storage device or system to another</rdfs:comment>
     </owl:NamedIndividual>
@@ -9381,7 +9433,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#exercise -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#exercise">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>003</_domainCode>
         <rdfs:comment xml:lang="en">specific performance of a function or group of functions</rdfs:comment>
     </owl:NamedIndividual>
@@ -9391,7 +9443,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#experiment -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#experiment">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>004</_domainCode>
         <rdfs:comment xml:lang="en">process designed to find if something is effective or valid</rdfs:comment>
     </owl:NamedIndividual>
@@ -9591,7 +9643,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#imageDigital -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#imageDigital">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>003</_domainCode>
         <rdfs:comment xml:lang="en">likeness of natural or man-made features, objects, and activities acquired through the sensing of visual or any other segment of the electromagnetic spectrum by sensors, such as thermal infrared, and high resolution radar and stored in digital format</rdfs:comment>
     </owl:NamedIndividual>
@@ -9601,7 +9653,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#imageHardCopy -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#imageHardCopy">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>004</_domainCode>
         <rdfs:comment xml:lang="en">likeness of natural or man-made features, objects, and activities acquired through the sensing of visual or any other segment of the electromagnetic spectrum by sensors, such as thermal infrared, and high resolution radar and reproduced on paper, photographic material, or other media for use directly by the human user</rdfs:comment>
     </owl:NamedIndividual>
@@ -9621,7 +9673,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#indirect -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#indirect">
-        <rdf:type rdf:resource="DQ_EvaluationMethodTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DQ_EvaluationMethodTypeCode"/>
         <_domainCode>003</_domainCode>
         <rdfs:comment xml:lang="en">method of evaluating the quality of a dataset based on external knowledge</rdfs:comment>
     </owl:NamedIndividual>
@@ -9631,7 +9683,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#information -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#information">
-        <rdf:type rdf:resource="CI_OnLineFunctionCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_OnLineFunctionCode"/>
         <_domainCode>002</_domainCode>
         <rdfs:comment xml:lang="en">online information about the resource</rdfs:comment>
     </owl:NamedIndividual>
@@ -9731,7 +9783,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#largerWorkCitation -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#largerWorkCitation">
-        <rdf:type rdf:resource="DS_AssociationTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_AssociationTypeCode"/>
         <_domainCode>002</_domainCode>
         <rdfs:comment xml:lang="en">reference to a master dataset of which this one is a part</rdfs:comment>
     </owl:NamedIndividual>
@@ -9801,7 +9853,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#mapDigital -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#mapDigital">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>005</_domainCode>
         <rdfs:comment xml:lang="en">map represented in raster or vector form</rdfs:comment>
     </owl:NamedIndividual>
@@ -9811,7 +9863,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#mapHardCopy -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#mapHardCopy">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>006</_domainCode>
         <rdfs:comment xml:lang="en">map printed on paper, photographic material, or other media for use directly by the human user</rdfs:comment>
     </owl:NamedIndividual>
@@ -9831,7 +9883,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#mission -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#mission">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>005</_domainCode>
         <rdfs:comment xml:lang="en">specific operation of a data collection system</rdfs:comment>
     </owl:NamedIndividual>
@@ -9851,7 +9903,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#modelDigital -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#modelDigital">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>007</_domainCode>
         <rdfs:comment xml:lang="en">multi-dimensional digital representation of a feature, process, etc.</rdfs:comment>
     </owl:NamedIndividual>
@@ -9861,7 +9913,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#modelHardcopy -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#modelHardcopy">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>008</_domainCode>
         <rdfs:comment xml:lang="en">3-dimensional, physical model</rdfs:comment>
     </owl:NamedIndividual>
@@ -9901,7 +9953,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#nonImageSensor -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#nonImageSensor">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>006</_domainCode>
         <rdfs:comment xml:lang="en">device or piece of equipment which detects or records</rdfs:comment>
     </owl:NamedIndividual>
@@ -9941,7 +9993,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#offLineAccess -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#offLineAccess">
-        <rdf:type rdf:resource="CI_OnLineFunctionCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_OnLineFunctionCode"/>
         <_domainCode>003</_domainCode>
         <rdfs:comment xml:lang="en">online instructions for requesting the resource from the provider</rdfs:comment>
     </owl:NamedIndividual>
@@ -9971,7 +10023,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#operation -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#operation">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>007</_domainCode>
         <rdfs:comment xml:lang="en">action that is part of a series of actions</rdfs:comment>
     </owl:NamedIndividual>
@@ -9991,7 +10043,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#order -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#order">
-        <rdf:type rdf:resource="CI_OnLineFunctionCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_OnLineFunctionCode"/>
         <_domainCode>004</_domainCode>
         <rdfs:comment xml:lang="en">online order process for obtaining the resource</rdfs:comment>
     </owl:NamedIndividual>
@@ -10001,7 +10053,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#originator -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#originator">
-        <rdf:type rdf:resource="CI_RoleCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_RoleCode"/>
         <_domainCode>006</_domainCode>
         <rdfs:comment xml:lang="en">party who created the resource</rdfs:comment>
     </owl:NamedIndividual>
@@ -10021,7 +10073,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#owner -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#owner">
-        <rdf:type rdf:resource="CI_RoleCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_RoleCode"/>
         <_domainCode>003</_domainCode>
         <rdfs:comment xml:lang="en">party that owns the resource</rdfs:comment>
     </owl:NamedIndividual>
@@ -10031,7 +10083,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#partOfSeamlessDatabase -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#partOfSeamlessDatabase">
-        <rdf:type rdf:resource="DS_AssociationTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_AssociationTypeCode"/>
         <_domainCode>003</_domainCode>
         <rdfs:comment xml:lang="en">part of same structured set of data held in a computer</rdfs:comment>
     </owl:NamedIndividual>
@@ -10111,7 +10163,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#platform -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#platform">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>008</_domainCode>
         <rdfs:comment xml:lang="en">vehicle or other support base that holds a sensor</rdfs:comment>
     </owl:NamedIndividual>
@@ -10131,7 +10183,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#principalInvestigator -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#principalInvestigator">
-        <rdf:type rdf:resource="CI_RoleCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_RoleCode"/>
         <_domainCode>008</_domainCode>
         <rdfs:comment xml:lang="en">key party responsible for gathering information and conducting research</rdfs:comment>
     </owl:NamedIndividual>
@@ -10141,7 +10193,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#process -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#process">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>009</_domainCode>
         <rdfs:comment xml:lang="en">method of doing something involving a number of steps</rdfs:comment>
     </owl:NamedIndividual>
@@ -10151,7 +10203,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#profileDigital -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#profileDigital">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>009</_domainCode>
         <rdfs:comment xml:lang="en">vertical cross-section in digital form</rdfs:comment>
     </owl:NamedIndividual>
@@ -10161,7 +10213,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#profileHardcopy -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#profileHardcopy">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>010</_domainCode>
         <rdfs:comment xml:lang="en">vertical cross-section printed on paper, etc.</rdfs:comment>
     </owl:NamedIndividual>
@@ -10171,7 +10223,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#program -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#program">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>010</_domainCode>
         <rdfs:comment xml:lang="en">specific planned activity</rdfs:comment>
     </owl:NamedIndividual>
@@ -10181,7 +10233,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#project -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#project">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>011</_domainCode>
         <rdfs:comment xml:lang="en">organized undertaking, research, or development</rdfs:comment>
     </owl:NamedIndividual>
@@ -10201,7 +10253,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#publication -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#publication">
-        <rdf:type rdf:resource="CI_DateTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_DateTypeCode"/>
         <_domainCode>002</_domainCode>
         <rdfs:comment xml:lang="en">date identifies when the resource was issued</rdfs:comment>
     </owl:NamedIndividual>
@@ -10211,7 +10263,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#publisher -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#publisher">
-        <rdf:type rdf:resource="CI_RoleCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_RoleCode"/>
         <_domainCode>010</_domainCode>
         <rdfs:comment xml:lang="en">party who published the resource</rdfs:comment>
     </owl:NamedIndividual>
@@ -10251,7 +10303,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#resourceProvider -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#resourceProvider">
-        <rdf:type rdf:resource="CI_RoleCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_RoleCode"/>
         <_domainCode>001</_domainCode>
         <rdfs:comment xml:lang="en">party that supplies the resource</rdfs:comment>
     </owl:NamedIndividual>
@@ -10271,7 +10323,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#revision -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#revision">
-        <rdf:type rdf:resource="CI_DateTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_DateTypeCode"/>
         <_domainCode>003</_domainCode>
         <rdfs:comment xml:lang="en">date identifies when the resource was examined or re-examined and improved or amended</rdfs:comment>
     </owl:NamedIndividual>
@@ -10311,7 +10363,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#search -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#search">
-        <rdf:type rdf:resource="CI_OnLineFunctionCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_OnLineFunctionCode"/>
         <_domainCode>005</_domainCode>
         <rdfs:comment xml:lang="en">online search interface for seeking out information about the resource</rdfs:comment>
     </owl:NamedIndividual>
@@ -10420,7 +10472,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#stereomate -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#stereomate">
-        <rdf:type rdf:resource="DS_AssociationTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_AssociationTypeCode"/>
         <_domainCode>005</_domainCode>
         <rdfs:comment xml:lang="en">part of a set of imagery that when used together, provides three-dimensional images</rdfs:comment>
     </owl:NamedIndividual>
@@ -10450,7 +10502,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#study -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#study">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>012</_domainCode>
         <rdfs:comment xml:lang="en">examination or investigation</rdfs:comment>
     </owl:NamedIndividual>
@@ -10480,7 +10532,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#tableDigital -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#tableDigital">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>011</_domainCode>
         <rdfs:comment xml:lang="en">digital representation of facts or figures systematically displayed, especially in columns</rdfs:comment>
     </owl:NamedIndividual>
@@ -10490,7 +10542,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#tableHardcopy -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#tableHardcopy">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>012</_domainCode>
         <rdfs:comment xml:lang="en">representation of facts or figures systematically displayed, especially in columns, printed on paper, photographic material, or other media</rdfs:comment>
     </owl:NamedIndividual>
@@ -10510,7 +10562,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#task -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#task">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>013</_domainCode>
         <rdfs:comment xml:lang="en">piece of work</rdfs:comment>
     </owl:NamedIndividual>
@@ -10660,7 +10712,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#trial -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#trial">
-        <rdf:type rdf:resource="DS_InitiativeTypeCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/DS_InitiativeTypeCode"/>
         <_domainCode>014</_domainCode>
         <rdfs:comment xml:lang="en">process of testing to discover or demonstrate something</rdfs:comment>
     </owl:NamedIndividual>
@@ -10770,7 +10822,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#user -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#user">
-        <rdf:type rdf:resource="CI_RoleCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_RoleCode"/>
         <_domainCode>004</_domainCode>
         <rdfs:comment xml:lang="en">party who uses the resource</rdfs:comment>
     </owl:NamedIndividual>
@@ -10850,7 +10902,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#videoDigital -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#videoDigital">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>013</_domainCode>
         <rdfs:comment xml:lang="en">digital video recording</rdfs:comment>
     </owl:NamedIndividual>
@@ -10860,7 +10912,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#videoHardcopy -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#videoHardcopy">
-        <rdf:type rdf:resource="CI_PresentationFormCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/CI_PresentationFormCode"/>
         <_domainCode>014</_domainCode>
         <rdfs:comment xml:lang="en">video recording on film</rdfs:comment>
     </owl:NamedIndividual>
@@ -10879,3 +10931,4 @@ accessing and using the resource</rdfs:comment>
 
 
 <!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+
