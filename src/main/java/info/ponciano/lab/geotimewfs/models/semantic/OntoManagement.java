@@ -23,6 +23,12 @@ public abstract class OntoManagement {
         this.ont.read("src/main/resources/ontologies/iso-19115.owl");
     }
 
+    /**
+     * Uplift Metadata from an XML file to the ontology
+     *
+     * @param xml the XML file path on the server.
+     * @return true if the elevation succeeded, false otherwise.
+     */
     public abstract boolean uplift(String xml);
 
     public abstract boolean change(String... param);
@@ -57,9 +63,11 @@ public abstract class OntoManagement {
      * Transpose the name of a node in an ontology resource.
      *
      * @param nodeName name of the node to parse
-     * @return returns the {@code OntResource} corresponding to the resource that has the same local name as the {@code nodeName} or returns null if the resource does not exist in the ontology.
+     * @return returns the {@code OntResource} corresponding to the resource
+     * that has the same local name as the {@code nodeName} or returns null if
+     * the resource does not exist in the ontology.
      */
-    public OntResource asOntResource(String nodeName){
+    public OntResource asOntResource(String nodeName) {
         if (nodeName.equals("RS_Identifier")) {
             System.out.println("here");
         }
