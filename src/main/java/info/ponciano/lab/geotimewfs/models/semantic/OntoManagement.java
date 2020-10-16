@@ -18,9 +18,13 @@ public abstract class OntoManagement {
     protected OntModel ont;
     public static final String NS = "http://lab.ponciano.info/ontology/2020/geotime/iso-19115#";
 
-    public OntoManagement() {
+    public OntoManagement() throws OntoManagementException {
         this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
         this.ont.read("src/main/resources/ontologies/iso-19115.owl");
+        String checkOntology = this.checkOntology();
+        if (!checkOntology.isEmpty()) {
+            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
+        }
     }
 
     /**
@@ -38,31 +42,41 @@ public abstract class OntoManagement {
     /**
      * Check if the ontology is well formed.
      *
-     * @return True if the ontology is well formed, false otherwise.
+     * @return Empty String if the ontology is well formed, mal-formed
+     * information otherwise.
      */
-    public boolean checkOntology() {
+    private String checkOntology() {
         List<String> localname = new ArrayList<>();
         //get all resources of the ontology
         ExtendedIterator<OntProperty> listOntProperties = this.ont.listOntProperties();
         ExtendedIterator<Individual> listIndividuals = this.ont.listIndividuals();
         ExtendedIterator<OntClass> listClasses = this.ont.listClasses();
-        boolean isOK = true;
-        while (isOK && listClasses.hasNext()) {
+        String error = "";
+        while (listClasses.hasNext()) {
             OntClass next = listClasses.next();
-            isOK = !localname.contains(next.getLocalName());
-            localname.add(next.getLocalName());
+            if (localname.contains(next.getLocalName())) {
+                error += next.getLocalName();
+            } else {
+                localname.add(next.getLocalName());
+            }
         }
-        while (isOK && listOntProperties.hasNext()) {
+        while (listOntProperties.hasNext()) {
             OntProperty next = listOntProperties.next();
-            isOK = !localname.contains(next.getLocalName());
-            localname.add(next.getLocalName());
+            if (localname.contains(next.getLocalName())) {
+                error += next.getLocalName();
+            } else {
+                localname.add(next.getLocalName());
+            }
         }
-        while (isOK && listIndividuals.hasNext()) {
+        while (listIndividuals.hasNext()) {
             Individual next = listIndividuals.next();
-            isOK = !localname.contains(next.getLocalName());
-            localname.add(next.getLocalName());
+            if (localname.contains(next.getLocalName())) {
+                error += next.getLocalName();
+            } else {
+                localname.add(next.getLocalName());
+            }
         }
-        return isOK;
+        return error;
     }
 
     /**
