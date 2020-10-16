@@ -21,6 +21,8 @@ package info.ponciano.lab.geotimewfs.models.semantic;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.jena.ontology.Individual;
@@ -55,7 +57,7 @@ public class OwlManagement extends OntoManagement {
                 writeNodeList(childNodes.item(0).getChildNodes(), null, null);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+           Logger.getLogger(OwlManagement.class.getName()).log(Level.SEVERE, null, e);
             return false;
         }
         return true;
