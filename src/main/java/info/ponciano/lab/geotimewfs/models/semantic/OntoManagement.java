@@ -8,7 +8,9 @@ import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.ontology.OntProperty;
+import org.apache.jena.ontology.OntResource;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
 public abstract class OntoManagement {
@@ -49,5 +51,26 @@ public abstract class OntoManagement {
      */
     public static String generateURI() {
         return NS + UUID.randomUUID().toString();
+    }
+
+    /**
+     * Transpose the name of a node in an ontology resource.
+     *
+     * @param nodeName name of the node to parse
+     * @return returns the {@code OntResource} corresponding to the resource that has the same local name as the {@code nodeName} or returns null if the resource does not exist in the ontology.
+     */
+    public OntResource asOntResource(String nodeName){
+        if (nodeName.equals("RS_Identifier")) {
+            System.out.println("here");
+        }
+        List<String> possibleNS = List.of(NS,
+                "http://lab.ponciano.info/ontology/2020/geotime/iso-19112#");
+        for (String ns : possibleNS) {
+            Resource resource = this.ont.getResource(ns + nodeName);
+            if (this.ont.containsResource(resource)) {
+                return this.ont.getOntResource(ns + nodeName);
+            }
+        }
+        return null;
     }
 }
