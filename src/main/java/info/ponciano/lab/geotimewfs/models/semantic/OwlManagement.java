@@ -69,6 +69,7 @@ public class OwlManagement extends OntoManagement {
             Node elemNode = nodeList.item(count);
             if (elemNode.getNodeType() == Node.ELEMENT_NODE) {
                 String nodeName = NS + getNodeName(elemNode);
+                String ns2="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#";
                 //the node represents a property or an individual .
                 //if the node represents a class.
                 if (this.ont.getOntClass(nodeName) != null) {
@@ -87,11 +88,25 @@ public class OwlManagement extends OntoManagement {
                         //if the property does not exists, it is a value.
                         String textContent = elemNode.getTextContent();
                         if (parentProperty == null) {
-                                throw new OntoManagementException("Property not found: " + nodeName);
-                        }else
-                        indiv.addLiteral(parentProperty, textContent);
-                    }else
-                    writeNodeList(elemNode.getChildNodes(), indiv, ontProperty);
+                            throw new OntoManagementException("Property not found: " + nodeName);
+                        } else {
+                            //A data value OR an error.
+                            if (parentProperty.isDatatypeProperty()) {
+                                indiv.addLiteral(parentProperty, textContent);
+                            } else {//class not found excepted for west/east/north/south/BoundLongitude
+                                if (parentProperty.getLocalName().contains("BoundLongitude")) {
+                                    Individual angle = this.ont.createIndividual(this.generateURI(), this.ont.getOntClass(NS + "Angle"));
+                                    angle.addLiteral(this.ont.getDatatypeProperty(NS + "decimalValue"), textContent);
+                                    indiv.addProperty(parentProperty, angle);
+                                } else {
+                                    throw new OntoManagementException("Class not found: " + nodeName);
+                                }
+
+                            }
+                        }
+                    } else {
+                        writeNodeList(elemNode.getChildNodes(), indiv, ontProperty);
+                    }
 
                 }
             }
@@ -123,9 +138,13 @@ public class OwlManagement extends OntoManagement {
             }
         }
         if (notCreate) {
-            n = this.ont.createIndividual(NS + UUID.randomUUID().toString(),this.ont.getResource(nodeName));
+            n = this.ont.createIndividual(generateURI(), this.ont.getResource(nodeName));
         }
         return n;
+    }
+
+    public static String generateURI() {
+        return NS + UUID.randomUUID().toString();
     }
 
     public static String getNodeName(Node elemNode) {
