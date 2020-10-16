@@ -1,4 +1,5 @@
 package info.ponciano.lab.geotimewfs.controllers;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MetadataController {
+
     /* 
     parameter not yet defined 
      */
@@ -20,7 +22,12 @@ public class MetadataController {
      */
     @PostMapping("/metadata/uplift")
     public String postUpliftAction(@RequestParam(name = "name", required = false, defaultValue = "World") String name) {
-        return "redirect:/";
+        //download the xml file
+        //save it a folder "public"
+        //call uplif forn the owlManagement model
+
+        //redirection
+        return "redirect:/metadata";
     }
 
     /* 
