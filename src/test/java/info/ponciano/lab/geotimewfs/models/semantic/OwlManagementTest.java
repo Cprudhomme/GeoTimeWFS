@@ -19,9 +19,13 @@
 package info.ponciano.lab.geotimewfs.models.semantic;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.util.iterator.ExtendedIterator;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,6 +40,9 @@ import org.w3c.dom.Node;
 public class OwlManagementTest {
 
     private String xmlPathfile = "src/main/resources/metadata/metadata.xml";
+    private String metadataSavedowl = "metadataSaved.owl";
+
+    ;
 
     public OwlManagementTest() {
     }
@@ -47,12 +54,14 @@ public class OwlManagementTest {
     public void testUplift() {
         try {
             System.out.println("uplift");
-
             OwlManagement instance = new OwlManagement();
             boolean expResult = true;
             boolean result = instance.uplift(xmlPathfile);
             assertEquals(expResult, result);
-            instance.saveOntology("metadataSaved.owl");
+            List<Individual> listIndividuals = instance.listsMetadataIndividuals().toList();
+            assertEquals(1, listIndividuals.size());
+
+            instance.saveOntology(metadataSavedowl);
         } catch (IOException | OntoManagementException ex) {
             Logger.getLogger(OwlManagementTest.class.getName()).log(Level.SEVERE, null, ex);
             fail(ex.getMessage());
@@ -92,20 +101,15 @@ public class OwlManagementTest {
     /**
      * Test of saveOntology method, of class OwlManagement.
      */
-    @org.junit.Test
+  @Test
     public void testSaveOntology() throws Exception {
         System.out.println("saveOntology");
-        String path = "";
-        OwlManagement instance = new OwlManagement();
-        instance.saveOntology(path);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of getNodeName method, of class OwlManagement.
      */
-    @org.junit.Test
+    //@Test
     public void testGetNodeName() {
         System.out.println("getNodeName");
         Node elemNode = null;
@@ -119,17 +123,24 @@ public class OwlManagementTest {
     /**
      * Test of downlift method, of class OwlManagement.
      */
-    @org.junit.Test
+   @Test
     public void testDownlift() {
         try {
             System.out.println("downlift");
-            String metadataURI = "";
             OwlManagement instance = new OwlManagement();
-            String expResult = "";
-            String result = instance.downlift(metadataURI);
+
+            assertTrue(instance.uplift(xmlPathfile));
+            instance.saveOntology(metadataSavedowl);
+
+            String expResult = "TODO: Define the expected results.";
+            //Lists the Metadata individuals
+            List<Individual> listIndividuals = instance.listsMetadataIndividuals().toList();
+            assertEquals(1, listIndividuals.size());
+            String result = instance.downlift(listIndividuals.get(0).getURI());
+            System.out.println(result);
             assertEquals(expResult, result);
 
-        } catch (OntoManagementException ex) {
+        } catch (OntoManagementException | IOException ex) {
             Logger.getLogger(OwlManagementTest.class.getName()).log(Level.SEVERE, null, ex);
             fail(ex.getMessage());
         }
