@@ -21,8 +21,6 @@ package info.ponciano.lab.geotimewfs.models.semantic;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -32,7 +30,6 @@ import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntProperty;
 import org.apache.jena.ontology.OntResource;
-import org.apache.jena.rdf.model.Resource;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -45,6 +42,10 @@ import org.xml.sax.SAXException;
  * @author Dr Jean-Jacques Ponciano Contact: jean-jacques@ponciano.info
  */
 public class OwlManagement extends OntoManagement {
+
+    public OwlManagement() throws OntoManagementException {
+        super();
+    }
 
     /**
      * Loading information from an XML file into an ontology.
