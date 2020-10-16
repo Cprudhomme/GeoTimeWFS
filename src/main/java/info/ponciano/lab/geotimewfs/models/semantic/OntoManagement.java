@@ -37,6 +37,7 @@ public abstract class OntoManagement {
 
     /**
      * Check if the ontology is well formed.
+     *
      * @return True if the ontology is well formed, false otherwise.
      */
     public boolean checkOntology() {
@@ -48,6 +49,16 @@ public abstract class OntoManagement {
         boolean isOK = true;
         while (isOK && listClasses.hasNext()) {
             OntClass next = listClasses.next();
+            isOK = !localname.contains(next.getLocalName());
+            localname.add(next.getLocalName());
+        }
+        while (isOK && listOntProperties.hasNext()) {
+            OntProperty next = listOntProperties.next();
+            isOK = !localname.contains(next.getLocalName());
+            localname.add(next.getLocalName());
+        }
+        while (isOK && listIndividuals.hasNext()) {
+            Individual next = listIndividuals.next();
             isOK = !localname.contains(next.getLocalName());
             localname.add(next.getLocalName());
         }
