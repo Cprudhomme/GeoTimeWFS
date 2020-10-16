@@ -21,6 +21,7 @@ package info.ponciano.lab.geotimewfs.models.semantic;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,8 +69,8 @@ public class OwlManagement extends OntoManagement {
         for (int count = 0; count < nodeList.getLength(); count++) {
             Node elemNode = nodeList.item(count);
             if (elemNode.getNodeType() == Node.ELEMENT_NODE) {
-                String nodeName = NS + getNodeName(elemNode);
-                String ns2="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#";
+              
+                String nodeName   =this.reformat(getNodeName(elemNode));
                 //the node represents a property or an individual .
                 //if the node represents a class.
                 if (this.ont.getOntClass(nodeName) != null) {
@@ -159,6 +160,12 @@ public class OwlManagement extends OntoManagement {
     @Override
     public String getSPARQL(String... param) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public String reformat(String nodeName) {
+        List<String> possibleNS=List.of(NS,"http://lab.ponciano.info/ontology/2020/geotime/iso-19115#");
+          return "marchapsencore#";
+
     }
 
 }
