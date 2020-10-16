@@ -57,7 +57,7 @@ public class OwlManagement extends OntoManagement {
                 writeNodeList(childNodes.item(0).getChildNodes(), null, null);
             }
         } catch (Exception e) {
-           Logger.getLogger(OwlManagement.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(OwlManagement.class.getName()).log(Level.SEVERE, null, e);
             return false;
         }
         return true;
@@ -85,6 +85,9 @@ public class OwlManagement extends OntoManagement {
                         indiv.addLiteral(parentProperty, textContent);
                     } else {
                         OntProperty ontProperty = this.ont.getOntProperty(nodeName);
+                        if (ontProperty == null) {
+                            throw new OntoManagementException("the property " + nodeName + " does not exist.");
+                        }
                         writeNodeList(elemNode.getChildNodes(), indiv, ontProperty);
                     }
                 }
