@@ -28,7 +28,10 @@ import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntProperty;
+import org.apache.jena.ontology.OntResource;
+import org.apache.jena.rdf.model.Resource;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -69,47 +72,53 @@ public class OwlManagement extends OntoManagement {
         for (int count = 0; count < nodeList.getLength(); count++) {
             Node elemNode = nodeList.item(count);
             if (elemNode.getNodeType() == Node.ELEMENT_NODE) {
-              
-                String nodeName   =this.reformat(getNodeName(elemNode));
+                OntResource current = this.asOntResource(getNodeName(elemNode));
+                //if the current resource is null, the node is a value.
                 //the node represents a property or an individual .
-                //if the node represents a class.
-                if (this.ont.getOntClass(nodeName) != null) {
-                    Individual n = this.getIndividual(elemNode, nodeName);
-                    if (parentProperty != null) {
-                        indiv.addProperty(parentProperty, n);
-                    }
-                    if (elemNode.hasChildNodes()) {
-                        //recursive call if the node has child nodes  
-                        writeNodeList(elemNode.getChildNodes(), n, null);
-                    }
+                if (current == null) {
+                    createsValue(elemNode, parentProperty, indiv);
+                } else if (current.isClass()) {//if the node represents a class.
+                    createsClass(elemNode, current.asClass(), parentProperty, indiv);
+                } else if (current.isProperty()) { //if the node represents a property.
+                    OntProperty ontProperty = current.asProperty();
+                    writeNodeList(elemNode.getChildNodes(), indiv, ontProperty);
                 } else {
-                    //if the node represents a property.
-                    OntProperty ontProperty = this.ont.getOntProperty(nodeName);
-                    if (ontProperty == null) {
-                        //if the property does not exists, it is a value.
-                        String textContent = elemNode.getTextContent();
-                        if (parentProperty == null) {
-                            throw new OntoManagementException("Property not found: " + nodeName);
-                        } else {
-                            //A data value OR an error.
-                            if (parentProperty.isDatatypeProperty()) {
-                                indiv.addLiteral(parentProperty, textContent);
-                            } else {//class not found excepted for west/east/north/south/BoundLongitude
-                                if (parentProperty.getLocalName().contains("BoundLongitude")) {
-                                    Individual angle = this.ont.createIndividual(this.generateURI(), this.ont.getOntClass(NS + "Angle"));
-                                    angle.addLiteral(this.ont.getDatatypeProperty(NS + "decimalValue"), textContent);
-                                    indiv.addProperty(parentProperty, angle);
-                                } else {
-                                    throw new OntoManagementException("Class not found: " + nodeName);
-                                }
-
-                            }
-                        }
-                    } else {
-                        writeNodeList(elemNode.getChildNodes(), indiv, ontProperty);
-                    }
-
+                    throw new OntoManagementException(current + " is unknown");
                 }
+            }
+        }
+    }
+
+    private void createsClass(Node elemNode, OntClass nodeName, OntProperty parentProperty, Individual indiv) throws DOMException, OntoManagementException {
+        Individual n = this.getIndividual(elemNode, nodeName);
+        if (parentProperty != null) {
+            indiv.addProperty(parentProperty, n);
+        }
+        if (elemNode.hasChildNodes()) {
+            //recursive call if the node has child nodes
+            writeNodeList(elemNode.getChildNodes(), n, null);
+        }
+    }
+
+    private void createsValue(Node elemNode, OntProperty parentProperty, Individual indiv) throws DOMException, OntoManagementException {
+        //if the property does not exists, it is a value.
+        String textContent = elemNode.getTextContent();
+        if (parentProperty == null) {
+            throw new OntoManagementException("Property not found: " + elemNode);
+        } else {
+            //A data value OR an error.
+            if (parentProperty.isDatatypeProperty()) {
+                indiv.addLiteral(parentProperty, textContent);
+            } else {String nodeName = elemNode.getNodeName();
+                //class not found excepted for west/east/north/south/BoundLongitude parentProperty.getLocalName().contains("BoundLongitude)"
+                if (nodeName.contains("Decimal")) {
+                    Individual angle = this.ont.createIndividual(OwlManagement.generateURI(), this.ont.getOntClass(NS + "Angle"));
+                    angle.addLiteral(this.ont.getDatatypeProperty(NS + "decimalValue"), textContent);
+                    indiv.addProperty(parentProperty, angle);
+                } else {
+                    throw new OntoManagementException("Class not found: " + elemNode);
+                }
+
             }
         }
     }
@@ -118,7 +127,7 @@ public class OwlManagement extends OntoManagement {
         this.ont.write(new FileWriter(path));
     }
 
-    private Individual getIndividual(Node elemNode, String nodeName) throws DOMException {
+    private Individual getIndividual(Node elemNode, OntClass nodeClass) throws DOMException {
         Individual n = null;
         boolean notCreate = true;
         if (elemNode.hasAttributes()) {
@@ -132,14 +141,14 @@ public class OwlManagement extends OntoManagement {
                     n = this.ont.getIndividual(NS + attrValue);
                     notCreate = false;
                 } else if (attrName1.toLowerCase().equals("uuid")) {
-                    n = this.ont.createIndividual(NS + attrValue, this.ont.getResource(nodeName));
+                    n = this.ont.createIndividual(NS + attrValue, nodeClass);
                     notCreate = false;
                 }
                 i++;
             }
         }
         if (notCreate) {
-            n = this.ont.createIndividual(generateURI(), this.ont.getResource(nodeName));
+            n = this.ont.createIndividual(generateURI(), nodeClass);
         }
         return n;
     }
@@ -162,10 +171,19 @@ public class OwlManagement extends OntoManagement {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public String reformat(String nodeName) {
-        List<String> possibleNS=List.of(NS,"http://lab.ponciano.info/ontology/2020/geotime/iso-19115#");
-          return "marchapsencore#";
-
+    public OntResource asOntResource(String nodeName) throws OntoManagementException {
+        if (nodeName.equals("RS_Identifier")) {
+            System.out.println("here");
+        }
+        List<String> possibleNS = List.of(NS,
+                "http://lab.ponciano.info/ontology/2020/geotime/iso-19112#");
+        for (String ns : possibleNS) {
+            Resource resource = this.ont.getResource(ns + nodeName);
+            if (this.ont.containsResource(resource)) {
+                return this.ont.getOntResource(ns + nodeName);
+            }
+        }
+        return null;
     }
 
 }
