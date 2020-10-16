@@ -6,7 +6,7 @@ import org.apache.jena.rdf.model.ModelFactory;
 public abstract class OntoManagement {
     
     protected OntModel ont;
-
+    public static final String NS="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#";
     public OntoManagement() {
         this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
         this.ont.read("src/main/resources/ontologies/iso-19115.owl");
