@@ -55,7 +55,7 @@ public abstract class OntoManagement {
         while (listClasses.hasNext()) {
             OntClass next = listClasses.next();
             String localName = next.getLocalName();
-            if (localname.contains(next.getLocalName()) && localName!=null) {
+            if (localname.contains(next.getLocalName()) && localName != null) {
                 error += "\n" + next.getLocalName();
             } else {
                 localname.add(next.getLocalName());
@@ -64,7 +64,7 @@ public abstract class OntoManagement {
         while (listOntProperties.hasNext()) {
             OntProperty next = listOntProperties.next();
             String localName = next.getLocalName();
-            if (localname.contains(localName) && localName!=null) {
+            if (localname.contains(localName) && localName != null) {
                 error += "\n" + next.getLocalName();
             } else {
                 localname.add(next.getLocalName());
@@ -73,7 +73,7 @@ public abstract class OntoManagement {
         while (listIndividuals.hasNext()) {
             Individual next = listIndividuals.next();
             String localName = next.getLocalName();
-            if (localname.contains(next.getLocalName()) && localName!=null) {
+            if (localname.contains(next.getLocalName()) && localName != null) {
                 error += "\n" + next.getLocalName();
             } else {
                 localname.add(next.getLocalName());
@@ -104,7 +104,14 @@ public abstract class OntoManagement {
             System.out.println("here");
         }
         List<String> possibleNS = List.of(NS,
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19112#");
+                "http://lab.ponciano.info/ontology/2020/geotime/iso-19112#",
+                "http://lab.ponciano.info/ontology/2020/geotime/iso-19103#",
+                "http://lab.ponciano.info/ontology/2020/geotime/iso-19109#",
+                "http://lab.ponciano.info/ontology/2020/geotime/iso-19107#",
+                "http://lab.ponciano.info/ontology/2020/geotime/iso-19106#",
+                "http://lab.ponciano.info/ontology/2020/geotime/iso-19108#",
+                "http://lab.ponciano.info/ontology/2020/geotime/iso-19111#"
+        );
         for (String ns : possibleNS) {
             Resource resource = this.ont.getResource(ns + nodeName);
             if (this.ont.containsResource(resource)) {
