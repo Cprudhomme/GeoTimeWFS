@@ -35,6 +35,10 @@ public abstract class OntoManagement {
 
     public abstract String getSPARQL(String... param);
 
+    /**
+     * Check if the ontology is well formed.
+     * @return True if the ontology is well formed, false otherwise.
+     */
     public boolean checkOntology() {
         List<String> localname = new ArrayList<>();
         //get all resources of the ontology
