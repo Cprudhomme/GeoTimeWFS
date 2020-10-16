@@ -17,6 +17,9 @@
  * MA 02110-1301  USA
  */
 package info.ponciano.lab.geotimewfs.models.semantic;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
@@ -41,9 +44,15 @@ public class OwlManagementTest {
         System.out.println("uplift");
         String xmlPathfile = "src/main/resources/metadata/metadata.xml";
         OwlManagement instance = new OwlManagement();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.uplift(xmlPathfile);
         assertEquals(expResult, result);
+        try {
+            instance.saveOntology("metadataSaved.owl");
+        } catch (IOException ex) {
+            Logger.getLogger(OwlManagementTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail(ex.getMessage());
+        }
     }
 
     /**
