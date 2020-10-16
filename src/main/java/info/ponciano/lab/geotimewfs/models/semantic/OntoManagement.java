@@ -138,4 +138,15 @@ public abstract class OntoManagement {
         return ont;
     }
 
+    /**
+     * Lists all metadata individuals.
+     *
+     * @return Extended Iterator of individual that are instances of MD_Metadata
+     * class.
+     */
+    public ExtendedIterator<Individual> listsMetadataIndividuals() {
+        //Lists the Metadata individuals
+        return this.ont.listIndividuals(this.ont.getOntClass(OntoManagement.NS + "MD_Metadata"));
+    }
+
 }
