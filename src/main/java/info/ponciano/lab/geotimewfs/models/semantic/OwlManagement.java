@@ -160,9 +160,7 @@ public class OwlManagement extends OntoManagement {
         return n;
     }
 
-    public static String generateURI() {
-        return NS + UUID.randomUUID().toString();
-    }
+
 
     public static String getNodeName(Node elemNode) {
         return elemNode.getNodeName().split(":")[1];
