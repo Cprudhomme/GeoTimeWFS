@@ -21,6 +21,7 @@ package info.ponciano.lab.geotimewfs.models.semantic;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -79,17 +80,19 @@ public class OwlManagement extends OntoManagement {
                         //recursive call if the node has child nodes  
                         writeNodeList(elemNode.getChildNodes(), n, null);
                     }
-                } else { //if the node represents a property.
-                    if (!elemNode.hasChildNodes()) {
+                } else {
+                    //if the node represents a property.
+                    OntProperty ontProperty = this.ont.getOntProperty(nodeName);
+                    if (ontProperty == null) {
+                        //if the property does not exists, it is a value.
                         String textContent = elemNode.getTextContent();
+                        if (parentProperty == null) {
+                                throw new OntoManagementException("Property not found: " + nodeName);
+                        }else
                         indiv.addLiteral(parentProperty, textContent);
-                    } else {
-                        OntProperty ontProperty = this.ont.getOntProperty(nodeName);
-                        if (ontProperty == null) {
-                            throw new OntoManagementException("the property " + nodeName + " does not exist.");
-                        }
-                        writeNodeList(elemNode.getChildNodes(), indiv, ontProperty);
-                    }
+                    }else
+                    writeNodeList(elemNode.getChildNodes(), indiv, ontProperty);
+
                 }
             }
         }
@@ -120,7 +123,7 @@ public class OwlManagement extends OntoManagement {
             }
         }
         if (notCreate) {
-            n = this.ont.createIndividual(this.ont.getResource(nodeName));
+            n = this.ont.createIndividual(NS + UUID.randomUUID().toString(),this.ont.getResource(nodeName));
         }
         return n;
     }
