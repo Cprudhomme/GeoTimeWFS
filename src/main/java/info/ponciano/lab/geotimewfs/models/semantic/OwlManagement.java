@@ -21,28 +21,31 @@ package info.ponciano.lab.geotimewfs.models.semantic;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntProperty;
 import org.apache.jena.ontology.OntResource;
-import org.apache.jena.rdf.model.Resource;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
  * @author Dr Jean-Jacques Ponciano Contact: jean-jacques@ponciano.info
  */
 public class OwlManagement extends OntoManagement {
+
+    public OwlManagement() throws OntoManagementException {
+        super();
+    }
 
     /**
      * Loading information from an XML file into an ontology.
@@ -61,7 +64,7 @@ public class OwlManagement extends OntoManagement {
                 NodeList childNodes = document.getChildNodes();
                 writeNodeList(childNodes.item(0).getChildNodes(), null, null);
             }
-        } catch (Exception e) {
+        } catch (OntoManagementException | IOException | ParserConfigurationException | SAXException e) {
             Logger.getLogger(OwlManagement.class.getName()).log(Level.SEVERE, null, e);
             return false;
         }
@@ -123,6 +126,11 @@ public class OwlManagement extends OntoManagement {
         }
     }
 
+    /**
+     * Save the current ontology in an OWL file.
+     * @param path File path to save the ontology.
+     * @throws IOException If the file cannot be written.
+     */
     public void saveOntology(String path) throws IOException {
         this.ont.write(new FileWriter(path));
     }
@@ -153,9 +161,7 @@ public class OwlManagement extends OntoManagement {
         return n;
     }
 
-    public static String generateURI() {
-        return NS + UUID.randomUUID().toString();
-    }
+
 
     public static String getNodeName(Node elemNode) {
         return elemNode.getNodeName().split(":")[1];
@@ -170,20 +176,4 @@ public class OwlManagement extends OntoManagement {
     public String getSPARQL(String... param) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    public OntResource asOntResource(String nodeName) throws OntoManagementException {
-        if (nodeName.equals("RS_Identifier")) {
-            System.out.println("here");
-        }
-        List<String> possibleNS = List.of(NS,
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19112#");
-        for (String ns : possibleNS) {
-            Resource resource = this.ont.getResource(ns + nodeName);
-            if (this.ont.containsResource(resource)) {
-                return this.ont.getOntResource(ns + nodeName);
-            }
-        }
-        return null;
-    }
-
 }
