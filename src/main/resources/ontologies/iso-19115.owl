@@ -2486,6 +2486,14 @@ resource(s)</rdfs:comment>
     
 
 
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#decimalValue -->
+
+    <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#decimalValue">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#definition -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#definition">
