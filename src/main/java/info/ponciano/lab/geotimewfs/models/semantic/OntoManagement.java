@@ -11,7 +11,7 @@ public abstract class OntoManagement {
         this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
         this.ont.read("src/main/resources/ontologies/iso-19115.owl");
     }
-    
+
     public abstract boolean uplift(String xml);
     
     public abstract boolean change(String... param);
