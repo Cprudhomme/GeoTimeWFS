@@ -19,6 +19,9 @@
 package info.ponciano.lab.geotimewfs.controllers;
 
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageFileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.springframework.core.io.Resource;
@@ -72,15 +75,20 @@ public class MetadataControllerTest {
      */
     @Test
     public void testPostUpliftAction() {
-        System.out.println("postUpliftAction");
-        MultipartFile file = null;
-        RedirectAttributes redirectAttributes = null;
-        MetadataController instance = null;
-        String expResult = "";
-        String result = instance.postUpliftAction(file, redirectAttributes);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            System.out.println("postUpliftAction");
+            MultipartFile file = null;
+            RedirectAttributes redirectAttributes = null;
+            MetadataController instance = null;
+            String expResult = "";
+            String result = instance.postUpliftAction(file, redirectAttributes);
+            assertEquals(expResult, result);
+            // TODO review the generated test code and remove the default call to fail.
+           
+        } catch (IOException ex) {
+            Logger.getLogger(MetadataControllerTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail(ex.getMessage());
+        }
     }
 
     /**
