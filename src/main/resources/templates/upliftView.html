@@ -1,13 +1,35 @@
 <!DOCTYPE HTML>
-<html >
+<html xmlns:th="https://www.thymeleaf.org">
 <head> 
     <title>Getting Started: Serving Web Content</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
     <body>
         <h1>Metadata uplift</h1>
-        <form th:action="@{/metadata/uplift}" method="post">
+        <!--  <form th:action="@{/metadata/uplift}" method="post">
             <input type="submit" value="Metadata uplift"/>
         </form>
+        -->
+        <div th:if="${message}">
+		<h2 th:text="${message}"/>
+	</div>
+
+	<div>
+		 <!--  <form method="POST" enctype="multipart/form-data" action="/metadata/uplift">-->
+                 <form th:action="@{/metadata/uplift}" method="post" enctype="multipart/form-data">
+			<table>
+				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+			</table>
+		</form>
+	</div>
+
+	<div>
+		<ul>
+			<li th:each="file : ${files}">
+				<a th:href="${file}" th:text="${file}" />
+			</li>
+		</ul>
+	</div>
     </body>
 </html>
