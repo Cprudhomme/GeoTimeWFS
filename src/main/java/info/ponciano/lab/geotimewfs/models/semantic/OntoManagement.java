@@ -55,7 +55,7 @@ public abstract class OntoManagement {
         while (listClasses.hasNext()) {
             OntClass next = listClasses.next();
             if (localname.contains(next.getLocalName())) {
-                error += next.getLocalName();
+                error += "\n" + next.getLocalName();
             } else {
                 localname.add(next.getLocalName());
             }
@@ -63,7 +63,7 @@ public abstract class OntoManagement {
         while (listOntProperties.hasNext()) {
             OntProperty next = listOntProperties.next();
             if (localname.contains(next.getLocalName())) {
-                error += next.getLocalName();
+                error += "\n" + next.getLocalName();
             } else {
                 localname.add(next.getLocalName());
             }
@@ -71,7 +71,7 @@ public abstract class OntoManagement {
         while (listIndividuals.hasNext()) {
             Individual next = listIndividuals.next();
             if (localname.contains(next.getLocalName())) {
-                error += next.getLocalName();
+                error += "\n" + next.getLocalName();
             } else {
                 localname.add(next.getLocalName());
             }
