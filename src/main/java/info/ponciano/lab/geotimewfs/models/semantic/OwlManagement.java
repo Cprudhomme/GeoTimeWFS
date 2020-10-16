@@ -112,7 +112,8 @@ public class OwlManagement extends OntoManagement {
             //A data value OR an error.
             if (parentProperty.isDatatypeProperty()) {
                 indiv.addLiteral(parentProperty, textContent);
-            } else {String nodeName = elemNode.getNodeName();
+            } else {
+                String nodeName = elemNode.getNodeName();
                 //class not found excepted for west/east/north/south/BoundLongitude parentProperty.getLocalName().contains("BoundLongitude)"
                 if (nodeName.contains("Decimal")) {
                     Individual angle = this.ont.createIndividual(OwlManagement.generateURI(), this.ont.getOntClass(NS + "Angle"));
@@ -128,6 +129,7 @@ public class OwlManagement extends OntoManagement {
 
     /**
      * Save the current ontology in an OWL file.
+     *
      * @param path File path to save the ontology.
      * @throws IOException If the file cannot be written.
      */
@@ -161,8 +163,6 @@ public class OwlManagement extends OntoManagement {
         return n;
     }
 
-
-
     public static String getNodeName(Node elemNode) {
         return elemNode.getNodeName().split(":")[1];
     }
@@ -174,6 +174,11 @@ public class OwlManagement extends OntoManagement {
 
     @Override
     public String getSPARQL(String... param) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String downlift(String metadataURI) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
