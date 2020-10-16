@@ -476,12 +476,6 @@ value</rdfs:comment>
     
 
 
-    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#date -->
-
-    <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#date"/>
-    
-
-
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dateOfNextUpdate -->
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dateOfNextUpdate">
@@ -966,7 +960,7 @@ format</rdfs:comment>
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#graphicOverview">
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_Identification"/>
-        <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_BrowseGraphics"/>
+        <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_BrowseGraphic"/>
         <_shortName>graphOver</_shortName>
         <rdfs:comment xml:lang="en">provides a graphic that illustrates the resource(s) (should include a legend for the graphic)</rdfs:comment>
         <rdfs:label xml:lang="en">graphicOverview</rdfs:label>
@@ -1072,7 +1066,7 @@ the scope</rdfs:comment>
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#maintenanceAndUpdateFrequency">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceInformation"/>
-        <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_shortName>maintFreq</_shortName>
         <rdfs:comment xml:lang="en">frequency with which changes and additions are made to the resource after the initial resource is completed</rdfs:comment>
         <rdfs:label xml:lang="en">maintenanceAndUpdateFrequency</rdfs:label>
@@ -1443,7 +1437,7 @@ step</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#referenceDate -->
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#referenceDate">
-        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#date"/>
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_Citation"/>
         <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_Date"/>
         <_shortName>resRefDate</_shortName>
@@ -2474,6 +2468,12 @@ resource(s)</rdfs:comment>
     
 
 
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#date -->
+
+    <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#date"/>
+    
+
+
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dateStamp -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dateStamp">
@@ -2838,7 +2838,7 @@ techniques have been applied</rdfs:comment>
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#fileDescription">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_BrowseGraphics"/>
+        <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_BrowseGraphic"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
         <_shortName>bgFileDesc</_shortName>
         <rdfs:comment xml:lang="en">text description of the illustration</rdfs:comment>
@@ -2864,7 +2864,7 @@ techniques have been applied</rdfs:comment>
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#fileName">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_BrowseGraphics"/>
+        <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_BrowseGraphic"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
         <_shortName>bgFileName</_shortName>
         <rdfs:comment xml:lang="en">name of the file that contains a graphic that provides an illustration of the dataset</rdfs:comment>
@@ -2877,7 +2877,7 @@ techniques have been applied</rdfs:comment>
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#fileType">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_BrowseGraphics"/>
+        <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_BrowseGraphic"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
         <_shortName>bgFileType</_shortName>
         <rdfs:comment xml:lang="en">format in which the illustration is encoded Examples: CGM, EPS, GIF, JPEG, PBM, PS, TIFF, XWD</rdfs:comment>
@@ -3236,6 +3236,7 @@ correction information is available</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#measureDateTime -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#measureDateTime">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#date"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#DQ_Element"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
         <_shortName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">measDateTm</_shortName>
@@ -3714,6 +3715,7 @@ metadata is a subset (child)</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#resourceReferenecDate -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#resourceReferenecDate">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#date"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_Date"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
         <_shortName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">refDate</_shortName>
@@ -3966,6 +3968,7 @@ SGML. NOTE other methods may be used</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#stepDateTime -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#stepDateTime">
+        <rdfs:subPropertyOf rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#date"/>
         <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#LI_ProcessStep"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
         <_shortName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">stepDateTm</_shortName>
@@ -4352,12 +4355,6 @@ transformation exists</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_KeywordTypeCode -->
 
     <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_KeywordTypeCode"/>
-    
-
-
-    <!-- http://lab.ponciano.info/ontology/2020/geotime/MD_MaintenanceFrequenceCode -->
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/MD_MaintenanceFrequenceCode"/>
     
 
 
@@ -6106,9 +6103,9 @@ the scope or lack of knowledge about lineage</rdfs:comment>
     
 
 
-    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_BrowseGraphics -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_BrowseGraphic -->
 
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_BrowseGraphics">
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_BrowseGraphic">
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#fileDescription"/>
@@ -7408,9 +7405,9 @@ accessing and using the resource</rdfs:comment>
     
 
 
-    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode -->
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode -->
 
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode">
+    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode">
         <stereotypes>CodeList</stereotypes>
         <rdfs:comment xml:lang="en">frequency with which modifications and deletions are made to the data after it is first produced</rdfs:comment>
         <rdfs:label xml:lang="en">MD_MaintenanceFrequenceCode</rdfs:label>
@@ -8861,7 +8858,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#annually -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#annually">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_domainCode>008</_domainCode>
         <rdfs:comment xml:lang="en">data is updated every year</rdfs:comment>
     </owl:NamedIndividual>
@@ -8881,7 +8878,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#asNeeded -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#asNeeded">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_domainCode>009</_domainCode>
         <rdfs:comment xml:lang="en">data is updated as deemed necessary</rdfs:comment>
     </owl:NamedIndividual>
@@ -8921,7 +8918,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#biannually -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#biannually">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_domainCode>007</_domainCode>
         <rdfs:comment xml:lang="en">data is updated twice each year</rdfs:comment>
     </owl:NamedIndividual>
@@ -9151,7 +9148,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#continual -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#continual">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_domainCode>001</_domainCode>
         <rdfs:comment xml:lang="en">data is repeatedly and frequently updated</rdfs:comment>
     </owl:NamedIndividual>
@@ -9231,7 +9228,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#daily -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#daily">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_domainCode>002</_domainCode>
         <rdfs:comment xml:lang="en">data is updated each day</rdfs:comment>
     </owl:NamedIndividual>
@@ -9511,7 +9508,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#fortnightly -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#fortnightly">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_domainCode>004</_domainCode>
         <rdfs:comment xml:lang="en">data is updated every two weeks</rdfs:comment>
     </owl:NamedIndividual>
@@ -9631,7 +9628,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#iiregular -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#iiregular">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_domainCode>010</_domainCode>
         <rdfs:comment xml:lang="en">data is updated in intervals that are uneven in duration</rdfs:comment>
     </owl:NamedIndividual>
@@ -9931,7 +9928,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#monthly -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#monthly">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_domainCode>005</_domainCode>
         <rdfs:comment xml:lang="en">data is updated each month</rdfs:comment>
     </owl:NamedIndividual>
@@ -9971,7 +9968,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#notPlanned -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#notPlanned">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_domainCode>011</_domainCode>
         <rdfs:comment xml:lang="en">there are no plans to update the data</rdfs:comment>
     </owl:NamedIndividual>
@@ -10281,7 +10278,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#quarterly -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#quarterly">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_domainCode>006</_domainCode>
         <rdfs:comment xml:lang="en">data is updated every three months</rdfs:comment>
     </owl:NamedIndividual>
@@ -10790,7 +10787,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#unknow -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#unknow">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_domainCode>012</_domainCode>
         <rdfs:comment xml:lang="en">frequency of maintenance for the data is not known</rdfs:comment>
     </owl:NamedIndividual>
@@ -10930,7 +10927,7 @@ accessing and using the resource</rdfs:comment>
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#weekly -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#weekly">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequenceCode"/>
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MaintenanceFrequencyCode"/>
         <_domainCode>003</_domainCode>
         <rdfs:comment xml:lang="en">data is updated on a weekly basis</rdfs:comment>
     </owl:NamedIndividual>
