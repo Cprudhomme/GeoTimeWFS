@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntProperty;
@@ -37,6 +38,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -61,7 +63,7 @@ public class OwlManagement extends OntoManagement {
                 NodeList childNodes = document.getChildNodes();
                 writeNodeList(childNodes.item(0).getChildNodes(), null, null);
             }
-        } catch (Exception e) {
+        } catch (OntoManagementException | IOException | ParserConfigurationException | SAXException e) {
             Logger.getLogger(OwlManagement.class.getName()).log(Level.SEVERE, null, e);
             return false;
         }
