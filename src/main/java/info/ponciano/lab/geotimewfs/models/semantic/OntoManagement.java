@@ -128,4 +128,14 @@ public abstract class OntoManagement {
         }
         return null;
     }
+
+    /**
+     * Gets this OntModel .
+     *
+     * @return this ontModel.
+     */
+    public OntModel getOnt() {
+        return ont;
+    }
+
 }
