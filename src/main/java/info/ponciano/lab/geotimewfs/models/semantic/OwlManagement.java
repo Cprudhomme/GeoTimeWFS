@@ -125,6 +125,11 @@ public class OwlManagement extends OntoManagement {
         }
     }
 
+    /**
+     * Save the current ontology in an OWL file.
+     * @param path File path to save the ontology.
+     * @throws IOException If the file cannot be written.
+     */
     public void saveOntology(String path) throws IOException {
         this.ont.write(new FileWriter(path));
     }
