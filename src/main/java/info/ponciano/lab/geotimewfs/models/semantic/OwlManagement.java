@@ -175,20 +175,4 @@ public class OwlManagement extends OntoManagement {
     public String getSPARQL(String... param) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    public OntResource asOntResource(String nodeName) throws OntoManagementException {
-        if (nodeName.equals("RS_Identifier")) {
-            System.out.println("here");
-        }
-        List<String> possibleNS = List.of(NS,
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19112#");
-        for (String ns : possibleNS) {
-            Resource resource = this.ont.getResource(ns + nodeName);
-            if (this.ont.containsResource(resource)) {
-                return this.ont.getOntResource(ns + nodeName);
-            }
-        }
-        return null;
-    }
-
 }
