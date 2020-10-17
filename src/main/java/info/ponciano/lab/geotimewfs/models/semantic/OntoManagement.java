@@ -274,6 +274,24 @@ public abstract class OntoManagement {
     // ---------------------------- SPARQL -----------------------------------
     //**************************************************************************
 
+    /**
+     * Executes SPARQL select query.
+     * <p>
+     * Example of use:
+     * <p>
+     * <
+     * pre><code>
+     *   ResultSet select = this.select(query);
+     * List<Resource> gts = new ArrayList<>();
+     * while (select.hasNext()) {
+     * Resource resource = select.next().getResource(vcode);
+     * gts.add(resource);
+     * }
+     * </code></pre>
+     *
+     * @param queryString SPARQL query string.
+     * @return ResultSet obtained from the query selection.
+     */
     public ResultSet select(String queryString) {
         if (queryString == null || queryString.isEmpty()) {
             return null;
