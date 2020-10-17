@@ -123,7 +123,7 @@ public class OwlManagementTest {
     /**
      * Test of downlift method, of class OwlManagement.
      */
-    @Test
+    //@Test
     public void testDownlift() {
         try {
             System.out.println("downlift");
