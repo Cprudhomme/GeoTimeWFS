@@ -123,7 +123,7 @@ public class OwlManagementTest {
     /**
      * Test of downlift method, of class OwlManagement.
      */
-    //@Test
+    @Test
     public void testDownlift() {
         try {
             System.out.println("downlift");
@@ -626,8 +626,9 @@ public class OwlManagementTest {
             List<Individual> listIndividuals = instance.listsMetadataIndividuals().toList();
             assertEquals(1, listIndividuals.size());
             String result = instance.downlift(listIndividuals.get(0).getURI());
-            System.out.println(result);
-            assertEquals(expResult, result);
+            assertTrue(!result.isEmpty());
+            assertTrue(result.contains("Shapefiles"));
+            assertTrue(result.contains("Produktinformationen"));
 
         } catch (OntoManagementException | IOException ex) {
             Logger.getLogger(OwlManagementTest.class.getName()).log(Level.SEVERE, null, ex);

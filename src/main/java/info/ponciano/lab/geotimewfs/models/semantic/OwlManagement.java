@@ -136,7 +136,7 @@ public class OwlManagement extends OntoManagement {
                 String nodeName = elemNode.getNodeName();
                 //class not found excepted for west/east/north/south/BoundLongitude parentProperty.getLocalName().contains("BoundLongitude)"
                 if (nodeName.contains("Decimal")) {
-                    Individual angle = this.ont.createIndividual(OwlManagement.generateURI(), this.ont.getOntClass(NS + "Angle"));
+                    Individual angle = this.ont.createIndividual(OwlManagement.generateURI(), this.ont.getOntClass("http://lab.ponciano.info/ontology/2020/geotime/iso-19103#Angle"));
                     angle.addLiteral(this.ont.getDatatypeProperty(NS + "decimalValue"), textContent);
                     indiv.addProperty(parentProperty, angle);
                 } else {
@@ -167,15 +167,19 @@ public class OwlManagement extends OntoManagement {
                 Node node = nodeMap.item(i);
                 String attrName1 = node.getNodeName();
                 String attrValue = node.getNodeValue();
-                if (attrName1.equals("codeListValue") || attrName1.equals("codeListElementValue")) {
-                    String name = NS + attrValue;
+                if (attrName1.toLowerCase().equals("uuid")) {
+                    n = this.ont.createIndividual(NS + attrValue, nodeClass);
+                    notCreate = false;
+                } else if (attrName1.equals("codeListValue") || attrName1.equals("codeListElementValue")) {
+                    String name = NS + "_" + attrValue;
                     n = this.ont.getIndividual(name);//here the ontology load "dataset" which is a property instead of "_dataset" which is an individual.
                     if (n == null) {
-                        throw new OntoManagementException(name + " not defined in the ontology!");
+                        name = NS + attrValue;
+                        n = this.ont.getIndividual(name);//here the ontology load "dataset" which is a property instead of "_dataset" which is an individual.
+                        if (n == null) {
+                            throw new OntoManagementException(name + " not defined in the ontology!");
+                        }
                     }
-                    notCreate = false;
-                } else if (attrName1.toLowerCase().equals("uuid")) {
-                    n = this.ont.createIndividual(NS + attrValue, nodeClass);
                     notCreate = false;
                 }
                 i++;
@@ -197,12 +201,7 @@ public class OwlManagement extends OntoManagement {
     }
 
     @Override
-    public String getSPARQL(String... param) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String downlift(String metadataURI) {
+    public String downlift(String metadataURI) throws OntoManagementException {
         try {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = documentBuilder.newDocument();
@@ -222,16 +221,19 @@ public class OwlManagement extends OntoManagement {
             StreamResult console = new StreamResult(buff);
             transformer.transform(source, console);
             return buff.toString();
-        } catch (ParserConfigurationException | TransformerException | DOMException | OntoManagementException ex) {
+        } catch (ParserConfigurationException | TransformerException | DOMException ex) {
             Logger.getLogger(OwlManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
 
     private void recDownlift(Individual individual, Document document, Element rootElement) throws DOMException, OntoManagementException {
-        System.out.println("Individual: " + individual);
         if (individual != null) {
-            OntClass ontClass = individual.getOntClass();
+            OntClass ontClass = null;
+            try {
+                ontClass = individual.getOntClass();
+            } catch (Exception e) {
+            }
             if (ontClass == null) {
                 throw new OntoManagementException(individual + " has no OntClass in the ontology!");
             }
