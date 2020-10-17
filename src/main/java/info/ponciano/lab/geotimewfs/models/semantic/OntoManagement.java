@@ -15,6 +15,7 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.sparql.core.Prologue;
@@ -124,7 +125,19 @@ public abstract class OntoManagement {
         return ResultSetFormatter.asText(this.select(query), new Prologue(ont));
 
     }
-
+/**
+     * Execute a construct query.
+     *
+     * @param queryString query to be processed.
+     * @return the model to be added to the working model.
+     * @throws OntoManagementException if something wrong if something wrong.
+     */
+    protected Model execConstruct(String queryString) throws OntoManagementException {
+        queryString = prefix + queryString;
+        Query query = QueryFactory.create(removeGraph(queryString));
+        QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont);
+        return queryExecution.execConstruct();
+    }
     /**
      * Check if the ontology is well formed.
      *
@@ -257,7 +270,7 @@ public abstract class OntoManagement {
      * Execute a update query on the dataset
      *
      * @param query query to be executed
-     * @throws info.ponciano.lab.pisemantic.PiOntologyException if something bad
+     * @throws info.ponciano.lab.pisemantic.OntoManagementException if something bad
      * happens
      */
     public void update(String query) throws OntoManagementException {
