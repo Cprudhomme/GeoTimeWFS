@@ -169,6 +169,12 @@ public abstract class OntoManagement {
         return this.ont.listIndividuals(this.ont.getOntClass(OntoManagement.NS + "MD_Metadata"));
     }
 
+    /**
+     * Test if the given name space is know.
+     *
+     * @param nameSpace name space to test.
+     * @return true if the name space is know, false otherwise.
+     */
     public static boolean containsNS(String nameSpace) {
         return possibleNS.contains(nameSpace);
     }
