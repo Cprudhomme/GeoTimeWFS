@@ -2,6 +2,7 @@ package info.ponciano.lab.geotimewfs.controllers;
 
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageFileNotFoundException;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
+import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import info.ponciano.lab.geotimewfs.models.semantic.OwlManagement;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -80,12 +81,12 @@ public class MetadataController {
             } else {
                 throw new ControllerException("file format was incorrect");
             }
-        } catch (ControllerException | IOException ex) {
+        } catch (OntoManagementException | ControllerException | IOException ex) {
             //7Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
             final String message = "The uplift fails:" + ex.getMessage();
            // redirectAttributes.addFlashAttribute("message", nessage);
             rtn = "redirect:/errror?name="+message;
-        }
+        } 
         return rtn;
     }
 
