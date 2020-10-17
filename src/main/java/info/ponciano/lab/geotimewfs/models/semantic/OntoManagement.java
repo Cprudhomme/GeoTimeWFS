@@ -9,6 +9,11 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.ontology.OntProperty;
 import org.apache.jena.ontology.OntResource;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.util.iterator.ExtendedIterator;
@@ -72,6 +77,20 @@ public abstract class OntoManagement {
         if (!checkOntology.isEmpty()) {
             throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
         }
+        prefix = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n";
+        prefix += "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n";
+        prefix += "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n";
+        prefix += "PREFIX dbr:    <http://dbpedia.org/resource/>\n";
+        prefix += "PREFIX dbo:    <http://dbpedia.org/ontology/>\n";
+        prefix += "PREFIX dct:    <http://purl.org/dc/terms/>\n";
+        prefix += "PREFIX owl:    <http://www.w3.org/2002/07/owl#>\n";
+        prefix += "PREFIX prov:   <http://www.w3.org/ns/prov#>\n";
+        prefix += "PREFIX qb:     <http://purl.org/linked-data/cube#>\n";
+        prefix += "PREFIX qudt:   <http://qudt.org/1.1/schema/qudt#>\n";
+        prefix += "PREFIX schema: <http://schema.org/>\n";
+        prefix += "PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>\n";
+        prefix += "PREFIX unit:   <http://qudt.org/vocab/unit#>\n";
+        prefix += "PREFIX sdmx:   <http://purl.org/linked-data/sdmx#>\n";
     }
 
     /**
@@ -194,5 +213,20 @@ public abstract class OntoManagement {
     public static boolean containsNS(String nameSpace) {
         return possibleNS.contains(nameSpace);
     }
+
+    /**
+     * Add prefix for every spaql query
+     *
+     * @param key kew use as prefix
+     * @param namespace name space to be added.      <pre>
+     * Example for  xsd:type \n"
+     * addPrefix(xsd,http://www.w3.org/2001/XMLSchema#)
+     * </pre>
+     */
+    public void addPrefix(String key, String namespace) {
+        this.ont.setNsPrefix(key, namespace);
+        prefix += "PREFIX " + key + ": <" + namespace + ">\n";
+    }
+     
 
 }
