@@ -1,11 +1,21 @@
 <!DOCTYPE HTML>
 <html >
-<head> 
+<head th:replace="fragments/head :: head">
     <title>Getting Started: Serving Web Content</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
     <body>
-        <h1>Metadata View</h1>
+         <script  type='text/javascript'>
+            var elements = [
+                {link: "/home", value: "Home", active: "true"},
+                {link: "/metadata", value: "Metadata", active: "false"},
+                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"}];
+        </script>
+        <header id="header">
+            <div th:insert="fragments/nav :: navbar"></div>
+            <h1>Metadata View</h1>
+        </header>
+        
         <p> View to complete </p>
         <form th:action="@{/metadata/update}" method="post">
             <input type="submit" value="Metadata change"/>
