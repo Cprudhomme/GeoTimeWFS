@@ -28,7 +28,14 @@ public abstract class OntoManagement {
     );
 
     ;
-
+    public OntoManagement(String ontologyPath) throws OntoManagementException {
+        this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+        this.ont.read(ontologyPath);
+        String checkOntology = this.checkOntology();
+        if (!checkOntology.isEmpty()) {
+            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
+        }
+    }
     public OntoManagement() throws OntoManagementException {
         this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
         this.ont.read("src/main/resources/ontologies/iso-19115.owl");
