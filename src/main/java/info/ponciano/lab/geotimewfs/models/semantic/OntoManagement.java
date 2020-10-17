@@ -125,7 +125,24 @@ public abstract class OntoManagement {
         return ResultSetFormatter.asText(this.select(query), new Prologue(ont));
 
     }
-/**
+
+    /**
+     * Execute the SPARQL construct query.
+     *
+     * @param queryString query to process.
+     * @return true if the execution was successful.
+     * @throws OntoManagementException
+     */
+    public boolean construct(String queryString) throws OntoManagementException {
+        Model execConstruct = this.execConstruct(queryString);
+        if (execConstruct == null || execConstruct.isEmpty() || this.ont.containsAll(execConstruct)) {
+            return false;
+        }
+        this.ont.add(execConstruct);
+        return true;
+    }
+
+    /**
      * Execute a construct query.
      *
      * @param queryString query to be processed.
@@ -138,6 +155,7 @@ public abstract class OntoManagement {
         QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont);
         return queryExecution.execConstruct();
     }
+
     /**
      * Check if the ontology is well formed.
      *
@@ -270,8 +288,8 @@ public abstract class OntoManagement {
      * Execute a update query on the dataset
      *
      * @param query query to be executed
-     * @throws info.ponciano.lab.pisemantic.OntoManagementException if something bad
-     * happens
+     * @throws info.ponciano.lab.pisemantic.OntoManagementException if something
+     * bad happens
      */
     public void update(String query) throws OntoManagementException {
         if (query != null && !query.isEmpty()) {
