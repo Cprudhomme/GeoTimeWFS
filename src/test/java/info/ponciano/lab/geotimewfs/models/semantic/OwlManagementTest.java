@@ -41,18 +41,18 @@ public class OwlManagementTest {
      */
     @Test
     public void testUplift() {
-        System.out.println("uplift");
-        String xmlPathfile = "src/main/resources/metadata/metadata.xml";
-        OwlManagement instance = new OwlManagement();
-        boolean expResult = true;
-        boolean result = instance.uplift(xmlPathfile);
-        assertEquals(expResult, result);
         try {
-            instance.saveOntology("metadataSaved.owl");
-        } catch (IOException ex) {
+            System.out.println("uplift");
+            String xmlPathfile = "src/main/resources/metadata/metadata.xml";
+            OwlManagement instance = new OwlManagement();
+            boolean expResult = true;
+            boolean result = instance.uplift(xmlPathfile);
+            assertEquals(expResult, result);
+                instance.saveOntology("metadataSaved.owl");
+        } catch (IOException| OntoManagementException ex) {
             Logger.getLogger(OwlManagementTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail(ex.getMessage());
-        }
+              fail(ex.getMessage());
+        } 
     }
 
     /**
