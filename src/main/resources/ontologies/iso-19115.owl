@@ -1660,10 +1660,6 @@ dataset, of which the dataset is a part</rdfs:comment>
 
     <owl:ObjectProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#source">
         <rdfs:range rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#LI_Source"/>
-        <_condition>statement and  processStep not  provided?  </_condition>
-        <_shortName>source</_shortName>
-        <rdfs:comment xml:lang="en">information about the source data used in creating the data specified by the scope</rdfs:comment>
-        <rdfs:label xml:lang="en">source</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -2441,6 +2437,19 @@ resource(s)</rdfs:comment>
     
 
 
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataSetProperty -->
+
+    <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataSetProperty">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ScopeDescription"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <_condition>attribute, features, featureInstances, attributeInstances and other  not documented ?</_condition>
+        <_shortName>datasetSet</_shortName>
+        <rdfs:comment xml:lang="en">dataset to which the information applies</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataSetURI -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataSetURI">
@@ -2450,20 +2459,6 @@ resource(s)</rdfs:comment>
         <_shortName>dataSetURI</_shortName>
         <rdfs:comment xml:lang="en">Uniformed Resource Identifier (URI) of the dataset to which the metadata applies</rdfs:comment>
         <rdfs:label xml:lang="en">dataSetURI</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataset -->
-
-    <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataset">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ScopeDescription"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-        <_condition>attribute, features, featureInstances, attributeInstances and other  not documented ?</_condition>
-        <_shortName>datasetSet</_shortName>
-        <rdfs:comment xml:lang="en">dataset to which the information applies</rdfs:comment>
-        <rdfs:label xml:lang="en">dataset</rdfs:label>
     </owl:DatatypeProperty>
     
 
@@ -4259,157 +4254,7 @@ transformation exists</rdfs:comment>
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-<!--    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_DateTypeCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_DateTypeCode"/>
     
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_OnLineFunctionCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_OnLineFunctionCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_PresentationFormCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_PresentationFormCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_RoleCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#CI_RoleCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#DQ_EvaluationMethodTypeCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#DQ_EvaluationMethodTypeCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#DS_AssociationTypeCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#DS_AssociationTypeCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#DS_InitiativeTypeCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#DS_InitiativeTypeCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_CellGeometryCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_CellGeometryCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_CharacterSetCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_CharacterSetCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ClassificationCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ClassificationCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_CoverageContentTypeCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_CoverageContentTypeCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_DataTypeCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_DataTypeCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_DimensionNameTypeCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_DimensionNameTypeCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_GeometricObjectTypeCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_GeometricObjectTypeCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ImagingConditionCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ImagingConditionCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_KeywordTypeCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_KeywordTypeCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MediumFormatCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MediumFormatCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MediumNameCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_MediumNameCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ObligationCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ObligationCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_PixelOrientationCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_PixelOrientationCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ProgressCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ProgressCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_RestrictionCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_RestrictionCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ScopeCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ScopeCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_SpatialRepresentationTypeCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_SpatialRepresentationTypeCode"/>
-    
-
-
-     http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_TopologyLevelCode 
-
-    <owl:Class rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_TopologyLevelCode"/>
-    -->
 
 
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19103#Angle -->
@@ -8236,7 +8081,7 @@ accessing and using the resource</rdfs:comment>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataset"/>
+                <owl:onProperty rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataSetProperty"/>
                 <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -8755,16 +8600,6 @@ accessing and using the resource</rdfs:comment>
     
 
 
-    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_dataset -->
-
-    <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_dataset">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ScopeCode"/>
-        <_domainCode>005</_domainCode>
-        <rdfs:comment xml:lang="en">information applies to the dataset</rdfs:comment>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_point -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_point">
@@ -8811,16 +8646,6 @@ accessing and using the resource</rdfs:comment>
         <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ScopeCode"/>
         <_domainCode>006</_domainCode>
         <rdfs:comment xml:lang="en">information applies to the series</rdfs:comment>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_source -->
-
-    <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_source">
-        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#DS_AssociationTypeCode"/>
-        <_domainCode>004</_domainCode>
-        <rdfs:comment xml:lang="en">mapping and charting information from which the dataset content originates</rdfs:comment>
     </owl:NamedIndividual>
     
 
@@ -9241,6 +9066,16 @@ accessing and using the resource</rdfs:comment>
         <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_DataTypeCode"/>
         <_domainCode>008</_domainCode>
         <rdfs:comment xml:lang="en">class with few or no operations whose primary purpose is to hold the abstract state of another class for transmittal, storage, encoding or persistent storage</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataset -->
+
+    <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#dataset">
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_ScopeCode"/>
+        <_domainCode>005</_domainCode>
+        <rdfs:comment xml:lang="en">information applies to the dataset</rdfs:comment>
     </owl:NamedIndividual>
     
 
@@ -10455,6 +10290,14 @@ accessing and using the resource</rdfs:comment>
     
 
 
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#source -->
+
+    <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#source">
+        <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#DS_AssociationTypeCode"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#specifiedClass -->
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#specifiedClass">
@@ -10931,6 +10774,25 @@ accessing and using the resource</rdfs:comment>
         <_domainCode>003</_domainCode>
         <rdfs:comment xml:lang="en">data is updated on a weekly basis</rdfs:comment>
     </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotations
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#source">
+        <_condition>statement and  processStep not  provided?  </_condition>
+        <_shortName>source</_shortName>
+        <rdfs:comment xml:lang="en">information about the source data used in creating the data specified by the scope</rdfs:comment>
+        <rdfs:label xml:lang="en">source</rdfs:label>
+        <_domainCode>004</_domainCode>
+        <rdfs:comment xml:lang="en">mapping and charting information from which the dataset content originates</rdfs:comment>
+    </rdf:Description>
 </rdf:RDF>
 
 

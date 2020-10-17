@@ -17,7 +17,25 @@ public abstract class OntoManagement {
 
     protected OntModel ont;
     public static final String NS = "http://lab.ponciano.info/ontology/2020/geotime/iso-19115#";
+    private static final List<String> possibleNS = List.of(NS,
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19112#",
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19103#",
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19109#",
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19107#",
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19106#",
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19108#",
+            "http://lab.ponciano.info/ontology/2020/geotime/iso-19111#"
+    );
 
+    ;
+    public OntoManagement(String ontologyPath) throws OntoManagementException {
+        this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+        this.ont.read(ontologyPath);
+        String checkOntology = this.checkOntology();
+        if (!checkOntology.isEmpty()) {
+            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
+        }
+    }
     public OntoManagement() throws OntoManagementException {
         this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
         this.ont.read("src/main/resources/ontologies/iso-19115.owl");
@@ -34,6 +52,14 @@ public abstract class OntoManagement {
      * @return true if the elevation succeeded, false otherwise.
      */
     public abstract boolean uplift(String xml);
+
+    /**
+     * Downlifts ontology metadata information as a string formatted in XML.
+     *
+     * @param metadataURI URI of the metadata in the ontology
+     * @return the XML String in iso-119115 format.
+     */
+    public abstract String downlift(String metadataURI);
 
     public abstract boolean change(String... param);
 
@@ -100,18 +126,7 @@ public abstract class OntoManagement {
      * the resource does not exist in the ontology.
      */
     public OntResource asOntResource(String nodeName) {
-        if (nodeName.equals("RS_Identifier")) {
-            System.out.println("here");
-        }
-        List<String> possibleNS = List.of(NS,
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19112#",
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19103#",
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19109#",
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19107#",
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19106#",
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19108#",
-                "http://lab.ponciano.info/ontology/2020/geotime/iso-19111#"
-        );
+
         for (String ns : possibleNS) {
             Resource resource = this.ont.getResource(ns + nodeName);
             if (this.ont.containsResource(resource)) {
@@ -120,4 +135,29 @@ public abstract class OntoManagement {
         }
         return null;
     }
+
+    /**
+     * Gets this OntModel .
+     *
+     * @return this ontModel.
+     */
+    public OntModel getOnt() {
+        return ont;
+    }
+
+    /**
+     * Lists all metadata individuals.
+     *
+     * @return Extended Iterator of individual that are instances of MD_Metadata
+     * class.
+     */
+    public ExtendedIterator<Individual> listsMetadataIndividuals() {
+        //Lists the Metadata individuals
+        return this.ont.listIndividuals(this.ont.getOntClass(OntoManagement.NS + "MD_Metadata"));
+    }
+
+    public static boolean containsNS(String nameSpace) {
+        return possibleNS.contains(nameSpace);
+    }
+
 }

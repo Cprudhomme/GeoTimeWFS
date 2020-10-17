@@ -15,7 +15,7 @@
     <description>Source of Geotimewfs project</description>
     <repositories>
 
-<repository>
+        <repository>
             <id>central</id>
             <url>https://repo1.maven.org/maven2</url>
             <releases>
@@ -34,7 +34,7 @@
             <name>ECC</name>
             <url>https://maven.ecc.no/releases</url>
         </repository>
-        
+
     </repositories>
     <properties>
         <java.version>14</java.version>
@@ -74,7 +74,7 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-	
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -128,7 +128,7 @@
             <version>1.3.10</version>
             <type>jar</type>
         </dependency>
-	 
+
         <dependency>
             <groupId>com.github.jferard</groupId>
             <artifactId>fastods</artifactId>
@@ -150,7 +150,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>2.10.1</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -180,19 +179,12 @@
         <dependency>
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
-            <version>2.1.6</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.locationtech.proj4j</groupId>
             <artifactId>proj4j</artifactId>
             <version>1.1.1</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.saxon</groupId>
-            <artifactId>saxon</artifactId>
-            <version>8.7</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -207,12 +199,17 @@
             <version>1.0</version>
             <type>jar</type>
         </dependency>
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>info.ponciano.lab</groupId>
             <artifactId>pisemantic</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>-->
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>saxon-dom</artifactId>
+            <version>8.7</version>
+  </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1602846954369" name="http://lab.ponciano.info/geotime" uri="src/main/resources/ontologies/geotime.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1602846954369" name="http://lab.ponciano.info/ontology/2020/geotime/iso-19115" uri="src/main/resources/ontologies/iso-19115.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1602846954369" name="http://www.w3.org/2002/07/owl" uri="src/main/resources/ontologies/iso19110.rdf"/>
-        <uri id="Automatically generated entry, Timestamp=1602846954369" name="shadowed:http://lab.ponciano.info/geotime" uri="target/classes/ontologies/geotime.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1602846954369" name="shadowed:http://lab.ponciano.info/ontology/2020/geotime/iso-19115" uri="target/classes/ontologies/iso-19115.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1602846954369" name="shadowed:http://www.w3.org/2002/07/owl" uri="target/classes/ontologies/iso19110.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1602877304068" name="http://lab.ponciano.info/geotime" uri="src/main/resources/ontologies/geotime.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1602877304068" name="http://lab.ponciano.info/ontology/2020/geotime/iso-19115" uri="src/main/resources/ontologies/iso-19115.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1602877304068" name="http://www.w3.org/2002/07/owl" uri="src/main/resources/ontologies/iso19110.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1602877304068" name="shadowed:http://lab.ponciano.info/geotime" uri="target/classes/ontologies/geotime.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1602877304068" name="shadowed:http://lab.ponciano.info/ontology/2020/geotime/iso-19115" uri="target/classes/ontologies/iso-19115.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1602877304068" name="shadowed:http://www.w3.org/2002/07/owl" uri="target/classes/ontologies/iso19110.rdf"/>
     </group>
 </catalog>
