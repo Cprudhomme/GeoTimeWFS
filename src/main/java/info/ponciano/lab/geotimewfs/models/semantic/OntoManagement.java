@@ -36,6 +36,7 @@ public abstract class OntoManagement {
             throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
         }
     }
+
     public OntoManagement() throws OntoManagementException {
         this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
         this.ont.read("src/main/resources/ontologies/iso-19115.owl");
@@ -59,7 +60,7 @@ public abstract class OntoManagement {
      * @param metadataURI URI of the metadata in the ontology
      * @return the XML String in iso-119115 format.
      */
-    public abstract String downlift(String metadataURI);
+    public abstract String downlift(String metadataURI) throws OntoManagementException;
 
     public abstract boolean change(String... param);
 
