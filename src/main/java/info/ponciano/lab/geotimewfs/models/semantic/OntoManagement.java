@@ -227,6 +227,16 @@ public abstract class OntoManagement {
         this.ont.setNsPrefix(key, namespace);
         prefix += "PREFIX " + key + ": <" + namespace + ">\n";
     }
-     
+     //**************************************************************************
+    // ---------------------------- SPARQL -----------------------------------
+    //**************************************************************************
+
+    public ResultSet select(String queryString) {
+  if(queryString==null||queryString.isEmpty())return null;
+        queryString = prefix + queryString;
+        Query query = QueryFactory.create(queryString);
+        QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont);
+        return queryExecution.execSelect();
+    }
 
 }
