@@ -27,7 +27,13 @@ public abstract class OntoManagement {
             "http://lab.ponciano.info/ontology/2020/geotime/iso-19111#"
     );
 
-    ;
+    /**
+     * Creates an instance of OntoManagmenent and load the ontological model
+     * given.
+     *
+     * @param ontologyPath OWL file containing the model to load.
+     * @throws OntoManagementException if the model is wrong.
+     */
     public OntoManagement(String ontologyPath) throws OntoManagementException {
         this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
         this.ont.read(ontologyPath);
@@ -37,6 +43,12 @@ public abstract class OntoManagement {
         }
     }
 
+    /**
+     * Creates an instance of OntoManagmenent and load the ontological model by
+     * default.
+     *
+     * @throws OntoManagementException If the model is wrong
+     */
     public OntoManagement() throws OntoManagementException {
         this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
         this.ont.read("src/main/resources/ontologies/iso-19115.owl");
