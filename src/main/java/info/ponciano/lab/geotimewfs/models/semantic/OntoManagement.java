@@ -16,6 +16,7 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.update.UpdateAction;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
 public abstract class OntoManagement {
@@ -238,5 +239,32 @@ public abstract class OntoManagement {
         QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont);
         return queryExecution.execSelect();
     }
-
+    /**
+     * Execute a update query on the dataset
+     *
+     * @param query query to be executed
+     * @throws info.ponciano.lab.pisemantic.PiOntologyException if something bad
+     * happens
+     */
+    public void update(String query) throws OntoManagementException {
+        if (query != null && !query.isEmpty()) {
+            query = prefix + query;
+            String res = removeGraph(query);
+            UpdateAction.parseExecute(res, this.ont);
+        }
+    }
+  private String removeGraph(String query) throws OntoManagementException {
+        String res;
+        if (query.contains("GRAPH")) {
+            res = query.replaceAll("\n*\\s*GRAPH\\s<.*?>\\s*[{]", "");
+            int lastIndexOf = res.lastIndexOf("}");
+            res = res.substring(0, lastIndexOf);
+        } else {
+            res = query;
+        }
+        if (res.contains("GRAPH")) {
+            throw new OntoManagementException("Querry with graph in owl file: " + res);
+        }
+        return res;
+    }
 }
