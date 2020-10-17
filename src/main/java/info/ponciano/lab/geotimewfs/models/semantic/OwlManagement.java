@@ -218,13 +218,13 @@ public class OwlManagement extends OntoManagement {
             StreamResult console = new StreamResult(buff);
             transformer.transform(source, console);
             return buff.toString();
-        } catch (ParserConfigurationException | TransformerException ex) {
+        } catch (ParserConfigurationException | TransformerException | DOMException | OntoManagementException ex) {
             Logger.getLogger(OwlManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
 
-    private void recDownlift(Individual individual, Document document, Element rootElement) throws DOMException {
+    private void recDownlift(Individual individual, Document document, Element rootElement) throws DOMException, OntoManagementException {
         System.out.println("Individual: " + individual);
         if (individual != null) {
             OntClass ontClass = individual.getOntClass();
