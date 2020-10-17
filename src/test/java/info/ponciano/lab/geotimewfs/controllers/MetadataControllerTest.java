@@ -75,7 +75,6 @@ public class MetadataControllerTest {
      */
     @Test
     public void testPostUpliftAction() {
-        try {
             System.out.println("postUpliftAction");
             MultipartFile file = null;
             RedirectAttributes redirectAttributes = null;
@@ -83,12 +82,7 @@ public class MetadataControllerTest {
             String expResult = "";
             String result = instance.postUpliftAction(file, redirectAttributes);
             assertEquals(expResult, result);
-            // TODO review the generated test code and remove the default call to fail.
-           
-        } catch (IOException ex) {
-            Logger.getLogger(MetadataControllerTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail(ex.getMessage());
-        }
+            // TODO review the generated test code and remove the default call to fail.   
     }
 
     /**

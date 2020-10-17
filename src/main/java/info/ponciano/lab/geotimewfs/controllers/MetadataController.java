@@ -4,6 +4,8 @@ import info.ponciano.lab.geotimewfs.controllers.storage.StorageFileNotFoundExcep
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.models.semantic.OwlManagement;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -37,46 +39,68 @@ public class MetadataController {
     @GetMapping("/metadata/uplift")
     public String getUpliftView(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
         model.addAttribute("files", storageService.loadAll().map(
-				path -> MvcUriComponentsBuilder.fromMethodName(MetadataController.class,
-						"serveFile", path.getFileName().toString()).build().toUri().toString())
-				.collect(Collectors.toList()));
+                path -> MvcUriComponentsBuilder.fromMethodName(MetadataController.class,
+                        "serveFile", path.getFileName().toString()).build().toUri().toString())
+                .collect(Collectors.toList()));
         return "upliftView";
     }
-    
-    @GetMapping("/metadata/uplift/files/{filename:.+}")
-	@ResponseBody
-	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
-		Resource file = storageService.loadAsResource(filename);
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
-	}
+    @GetMapping("/metadata/uplift/files/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+
+        Resource file = storageService.loadAsResource(filename);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
 
     /* 
     parameter not yet defined 
      */
     @PostMapping("/metadata/uplift")
     public String postUpliftAction(@RequestParam("file") MultipartFile file,
-			RedirectAttributes redirectAttributes) throws IOException {
+            RedirectAttributes redirectAttributes) {
 
-                // store file
-		storageService.store(file);
-                
-		redirectAttributes.addFlashAttribute("message",
-				"You successfully uplift " + file.getOriginalFilename() + "!");
-               
-                OwlManagement om= new OwlManagement();
-                om.uplift("upload-dir/"+file.getOriginalFilename());
-                om.saveOntology("upload-dir/metadataOnto.owl");
-        //return "redirect:/metadata";
-        return "redirect:/metadata/uplift";
+        String rtn = "";
+        try {
+            // store file
+            storageService.store(file);
+
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully uplift " + file.getOriginalFilename() + "!");
+
+            OwlManagement om = new OwlManagement();
+            boolean upliftOk = om.uplift("upload-dir/" + file.getOriginalFilename());
+            if (upliftOk) {
+                int index = file.getOriginalFilename().indexOf(".");
+                String fn = file.getOriginalFilename().substring(0, index);
+                om.saveOntology("upload-dir/" + fn + "Onto.owl");
+                //return "redirect:/metadata";
+                rtn = "redirect:/metadata/uplift";
+            } else {
+                throw new ControllerException("file format was incorrect");
+            }
+        } catch (ControllerException | IOException ex) {
+            //7Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
+            final String message = "The uplift fails:" + ex.getMessage();
+           // redirectAttributes.addFlashAttribute("message", nessage);
+            rtn = "redirect:/errror?name="+message;
+        }
+        return rtn;
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
-	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-		return ResponseEntity.notFound().build();
-	}
-        
+    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/errror")
+    public String errorManagement(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
+        model.addAttribute("message", name);
+        return "errorView";
+
+    }
+
     /* 
     parameter not yet defined 
      */
