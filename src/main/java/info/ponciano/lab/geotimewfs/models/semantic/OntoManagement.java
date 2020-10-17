@@ -16,6 +16,8 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 public abstract class OntoManagement {
 
     protected OntModel ont;
+    protected String prefix;
+
     public static final String NS = "http://lab.ponciano.info/ontology/2020/geotime/iso-19115#";
     private static final List<String> possibleNS = List.of(NS,
             "http://lab.ponciano.info/ontology/2020/geotime/iso-19112#",
@@ -41,6 +43,20 @@ public abstract class OntoManagement {
         if (!checkOntology.isEmpty()) {
             throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
         }
+        prefix = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n";
+        prefix += "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n";
+        prefix += "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n";
+        prefix += "PREFIX dbr:    <http://dbpedia.org/resource/>\n";
+        prefix += "PREFIX dbo:    <http://dbpedia.org/ontology/>\n";
+        prefix += "PREFIX dct:    <http://purl.org/dc/terms/>\n";
+        prefix += "PREFIX owl:    <http://www.w3.org/2002/07/owl#>\n";
+        prefix += "PREFIX prov:   <http://www.w3.org/ns/prov#>\n";
+        prefix += "PREFIX qb:     <http://purl.org/linked-data/cube#>\n";
+        prefix += "PREFIX qudt:   <http://qudt.org/1.1/schema/qudt#>\n";
+        prefix += "PREFIX schema: <http://schema.org/>\n";
+        prefix += "PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>\n";
+        prefix += "PREFIX unit:   <http://qudt.org/vocab/unit#>\n";
+        prefix += "PREFIX sdmx:   <http://purl.org/linked-data/sdmx#>\n";
     }
 
     /**
