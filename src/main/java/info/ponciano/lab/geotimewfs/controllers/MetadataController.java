@@ -5,9 +5,13 @@ import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import info.ponciano.lab.geotimewfs.models.semantic.OwlManagement;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -83,7 +87,7 @@ public class MetadataController {
             }
         } catch (OntoManagementException | ControllerException | IOException ex) {
             //7Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
-            final String message = "The uplift fails:" + ex.getMessage();
+            final String message = "The uplift fails: " + ex.getMessage();
            // redirectAttributes.addFlashAttribute("message", nessage);
             rtn = "redirect:/errror?name="+message;
         } 
@@ -107,7 +111,47 @@ public class MetadataController {
      */
     @GetMapping("/metadata")
     public String getMetadata(@RequestParam(name = "name", required = false, defaultValue = "World") String name) {
-        return "selectMetadata";
+        //default view to return except case of error
+        String rtn="selectMetadata";
+        //retrieve all stored files
+        Stream<Path> files= storageService.loadAll();
+        List<Path>lf=new ArrayList<>();
+        //filter those corresponding to ontologies and add them to a list
+        files.filter(s -> s.toString().contains("Onto.owl")).forEach(f->lf.add(f));
+        System.out.println(lf.size());
+     
+        //initialize the list of info to display in the view
+        List<String> info=new ArrayList<>();
+        OwlManagement om;
+        // browse the list of ontology files
+        for(int i=0; i<lf.size(); i++){
+            try {
+                //initialize a new ontology from the path file
+                om= new OwlManagement(lf.get(i).toString());
+                //initialize the query to retrieve all instances of metadata and their associated organization and title
+                String query="SELECT ?m ?o ?t"
+                        + "WHERE{"
+                        + "?m rdf:type MD_Metadata. "
+                        + "?m contact ?co. "
+                        + "?co organisationName ?o. "
+                        + "?m identificationInfo ?i. "
+                        + "?i citation ?ci. "
+                        + "?ci title ?t. "
+                        + "}";
+                //query the ontology
+                om.getSPARQL(query);
+                //adding of the query result into the list of info
+                
+                
+            } catch (OntoManagementException ex) {
+                Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
+                final String message = "The connexion to the ontology fails: " + ex.getMessage();
+                rtn = "redirect:/errror?name="+message;
+            }
+        }
+        //providing the list of info to the model to allow the view to display all available metadata
+        
+        return rtn;
     }
 
     /* 
