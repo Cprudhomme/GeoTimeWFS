@@ -114,6 +114,12 @@ public abstract class OntoManagement {
 
     public abstract boolean change(String... param);
 
+    /**
+     * Executes SPARQL select function and format the results in an String
+     *
+     * @param query select query
+     * @return query's results in String format.
+     */
     public String getSPARQL(String query) {
         return ResultSetFormatter.asText(this.select(query), new Prologue(ont));
 
