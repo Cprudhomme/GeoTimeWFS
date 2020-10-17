@@ -12,6 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.RDFNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -110,7 +113,7 @@ public class MetadataController {
     parameter not yet defined 
      */
     @GetMapping("/metadata")
-    public String getMetadata(@RequestParam(name = "name", required = false, defaultValue = "World") String name) {
+    public String getMetadata(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
         //default view to return except case of error
         String rtn="selectMetadata";
         //retrieve all stored files
@@ -121,27 +124,38 @@ public class MetadataController {
         System.out.println(lf.size());
      
         //initialize the list of info to display in the view
-        List<String> info=new ArrayList<>();
+        List<String []> info=new ArrayList<String []>();
         OwlManagement om;
         // browse the list of ontology files
         for(int i=0; i<lf.size(); i++){
             try {
                 //initialize a new ontology from the path file
-                om= new OwlManagement(lf.get(i).toString());
+                om= new OwlManagement("upload-dir/" +lf.get(i).toString());
+                om.addPrefix("iso115", "http://lab.ponciano.info/ontology/2020/geotime/iso-19115#");
                 //initialize the query to retrieve all instances of metadata and their associated organization and title
-                String query="SELECT ?m ?o ?t"
+                String query="SELECT ?m ?o ?t "
                         + "WHERE{"
-                        + "?m rdf:type MD_Metadata. "
-                        + "?m contact ?co. "
-                        + "?co organisationName ?o. "
-                        + "?m identificationInfo ?i. "
-                        + "?i citation ?ci. "
-                        + "?ci title ?t. "
+                        + "?m rdf:type iso115:MD_Metadata. "
+                        + "?m iso115:contact ?co. "
+                        + "?co iso115:organisationName ?o. "
+                        + "?m iso115:identificationInfo ?i. "
+                        + "?i iso115:citation ?ci. "
+                        + "?ci iso115:title ?t. "
                         + "}";
+                System.out.println(om.getSPARQL(query));
                 //query the ontology
-                om.getSPARQL(query);
+                ResultSet rs = om.select(query);
                 //adding of the query result into the list of info
-                
+                while (rs.hasNext()) {
+                    QuerySolution solu = rs.next();
+                    String get1 = solu.get("m").asResource().getURI();
+                    int index=get1.indexOf("#");
+                    get1=get1.substring(index+1);
+                    String get2 = solu.getLiteral("o").getString();
+                    String get3=solu.getLiteral("t").toString();
+                    String [] ls= {get1, get2, get3};
+                    info.add(ls);
+                }
                 
             } catch (OntoManagementException ex) {
                 Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
@@ -150,7 +164,7 @@ public class MetadataController {
             }
         }
         //providing the list of info to the model to allow the view to display all available metadata
-        
+        model.addAttribute("MDlist", info);
         return rtn;
     }
 
@@ -158,7 +172,8 @@ public class MetadataController {
     parameter not yet defined 
      */
     @PostMapping("/metadata/selected")
-    public String getSelectedMd(@RequestParam(name = "name", required = false, defaultValue = "World") String name) {
+    public String getSelectedMd(@RequestParam(name = "md", required = true, defaultValue = "World") String md) {
+        System.out.println(md);
         return "metadataView";
     }
 
