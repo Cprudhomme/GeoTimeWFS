@@ -55,7 +55,11 @@ import org.xml.sax.SAXException;
 public class OwlManagement extends OntoManagement {
 
     public OwlManagement() throws OntoManagementException {
-        super();
+        super("src/main/resources/ontologies/iso-19115.owl");
+    }
+
+    public OwlManagement(String ontologyPath) throws OntoManagementException {
+        super(ontologyPath);
     }
 
     /**
@@ -228,7 +232,9 @@ public class OwlManagement extends OntoManagement {
         System.out.println("Individual: " + individual);
         if (individual != null) {
             OntClass ontClass = individual.getOntClass();
-            if(ontClass==null)throw new OntoManagementException(individual+" has no OntClass in the ontology!");
+            if (ontClass == null) {
+                throw new OntoManagementException(individual + " has no OntClass in the ontology!");
+            }
             //add this individual to rootElement
             Element current = document.createElement(ontClass.getLocalName());
             rootElement.appendChild(current);
@@ -241,14 +247,14 @@ public class OwlManagement extends OntoManagement {
                 RDFNode object = next.getObject();
                 System.out.println("Object: " + object);
                 System.out.println("Prp: " + predicate);
-               
+
                 if (predicate == null || !OwlManagement.containsNS(predicate.getNameSpace())) {
                     System.out.println(nameP + " skiped");
                 } else //if it is an object property
-                if (predicate.isObjectProperty()) { 
+                if (predicate.isObjectProperty()) {
                     if (predicate.getURI().contains("northBoundLatitude")) {
-                    System.out.println("elkjf");
-                }
+                        System.out.println("elkjf");
+                    }
                     //add the property to the element and recusively go to the object property
                     Element predicatElement = document.createElement(predicate.getLocalName());
                     current.appendChild(predicatElement);
