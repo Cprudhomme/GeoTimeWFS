@@ -119,9 +119,7 @@ public abstract class OntoManagement {
      * the resource does not exist in the ontology.
      */
     public OntResource asOntResource(String nodeName) {
-        if (nodeName.contains("MD_ScopeCode")) {
-            System.out.println("hh");
-        }
+
         for (String ns : possibleNS) {
             Resource resource = this.ont.getResource(ns + nodeName);
             if (this.ont.containsResource(resource)) {
