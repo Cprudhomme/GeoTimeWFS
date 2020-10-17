@@ -201,11 +201,6 @@ public class OwlManagement extends OntoManagement {
     }
 
     @Override
-    public String getSPARQL(String... param) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public String downlift(String metadataURI) throws OntoManagementException {
         try {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

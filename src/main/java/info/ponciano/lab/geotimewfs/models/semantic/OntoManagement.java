@@ -14,8 +14,10 @@ import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.sparql.core.Prologue;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
@@ -112,7 +114,10 @@ public abstract class OntoManagement {
 
     public abstract boolean change(String... param);
 
-    public abstract String getSPARQL(String... param);
+    public String getSPARQL(String query) {
+        return ResultSetFormatter.asText(this.select(query), new Prologue(ont));
+
+    }
 
     /**
      * Check if the ontology is well formed.
@@ -228,17 +233,20 @@ public abstract class OntoManagement {
         this.ont.setNsPrefix(key, namespace);
         prefix += "PREFIX " + key + ": <" + namespace + ">\n";
     }
-     //**************************************************************************
+    //**************************************************************************
     // ---------------------------- SPARQL -----------------------------------
     //**************************************************************************
 
     public ResultSet select(String queryString) {
-  if(queryString==null||queryString.isEmpty())return null;
+        if (queryString == null || queryString.isEmpty()) {
+            return null;
+        }
         queryString = prefix + queryString;
         Query query = QueryFactory.create(queryString);
         QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont);
         return queryExecution.execSelect();
     }
+
     /**
      * Execute a update query on the dataset
      *
@@ -253,7 +261,8 @@ public abstract class OntoManagement {
             UpdateAction.parseExecute(res, this.ont);
         }
     }
-  private String removeGraph(String query) throws OntoManagementException {
+
+    private String removeGraph(String query) throws OntoManagementException {
         String res;
         if (query.contains("GRAPH")) {
             res = query.replaceAll("\n*\\s*GRAPH\\s<.*?>\\s*[{]", "");
