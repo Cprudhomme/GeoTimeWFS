@@ -105,7 +105,11 @@ public class OwlManagement extends OntoManagement {
     }
 
     private void createsClass(Node elemNode, OntClass nodeName, OntProperty parentProperty, Individual indiv) throws DOMException, OntoManagementException {
+
         Individual n = this.getIndividual(elemNode, nodeName);
+        if (n == null) {
+            throw new OntoManagementException(nodeName + "not found!");
+        }
         if (parentProperty != null) {
             indiv.addProperty(parentProperty, n);
         }
@@ -149,7 +153,7 @@ public class OwlManagement extends OntoManagement {
         this.ont.write(new FileWriter(path));
     }
 
-    private Individual getIndividual(Node elemNode, OntClass nodeClass) throws DOMException {
+    private Individual getIndividual(Node elemNode, OntClass nodeClass) throws DOMException, OntoManagementException {
         Individual n = null;
         boolean notCreate = true;
         if (elemNode.hasAttributes()) {
@@ -160,7 +164,11 @@ public class OwlManagement extends OntoManagement {
                 String attrName1 = node.getNodeName();
                 String attrValue = node.getNodeValue();
                 if (attrName1.equals("codeListValue") || attrName1.equals("codeListElementValue")) {
-                    n = this.ont.getIndividual(NS + attrValue);//here the ontology load "dataset" which is a property instead of "_dataset" which is an individual.
+                    String name = NS + attrValue;
+                    n = this.ont.getIndividual(name);//here the ontology load "dataset" which is a property instead of "_dataset" which is an individual.
+                    if (n == null) {
+                        throw new OntoManagementException(name + " not defined in the ontology!");
+                    }
                     notCreate = false;
                 } else if (attrName1.toLowerCase().equals("uuid")) {
                     n = this.ont.createIndividual(NS + attrValue, nodeClass);
@@ -217,10 +225,12 @@ public class OwlManagement extends OntoManagement {
     }
 
     private void recDownlift(Individual individual, Document document, Element rootElement) throws DOMException {
-        System.out.println("Individual: "+individual);
+        System.out.println("Individual: " + individual);
         if (individual != null) {
+            OntClass ontClass = individual.getOntClass();
+            if(ontClass==null)throw new OntoManagementException(individual+" has no OntClass in the ontology!");
             //add this individual to rootElement
-            Element current = document.createElement(individual.getOntClass().getLocalName());
+            Element current = document.createElement(ontClass.getLocalName());
             rootElement.appendChild(current);
             //get properties
             StmtIterator listProperties = individual.listProperties();
@@ -229,12 +239,16 @@ public class OwlManagement extends OntoManagement {
                 String nameP = next.getPredicate().getURI();
                 OntProperty predicate = this.ont.getOntProperty(nameP);
                 RDFNode object = next.getObject();
-                System.out.println("Object: "+object);
-                System.out.println("P: "+predicate);
+                System.out.println("Object: " + object);
+                System.out.println("Prp: " + predicate);
+               
                 if (predicate == null || !OwlManagement.containsNS(predicate.getNameSpace())) {
                     System.out.println(nameP + " skiped");
                 } else //if it is an object property
-                if (predicate.isObjectProperty()) {
+                if (predicate.isObjectProperty()) { 
+                    if (predicate.getURI().contains("northBoundLatitude")) {
+                    System.out.println("elkjf");
+                }
                     //add the property to the element and recusively go to the object property
                     Element predicatElement = document.createElement(predicate.getLocalName());
                     current.appendChild(predicatElement);
