@@ -36,3 +36,4 @@ src/main/resources/.DS_Store
 /nbproject/
 metadataSaved.owl
 libs/saxon8-dom.jar
+.DS_Store
