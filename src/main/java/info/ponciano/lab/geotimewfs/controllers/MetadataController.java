@@ -2,8 +2,8 @@ package info.ponciano.lab.geotimewfs.controllers;
 
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageFileNotFoundException;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
+import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
-import info.ponciano.lab.geotimewfs.models.semantic.OwlManagement;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,7 +70,7 @@ public class MetadataController {
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uplift " + file.getOriginalFilename() + "!");
 
-            OwlManagement om = new OwlManagement();
+            KB om = KB.get();
             boolean upliftOk = om.uplift("upload-dir/" + file.getOriginalFilename());
             if (upliftOk) {
                 int index = file.getOriginalFilename().indexOf(".");
