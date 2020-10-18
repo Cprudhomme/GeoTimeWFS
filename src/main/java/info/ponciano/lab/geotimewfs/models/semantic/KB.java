@@ -65,7 +65,7 @@ public class KB implements KnowledgeBaseInterface {
 
     @Override
     public String downlift(String metadataURI) throws OntoManagementException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.model.downlift(metadataURI);
     }
 
     @Override
