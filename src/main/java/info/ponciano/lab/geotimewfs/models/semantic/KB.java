@@ -18,11 +18,30 @@
  */
 package info.ponciano.lab.geotimewfs.models.semantic;
 
+import java.io.IOException;
+
 /**
  * Knowledge base singleton class to manage semantic access.
  *
  * @author Dr Jean-Jacques Ponciano Contact: jean-jacques@ponciano.info
  */
 public class KB {
+    private static KB kb=null;
+    private static final String SRC_ONTO="src/main/resources/ontologies/iso-19115.owl";
+    private static final String OUT_ONTO="geotimeOutput.owl";
+    private OwlManagement model;
+    
+    public static KB get() throws OntoManagementException{
+        if(kb==null)kb=new KB();
+        return kb;
+    }
+
+    private KB() throws OntoManagementException {
+        this.model = new OwlManagement(SRC_ONTO);
+    }
+    public void save() throws IOException{
+        this.model.saveOntology(OUT_ONTO);
+    }
+    
 
 }
