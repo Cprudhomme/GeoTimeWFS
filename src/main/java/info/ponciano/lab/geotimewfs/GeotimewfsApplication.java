@@ -21,6 +21,7 @@ package info.ponciano.lab.geotimewfs;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageProperties;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -37,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GeotimewfsApplication {
 
-        /**
+    /**
      * Management of OAuth2 authentication
      *
      * @param principal Oauth2 user
@@ -45,16 +46,19 @@ public class GeotimewfsApplication {
      */
     @GetMapping("/user")
     public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
-        if(principal!=null)
-        return Collections.singletonMap("name", principal.getAttribute("name"));
-        else return null;
+        Map<String, Object> map = new HashMap<>();
+
+        if (principal != null) {
+            map.put("name", principal.getAttribute("name"));
+        }
+        return map;
+
     }
 
     public static void main(String[] args) {
         SpringApplication.run(GeotimewfsApplication.class, args);
     }
 
-    
     @Bean
     CommandLineRunner init(StorageService storageService) {
         return (args) -> {
