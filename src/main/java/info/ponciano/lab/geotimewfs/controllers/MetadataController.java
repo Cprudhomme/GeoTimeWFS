@@ -91,9 +91,9 @@ public class MetadataController {
         } catch (OntoManagementException | ControllerException | IOException ex) {
             //7Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
             final String message = "The uplift fails: " + ex.getMessage();
-           // redirectAttributes.addFlashAttribute("message", nessage);
-            rtn = "redirect:/errror?name="+message;
-        } 
+            // redirectAttributes.addFlashAttribute("message", nessage);
+            rtn = "redirect:/errror?name=" + message;
+        }
         return rtn;
     }
 
@@ -115,25 +115,25 @@ public class MetadataController {
     @GetMapping("/metadata")
     public String getMetadata(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
         //default view to return except case of error
-        String rtn="selectMetadata";
+        String rtn = "selectMetadata";
         //retrieve all stored files
-        Stream<Path> files= storageService.loadAll();
-        List<Path>lf=new ArrayList<>();
+        Stream<Path> files = storageService.loadAll();
+        List<Path> lf = new ArrayList<>();
         //filter those corresponding to ontologies and add them to a list
-        files.filter(s -> s.toString().contains("Onto.owl")).forEach(f->lf.add(f));
+        files.filter(s -> s.toString().contains("Onto.owl")).forEach(f -> lf.add(f));
         System.out.println(lf.size());
-     
+
         //initialize the list of info to display in the view
-        List<String []> info=new ArrayList<String []>();
+        List<String[]> info = new ArrayList<String[]>();
         OwlManagement om;
         // browse the list of ontology files
-        for(int i=0; i<lf.size(); i++){
+        for (int i = 0; i < lf.size(); i++) {
             try {
                 //initialize a new ontology from the path file
-                om= new OwlManagement("upload-dir/" +lf.get(i).toString());
+                om = new OwlManagement("upload-dir/" + lf.get(i).toString());
                 om.addPrefix("iso115", "http://lab.ponciano.info/ontology/2020/geotime/iso-19115#");
                 //initialize the query to retrieve all instances of metadata and their associated organization and title
-                String query="SELECT ?m ?o ?t "
+                String query = "SELECT ?m ?o ?t "
                         + "WHERE{"
                         + "?m rdf:type iso115:MD_Metadata. "
                         + "?m iso115:contact ?co. "
@@ -149,18 +149,18 @@ public class MetadataController {
                 while (rs.hasNext()) {
                     QuerySolution solu = rs.next();
                     String get1 = solu.get("m").asResource().getURI();
-                    int index=get1.indexOf("#");
-                    get1=get1.substring(index+1);
+                    int index = get1.indexOf("#");
+                    get1 = get1.substring(index + 1);
                     String get2 = solu.getLiteral("o").getString();
-                    String get3=solu.getLiteral("t").toString();
-                    String [] ls= {get1, get2, get3};
+                    String get3 = solu.getLiteral("t").toString();
+                    String[] ls = {get1, get2, get3};
                     info.add(ls);
                 }
-                
+
             } catch (OntoManagementException ex) {
                 Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
                 final String message = "The connexion to the ontology fails: " + ex.getMessage();
-                rtn = "redirect:/errror?name="+message;
+                rtn = "redirect:/errror?name=" + message;
             }
         }
         //providing the list of info to the model to allow the view to display all available metadata
@@ -172,9 +172,59 @@ public class MetadataController {
     parameter not yet defined 
      */
     @PostMapping("/metadata/selected")
-    public String getSelectedMd(@RequestParam(name = "md", required = true, defaultValue = "World") String md) {
-        System.out.println(md);
-        return "metadataView";
+    public String getSelectedMd(@RequestParam(name = "md", required = true, defaultValue = "World") String md, @RequestParam(name = "indSon", required = false, defaultValue = "World")String indSon, Model model) {
+        //default view to return except case of error
+        String rtn = "metadataView";
+        //retrieve all stored files
+        Stream<Path> files = storageService.loadAll();
+        List<Path> lf = new ArrayList<>();
+        //filter those corresponding to ontologies and add them to a list
+        files.filter(s -> s.toString().contains("Onto.owl")).forEach(f -> lf.add(f));
+        System.out.println(lf.size());
+
+        //initialize the list of info to display in the view
+        List<String[]> info = new ArrayList<String[]>();
+        OwlManagement om;
+        // browse the list of ontology files
+        for (int i = 0; i < lf.size(); i++) {
+            try {
+                //initialize a new ontology from the path file
+                om = new OwlManagement("upload-dir/" + lf.get(i).toString());
+                if (!om.containsNS("iso115"))
+                    om.addPrefix("iso115", "http://lab.ponciano.info/ontology/2020/geotime/iso-19115#");
+                //search the metadata individual
+                //boolean foundInd = om.listsMetadataIndividuals().toList().contains("http://lab.ponciano.info/ontology/2020/geotime/iso-19115#" + md);
+                //System.out.println(foundInd);
+                //if (foundInd) {
+                    //end the research in files
+                    i = lf.size();
+                    //initialize the query to retrieve all properties and property values of an instance
+                    String query = "SELECT ?p ?o "
+                            + "WHERE{"
+                            + "iso115:"+md+" ?p ?o. "
+                            + "}";
+                    System.out.println(om.getSPARQL(query));
+                    //create the table of variables
+                    String[] var={"p","o"};
+                   //query the ontology
+                    info=om.queryAsArray(query, var);
+                    for(int j=0; j<info.size();j++){
+                        for(int k=0; k<info.get(j).length;k++){
+                            System.out.println(info.get(j)[k]);
+                    }
+                   // }
+                      
+                }
+
+            } catch (OntoManagementException ex) {
+                Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
+                final String message = "The connexion to the ontology fails: " + ex.getMessage();
+                rtn = "redirect:/errror?name=" + message;
+            }
+        }
+        //providing the list of info to the model to allow the view to display all available metadata
+        model.addAttribute("MDlist", info);
+        return rtn;
     }
 
     /* 

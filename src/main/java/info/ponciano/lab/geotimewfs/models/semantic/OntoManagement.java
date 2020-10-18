@@ -13,10 +13,13 @@ import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.sparql.core.Prologue;
 import org.apache.jena.update.UpdateAction;
@@ -282,10 +285,8 @@ public abstract class OntoManagement {
      * <
      * pre><code>
      *   ResultSet select = this.select(query);
-     * List<Resource> gts = new ArrayList<>();
-     * while (select.hasNext()) {
-     * Resource resource = select.next().getResource(vcode);
-     * gts.add(resource);
+     * List<Resource> gts = new ArrayList<>(); while (select.hasNext()) {
+     * Resource resource = select.next().getResource(vcode); gts.add(resource);
      * }
      * </code></pre>
      *
@@ -330,5 +331,43 @@ public abstract class OntoManagement {
             throw new OntoManagementException("Querry with graph in owl file: " + res);
         }
         return res;
+    }
+
+    /**
+     * Function that executes a SPARQL query and return the result as a list of
+     * String table
+     *
+     * @param query contains the SPARQL query to execute
+     * @param var contains the different variables of the SPARQL query, whose
+     * the result will be returned
+     * @return a list of string table containing each result row for the seta of
+     * variables
+     */
+    public List<String[]> queryAsArray(String query, String[] var){//, boolean fullURI, boolean onlyNS) {
+        List<String[]> info = new ArrayList<String[]>();
+        //query the ontology
+        ResultSet rs = this.select(query);
+        //adding of the query result into the list of info
+        while (rs.hasNext()) {
+            QuerySolution solu = rs.next();
+            //create the table for the row result
+            String[] ls= new String[var.length];
+            //fill the table with results
+            for(int i=0; i<var.length; i++)
+            {
+                RDFNode node=solu.get(var[i]);
+                //test if literal
+                //boolean literal = node.isLiteral();
+                //test if resource
+                //boolean resource = node.isResource();
+                //Literal asLiteral = node.asLiteral();
+                //Resource asResource = node.asResource();
+                // if (this.containsNS(""));
+                ls[i]=node.toString();
+            }
+            //add the filled table to the list
+            info.add(ls);
+        }
+        return info;
     }
 }
