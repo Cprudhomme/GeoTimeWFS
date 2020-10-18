@@ -18,20 +18,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301  USA
 -->
 <html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <title>Oauth2</title>
-        <meta name="description" content=""/>
-        <meta name="viewport" content="width=device-width"/>
-        <base href="/"/>
-        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
 
-    </head>
+    <head th:replace="fragments/head :: head"></head>
+
     <body>
-        <h1>Oauth2</h1>
-        
+        <script  type='text/javascript'>
+            var elements = [
+                {link: "/home", value: "Home", active: "true"},
+                {link: "/metadata", value: "Metadata", active: "false"},
+                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"}];
+        </script>
+        <header id="header">
+            <div th:insert="fragments/nav :: navbar"></div>
+            <h1  style="text-align: right;">LandingPage:  WFS Service</h1>
+        </header>
+        <h3>Your are not authenticate!</h3>
 
-        <!--END OAUTH2-->
+        <div th:insert="fragments/footer :: footer"></div>
     </body>
 </html>
