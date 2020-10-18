@@ -24,32 +24,84 @@ package info.ponciano.lab.geotimewfs.controllers.security;
  */
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
-
+ *
  * @author Dr Jean-Jacques Ponciano (Contact: jean-jacques@ponciano.info)
  */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /*The WebSecurityConfig class is annotated with @EnableWebSecurity to enable
+    /*
+
+
+    	// @formatter:off
+        http
+            .authorizeRequests(a -> a
+                .antMatchers("/", "/error", "/webjars/**").permitAll()
+                .anyRequest().authenticated()
+            )
+            .exceptionHandling(e -> e
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+            )
+            .oauth2Login();
+        // @formatter:on
+    }
+     */
+ /*The WebSecurityConfig class is annotated with @EnableWebSecurity to enable
     Spring Security’s web security support and provide the Spring MVC integration. 
     It also extends WebSecurityConfigurerAdapter and overrides a couple 
     of its methods to set some specifics of the web security configuration.*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        oauthLogin(http);
+    }
+
+    protected void oauthLogin(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests(a -> a
+                .antMatchers("/", "/openapi", "/importer", "/home", "/auth", "/user", "/configuration",
+                        "/queryinterface", "/semanticwfs/geotreeview", "/css/main.css", "/css/navbar.css",
+                        "/pictures/github.png",
+                        "/semanticwfs/css/style.css", "/semanticwfs/css/leaflet_legend.css",
+                        "/semanticwfs/css/yasqe.css", "/error", "/webjars/**")
+                .permitAll()
+                .anyRequest().authenticated()
+                )
+                .exceptionHandling(e -> {
+            ExceptionHandlingConfigurer<HttpSecurity> authenticationEntryPoint = e.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth")) 
+//                    e .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+;
+                }
+               
+                ).logout(l -> l
+                .logoutSuccessUrl("/").permitAll()
+                ).csrf(c -> c
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                )
+                .oauth2Login();
+    }
+
+    protected void localLogin(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/","/openapi","/importer", "/home","/configuration","/queryinterface","/semanticwfs/geotreeview","/css/main.css","/semanticwfs/css/style.css","/semanticwfs/css/leaflet_legend.css","/semanticwfs/css/yasqe.css").permitAll()// Specifically, the / and /home paths are configured to not require any authentication. 
-                // TODO uncomment this line for enable the security .anyRequest().authenticated()//All other paths must be authenticated.
+                .antMatchers("/", "/openapi", "/importer", "/home", "/configuration", "/queryinterface", "/semanticwfs/geotreeview", "/css/main.css", "/semanticwfs/css/style.css", "/semanticwfs/css/leaflet_legend.css", "/semanticwfs/css/yasqe.css").permitAll()// Specifically, the / and /home paths are configured to not require any authentication. 
+                // TODO uncomment this line for enable the security
+                //.anyRequest().authenticated()//All other paths must be authenticated.
                 .and()
                 .formLogin()
                 .loginPage("/login")//There is a custom /login page (which is specified by loginPage())
