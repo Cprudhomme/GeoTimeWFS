@@ -19,29 +19,73 @@
 package info.ponciano.lab.geotimewfs.models.semantic;
 
 import java.io.IOException;
+import org.apache.jena.query.ResultSet;
 
 /**
  * Knowledge base singleton class to manage semantic access.
  *
  * @author Dr Jean-Jacques Ponciano Contact: jean-jacques@ponciano.info
  */
-public class KB {
-    private static KB kb=null;
-    private static final String SRC_ONTO="src/main/resources/ontologies/iso-19115.owl";
-    private static final String OUT_ONTO="geotimeOutput.owl";
+public class KB implements KnowledgeBaseInterface {
+
+    private static KB kb = null;
+    private static final String SRC_ONTO = "src/main/resources/ontologies/iso-19115.owl";
+    private static final String OUT_ONTO = "geotimeOutput.owl";
     private OwlManagement model;
-    
-    public static KB get() throws OntoManagementException{
-        if(kb==null)kb=new KB();
+
+    public static KB get() throws OntoManagementException {
+        if (kb == null) {
+            kb = new KB();
+        }
         return kb;
     }
 
     private KB() throws OntoManagementException {
         this.model = new OwlManagement(SRC_ONTO);
     }
-    public void save() throws IOException{
+
+    public void save() throws IOException {
         this.model.saveOntology(OUT_ONTO);
     }
-    
+
+    @Override
+    public void addPrefix(String key, String namespace) {
+        this.model.addPrefix(key, namespace);
+    }
+
+    @Override
+    public boolean uplift(String xml) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String downlift(String metadataURI) throws OntoManagementException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean change(String... param) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getSPARQL(String query) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean construct(String queryString) throws OntoManagementException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ResultSet select(String queryString) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void update(String query) throws OntoManagementException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
