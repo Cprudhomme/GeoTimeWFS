@@ -44,6 +44,11 @@ public class KB implements KnowledgeBaseInterface {
         this.model = new OwlManagement(SRC_ONTO);
     }
 
+    /**
+     * Save the current ontology in an OWL file.
+     *
+     * @throws IOException If the file cannot be written.
+     */
     public void save() throws IOException {
         this.model.saveOntology(OUT_ONTO);
     }
@@ -55,7 +60,7 @@ public class KB implements KnowledgeBaseInterface {
 
     @Override
     public boolean uplift(String xml) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.model.uplift(xml);
     }
 
     @Override
