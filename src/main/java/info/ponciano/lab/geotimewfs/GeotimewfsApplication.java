@@ -20,24 +20,46 @@ package info.ponciano.lab.geotimewfs;
 
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageProperties;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
+import java.util.Collections;
+import java.util.Map;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
+@RestController
 public class GeotimewfsApplication {
 
-    public static void main(String[] args) {
-                    SpringApplication.run(GeotimewfsApplication.class, args);
+        /**
+     * Management of OAuth2 authentication
+     *
+     * @param principal Oauth2 user
+     * @return user attributes as MAP.
+     */
+    @GetMapping("/user")
+    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
+        if(principal!=null)
+        return Collections.singletonMap("name", principal.getAttribute("name"));
+        else return null;
     }
-@Bean
-	CommandLineRunner init(StorageService storageService) {
-		return (args) -> {
-			storageService.deleteAll();
-			storageService.init();
-		};
-	}
+
+    public static void main(String[] args) {
+        SpringApplication.run(GeotimewfsApplication.class, args);
+    }
+
+    
+    @Bean
+    CommandLineRunner init(StorageService storageService) {
+        return (args) -> {
+            storageService.deleteAll();
+            storageService.init();
+        };
+    }
 }
