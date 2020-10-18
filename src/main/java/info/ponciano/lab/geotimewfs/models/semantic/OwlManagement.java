@@ -52,7 +52,7 @@ import org.xml.sax.SAXException;
  *
  * @author Dr Jean-Jacques Ponciano Contact: jean-jacques@ponciano.info
  */
-public class OwlManagement extends OntoManagement {
+ class OwlManagement extends OntoManagement {
 
     public OwlManagement() throws OntoManagementException {
         super("src/main/resources/ontologies/iso-19115.owl");
