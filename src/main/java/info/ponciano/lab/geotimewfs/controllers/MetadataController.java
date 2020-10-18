@@ -75,7 +75,7 @@ public class MetadataController {
             if (upliftOk) {
                 int index = file.getOriginalFilename().indexOf(".");
                 String fn = file.getOriginalFilename().substring(0, index);
-                om.saveOntology("upload-dir/" + fn + "Onto.owl");
+                om.save();
                 //return "redirect:/metadata";
                 rtn = "redirect:/metadata/uplift";
             } else {
