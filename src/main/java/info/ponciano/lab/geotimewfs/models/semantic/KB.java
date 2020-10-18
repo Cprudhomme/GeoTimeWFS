@@ -70,27 +70,27 @@ public class KB implements KnowledgeBaseInterface {
 
     @Override
     public boolean change(String... param) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.model.change(param);
     }
 
     @Override
     public String getSPARQL(String query) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.model.getSPARQL(query);
     }
 
     @Override
     public boolean construct(String queryString) throws OntoManagementException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.model.construct(queryString);
     }
 
     @Override
     public ResultSet select(String queryString) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.model.select(queryString);
     }
 
     @Override
     public void update(String query) throws OntoManagementException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         this.model.update(query);
     }
 
 }
