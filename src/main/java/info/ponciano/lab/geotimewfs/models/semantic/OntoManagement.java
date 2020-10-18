@@ -25,7 +25,7 @@ import org.apache.jena.sparql.core.Prologue;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
-public abstract class OntoManagement {
+ abstract class OntoManagement implements KnowledgeBaseInterface{
 
     protected OntModel ont;
     protected String prefix;
@@ -106,6 +106,7 @@ public abstract class OntoManagement {
      * @param xml the XML file path on the server.
      * @return true if the elevation succeeded, false otherwise.
      */
+    @Override
     public abstract boolean uplift(String xml);
 
     /**
@@ -114,8 +115,10 @@ public abstract class OntoManagement {
      * @param metadataURI URI of the metadata in the ontology
      * @return the XML String in iso-119115 format.
      */
+    @Override
     public abstract String downlift(String metadataURI) throws OntoManagementException;
 
+    @Override
     public abstract boolean change(String... param);
 
     /**
@@ -124,6 +127,7 @@ public abstract class OntoManagement {
      * @param query select query
      * @return query's results in String format.
      */
+    @Override
     public String getSPARQL(String query) {
         return ResultSetFormatter.asText(this.select(query), new Prologue(ont));
 
@@ -136,6 +140,7 @@ public abstract class OntoManagement {
      * @return true if the execution was successful.
      * @throws OntoManagementException
      */
+    @Override
     public boolean construct(String queryString) throws OntoManagementException {
         Model execConstruct = this.execConstruct(queryString);
         if (execConstruct == null || execConstruct.isEmpty() || this.ont.containsAll(execConstruct)) {
@@ -269,6 +274,7 @@ public abstract class OntoManagement {
      * addPrefix(xsd,http://www.w3.org/2001/XMLSchema#)
      * </pre>
      */
+    @Override
     public void addPrefix(String key, String namespace) {
         this.ont.setNsPrefix(key, namespace);
         prefix += "PREFIX " + key + ": <" + namespace + ">\n";
@@ -293,6 +299,7 @@ public abstract class OntoManagement {
      * @param queryString SPARQL query string.
      * @return ResultSet obtained from the query selection.
      */
+    @Override
     public ResultSet select(String queryString) {
         if (queryString == null || queryString.isEmpty()) {
             return null;
@@ -310,6 +317,7 @@ public abstract class OntoManagement {
      * @throws info.ponciano.lab.pisemantic.OntoManagementException if something
      * bad happens
      */
+    @Override
     public void update(String query) throws OntoManagementException {
         if (query != null && !query.isEmpty()) {
             query = prefix + query;
