@@ -18,6 +18,7 @@
  */
 package info.ponciano.lab.geotimewfs.models.semantic;
 
+import java.io.File;
 import java.io.IOException;
 import org.apache.jena.query.ResultSet;
 
@@ -29,7 +30,7 @@ import org.apache.jena.query.ResultSet;
 public class KB implements KnowledgeBaseInterface {
 
     private static KB kb = null;
-    private static final String SRC_ONTO = "src/main/resources/ontologies/iso-19115.owl";
+    private static final String DEFAULT_ONTO = "src/main/resources/ontologies/iso-19115.owl";
     private static final String OUT_ONTO = "geotimeOutput.owl";
     private OwlManagement model;
 
@@ -41,7 +42,9 @@ public class KB implements KnowledgeBaseInterface {
     }
 
     private KB() throws OntoManagementException {
-        this.model = new OwlManagement(SRC_ONTO);
+        if(new File(OUT_ONTO).exists())
+        this.model = new OwlManagement(OUT_ONTO);
+        else  this.model = new OwlManagement(DEFAULT_ONTO);
     }
 
     /**
