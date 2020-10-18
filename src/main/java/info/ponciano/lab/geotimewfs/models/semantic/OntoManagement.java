@@ -69,6 +69,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         prefix += "PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>\n";
         prefix += "PREFIX unit:   <http://qudt.org/vocab/unit#>\n";
         prefix += "PREFIX sdmx:   <http://purl.org/linked-data/sdmx#>\n";
+        prefix += "PREFIX iso115: <http://lab.ponciano.info/ontology/2020/geotime/iso-19115#>\n";
     }
 
     /**
@@ -98,6 +99,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         prefix += "PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>\n";
         prefix += "PREFIX unit:   <http://qudt.org/vocab/unit#>\n";
         prefix += "PREFIX sdmx:   <http://purl.org/linked-data/sdmx#>\n";
+        prefix += "PREFIX iso115: <http://lab.ponciano.info/ontology/2020/geotime/iso-19115#>\n";
     }
 
     /**
@@ -348,10 +350,14 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @param query contains the SPARQL query to execute
      * @param var contains the different variables of the SPARQL query, whose
      * the result will be returned
+     * @param fullURI: if fullURI is true, returns the full URI of the resources, 
+     * else returns the local name of the resources
+     * @param onlyNS: if onlyNS is true, it does not return results with external 
+     * name space, else returns all results
      * @return a list of string table containing each result row for the seta of
      * variables
      */
-    public List<String[]> queryAsArray(String query, String[] var){//, boolean fullURI, boolean onlyNS) {
+    public List<String[]> queryAsArray(String query, String[] var, boolean fullURI, boolean onlyNS) {
         List<String[]> info = new ArrayList<String[]>();
         //query the ontology
         ResultSet rs = this.select(query);
@@ -365,13 +371,26 @@ import org.apache.jena.util.iterator.ExtendedIterator;
             {
                 RDFNode node=solu.get(var[i]);
                 //test if literal
-                //boolean literal = node.isLiteral();
+                boolean literal = node.isLiteral();
+                if(literal){
+                    Literal asLiteral = node.asLiteral();
+                    ls[i]=asLiteral.toString();
+                }  
                 //test if resource
-                //boolean resource = node.isResource();
-                //Literal asLiteral = node.asLiteral();
-                //Resource asResource = node.asResource();
-                // if (this.containsNS(""));
-                ls[i]=node.toString();
+                boolean resource = node.isResource();
+                if(resource){
+                    Resource asResource = node.asResource();
+                    if(onlyNS && containsNS(asResource.getNameSpace())){
+                        if(fullURI){
+                            ls[i]=asResource.getURI();
+                        }
+                        else{
+                            ls[i]=asResource.getLocalName();
+                        }
+                    }
+                    
+                }
+               
             }
             //add the filled table to the list
             info.add(ls);

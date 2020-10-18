@@ -20,6 +20,7 @@ package info.ponciano.lab.geotimewfs.models.semantic;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import org.apache.jena.query.ResultSet;
 
 /**
@@ -94,6 +95,11 @@ public class KB implements KnowledgeBaseInterface {
     @Override
     public void update(String query) throws OntoManagementException {
          this.model.update(query);
+    }
+    
+    @Override
+    public List<String[]> queryAsArray(String query, String[] var, boolean fullURI, boolean onlyNS){
+         return this.model.queryAsArray(query, var, fullURI, onlyNS);
     }
 
 }
