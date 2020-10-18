@@ -74,7 +74,7 @@ public interface KnowledgeBaseInterface {
      * @return true if the execution was successful.
      * @throws OntoManagementException
      */
-    public abstract boolean construct(String queryString);
+    public abstract boolean construct(String queryString) throws OntoManagementException;
 
     /**
      * Executes SPARQL select query.
