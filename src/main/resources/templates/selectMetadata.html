@@ -16,8 +16,29 @@
             <h1>Metadata selection</h1>
         </header>
         
-        <form th:action="@{/metadata/selected}" method="post">
-            <input type="submit" value="View"/>
-        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th> Organization </th>
+                    <th> Title </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${MDlist.empty}">
+                    <td colspan="2"> No Metadata Available </td>
+                </tr>
+                <tr th:each="md : ${MDlist}">
+                    <td><span th:text="${md[1]}"> Organization </span></td>
+                    <td><span th:text="${md[2]}"> Title </span></td>
+                    <td>
+                        <form th:action="@{|/metadata/selected?md=${md[0]}|}" method="post">
+                            <input type="submit" value="View"/>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        
     </body>
 </html>

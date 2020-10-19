@@ -16,12 +16,49 @@
             <h1>Metadata View</h1>
         </header>
         
-        <p> View to complete </p>
-        <form th:action="@{/metadata/update}" method="post">
-            <input type="submit" value="Metadata change"/>
-        </form>
-        <form th:action="@{/metadata/downlift}" method="post">
-            <input type="submit" value="Metadata download"/>
-        </form>
+        <h2 th:unless="${indSon=='noIndSON'}" th:text="${indSon}"> View</h2>
+        
+        
+           <!-- <script  type='text/javascript'>
+                for (let step = 0; step < ; step++) {
+                    // Runs 5 times, with values of step 0 through 4.
+                    console.log('Walking east one step');
+                  }
+            </script>-->
+           <table>
+            <tbody>
+                <tr th:if="${OPlist.empty and DPlist.empty}">
+                    <td colspan="2"> No Information Available </td>
+                </tr>
+                <tr th:each="dp : ${DPlist}">
+                    <td><label th:text="${dp[0]+':   '}">  </label></td>
+                    <td><input type="text" th:value="${dp[1]}"/></td>
+                    <td></td>
+                </tr>
+                <tr th:each="op : ${OPlist}">
+                    <td><span th:text="${op[0]+':   '}">  </span></td>
+                    <td><span th:text="${op[1]}"></span></td>
+                    <td>    <form th:action="@{|/metadata/selected?md=${md}&indSon=${op[1]}|}" method="post">
+                            <input type="submit" value="See"/>
+                            </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <form th:action="@{/metadata/update}" method="post">
+                            <input type="submit" value="Metadata change"/>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{|/metadata/downlift?md=${md}|}" method="post">
+                                <input type="submit" value="Metadata downlift"/>
+                        </form>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+            
+        
     </body>
 </html>

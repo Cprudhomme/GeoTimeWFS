@@ -37,3 +37,4 @@ src/main/resources/.DS_Store
 metadataSaved.owl
 libs/saxon8-dom.jar
 geotimeOutput.owl
+.DS_Store
