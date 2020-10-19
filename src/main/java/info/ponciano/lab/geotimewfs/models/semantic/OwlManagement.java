@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -53,7 +52,7 @@ import org.xml.sax.SAXException;
  *
  * @author Dr Jean-Jacques Ponciano Contact: jean-jacques@ponciano.info
  */
- class OwlManagement extends OntoManagement {
+class OwlManagement extends OntoManagement {
 
     public OwlManagement() throws OntoManagementException {
         super("src/main/resources/ontologies/iso-19115.owl");
@@ -169,7 +168,9 @@ import org.xml.sax.SAXException;
                 String attrName1 = node.getNodeName();
                 String attrValue = node.getNodeValue();
                 if (attrName1.toLowerCase().equals("uuid")) {
-                    n = this.ont.createIndividual(NS + attrValue, nodeClass);
+                    n = this.ont.createIndividual(generateURI(), nodeClass);
+                    //(NS + attrValue, nodeClass);
+                    n.addLiteral(this.ont.getDatatypeProperty(NS + "characterString"), attrValue);
                     notCreate = false;
                 } else if (attrName1.equals("codeListValue") || attrName1.equals("codeListElementValue")) {
                     String name = NS + "_" + attrValue;
@@ -209,7 +210,7 @@ import org.xml.sax.SAXException;
             //get metadata individual
             Individual individual = this.ont.getIndividual(metadataURI);
 
-            Element rootElement = document.createElement(individual.getLocalName());
+            Element rootElement = document.createElementNS(individual.getURI(),individual.getLocalName());
             document.appendChild(rootElement);
 
             recDownlift(individual, document, rootElement);
@@ -239,7 +240,7 @@ import org.xml.sax.SAXException;
                 throw new OntoManagementException(individual + " has no OntClass in the ontology!");
             }
             //add this individual to rootElement
-            Element current = document.createElement(ontClass.getLocalName());
+            Element current = document.createElementNS(ontClass.getURI(),ontClass.getLocalName());
             rootElement.appendChild(current);
             //get properties
             StmtIterator listProperties = individual.listProperties();
@@ -248,28 +249,28 @@ import org.xml.sax.SAXException;
                 String nameP = next.getPredicate().getURI();
                 OntProperty predicate = this.ont.getOntProperty(nameP);
                 RDFNode object = next.getObject();
-                System.out.println("Object: " + object);
-                System.out.println("Prp: " + predicate);
+                //System.out.println("Object: " + object);
+                //System.out.println("Prp: " + predicate);
 
                 if (predicate == null || !OwlManagement.containsNS(predicate.getNameSpace())) {
-                    System.out.println(nameP + " skiped");
+                    //System.out.println(nameP + " skiped");
                 } else //if it is an object property
                 if (predicate.isObjectProperty()) {
-                    if (predicate.getURI().contains("northBoundLatitude")) {
-                        System.out.println("elkjf");
-                    }
+//                    if (predicate.getURI().contains("northBoundLatitude")) {
+                        //System.out.println("elkjf");
+//                    }
                     //add the property to the element and recusively go to the object property
-                    Element predicatElement = document.createElement(predicate.getLocalName());
+                    Element predicatElement = document.createElementNS(predicate.getURI(),predicate.getLocalName());
                     current.appendChild(predicatElement);
                     //get object as resource
                     Individual iobj = this.ont.getIndividual(object.asResource().getURI());
                     recDownlift(iobj, document, predicatElement);
                 } else // IF it is a data property
                 if (predicate.isDatatypeProperty()) {
-                    Element e = document.createElement(predicate.getLocalName());
+                    Element e = document.createElementNS(predicate.getURI(),predicate.getLocalName());
                     current.appendChild(e);
 
-                    Element se = document.createElement("CharacterString");
+                    Element se = document.createElementNS("http://www.isotc211.org/2005/gco","CharacterString");
                     se.appendChild(document.createTextNode(object.toString()));
                     e.appendChild(se);
                 }
