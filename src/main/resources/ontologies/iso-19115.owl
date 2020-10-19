@@ -2228,6 +2228,14 @@ corrections</rdfs:comment>
     
 
 
+    <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#characterString -->
+
+    <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#characterString">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://lab.ponciano.info/ontology/2020/geotime/iso-19115#checkPointAvailability -->
 
     <owl:DatatypeProperty rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#checkPointAvailability">
@@ -8859,8 +8867,6 @@ accessing and using the resource</rdfs:comment>
 
     <owl:NamedIndividual rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#characterString">
         <rdf:type rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_DataTypeCode"/>
-        <_domainCode>013</_domainCode>
-        <rdfs:comment xml:lang="en">free text field</rdfs:comment>
     </owl:NamedIndividual>
     
 
@@ -10781,6 +10787,21 @@ accessing and using the resource</rdfs:comment>
         <_domainCode>003</_domainCode>
         <rdfs:comment xml:lang="en">data is updated on a weekly basis</rdfs:comment>
     </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotations
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#characterString">
+        <rdfs:comment xml:lang="en">free text field</rdfs:comment>
+        <_domainCode>013</_domainCode>
+    </rdf:Description>
 </rdf:RDF>
 
 
