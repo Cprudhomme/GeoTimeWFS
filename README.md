@@ -5,3 +5,11 @@ The goal of this project is to enrich geospatial data with linked data so that m
 
 ## Ontology mapping:
 https://www.w3.org/2015/spatial/wiki/ISO_19115_-_DCAT_-_Schema.org_mapping
+
+
+## Deploy local dep
+mvn deploy:deploy-file -Durl=file:./repo/ -Dfile=libs/pisemantic-1.0-SNAPSHOT.jar -DgroupId=info.ponciano.lab -DartifactId=pisemantic -Dpackaging=jar -Dversion=1.0
+
+or install:
+
+mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile="libs/pisemantic-1.0-SNAPSHOT.jar"  package
