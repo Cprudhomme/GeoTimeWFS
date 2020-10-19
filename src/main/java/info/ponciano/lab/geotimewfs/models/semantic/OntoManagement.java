@@ -1,5 +1,6 @@
 package info.ponciano.lab.geotimewfs.models.semantic;
 
+import info.ponciano.lab.pisemantic.PiSparql;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,7 @@ import org.apache.jena.update.UpdateAction;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
  abstract class OntoManagement implements KnowledgeBaseInterface{
-
+     private PiSparql pisparql=new PiSparql();
     protected OntModel ont;
     protected String prefix;
 
