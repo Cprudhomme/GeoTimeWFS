@@ -228,12 +228,6 @@
             <version>1.0</version>
             <type>jar</type>
         </dependency>
-        <!--        <dependency>
-            <groupId>info.ponciano.lab</groupId>
-            <artifactId>pisemantic</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>-->
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>saxon-dom</artifactId>
@@ -252,7 +246,7 @@
         <dependency>
            <groupId>info.ponciano.lab</groupId>
             <artifactId>pisemantic</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 
