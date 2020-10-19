@@ -18,6 +18,7 @@
  */
 package info.ponciano.lab.geotimewfs.models.semantic;
 
+import java.util.List;
 import org.apache.jena.query.ResultSet;
 
 /**
@@ -102,5 +103,21 @@ public interface KnowledgeBaseInterface {
      * bad happens
      */
     public abstract void update(String query) throws OntoManagementException;
+    
+    /**
+     * Function that executes a SPARQL query and return the result as a list of
+     * String table
+     *
+     * @param query contains the SPARQL query to execute
+     * @param var contains the different variables of the SPARQL query, whose
+     * the result will be returned
+     * @param fullURI: if fullURI is true, returns the full URI of the resources, 
+     * else returns the local name of the resources
+     * @param onlyNS: if onlyNS is true, it does not return results with external 
+     * name space, else returns all results
+     * @return a list of string table containing each result row for the seta of
+     * variables
+     */
+    public List<String[]> queryAsArray(String query, String[] var, boolean fullURI, boolean onlyNS);
 
 }

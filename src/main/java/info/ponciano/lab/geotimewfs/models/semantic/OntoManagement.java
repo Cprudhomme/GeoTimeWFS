@@ -13,10 +13,13 @@ import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.sparql.core.Prologue;
 import org.apache.jena.update.UpdateAction;
@@ -66,6 +69,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         prefix += "PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>\n";
         prefix += "PREFIX unit:   <http://qudt.org/vocab/unit#>\n";
         prefix += "PREFIX sdmx:   <http://purl.org/linked-data/sdmx#>\n";
+        prefix += "PREFIX iso115: <http://lab.ponciano.info/ontology/2020/geotime/iso-19115#>\n";
     }
 
     /**
@@ -95,6 +99,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         prefix += "PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>\n";
         prefix += "PREFIX unit:   <http://qudt.org/vocab/unit#>\n";
         prefix += "PREFIX sdmx:   <http://purl.org/linked-data/sdmx#>\n";
+        prefix += "PREFIX iso115: <http://lab.ponciano.info/ontology/2020/geotime/iso-19115#>\n";
     }
 
     /**
@@ -288,10 +293,8 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * <
      * pre><code>
      *   ResultSet select = this.select(query);
-     * List<Resource> gts = new ArrayList<>();
-     * while (select.hasNext()) {
-     * Resource resource = select.next().getResource(vcode);
-     * gts.add(resource);
+     * List<Resource> gts = new ArrayList<>(); while (select.hasNext()) {
+     * Resource resource = select.next().getResource(vcode); gts.add(resource);
      * }
      * </code></pre>
      *
@@ -338,5 +341,60 @@ import org.apache.jena.util.iterator.ExtendedIterator;
             throw new OntoManagementException("Querry with graph in owl file: " + res);
         }
         return res;
+    }
+
+    /**
+     * Function that executes a SPARQL query and return the result as a list of
+     * String table
+     *
+     * @param query contains the SPARQL query to execute
+     * @param var contains the different variables of the SPARQL query, whose
+     * the result will be returned
+     * @param fullURI: if fullURI is true, returns the full URI of the resources, 
+     * else returns the local name of the resources
+     * @param onlyNS: if onlyNS is true, it does not return results with external 
+     * name space, else returns all results
+     * @return a list of string table containing each result row for the seta of
+     * variables
+     */
+    public List<String[]> queryAsArray(String query, String[] var, boolean fullURI, boolean onlyNS) {
+        List<String[]> info = new ArrayList<String[]>();
+        //query the ontology
+        ResultSet rs = this.select(query);
+        //adding of the query result into the list of info
+        while (rs.hasNext()) {
+            QuerySolution solu = rs.next();
+            //create the table for the row result
+            String[] ls= new String[var.length];
+            //fill the table with results
+            for(int i=0; i<var.length; i++)
+            {
+                RDFNode node=solu.get(var[i]);
+                //test if literal
+                boolean literal = node.isLiteral();
+                if(literal){
+                    Literal asLiteral = node.asLiteral();
+                    ls[i]=asLiteral.toString();
+                }  
+                //test if resource
+                boolean resource = node.isResource();
+                if(resource){
+                    Resource asResource = node.asResource();
+                    if(onlyNS && containsNS(asResource.getNameSpace())){
+                        if(fullURI){
+                            ls[i]=asResource.getURI();
+                        }
+                        else{
+                            ls[i]=asResource.getLocalName();
+                        }
+                    }
+                    
+                }
+               
+            }
+            //add the filled table to the list
+            info.add(ls);
+        }
+        return info;
     }
 }
