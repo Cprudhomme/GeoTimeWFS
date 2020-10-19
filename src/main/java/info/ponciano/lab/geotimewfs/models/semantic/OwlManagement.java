@@ -210,7 +210,7 @@ class OwlManagement extends OntoManagement {
             //get metadata individual
             Individual individual = this.ont.getIndividual(metadataURI);
 
-            Element rootElement = document.createElement(individual.getLocalName());
+            Element rootElement = document.createElementNS(individual.getURI(),individual.getLocalName());
             document.appendChild(rootElement);
 
             recDownlift(individual, document, rootElement);
@@ -240,7 +240,7 @@ class OwlManagement extends OntoManagement {
                 throw new OntoManagementException(individual + " has no OntClass in the ontology!");
             }
             //add this individual to rootElement
-            Element current = document.createElement(ontClass.getLocalName());
+            Element current = document.createElementNS(ontClass.getURI(),ontClass.getLocalName());
             rootElement.appendChild(current);
             //get properties
             StmtIterator listProperties = individual.listProperties();
@@ -260,17 +260,17 @@ class OwlManagement extends OntoManagement {
                         //System.out.println("elkjf");
 //                    }
                     //add the property to the element and recusively go to the object property
-                    Element predicatElement = document.createElement(predicate.getLocalName());
+                    Element predicatElement = document.createElementNS(predicate.getURI(),predicate.getLocalName());
                     current.appendChild(predicatElement);
                     //get object as resource
                     Individual iobj = this.ont.getIndividual(object.asResource().getURI());
                     recDownlift(iobj, document, predicatElement);
                 } else // IF it is a data property
                 if (predicate.isDatatypeProperty()) {
-                    Element e = document.createElement(predicate.getLocalName());
+                    Element e = document.createElementNS(predicate.getURI(),predicate.getLocalName());
                     current.appendChild(e);
 
-                    Element se = document.createElement("CharacterString");
+                    Element se = document.createElementNS("http://www.isotc211.org/2005/gco","CharacterString");
                     se.appendChild(document.createTextNode(object.toString()));
                     e.appendChild(se);
                 }
