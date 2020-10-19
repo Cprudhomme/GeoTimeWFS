@@ -381,8 +381,18 @@ import org.apache.jena.util.iterator.ExtendedIterator;
                 boolean resource = node.isResource();
                 if(resource){
                     Resource asResource = node.asResource();
-                    final String nameSpace = asResource.getNameSpace();
-                    if(onlyNS && containsNS(nameSpace)){
+                    if(onlyNS){
+                        final String nameSpace = asResource.getNameSpace();
+                        if(containsNS(nameSpace)){
+                            if(fullURI){
+                                ls[i]=asResource.getURI();
+                            }
+                            else{
+                                ls[i]=asResource.getLocalName();
+                            }
+                        }
+                    }
+                    else{
                         if(fullURI){
                             ls[i]=asResource.getURI();
                         }
