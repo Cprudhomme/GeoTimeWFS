@@ -34,7 +34,11 @@
             <name>ECC</name>
             <url>https://maven.ecc.no/releases</url>
         </repository>
-
+		<repository>
+				<id>project.local</id>
+				<name>project</name>
+				<url>file:${project.basedir}/repo</url>
+			</repository>
     </repositories>
     <properties>
         <java.version>14</java.version>
