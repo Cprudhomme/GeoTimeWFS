@@ -210,7 +210,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @return the URI generated.
      */
     public static String generateURI() {
-        return NS + UUID.randomUUID().toString();
+        return NS +"_"+ UUID.randomUUID().toString();
     }
 
     /**
