@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.jena.ontology.Individual;
-import org.apache.jena.util.iterator.ExtendedIterator;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -132,7 +131,22 @@ public class OwlManagementTest {
             assertTrue(instance.uplift(xmlPathfile));
             instance.saveOntology(metadataSavedowl);
 
-            String expResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+          
+            //Lists the Metadata individuals
+            List<Individual> listIndividuals = instance.listsMetadataIndividuals().toList();
+            assertEquals(1, listIndividuals.size());
+            String result = instance.downlift(listIndividuals.get(0).getURI());
+            assertTrue(!result.isEmpty());
+            assertTrue(result.contains("Shapefiles"));
+            assertTrue(result.contains("Produktinformationen"));
+            System.out.println(result);
+//            System.out.println(instance.getSPARQL("SELECT ?s ?p ?o WHERE {?s ?p ?o}"));
+        } catch (OntoManagementException | IOException ex) {
+            Logger.getLogger(OwlManagementTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail(ex.getMessage());
+        }
+    }
+  String expResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                     + "<csw:GetRecordByIdResponse xmlns:csw=\"http://www.opengis.net/cat/csw/2.0.2\">\n"
                     + "  <gmd:MD_Metadata xmlns:gmd=\"http://www.isotc211.org/2005/gmd\" xmlns:gco=\"http://www.isotc211.org/2005/gco\" xmlns:gml=\"http://www.opengis.net/gml\" xmlns:gmx=\"http://www.isotc211.org/2005/gmx\" xmlns:gts=\"http://www.isotc211.org/2005/gts\" xmlns:srv=\"http://www.isotc211.org/2005/srv\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:geonet=\"http://www.fao.org/geonetwork\" xsi:schemaLocation=\"http://www.isotc211.org/2005/gmd http://schemas.opengis.net/csw/2.0.2/profiles/apiso/1.0.0/apiso.xsd\">\n"
                     + "    <gmd:fileIdentifier>\n"
@@ -622,18 +636,4 @@ public class OwlManagementTest {
                     + "</csw:GetRecordByIdResponse>\n"
                     + "\n"
                     + "";
-            //Lists the Metadata individuals
-            List<Individual> listIndividuals = instance.listsMetadataIndividuals().toList();
-            assertEquals(1, listIndividuals.size());
-            String result = instance.downlift(listIndividuals.get(0).getURI());
-            assertTrue(!result.isEmpty());
-            assertTrue(result.contains("Shapefiles"));
-            assertTrue(result.contains("Produktinformationen"));
-
-        } catch (OntoManagementException | IOException ex) {
-            Logger.getLogger(OwlManagementTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail(ex.getMessage());
-        }
-    }
-
 }
