@@ -23,6 +23,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.jena.ontology.Individual;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.impl.PropertyImpl;
+import org.apache.jena.rdf.model.impl.ResourceImpl;
+import org.apache.jena.rdf.model.impl.StatementImpl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -73,13 +78,30 @@ public class OwlManagementTest {
     @Test
     public void testChange() {
         System.out.println("change");
-//        String[] param = null;
-//        OwlManagement instance = new OwlManagement();
-//        boolean expResult = false;
-//        boolean result = instance.change(param);
-//        assertEquals(expResult, result);
+        String ind = "individu";
+        String p = "property";
+        String v = "value";
+        try {
+            OwlManagement instance = new OwlManagement();
+            Statement s=new StatementImpl(new ResourceImpl(OntoManagement.NS+ind), new PropertyImpl(OntoManagement.NS+p), new ResourceImpl("test"));
+            instance.getOnt().add(s);
+            System.out.println("contain the test statement: "+instance.getOnt().contains(s));
+            boolean expResult = true;
+            boolean result = instance.change(OntoManagement.NS+ind,OntoManagement.NS+p,v);
+            assertEquals(expResult, result);
+            //test that the previous statement has been removed
+            boolean previousstate=instance.getOnt().contains(s);
+            assertEquals(false, previousstate);
+            //test that the new statement has been added
+            //Statement s2=new StatementImpl(new ResourceImpl(OntoManagement.NS+ind), new PropertyImpl(OntoManagement.NS+p), new ResourceImpl("\""+v+"\""));
+            //boolean addedstate=instance.getOnt().contains(s2);
+            boolean addedstate=instance.getOnt().contains(new ResourceImpl(OntoManagement.NS+ind), new PropertyImpl(OntoManagement.NS+p));
+            assertEquals(true, addedstate);
 //        // TODO review the generated test code and remove the default call to fail.
 //        System.out.println("The test case is a prototype.");
+        } catch (OntoManagementException ex) {
+            Logger.getLogger(OwlManagementTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

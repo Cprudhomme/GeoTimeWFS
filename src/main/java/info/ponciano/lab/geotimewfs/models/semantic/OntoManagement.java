@@ -26,7 +26,7 @@ import org.apache.jena.sparql.core.Prologue;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
- abstract class OntoManagement implements KnowledgeBaseInterface{
+ public abstract class OntoManagement implements KnowledgeBaseInterface{
      private PiSparql pisparql=new PiSparql();
     protected OntModel ont;
     protected String prefix;
@@ -122,7 +122,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
     public abstract String downlift(String metadataURI) throws OntoManagementException;
 
     @Override
-    public abstract boolean change(String... param);
+    public abstract boolean change(String ind, String property, String value);
 
     /**
      * Executes SPARQL select function and format the results in an String

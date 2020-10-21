@@ -46,12 +46,13 @@
                 <tr>
                     <td>
                         <form th:action="@{/metadata/update}" method="post">
-                            <input type="submit" value="Metadata change"/>
+                            <input type="submit" value="JSON Downlift"/>
+                            <!--<input type="submit" value="Metadata change"/>-->
                         </form>
                     </td>
                     <td>
                         <form th:action="@{|/metadata/downlift?md=${md}|}" method="post">
-                                <input type="submit" value="Metadata downlift"/>
+                                <input type="submit" value="XML Downlift"/>
                         </form>
                     </td>
                     <td></td>

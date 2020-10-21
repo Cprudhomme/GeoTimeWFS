@@ -3,6 +3,7 @@ package info.ponciano.lab.geotimewfs.controllers;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageFileNotFoundException;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.models.semantic.KB;
+import info.ponciano.lab.geotimewfs.models.semantic.OntoManagement;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -232,8 +233,17 @@ public class MetadataController {
     parameter not yet defined 
      */
     @PostMapping("/metadata/update")
-    public String getMdChangeView(@RequestParam(name = "name", required = false, defaultValue = "World") String name) {
-        return "redirect:/";
+    public String getMdChangeView(@RequestParam(name = "ind", required = true) String ind, @RequestParam(name = "property", required = true) String property, @RequestParam(name = "value", required = true) String value) {
+        String rtn="redirect:/";
+        String ns= OntoManagement.NS;
+        try {
+            KB.get().change(ns+ind, ns+property, value);
+        } catch (OntoManagementException ex) {
+            Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
+            final String message = "The connexion to the ontology fails: " + ex.getMessage();
+            rtn = "redirect:/errror?name=" + message;
+        }
+        return rtn;
     }
 
 }
