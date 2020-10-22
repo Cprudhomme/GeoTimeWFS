@@ -232,16 +232,19 @@ public class MetadataController {
     /* 
     parameter not yet defined 
      */
-    @PostMapping("/metadata/update")
-    public String getMdChangeView(@RequestParam(name = "ind", required = true) String ind, @RequestParam(name = "property", required = true) String property, @RequestParam(name = "value", required = true) String value) {
+    @GetMapping("/metadata/update")
+    public String getMdChangeView(@RequestParam(name = "md", required = true) String md, @RequestParam(name = "ind", required = false, defaultValue = "noIndSON") String ind, @RequestParam(name = "property", required = true) String property, @RequestParam(name = "value", required = true) String value) {
         String rtn="redirect:/";
         String ns= OntoManagement.NS;
         try {
-            KB.get().change(ns+ind, ns+property, value);
+            if(ind.equals("noIndSON"))
+                KB.get().change(ns+md, ns+property, value);
+            else
+                KB.get().change(ns+ind, ns+property, value);
         } catch (OntoManagementException ex) {
             Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
             final String message = "The connexion to the ontology fails: " + ex.getMessage();
-            rtn = "redirect:/errror?name=" + message;
+            rtn = "redirect:/error?name=" + message;
         }
         return rtn;
     }
