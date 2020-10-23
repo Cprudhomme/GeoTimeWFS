@@ -42,11 +42,13 @@ public class MetadataController {
         this.storageService = storageService;
     }
 
-    /* 
-    parameter not yet defined 
+    /**
+     * 
+     * @param model represents the thymeleaf model accesible through the view
+     * @return the web interface to choose a metadata file to uplift
      */
     @GetMapping("/metadata/uplift")
-    public String getUpliftView(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
+    public String getUpliftView( Model model) {
         model.addAttribute("files", storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(MetadataController.class,
                         "serveFile", path.getFileName().toString()).build().toUri().toString())
@@ -63,8 +65,11 @@ public class MetadataController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    /* 
-    parameter not yet defined 
+    /**
+     * 
+     * @param file represents the  XML file to uplift into RDF triples
+     * @param redirectAttributes attributes provided to the view
+     * @return the same view with a message informing about the successful uplift and the link to the provided XML file
      */
     @PostMapping("/metadata/uplift")
     public String postUpliftAction(@RequestParam("file") MultipartFile file,
@@ -109,11 +114,14 @@ public class MetadataController {
 
     }
 
-    /* 
-    parameter not yet defined 
+    /**
+     * 
+     * 
+     * @param model represents the thymeleaf model accesible through the view
+     * @return the view of all instances of MD_metadata contained into the knowledge base with their associated organization name and title
      */
     @GetMapping("/metadata")
-    public String getMetadata(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
+    public String getMetadata(Model model) {
         //default view to return except case of error
         String rtn = "selectMetadata";
 
@@ -158,8 +166,12 @@ public class MetadataController {
         return rtn;
     }
 
-    /* 
-    parameter not yet defined 
+    /**
+     * 
+     * @param md represents the local name of an instance of MD_Metadata
+     * @param indSon represents the local name of an instance associated to a metadata instance (by an object property or a succession of object property)
+     * @param model represents the thymeleaf model accesible through the view
+     * @return the view of the selected metadata 
      */
     @PostMapping("/metadata/selected")
     public String getSelectedMd(@RequestParam(name = "md", required = true) String md, @RequestParam(name = "indSon", required = false, defaultValue = "noIndSON") String indSon, Model model) {
@@ -229,8 +241,13 @@ public class MetadataController {
         return rtn;
     }
 
-    /* 
-    parameter not yet defined 
+    /**
+     * 
+     * @param md represents the local name of an instance of MD_Metadata
+     * @param ind represents the local name of an instance associated to a metadata instance (by an object property or a succession of object property)
+     * @param property represents the local name of a datatype property associated to "md" or "ind"
+     * @param value represents the value associated to "md" or "ind" by "property"
+     * @return stay on the current page
      */
     @GetMapping("/metadata/update")
     public String getMdChangeView(@RequestParam(name = "md", required = true) String md, @RequestParam(name = "ind", required = false, defaultValue = "noIndSON") String ind, @RequestParam(name = "property", required = true) String property, @RequestParam(name = "value", required = true) String value) {
@@ -241,7 +258,9 @@ public class MetadataController {
                 KB.get().change(ns+md, ns+property, value);
             else
                 KB.get().change(ns+ind, ns+property, value);
-        } catch (OntoManagementException ex) {
+                //save the change of the knowledge base
+                KB.get().save();
+        } catch (OntoManagementException|IOException ex) {
             Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
             final String message = "The connexion to the ontology fails: " + ex.getMessage();
             rtn = "redirect:/error?name=" + message;

@@ -12,10 +12,11 @@
                 {link: "/metadata/uplift", value: "Metadata uplift", active: "false"}];
         </script>
         <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+        <!-- script to retrieve thymeleaf variables as javascript variables-->
         <script th:inline="javascript">
             /*<![CDATA[*/
-            var md = /*[[${md}]]*/ 'Sebastian';
-            var ind = /*[[${indSon}]]*/ 'Sebastian';
+            var md = /*[[${md}]]*/ 'md';
+            var ind = /*[[${indSon}]]*/ 'indSon';
              /*]]>*/
          </script>
          
@@ -33,6 +34,9 @@
                     console.log('Walking east one step');
                   }
             </script>-->
+           
+        <!-- script defining the function change that retrieve the new value of a text field 
+        and call the controller to update the value into the knowledge base -->
         <script>
             function change(p,v) {
             var val=document.getElementById(v).value;
@@ -46,11 +50,19 @@
                 <tr th:if="${OPlist.empty and DPlist.empty}">
                     <td colspan="2"> No Information Available </td>
                 </tr>
+                <!-- retrieve each object "dp" of the list "DPlist" and define the "DPlist" as the object "list"-->
                 <tr th:each="dp, list : ${DPlist}">
+                    <!-- create a label, whose text corresponds to the first element of the string list "dp"-->
                     <td><label th:text="${dp[0]+':   '}">  </label></td>
+                     <!-- create a text field, whose text corresponds to the second element of the string list "dp" 
+                     and whose id corresponds to the index of the "list"="DPlist"-->
                     <td><input type="text" th:value="${dp[1]}" th:id="${list.index}"/></td>
                     <td> 
                         <!--<button type="button" th:onclick="'javascript:change('\' + ${dp[0]}+ '\',\'val'+${list.index}+'\')'">Change</button>-->
+                        <!-- create a button that call the javascript function change on click with:
+                        - dp[0]: the first element of the string list "dp", corresponding to a datatype property of the knowledge base, and
+                        - list.index: that is the index of the DPlist and the id of the text field containing the new value.
+                        -->
                         <button type="button" th:onclick="javascript:change([[${dp[0]}]],[[${list.index}]])">Change</button>
                     </td>
                 </tr>
