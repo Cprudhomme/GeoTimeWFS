@@ -73,8 +73,8 @@ public class KB implements KnowledgeBaseInterface {
     }
 
     @Override
-    public boolean change(String... param) {
-        return this.model.change(param);
+    public boolean change(String ind, String property, String value) {
+        return this.model.change(ind, property, value);
     }
 
     @Override

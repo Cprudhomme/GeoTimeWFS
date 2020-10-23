@@ -29,8 +29,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CswController {
 
+    /**
+	 * CSW endpoint implementation.
+	 * @param service The service identifier
+	 * @param request The request identifier
+	 * @param version The service version
+	 * @param typename The feature type name to request
+	 * @param typenames The feature type name to request
+	 * @param output The requested return format 
+	 * @return The CSW service description as XML
+	 */
     @GetMapping("/csw")
-    public String csw(@RequestParam(name = "request", required = true) String request) {
+    public String csw(@RequestParam(name = "service", required = true, defaultValue = "CSW") String service,
+            @RequestParam(name = "request", required = true, defaultValue = "") String request,
+            @RequestParam(name = "version", required = true, defaultValue = "") String version,
+            @RequestParam(name = "typename", required = true, defaultValue = "") String typename,
+            @RequestParam(name = "typenames", required = true, defaultValue = "") String typenames,
+            @RequestParam(name = "output", required = true, defaultValue = "") String output) {
         String resultXML;
         switch (request) {
             case "GetCapabilities":
@@ -58,6 +73,7 @@ public class CswController {
         }
         return resultXML;
     }
+    
 
     /**
      * allows CSW clients to retrieve service metadata from a server

@@ -55,7 +55,7 @@ public interface KnowledgeBaseInterface {
      */
     public abstract String downlift(String metadataURI) throws OntoManagementException;
 
-    public abstract boolean change(String... param);
+    public abstract boolean change(String ind, String property, String value);
 
     //**************************************************************************
     // ---------------------------- SPARQL -----------------------------------

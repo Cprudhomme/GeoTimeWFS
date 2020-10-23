@@ -198,8 +198,26 @@ class OwlManagement extends OntoManagement {
     }
 
     @Override
-    public boolean change(String... param) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean change(String ind, String property, String value) {
+        boolean change=true;
+        String query="DELETE { <"+ind+"> <"+property+"> ?v .}\n";
+        /*try {
+            System.out.println("query1: "+query);
+            this.update(query);
+        } catch (OntoManagementException ex) {
+            Logger.getLogger(OwlManagement.class.getName()).log(Level.SEVERE, null, ex);
+            change=false;
+        }*/
+        query+="INSERT { <"+ind+"> <"+property+"> \""+value+ "\" .}\n";
+        query+="WHERE {  <"+ind+"> <"+property+"> ?v .}";
+        try {
+            System.out.println("query2: "+query);
+            this.update(query);
+        } catch (OntoManagementException ex) {
+            Logger.getLogger(OwlManagement.class.getName()).log(Level.SEVERE, null, ex);
+            change=false;
+        }
+        return change;
     }
 
     @Override

@@ -78,9 +78,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/queryinterface", "/semanticwfs/geotreeview", "/css/main.css", "/css/navbar.css",
                         "/pictures/github.png",
                         "/semanticwfs/css/style.css", "/semanticwfs/css/leaflet_legend.css",
-                        "/semanticwfs/css/yasqe.css", "/error", "/webjars/**")
+                        "/semanticwfs/css/yasqe.css", "/error", "/metadata/update", "/webjars/**")
                 .permitAll()
-                .anyRequest().authenticated()
+               // .anyRequest().authenticated()
                 )
                 .exceptionHandling(e -> {
             ExceptionHandlingConfigurer<HttpSecurity> authenticationEntryPoint = e.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth")) 
