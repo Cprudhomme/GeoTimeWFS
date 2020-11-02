@@ -71,6 +71,8 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         prefix += "PREFIX unit:   <http://qudt.org/vocab/unit#>\n";
         prefix += "PREFIX sdmx:   <http://purl.org/linked-data/sdmx#>\n";
         prefix += "PREFIX iso115: <http://lab.ponciano.info/ontology/2020/geotime/iso-19115#>\n";
+        prefix += "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n";
+        prefix += "PREFIX gtdcat: <http://lab.ponciano.info/ontology/2020/geotime/dcat#>\n";
     }
 
     /**
@@ -101,6 +103,8 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         prefix += "PREFIX unit:   <http://qudt.org/vocab/unit#>\n";
         prefix += "PREFIX sdmx:   <http://purl.org/linked-data/sdmx#>\n";
         prefix += "PREFIX iso115: <http://lab.ponciano.info/ontology/2020/geotime/iso-19115#>\n";
+        prefix += "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n";
+        prefix += "PREFIX gtdcat: <http://lab.ponciano.info/ontology/2020/geotime/dcat#>\n";
     }
 
     /**
@@ -319,6 +323,18 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @param query query to be executed
      * @throws info.ponciano.lab.pisemantic.OntoManagementException if something
      * bad happens
+     * <h2> Example of insert:</h2>
+     * <p>
+     * <pre><code>INSERT DATA { gtdcat:gdi_metadata rdf:type <http://www.w3.org/ns/dcat#CatalogRecord> .}</code></pre>
+     </p>
+     * * <h2> Example of update:</h2>
+     * <p>
+     * <pre><code>
+     * DELETE { <ind> <property> ?v .}
+     * INSERT { <ind> <property> "value" .}
+     * WHERE { <ind> <property> ?v .}
+     * </code></pre>
+     </p>
      */
     @Override
     public void update(String query) throws OntoManagementException {

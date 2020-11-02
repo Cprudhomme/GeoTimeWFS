@@ -21,7 +21,6 @@ package info.ponciano.lab.geotimewfs.controllers;
 import info.ponciano.lab.geotimewfs.models.Catalog;
 import info.ponciano.lab.geotimewfs.models.Catalogs;
 import info.ponciano.lab.geotimewfs.models.SemanticWFSRequest;
-import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,25 +30,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.crypto.dsig.XMLObject;
-import org.json.HTTP;
-import org.json.JSONObject;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 
 /**
  *
  * @author claireprudhomme
  */
-@RestController
-@RequestMapping("/api/geotimeWFS")
-public class OGCapiRecordsController {
-
+@Controller
+@RequestMapping("/geotimeWFS")
+public class OGCapiRecordsHTMLController {
     /**
      * The landing page provides links to the API definition, links to the
      * conformance statement, links to catalogues metadata and links to other
@@ -62,7 +56,7 @@ public class OGCapiRecordsController {
      */
     @GetMapping("/")
     public String getLandingPage(@RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
-        return "";
+        return "geotimeWFS";
     }
 
     @GetMapping("/error")
@@ -88,30 +82,29 @@ public class OGCapiRecordsController {
 
         switch (f) {
             case "json":
-                try {
-                    String js = sr.getJSONConformance();
-                    rtn = js;
-                } catch (IOException | InterruptedException ex) {
-                    Logger.getLogger(OGCapiRecordsController.class.getName()).log(Level.SEVERE, null, ex);
-                    final String message = "The request fails: " + ex.getMessage();
-                    rtn = "redirect:/error?name=" + message;
-                } 
+                rtn="redirect:/api/geotimeWFS/conformance?f=json"; 
             break;
             case "xml":
-                try{
-                    String js = sr.getXMLConformance();
-                    rtn = js;
-                } catch (IOException | InterruptedException ex) {
-                    Logger.getLogger(OGCapiRecordsController.class.getName()).log(Level.SEVERE, null, ex);
-                    final String message = "The request fails: " + ex.getMessage();
-                    rtn = "redirect:/error?name=" + message;
-                }
+                rtn="redirect:/api/geotimeWFS/conformance?f=xml";
                 break;
             case "html":
                 try {
                     String js = sr.getHTMLConformance();
                     System.out.println(js);
-                    rtn = js;
+                    rtn = "js";
+                } catch (IOException | InterruptedException ex) {
+                    Logger.getLogger(OGCapiRecordsController.class.getName()).log(Level.SEVERE, null, ex);
+                    final String message = "The request fails: " + ex.getMessage();
+                    rtn = "redirect:/error?name=" + message;
+                } 
+                break;
+            default:
+                try {
+                    System.out.println("passe");
+                    String js = sr.getHTMLConformance();
+                    System.out.println(js);
+                    rtn = "js";
+                    System.out.println("passe4");
                 } catch (IOException | InterruptedException ex) {
                     Logger.getLogger(OGCapiRecordsController.class.getName()).log(Level.SEVERE, null, ex);
                     final String message = "The request fails: " + ex.getMessage();
@@ -149,16 +142,8 @@ public class OGCapiRecordsController {
                             schema = @Schema(implementation = OGCapiRecordsController.class))})})
     @GetMapping("/collections")
     public String getCatalogues(@RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
-        String rtn="";
-        try {
-            Catalogs c=new Catalogs();
-            rtn = c.getJo().toString();
-        } catch (OntoManagementException ex) {
-            Logger.getLogger(OGCapiRecordsController.class.getName()).log(Level.SEVERE, null, ex);
-            final String message = "The request fails: " + ex.getMessage();
-                    rtn = "redirect:/error?name=" + message;
-        }
-        return rtn;
+        
+        return "redirect:/api/geotimeWFS/collections?f=json";
     }
 
     /**
@@ -231,5 +216,4 @@ public class OGCapiRecordsController {
     public String getRecord(@RequestParam(name = "catalogueId", required = true) @PathVariable("catalogueId") String catalogueId, @RequestParam(name = "recordId", required = true) @PathVariable("recordId") String recordId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
         return "";
     }
-
 }

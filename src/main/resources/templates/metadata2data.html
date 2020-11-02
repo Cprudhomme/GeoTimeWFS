@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+    <title>Getting Started: Serving Web Content</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+    <body>
+        <script  type='text/javascript'>
+            var elements = [
+                {link: "/home", value: "Home", active: "false"},
+                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
+                {link: "/metadata", value: "Metadata", active: "false"},
+                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+                {link: "/md2data", value: "Metadata to Data", active: "true"}];
+        </script>
+        
+        <header id="header">
+            <div th:insert="fragments/nav :: navbar"></div>
+            <h1>Metadata to data</h1>
+        </header>
+        
+       
+
+	<div>
+		 <!--  <form method="POST" enctype="multipart/form-data" action="/metadata/uplift">-->
+                 <form action="#" th:action="@{/addmd2data}" th:object="${metadata}" method="post">
+    	
+                     <label id="mdlabel">Metadata: </label><br>
+                     <!--<p>Id: <input type="text" th:field="*{delivryMd}" /></p>-->
+                     <select th:field="*{delivryMd}">
+                        <option th:each="mdt : ${MDlist}" th:value="${mdt[2]}" th:text="${mdt[2]}" th:id="${mdt[0]}">
+                        </option>
+                     </select><br>
+                     <label id="collabel">Dataset: </label><br>
+                     <!-- <p>Id: <input type="text" th:field="*{delivryDS}" /></p>-->
+                    <select th:field="*{delivryDS}">
+                        <option th:each="c : ${objJSON.collections}" th:value="${c.name}" th:text="${c.name}">
+                        </option>
+                     </select><br>
+                     <input type="submit" value="Submit">
+		</form>
+	</div>
+
+	
+    </body>
+</html>

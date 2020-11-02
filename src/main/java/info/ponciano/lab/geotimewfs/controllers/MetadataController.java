@@ -2,6 +2,7 @@ package info.ponciano.lab.geotimewfs.controllers;
 
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageFileNotFoundException;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
+import info.ponciano.lab.geotimewfs.models.Metadata;
 import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagement;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
@@ -97,7 +98,7 @@ public class MetadataController {
             //7Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
             final String message = "The uplift fails: " + ex.getMessage();
             // redirectAttributes.addFlashAttribute("message", nessage);
-            rtn = "redirect:/errror?name=" + message;
+            rtn = "redirect:/error?name=" + message;
         }
         return rtn;
     }
@@ -107,7 +108,7 @@ public class MetadataController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/errror")
+    @GetMapping("/error")
     public String errorManagement(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
         model.addAttribute("message", name);
         return "errorView";
@@ -126,8 +127,14 @@ public class MetadataController {
         String rtn = "selectMetadata";
 
         //initialize the list of info to display in the view
-        List<String[]> info = new ArrayList<String[]>();
+        //List<String[]> info = new ArrayList<String[]>();
+        Metadata md=new Metadata();
         try {
+            
+            List<String[]> info = md.getMetadata();
+            //providing the list of info to the model to allow the view to display all available metadata
+            model.addAttribute("MDlist", info);
+            /* Function now created in Metadata model: getMetadata()
             //initialize the query to retrieve all instances of metadata and their associated organization and title
             String query = "SELECT ?m ?o ?t "
                     + "WHERE{"
@@ -158,11 +165,8 @@ public class MetadataController {
         } catch (OntoManagementException ex) {
             Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
             final String message = "The connexion to the ontology fails: " + ex.getMessage();
-            rtn = "redirect:/errror?name=" + message;
+            rtn = "redirect:/error?name=" + message;
         }
-
-        //providing the list of info to the model to allow the view to display all available metadata
-        model.addAttribute("MDlist", info);
         return rtn;
     }
 
@@ -236,7 +240,7 @@ public class MetadataController {
         } catch (OntoManagementException ex) {
             Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
             final String message = "The connexion to the ontology fails: " + ex.getMessage();
-            rtn = "redirect:/errror?name=" + message;
+            rtn = "redirect:/error?name=" + message;
         }
         return rtn;
     }

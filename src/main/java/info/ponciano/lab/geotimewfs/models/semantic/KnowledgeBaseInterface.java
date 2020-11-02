@@ -19,6 +19,7 @@
 package info.ponciano.lab.geotimewfs.models.semantic;
 
 import java.util.List;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.ResultSet;
 
 /**
@@ -120,4 +121,18 @@ public interface KnowledgeBaseInterface {
      */
     public List<String[]> queryAsArray(String query, String[] var, boolean fullURI, boolean onlyNS);
 
+    /**
+     * Function to import a data associated to its metadata into the knowledge 
+     * base
+     * 
+     * @param mduri: URI of the metadata linked to the data to import
+     * @param ttlpath: data content represented through triples
+     */
+    public void dataImport(String mduri, String ttlpath);
+    
+    /**
+     * 
+     * @return the OntModel of the knowledge base
+     */
+    public OntModel getOnt();
 }
