@@ -133,7 +133,7 @@ public class DataController {
                     
                     //add the metadata as a record of the catalog
                     ObjectProperty p=ont.createObjectProperty("http://www.w3.org/ns/dcat#record");
-                    ont.add(ont.getResource(OntoManagement.NS + mduri),p,ont.getResource(gtdcat+"gdi_catalog"));
+                    ont.add(ont.getResource(gtdcat+"gdi_catalog"),p,ont.getResource(OntoManagement.NS + mduri));
                     /*query = "INSERT DATA { "
                             + "gtdcat:gdi_catalog <http://www.w3.org/ns/dcat#record> <" + OntoManagement.NS + mduri + ">."
                             + " }";

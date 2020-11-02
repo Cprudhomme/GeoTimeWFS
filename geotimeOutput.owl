@@ -9062,8 +9062,9 @@ accessing and using the resource</rdfs:comment>
         <j.2:distribution rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#gdi-catalog-distributionHTML"/>
         <j.2:distribution rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#gdi-catalog-distributionJSON"/>
         <j.2:distribution rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#gdi-catalog-distributionXML"/>
-        <dc:description xml:lang="en">A sample catalogue of geospatial data stored in a triplestore and provided by GDI.DE.</dc:description>
+        <j.2:record rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_e71fa53c-ee94-4062-b321-7d89a006f14c"/>
         <dc:title>GDI Catalog</dc:title>
+        <dc:description xml:lang="en">A sample catalogue of geospatial data stored in a triplestore and provided by GDI.DE.</dc:description>
     </owl:NamedIndividual>
     
 
@@ -10777,7 +10778,6 @@ Im Datensatz sind die Stände 03.10.1990 sowie 31.12.1989, 01.10.1990, 31.12.199
         <hierarchyLevel rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_dataset"/>
         <identificationInfo rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_405c2d65-569c-4f5e-ab11-0944a251471d"/>
         <referenceSystemInfo rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/iso-19115#_93772d32-2da0-4706-a038-adbc834f62ab"/>
-        <j.2:record rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/dcat#gdi_catalog"/>
         <j.3:primaryTopic rdf:resource="http://lab.ponciano.info/ontology/2020/geotime/dcat#8ad03236-1e5e-498d-9125-2d6d38a4d20e"/>
         <dateStamp>2020-09-24</dateStamp>
         <fileIdentifier>91BED37B-3333-4C97-9A64-0311D25A3171</fileIdentifier>
