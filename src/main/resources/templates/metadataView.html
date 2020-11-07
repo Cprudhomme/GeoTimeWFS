@@ -7,9 +7,11 @@
     <body>
          <script  type='text/javascript'>
             var elements = [
-                {link: "/home", value: "Home", active: "true"},
-                {link: "/metadata", value: "Metadata", active: "false"},
-                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"}];
+                {link: "/home", value: "Home", active: "false"},
+                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
+                {link: "/metadata", value: "Metadata", active: "true"},
+                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+                {link: "/md2data", value: "Metadata to Data", active: "false"}];
         </script>
         <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
         <!-- script to retrieve thymeleaf variables as javascript variables-->
@@ -91,5 +93,6 @@
             </tbody>
         </table>
             
+        <!--<div th:insert="fragments/footer :: footer"></div>-->
     </body>
 </html>

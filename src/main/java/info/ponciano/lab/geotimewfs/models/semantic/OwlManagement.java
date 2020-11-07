@@ -18,10 +18,12 @@
  */
 package info.ponciano.lab.geotimewfs.models.semantic;
 
+import static info.ponciano.lab.geotimewfs.models.semantic.OntoManagement.NS;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -35,11 +37,16 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntProperty;
 import org.apache.jena.ontology.OntResource;
+import org.apache.jena.ontology.impl.OntModelImpl;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.riot.RDFDataMgr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -296,5 +303,24 @@ class OwlManagement extends OntoManagement {
             }
         }
     }
+
+    public void dataImport(String mduri, String ttlpath) {
+        //local ontmodel creation from the path file in parameter
+        OntModel om = (OntModel) RDFDataMgr.loadModel(ttlpath);
+        //Creation of an individual of the MD_dataset class into the local ontmodel
+        //and retrieve its URI into a variable
+        String dsuri= NS +"dataset_"+ UUID.randomUUID().toString();
+        Individual ds = om.createIndividual(dsuri, this.ont.getOntClass("http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_Dataset"));
+        //Add a link between the dataset individual and each individual of the ontmodel
+        //having a geometry
+        
+        //insert the local ontmodel into the knowledge base
+        
+        //add a link into the knowledge base between the metadata uri given as 
+        //parameter and the uri of the dataset individual
+        
+        
+    }
+    
 
 }

@@ -25,8 +25,10 @@ MA 02110-1301  USA
         <script  type='text/javascript'>
             var elements = [
                 {link: "/home", value: "Home", active: "true"},
+                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
                 {link: "/metadata", value: "Metadata", active: "false"},
-                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"}];
+                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+                {link: "/md2data", value: "Metadata to Data", active: "false"}];
         </script>
         <header id="header">
             <div th:insert="fragments/nav :: navbar"></div>
@@ -44,9 +46,9 @@ MA 02110-1301  USA
                 <div class="col-sm-12">
                     <p>Testwebservice with a Triple Store backend</p>
                     <ul>
-                        <li>GeoTimeWFS API Documentation in <a th:href="@{/api}">[HTML]</a>
+                        <!--<li>GeoTimeWFS API Documentation in <a th:href="@{/api}">[HTML]</a>
                             <a th:href="@{/api?format=YAML}">[YAML]</a> 
-                            <a th:href="@{/api?format=JSON}">[JSON]</a></li>
+                            <a th:href="@{/api?format=JSON}">[JSON]</a></li>-->
                         <li>SemanticWFS API Documentation in <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/api/">[HTML]</a>
                             <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/openapi.yaml">[YAML]</a> <a
                                 href="https://www.i3mainz.de/projekte/bkg/semanticwfs/openapi.json">[JSON]</a></li>
@@ -82,6 +84,6 @@ MA 02110-1301  USA
         </div>
 
 
-        <div th:insert="fragments/footer :: footer"></div>
+        <!--<div th:insert="fragments/footer :: footer"></div>-->
     </body>
 </html>

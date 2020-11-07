@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2020 Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+MA 02110-1301  USA
+-->
+<html>
+
+    <head th:replace="fragments/head :: head"></head>
+
+    <body>
+        <script  type='text/javascript'>
+            var elements = [
+                {link: "/home", value: "Home", active: "false"},
+                {link: "/geotimeWFS", value: "GeoTimeWFS API", active: "true"},
+                {link: "/metadata", value: "Metadata", active: "false"},
+                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+                {link: "/md2data", value: "Metadata to Data", active: "false"}];
+        </script>
+        <header id="header">
+            <div th:insert="fragments/nav :: navbar"></div>
+            <h1  style="text-align: right;">LandingPage2: BKG GeoTime WFS Service</h1>
+        </header>
+
+
+
+        <div class="sticky row crumbs">
+            <div class="col-sm-12 col-md-10 col-md-offset-1">
+                <p>
+                    <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
+                    <a th:href="@{/geotimeWFS}">> Landingpage2 </a>
+                </p>
+            </div>
+            </div>
+        <div class="container-fluid" role="main">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>Testwebservice with a Triple Store backend</p>
+                    <ul>
+                        <li>GeoTimeWFS API Documentation in 
+                            <a th:href="@{/api}">[HTML]</a>
+                            <a th:href="@{/api?format=YAML}">[YAML]</a> 
+                            <a th:href="@{/api?format=JSON}">[JSON]</a>
+                        </li>
+                        <li>Conformance Declaration in 
+                            <a th:href="@{/api/geotimeWFS/conformance}">[HTML]</a>
+                            <a th:href="@{/api/geotimeWFS/conformance?f=xml}">[XML]</a> 
+                            <a th:href="@{/api/geotimeWFS/conformance?f=json}">[JSON]</a>
+                        </li>
+                        <li>Collections Metadata in 
+                            <a th:href="@{/geotimeWFS/collections}">[HTML]</a>
+                            <a th:href="@{/api/geotimeWFS/collections?f=xml}">[XML]</a> 
+                            <a th:href="@{/api/geotimeWFS/collections?f=json}">[JSON]</a>
+                        </li>
+                    <!--</ul>This homepage also exposes a WFS 1.0.0, 1.1.0, 2.0.0 compatible Webservice:<ul>
+                        <li>GetCapabilities WFS 1.0.0 <a
+                                href="https://www.i3mainz.de/projekte/bkg/semanticwfs/wfs?REQUEST=getCapabilities&VERSION=1.0.0">[XML]</a><br />
+                        </li>
+                        <li>GetCapabilities WFS 1.1.0 <a
+                                href="https://www.i3mainz.de/projekte/bkg/semanticwfs/wfs?REQUEST=getCapabilities&VERSION=1.1.0">[XML]</a>
+                        </li>
+                        <li>GetCapabilities WFS 2.0.0 <a
+                                href="https://www.i3mainz.de/projekte/bkg/semanticwfs/wfs?REQUEST=getCapabilities&VERSION=2.0.0">[XML]</a>
+                        </li>-->
+                    
+                </div>
+            </div>
+        </div>
+
+
+        <!--<div th:insert="fragments/footer :: footer"></div>-->
+    </body>
+</html>

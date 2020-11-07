@@ -21,6 +21,7 @@ package info.ponciano.lab.geotimewfs.models.semantic;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.ResultSet;
 
 /**
@@ -102,4 +103,13 @@ public class KB implements KnowledgeBaseInterface {
          return this.model.queryAsArray(query, var, fullURI, onlyNS);
     }
 
+    @Override
+    public void dataImport(String mduri, String ttlpath){
+         this.model.dataImport(mduri, ttlpath);
+    }
+    
+    @Override
+    public OntModel getOnt() {
+        return this.model.ont;
+    }
 }
