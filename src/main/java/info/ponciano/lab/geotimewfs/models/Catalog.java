@@ -31,53 +31,69 @@ import org.json.JSONObject;
  */
 public class Catalog {
     private JSONObject jo;
-    private String catalogId;
-
+    
+    public String catalogId;
+    public String title;
+    public String description;
+    public List<String[]> links;
+    
     public Catalog(){
     }
     
     public Catalog(String catalogId) throws OntoManagementException {
         this.catalogId=catalogId;
+        List<String[]> info = initCatalogInfo();
+        this.title=info.get(0)[0];
+        this.description=info.get(0)[1];
+        this.links=new ArrayList<String[]>();
+        this.createJSONcatalog();
+        
+    }
+    private void createJSONcatalog() throws OntoManagementException{
         this.jo=new JSONObject();
         this.jo.put("recordid",catalogId);
         this.jo.put("type","catalogue");
-        List<String[]> info = initCatalogInfo();
-        String title=info.get(0)[0];
         if(title.contains("@")){
             String[] tsplit=title.split("@");
             title=tsplit[0];
         }    
-        System.out.println(title);
+        //System.out.println(title);
         this.jo.put("title",title);
-        String description=info.get(0)[1];
+        
         if(description.contains("@")){
             String[] tsplit=description.split("@");
             description=tsplit[0];
         } 
         System.out.println(description);
         this.jo.put("description",description);
-        info = initCatalogDistributionInfo();
+        List<String[]> info = initCatalogDistributionInfo();
         JSONArray jodists=new JSONArray();
         for (int i=0; i<info.size(); i++)
         {
             //create a JSON object for each distribution of the catalog
             JSONObject jodist=new JSONObject();
-            jodist.put("href", info.get(i)[0]);
+            String href=info.get(i)[0];
+            jodist.put("href", href);
+            //add the link to the list links
+            String[] link= new String[2];
+            link[0]=href.split("=")[1];
+            link[1]=href;
+            this.links.add(link);
+            
             jodist.put("rel", "collection");
-            title=info.get(i)[1];
-            if(title.contains("@")){
-                String[] tsplit=title.split("@");
-                title=tsplit[0];
+            String titledist=info.get(i)[1];
+            if(titledist.contains("@")){
+                String[] tsplit=titledist.split("@");
+                titledist=tsplit[0];
             }
-            System.out.println(title);
-            jodist.put("title", title);
+            System.out.println(titledist);
+            jodist.put("title", titledist);
             //add its description to an array
             jodists.put(jodist);
         }
         //add the array containing all the distribution collection to the JSON object representing the catalog
         this.jo.put("links", jodists);
     }
-    
     private List<String[]> initCatalogInfo() throws OntoManagementException{
         List<String[]> info = new ArrayList<String[]>();
         //initialize the query to retrieve the title and the description of the catalog

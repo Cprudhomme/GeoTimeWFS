@@ -43,17 +43,9 @@ public class SemanticWFSRequest {
     }
     
     private String getConformance(String type) throws IOException, InterruptedException{
-        String res="";
         String url2=url+"conformance?f=";
-        try {
-           HttpRequest request = HttpRequest.newBuilder(new URI(url2+type)). GET().build();
-           HttpResponse<String> response;
-           response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-           res=response.body();
-           //System.out.println(res);
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(SemanticWFSRequest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String res= QuerySemanticWFS(url2+type);
+       
         return res;
     }
     public String getJSONConformance()throws IOException, InterruptedException{
@@ -86,4 +78,114 @@ public class SemanticWFSRequest {
         return getCollections("json");
     }
     
+    public String getQueryables(String collectionid, String type){
+        String url2=url+"collections/{"+ collectionid+"}/queryables?f=";
+        String res= QuerySemanticWFS(url2+type);
+       
+        return res;
+    }
+     private String QuerySemanticWFS(String url){
+        String res="";
+        try {
+           HttpRequest request = HttpRequest.newBuilder(new URI(url)). GET().build();
+           HttpResponse<String> response;
+           response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+           res=response.body();
+           //System.out.println(res);
+        } catch (URISyntaxException | IOException | InterruptedException ex) {
+            Logger.getLogger(SemanticWFSRequest.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return res;
+     }
+ 
+     
+     ///collections/{collectionid}/items
+     public String getCollectionItems(String collectionid, String format, Integer limit, Integer offset, 
+             String bbox, String style, String crs, String bboxcrs, String filter, String filterlang, String datetime){
+        String url2=url+"collections/{"+ collectionid+"}/items";
+        int nbparam=0;
+        if(format!=null)
+        {
+            if(nbparam==0)
+                url2=url2+"?f="+format;
+            else
+                url2=url2+"&f="+format;
+            nbparam++;
+        }
+        if(limit!=null)
+        {
+            if(nbparam==0)
+                url2=url2+"?limit="+limit;
+            else
+                url2=url2+"&limit="+limit;
+            nbparam++;
+        }
+        if(offset!=null)
+        {
+            if(nbparam==0)
+                url2=url2+"?offset="+offset;
+            else
+                url2=url2+"&offset="+offset;
+            nbparam++;
+        }
+        if(bbox!=null)
+        {
+            if(nbparam==0)
+                url2=url2+"?bbox="+bbox;
+            else
+                url2=url2+"&bbox"+bbox;
+            nbparam++;
+        }
+        if(style!=null)
+        {
+            if(nbparam==0)
+                url2=url2+"?mapstyle="+style;
+            else
+                url2=url2+"&mapstyle="+style;
+            nbparam++;
+        }
+        if(crs!=null)
+        {
+            if(nbparam==0)
+                url2=url2+"?crs="+crs;
+            else
+                url2=url2+"&crs="+crs;
+            nbparam++;
+        }
+        if(bboxcrs!=null)
+        {
+            if(nbparam==0)
+                url2=url2+"?bbox-crs="+bboxcrs;
+            else
+                url2=url2+"&bbox-crs="+bboxcrs;
+            nbparam++;
+        }
+        if(filter!=null)
+        {
+            if(nbparam==0)
+                url2=url2+"?filter="+filter;
+            else
+                url2=url2+"&filter="+filter;
+            nbparam++;
+        }
+        if(filterlang!=null)
+        {
+            if(nbparam==0)
+                url2=url2+"?filter-lang="+filterlang;
+            else
+                url2=url2+"&filter-lang="+filterlang;
+            nbparam++;
+        }
+        if(datetime!=null)
+        {
+            if(nbparam==0)
+                url2=url2+"?datetime="+datetime;
+            else
+                url2=url2+"&datetime="+datetime;
+            nbparam++;
+        }
+        System.out.println(url2);
+        String res= QuerySemanticWFS(url2);
+        return res;
+     }
 }

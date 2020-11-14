@@ -137,7 +137,7 @@ public class OGCapiRecordsController {
      * @return
      */
     @Operation(summary = "The set of catalogues offered at this endpoint.",
-            description = "A catalogue is a collection of records that describe a set of things. A catalogue end point may may offer a single collection of records (the usual case) but may offer more that one collection of records each describing different things (e.g. a catalogue of imagery and a catalogue of vector data). The /collections endpoint provides metadata about the list of available record collections.")
+            description = "A catalogue is a collection of records that describe a set of things. A catalogue end point may offer a single collection of records (the usual case) but may offer more that one collection of records each describing different things (e.g. a catalogue of imagery and a catalogue of vector data). The /collections endpoint provides metadata about the list of available record collections.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200",
                 content = {
@@ -151,6 +151,7 @@ public class OGCapiRecordsController {
     public String getCatalogues(@RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
         String rtn="";
         try {
+            //create a collection of catalogs containing all catalogs in the ontology
             Catalogs c=new Catalogs();
             rtn = c.getJo().toString();
         } catch (OntoManagementException ex) {
@@ -188,6 +189,7 @@ public class OGCapiRecordsController {
         try {
             Catalog c;
             System.out.println(catalogueId);
+            //create an instance of the targeted catalog
             c = new Catalog(catalogueId);
             model.addAttribute("message", c.getJo().toString());
             rtn = "view";
@@ -201,6 +203,7 @@ public class OGCapiRecordsController {
     @Operation(summary = "Get the list of queryables for this catalogue")
     @GetMapping("/collections/{catalogueId}/queryables")
     public String getQueryables(@RequestParam(name = "catalogueId", required = true) @PathVariable String catalogueId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
+
         return "";
     }
 
