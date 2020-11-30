@@ -178,6 +178,90 @@ public class MetadataController {
      * @return the view of the selected metadata 
      */
     @PostMapping("/metadata/selected")
+    public String getPostSelectedMd(@RequestParam(name = "md", required = true) String md, @RequestParam(name = "prefixindSon", required = false, defaultValue = "nopIndSON") String prefixindSon, @RequestParam(name = "indSon", required = false, defaultValue = "noIndSON") String indSon, Model model) {
+        //default view to return except case of error
+        String rtn = "metadataView";
+        //initialize the list of info about Object properties to display in the view
+        List<String[]> infoOP = new ArrayList<String[]>();
+        //initialize the list of info about Data properties to display in the view
+        List<String[]> infoDP = new ArrayList<String[]>();
+        
+        try {
+            //variable containing the query to retrieve the Object properties
+            String queryOP;
+            //initialize the query to retrieve all properties and property values of an instance
+            if (indSon.equals("noIndSON")) {
+                queryOP = "SELECT ?p ?o "
+                        + "WHERE{"
+                        + "iso115:" + md + " ?p ?o. "
+                        + "?p rdf:type owl:ObjectProperty. "
+                        + "}";
+            } else {
+                queryOP = "SELECT ?p ?o "
+                        + "WHERE{"
+                        + "<" + prefixindSon+"#"+indSon + "> ?p ?o. "
+                        + "?p rdf:type owl:ObjectProperty. "
+                        + "}";
+            }
+            System.out.println(KB.get().getSPARQL(queryOP));
+            //variable containing the query to retrieve the Data properties
+            String queryDP;
+            //initialize the query to retrieve all properties and property values of an instance
+            if (indSon.equals("noIndSON")) {
+                queryDP = "SELECT ?p ?o "
+                        + "WHERE{"
+                        + "iso115:" + md + " ?p ?o. "
+                        + "?p rdf:type owl:DatatypeProperty. "
+                        + "}";
+            } else {
+                queryDP = "SELECT ?p ?o "
+                        + "WHERE{"
+                        + "<" + prefixindSon+"#"+ indSon + "> ?p ?o. "
+                        + "?p rdf:type owl:DatatypeProperty. "
+                        + "}";
+            }
+            System.out.println(KB.get().getSPARQL(queryDP));
+            //create the table of variables
+            String[] var = {"p", "o"};
+            //query the ontology
+            infoOP = KB.get().queryAsArray(queryOP, var, true, false);
+            infoDP = KB.get().queryAsArray(queryDP, var, true, false);
+            List<String[]> infoOPcomp = new ArrayList<String[]>();
+            for(int i=0; i<infoOP.size(); i++){
+                String[] op=new String[3];
+                String[] obj=infoOP.get(i)[1].split("#");
+                op[0]=infoOP.get(i)[0];
+                op[1]=obj[0];
+                op[2]=obj[1];
+                infoOPcomp.add(op);
+            }
+            /*for (int j = 0; j < info.size(); j++) {
+                for (int k = 0; k < info.get(j).length; k++) {
+                    System.out.println(info.get(j)[k]);
+                }
+            }*/
+            //providing the list of info to the model to allow the view to display all properties according to their type
+            model.addAttribute("md", md);
+            model.addAttribute("indSon", indSon);
+            model.addAttribute("OPlist", infoOPcomp);
+            model.addAttribute("DPlist", infoDP);
+
+        } catch (OntoManagementException ex) {
+            Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
+            final String message = "The connexion to the ontology fails: " + ex.getMessage();
+            rtn = "redirect:/error?name=" + message;
+        }
+        return rtn;
+    }
+
+    /**
+     * 
+     * @param md represents the local name of an instance of MD_Metadata
+     * @param indSon represents the local name of an instance associated to a metadata instance (by an object property or a succession of object property)
+     * @param model represents the thymeleaf model accesible through the view
+     * @return the view of the selected metadata 
+     */
+    @GetMapping("/metadata/selected")
     public String getSelectedMd(@RequestParam(name = "md", required = true) String md, @RequestParam(name = "indSon", required = false, defaultValue = "noIndSON") String indSon, Model model) {
         //default view to return except case of error
         String rtn = "metadataView";
@@ -244,7 +328,7 @@ public class MetadataController {
         }
         return rtn;
     }
-
+    
     /**
      * 
      * @param md represents the local name of an instance of MD_Metadata

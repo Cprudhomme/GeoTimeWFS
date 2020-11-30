@@ -31,10 +31,11 @@ import org.json.JSONObject;
  */
 public class Catalogs {
     private JSONObject jo;
+    public List<Catalog> catalogues;
 
     public Catalogs() throws OntoManagementException {
-        jo=new JSONObject();
-        
+        this.jo=new JSONObject();
+        this.catalogues=new ArrayList<Catalog>();
         //create an array of distribution
         JSONArray jodists=new JSONArray();
         //catalogs description in json
@@ -66,6 +67,7 @@ public class Catalogs {
         List<String[]> cSet=initCatalogSet();
         for (int i=0; i<cSet.size(); i++){
             Catalog c=new Catalog(cSet.get(i)[0]);
+            this.catalogues.add(c);
             JSONObject cjson=c.getJo();
             collections.put(cjson);
         }
