@@ -33,6 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.crypto.dsig.XMLObject;
 import org.json.HTTP;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,8 +62,78 @@ public class OGCapiRecordsController {
      * @return
      */
     @GetMapping("/")
-    public String getLandingPage(@RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
-        return "";
+    public String getLandingPage(@RequestParam(name = "f", required = false, defaultValue = "json") String f, Model model) {
+        //Creation of JSON Object representing the landingpage of the GeotimeWFS api
+        JSONObject jolp= new JSONObject();
+        JSONArray jalinks= new JSONArray();
+        //first link description: JSON landing page
+        JSONObject jolink= new JSONObject();
+        jolink.put("href","https://geotimewfs.herokuapp.com/api/geotimeWFS/");
+        jolink.put("rel","self");
+        jolink.put("type","application/json");
+        jolink.put("title","this document");
+        jalinks.put(jolink);
+        //second link description: HTML landing page
+        jolink= new JSONObject();
+        jolink.put("href","https://geotimewfs.herokuapp.com/geotimeWFS/");
+        jolink.put("rel","self");
+        jolink.put("type","text/html");
+        jolink.put("title","HTML Landing page");
+        jalinks.put(jolink);
+        //third link description: JSON OpenAPI
+        jolink= new JSONObject();
+        jolink.put("href","https://geotimewfs.herokuapp.com/api?format=json");
+        jolink.put("rel","service-desc");
+        jolink.put("type","application/openapi+json;version=3.0");
+        jolink.put("title","the API definition");
+        jalinks.put(jolink);
+        //third-2 link description: HTML OpenAPI
+        jolink= new JSONObject();
+        jolink.put("href","https://geotimewfs.herokuapp.com/api");
+        jolink.put("rel","service-desc");
+        jolink.put("type","text/openapi+html;version=3.0");
+        jolink.put("title","the API definition");
+        jalinks.put(jolink);
+        //third-3 link description: YAML OpenAPI
+        jolink= new JSONObject();
+        jolink.put("href","https://geotimewfs.herokuapp.com/api?format=yaml");
+        jolink.put("rel","service-desc");
+        jolink.put("type","application/openapi+yaml;version=3.0");
+        jolink.put("title","the API definition");
+        jalinks.put(jolink);
+        //fourth link description: JSON conformance
+        jolink= new JSONObject();
+        jolink.put("href","https://geotimewfs.herokuapp.com/api/geotimeWFS/conformance");
+        jolink.put("rel","conformance");
+        jolink.put("type","application/json");
+        jolink.put("title","OGC conformance classes implemented by this API");
+        jalinks.put(jolink);
+        //fifth link description: HTML conformance
+        jolink= new JSONObject();
+        jolink.put("href","https://geotimewfs.herokuapp.com/geotimeWFS/conformance");
+        jolink.put("rel","conformance");
+        jolink.put("type","text/html");
+        jolink.put("title","OGC conformance classes implemented by this API");
+        jalinks.put(jolink);
+        //sixth link description: JSON collections
+        jolink= new JSONObject();
+        jolink.put("href","https://geotimewfs.herokuapp.com/api/geotimeWFS/collections");
+        jolink.put("rel","data");
+        jolink.put("type","application/json");
+        jolink.put("title","Metadata about the resource collections");
+        jalinks.put(jolink);
+        //seventh link description: HTML collections
+        jolink= new JSONObject();
+        jolink.put("href","https://geotimewfs.herokuapp.com/geotimeWFS/collections");
+        jolink.put("rel","data");
+        jolink.put("type","text/html");
+        jolink.put("title","Metadata about the resource collections");
+        jalinks.put(jolink);
+        //adding the array of links to the JSON object representing the landing page
+        jolp.put("links", jalinks);
+
+        return jolp.toString();
+
     }
 
     @GetMapping("/error")
@@ -81,46 +152,23 @@ public class OGCapiRecordsController {
      * @return
      */
     @GetMapping("/conformance")
-    public String getConformance(@RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
+    public String getConformance(@RequestParam(name = "f", required = false, defaultValue = "json") String f, Model model) {
+        //Creation of JSON Object representing the conformance of the GeotimeWFS api
+        JSONObject jo= new JSONObject();
+        JSONArray ja= new JSONArray();
+        ja.put("http://www.opengis.net/spec/ogcapi-common-1/1.0/conf/core");
+        ja.put("http://www.opengis.net/spec/ogcapi-common-1/1.0/conf/collections");
+        ja.put("http://www.opengis.net/spec/ogcapi-common-1/1.0/conf/oas3");
+        ja.put("http://www.opengis.net/spec/ogcapi-records-1/1.0/conf/core");
+        ja.put("http://www.opengis.net/spec/ogcapi-records-1/1.0/req/oas30");
+        ja.put("http://www.opengis.net/spec/ogcapi-records-1/1.0/req/html");
+        ja.put("http://www.opengis.net/spec/ogcapi-records-1/1.0/req/json");
+        //Not yet implemented
+        //ja.put("http://www.opengis.net/spec/ogcapi-records-1/1.0/req/opensearch");
+        //ja.put("http://www.opengis.net/spec/ogcapi-records-1/1.0/req/atom");
+        jo.put("conformsTo", ja);
 
-        SemanticWFSRequest sr = new SemanticWFSRequest();
-        String rtn = "";
-
-        switch (f) {
-            case "json":
-                try {
-                    String js = sr.getJSONConformance();
-                    rtn = js;
-                } catch (IOException | InterruptedException ex) {
-                    Logger.getLogger(OGCapiRecordsController.class.getName()).log(Level.SEVERE, null, ex);
-                    final String message = "The request fails: " + ex.getMessage();
-                    rtn = "redirect:/error?name=" + message;
-                } 
-            break;
-            case "xml":
-                try{
-                    String js = sr.getXMLConformance();
-                    rtn = js;
-                } catch (IOException | InterruptedException ex) {
-                    Logger.getLogger(OGCapiRecordsController.class.getName()).log(Level.SEVERE, null, ex);
-                    final String message = "The request fails: " + ex.getMessage();
-                    rtn = "redirect:/error?name=" + message;
-                }
-                break;
-            case "html":
-                try {
-                    String js = sr.getHTMLConformance();
-                    System.out.println(js);
-                    rtn = js;
-                } catch (IOException | InterruptedException ex) {
-                    Logger.getLogger(OGCapiRecordsController.class.getName()).log(Level.SEVERE, null, ex);
-                    final String message = "The request fails: " + ex.getMessage();
-                    rtn = "redirect:/error?name=" + message;
-                } 
-                break;
-        }
-
-        return rtn;
+        return jo.toString();
     }
 
     /**
@@ -175,16 +223,16 @@ public class OGCapiRecordsController {
      */
     @Operation(description = "Provides metadata about a specific collection of records. Same output as generated for /collections but specific to the indicated catalogueId")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Found the book",
+        @ApiResponse(responseCode = "200", description = "Found the catalogue",
                 content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = OGCapiRecordsController.class))}),
         @ApiResponse(responseCode = "400", description = "Invalid id supplied",
                 content = @Content),
-        @ApiResponse(responseCode = "404", description = "Book not found",
+        @ApiResponse(responseCode = "404", description = "Catalogue not found",
                 content = @Content)})
     @GetMapping("/collections/{catalogueId}")
-    public String getCatalogue(@RequestParam(name = "catalogueId", required = true) @PathVariable String catalogueId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
+    public String getCatalogue(@PathVariable(name = "catalogueId", required = true) String catalogueId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
         String rtn="";   
         try {
             Catalog c;
@@ -202,14 +250,21 @@ public class OGCapiRecordsController {
 
     @Operation(summary = "Get the list of queryables for this catalogue")
     @GetMapping("/collections/{catalogueId}/queryables")
-    public String getQueryables(@RequestParam(name = "catalogueId", required = true) @PathVariable String catalogueId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
-
-        return "";
+    public String getQueryables(@PathVariable(name = "catalogueId", required = true) String catalogueId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
+        String rtn="";
+        try {
+            Catalog c= new Catalog(catalogueId);
+            rtn=c.getJSONQueryables().toString();
+        } catch (OntoManagementException ex) {
+            Logger.getLogger(OGCapiRecordsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return rtn;
     }
 
     @GetMapping("/collections/{catalogueId}/items")
     public String getRecords(
-            @RequestParam(name = "catalogueId", required = true) @PathVariable String catalogueId,
+            @PathVariable(name = "catalogueId", required = true) String catalogueId,
             @RequestParam(name = "f", required = false, defaultValue = "html") String f,
             @RequestParam(name = "crs", required = false, defaultValue = "") String crs,
             @RequestParam(name = "offset", required = false, defaultValue = "html") int offset,
@@ -231,7 +286,7 @@ public class OGCapiRecordsController {
     }
 
     @GetMapping("/collections/{catalogueId}/items/{recordId}")
-    public String getRecord(@RequestParam(name = "catalogueId", required = true) @PathVariable("catalogueId") String catalogueId, @RequestParam(name = "recordId", required = true) @PathVariable("recordId") String recordId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
+    public String getRecord(@PathVariable(name = "catalogueId", required = true) String catalogueId, @PathVariable(name = "recordId", required = true) String recordId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
         return "";
     }
 

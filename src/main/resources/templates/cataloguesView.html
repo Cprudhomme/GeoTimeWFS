@@ -45,7 +45,7 @@ MA 02110-1301  USA
                     <a th:href="@{/geotimeWFS/collections}">> Collections </a>
                 </p>
             </div>
-            </div>
+        </div>
         <div class="container-fluid" role="main">
             <div class="row">
                 <div class="col-sm-12">
@@ -62,8 +62,8 @@ MA 02110-1301  USA
                                 </li> 
                                 <li><a th:href="@{|/geotimeWFS/collections/${c.catalogId}/items|}">Catalogue Records </a></li>
                                 <li>Catalogue Queryables: 
-                                    <a th:href="@{|/geotimeWFS/collections/{${c.catalogId}}/queryables|}"> [HTML] </a>
-                                    <a th:href="@{|/api/geotimeWFS/collections/{${c.catalogId}}/queryables|}"> [JSON] </a>
+                                    <a th:href="@{|/geotimeWFS/collections/${c.catalogId}/queryables|}"> [HTML] </a>
+                                    <a th:href="@{|/api/geotimeWFS/collections/${c.catalogId}/queryables|}"> [JSON] </a>
                                 </li>
                             </ul>
                         

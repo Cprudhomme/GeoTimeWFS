@@ -21,7 +21,9 @@ package info.ponciano.lab.geotimewfs.models;
 import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -36,6 +38,7 @@ public class Catalog {
     public String title;
     public String description;
     public List<String[]> links;
+    public List<String[]> queryables;
     
     public Catalog(){
     }
@@ -47,6 +50,30 @@ public class Catalog {
         this.description=info.get(0)[1];
         this.links=new ArrayList<String[]>();
         this.createJSONcatalog();
+        this.queryables= new ArrayList<String[]>();
+        this.initQueryables();
+    }
+    
+    private void initQueryables(){
+        String[] queryable = new String[2];
+        queryable[0]="recordid";
+        queryable[1]="string";
+        this.queryables.add(queryable);
+        
+        queryable = new String[2];
+        queryable[0]="title";
+        queryable[1]="string";
+        this.queryables.add(queryable);
+        
+        queryable = new String[2];
+        queryable[0]="description";
+        queryable[1]="string";
+        this.queryables.add(queryable);
+        
+        queryable = new String[2];
+        queryable[0]="links";
+        queryable[1]="string";
+        this.queryables.add(queryable);
         
     }
     private void createJSONcatalog() throws OntoManagementException{
@@ -136,6 +163,18 @@ public class Catalog {
         this.jo = jo;
     }
     
-    
+    public JSONObject getJSONQueryables() {
+        JSONObject joqs= new JSONObject();
+        JSONArray jaq= new JSONArray();
+        JSONObject joq;
+        for (int i= 0; i<this.queryables.size(); i++) {
+           joq= new JSONObject();
+           joq.put("queryable", this.queryables.get(i)[0]);
+           joq.put("type", this.queryables.get(i)[1]);
+           jaq.put(joq);
+        }
+        joqs.put("queryables",jaq);
+        return joqs;
+    }
     
 }

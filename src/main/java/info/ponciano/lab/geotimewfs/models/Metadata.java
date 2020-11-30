@@ -41,19 +41,22 @@ public class Metadata {
     public List<String[]> getMetadata() throws OntoManagementException{
         List<String[]> info = new ArrayList<String[]>();
 
-            //initialize the query to retrieve all instances of metadata and their associated organization and title
-            String query = "SELECT ?m ?o ?t "
+            //initialize the query to retrieve all instances of metadata and their associated organization, title, and dataset title
+            String query = "SELECT ?m ?o ?t ?dt "
                     + "WHERE{"
                     + "?m rdf:type iso115:MD_Metadata. "
+                    + "?m <http://xmlns.com/foaf/0.1/primaryTopic> ?d. "
+                    + "?d <http://purl.org/dc/elements/1.1/title> ?dt. "
                     + "?m iso115:contact ?co. "
                     + "?co iso115:organisationName ?o. "
                     + "?m iso115:identificationInfo ?i. "
                     + "?i iso115:citation ?ci. "
                     + "?ci iso115:title ?t. "
                     + "}";
-            //System.out.println(KB.get().getSPARQL(query));
+            System.out.println(query);
+            System.out.println(KB.get().getSPARQL(query));
             //create the table of variables
-            String[] var = {"m", "o", "t"};
+            String[] var = {"m", "o", "t", "dt"};
             //query the ontology
             info = KB.get().queryAsArray(query, var, false, true);
         return info;

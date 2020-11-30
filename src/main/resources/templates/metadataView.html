@@ -26,7 +26,21 @@
             <div th:insert="fragments/nav :: navbar"></div>
             <h1>Metadata View</h1>
         </header>
-        
+        <div class="sticky row crumbs">
+            <div class="col-sm-12 col-md-10 col-md-offset-1">
+                <p>
+                    <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
+                    <a th:href="@{/geotimeWFS/}">> GeoTime WFS Service landingpage </a>
+                    <a th:href="@{/geotimeWFS/collections}">> Collections </a>
+                    <a th:href="@{/geotimeWFS/collections/gdi_catalog}">> GDI Catalog </a>
+                    <a th:href="@{/geotimeWFS/collections/gdi_catalog/items}">> Records </a>
+                    <a th:href="@{|/geotimeWFS/collections/gdi_catalog/items/${md}|}" th:text="${'> '+md}"> </a>
+                </p>
+            </div>
+        </div>
+        <div class="container-fluid" role="main">
+            <div class="row">
+                <div class="col-sm-12">
         <h2 th:unless="${indSon=='noIndSON'}" th:text="${indSon}"> View</h2>
         
         
@@ -70,8 +84,8 @@
                 </tr>
                 <tr th:each="op : ${OPlist}">
                     <td><span th:text="${op[0]+':   '}">  </span></td>
-                    <td><span th:text="${op[1]}"></span></td>
-                    <td>    <form th:action="@{|/metadata/selected?md=${md}&indSon=${op[1]}|}" method="post">
+                    <td><span th:text="${op[1]+'#'+op[2]}"></span></td>
+                    <td>    <form th:action="@{|/metadata/selected?md=${md}&prefixindSon=${op[1]}&indSon=${op[2]}|}" method="post">
                             <input type="submit" value="See"/>
                             </form>
                     </td>
@@ -92,7 +106,9 @@
                 </tr>
             </tbody>
         </table>
-            
+         </div>
+         </div>
+        </div>  
         <!--<div th:insert="fragments/footer :: footer"></div>-->
     </body>
 </html>

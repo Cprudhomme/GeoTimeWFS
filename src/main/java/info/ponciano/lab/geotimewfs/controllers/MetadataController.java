@@ -178,7 +178,7 @@ public class MetadataController {
      * @return the view of the selected metadata 
      */
     @PostMapping("/metadata/selected")
-    public String getPostSelectedMd(@RequestParam(name = "md", required = true) String md, @RequestParam(name = "indSon", required = false, defaultValue = "noIndSON") String indSon, Model model) {
+    public String getPostSelectedMd(@RequestParam(name = "md", required = true) String md, @RequestParam(name = "prefixindSon", required = false, defaultValue = "nopIndSON") String prefixindSon, @RequestParam(name = "indSon", required = false, defaultValue = "noIndSON") String indSon, Model model) {
         //default view to return except case of error
         String rtn = "metadataView";
         //initialize the list of info about Object properties to display in the view
@@ -199,7 +199,7 @@ public class MetadataController {
             } else {
                 queryOP = "SELECT ?p ?o "
                         + "WHERE{"
-                        + "iso115:" + indSon + " ?p ?o. "
+                        + "<" + prefixindSon+"#"+indSon + "> ?p ?o. "
                         + "?p rdf:type owl:ObjectProperty. "
                         + "}";
             }
@@ -216,7 +216,7 @@ public class MetadataController {
             } else {
                 queryDP = "SELECT ?p ?o "
                         + "WHERE{"
-                        + "iso115:" + indSon + " ?p ?o. "
+                        + "<" + prefixindSon+"#"+ indSon + "> ?p ?o. "
                         + "?p rdf:type owl:DatatypeProperty. "
                         + "}";
             }
@@ -224,8 +224,17 @@ public class MetadataController {
             //create the table of variables
             String[] var = {"p", "o"};
             //query the ontology
-            infoOP = KB.get().queryAsArray(queryOP, var, false, true);
-            infoDP = KB.get().queryAsArray(queryDP, var, false, true);
+            infoOP = KB.get().queryAsArray(queryOP, var, true, false);
+            infoDP = KB.get().queryAsArray(queryDP, var, true, false);
+            List<String[]> infoOPcomp = new ArrayList<String[]>();
+            for(int i=0; i<infoOP.size(); i++){
+                String[] op=new String[3];
+                String[] obj=infoOP.get(i)[1].split("#");
+                op[0]=infoOP.get(i)[0];
+                op[1]=obj[0];
+                op[2]=obj[1];
+                infoOPcomp.add(op);
+            }
             /*for (int j = 0; j < info.size(); j++) {
                 for (int k = 0; k < info.get(j).length; k++) {
                     System.out.println(info.get(j)[k]);
@@ -234,7 +243,7 @@ public class MetadataController {
             //providing the list of info to the model to allow the view to display all properties according to their type
             model.addAttribute("md", md);
             model.addAttribute("indSon", indSon);
-            model.addAttribute("OPlist", infoOP);
+            model.addAttribute("OPlist", infoOPcomp);
             model.addAttribute("DPlist", infoDP);
 
         } catch (OntoManagementException ex) {

@@ -83,7 +83,7 @@ public class OGCapiRecordsHTMLController {
     public String getConformance(@RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
 
         SemanticWFSRequest sr = new SemanticWFSRequest();
-        String rtn = "";
+        String rtn = "conformanceView";
 
         switch (f) {
             case "json":
@@ -93,28 +93,7 @@ public class OGCapiRecordsHTMLController {
                 rtn = "redirect:/api/geotimeWFS/conformance?f=xml";
                 break;
             case "html":
-                try {
-                String js = sr.getHTMLConformance();
-                System.out.println(js);
-                rtn = "js";
-            } catch (IOException | InterruptedException ex) {
-                Logger.getLogger(OGCapiRecordsController.class.getName()).log(Level.SEVERE, null, ex);
-                final String message = "The request fails: " + ex.getMessage();
-                rtn = "redirect:/error?name=" + message;
-            }
-            break;
-            default:
-                try {
-                System.out.println("passe");
-                String js = sr.getHTMLConformance();
-                System.out.println(js);
-                rtn = "js";
-                System.out.println("passe4");
-            } catch (IOException | InterruptedException ex) {
-                Logger.getLogger(OGCapiRecordsController.class.getName()).log(Level.SEVERE, null, ex);
-                final String message = "The request fails: " + ex.getMessage();
-                rtn = "redirect:/error?name=" + message;
-            }
+                rtn="conformanceView";
             break;
         }
 
@@ -193,7 +172,7 @@ public class OGCapiRecordsHTMLController {
         @ApiResponse(responseCode = "404", description = "Book not found",
                 content = @Content)})
     @GetMapping("/collections/{catalogueId}")
-    public String getCatalogue(@RequestParam(name = "catalogueId", required = true) @PathVariable String catalogueId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
+    public String getCatalogue(@PathVariable(name = "catalogueId", required = true) String catalogueId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
         String rtn = "";
         try {
             Catalog c;
@@ -210,29 +189,38 @@ public class OGCapiRecordsHTMLController {
 
     @Operation(summary = "Get the list of queryables for this catalogue")
     @GetMapping("/collections/{catalogueId}/queryables")
-    public String getQueryables(@RequestParam(name = "catalogueId", required = true) @PathVariable String catalogueId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
-        return "";
+    public String getQueryables(@PathVariable(name = "catalogueId", required = true) String catalogueId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
+        try {
+            Catalog c =new Catalog(catalogueId);
+            model.addAttribute("title", c.title);
+            model.addAttribute("id", c.catalogId);
+            model.addAttribute("queryables", c.queryables);
+        } catch (OntoManagementException ex) {
+            Logger.getLogger(OGCapiRecordsHTMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "queryableView";
     }
 
     @GetMapping("/collections/{catalogueId}/items")
     public String getRecords(
-            @RequestParam(name = "catalogueId", required = true) @PathVariable String catalogueId,
+            @PathVariable(name = "catalogueId", required = true) String catalogueId,
             @RequestParam(name = "f", required = false, defaultValue = "html") String f,
             @RequestParam(name = "crs", required = false, defaultValue = "") String crs,
-            @RequestParam(name = "offset", required = false, defaultValue = "html") int offset,
-            @RequestParam(name = "limit", required = false, defaultValue = "html") int limit,
-            // @RequestParam(name = "q", required = false, defaultValue = "html") String q,
-            @RequestParam(name = "bbox", required = false, defaultValue = "html") String bbox,
-            //@RequestParam(name = "geometry", required = false, defaultValue = "html") String geometry,
-            @RequestParam(name = "geometry_crs", required = false, defaultValue = "html") String geometry_crs,
-            //@RequestParam(name = "gRelation", required = false, defaultValue = "html") String gRelation,
-            //@RequestParam(name = "lat", required = false, defaultValue = "html") double lat,
-            // @RequestParam(name = "lon", required = false, defaultValue = "html") double lon,
-            //@RequestParam(name = "radius", required = false, defaultValue = "html") double radius,
-            @RequestParam(name = "time", required = false, defaultValue = "html") String time,
-            //@RequestParam(name = "tRelation", required = false, defaultValue = "html") String tRelation,
-            @RequestParam(name = "filter", required = false, defaultValue = "html") String filter,
-            @RequestParam(name = "filter_language", required = false, defaultValue = "html") String filter_language,
+            @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
+            @RequestParam(name = "limit", required = false, defaultValue = "10") int limit,
+            // @RequestParam(name = "q", required = false, defaultValue = "") String q,
+            @RequestParam(name = "bbox", required = false, defaultValue = "") String bbox,
+            //@RequestParam(name = "geometry", required = false, defaultValue = "") String geometry,
+            @RequestParam(name = "geometry_crs", required = false, defaultValue = "") String geometry_crs,
+            //@RequestParam(name = "gRelation", required = false, defaultValue = "") String gRelation,
+            //@RequestParam(name = "lat", required = false, defaultValue = "0.0") double lat,
+            // @RequestParam(name = "lon", required = false, defaultValue = "0.0") double lon,
+            //@RequestParam(name = "radius", required = false, defaultValue = "0.0") double radius,
+            @RequestParam(name = "time", required = false, defaultValue = "") String time,
+            //@RequestParam(name = "tRelation", required = false, defaultValue = "") String tRelation,
+            @RequestParam(name = "filter", required = false, defaultValue = "") String filter,
+            @RequestParam(name = "filter_language", required = false, defaultValue = "") String filter_language,
             Model model) {
         //TODO search items from the Semantic WFS corresponding to the provided parameters.
         //SemanticWFSRequest sr = new SemanticWFSRequest();
@@ -257,7 +245,7 @@ public class OGCapiRecordsHTMLController {
     }
 
     @GetMapping("/collections/{catalogueId}/items/{recordId}")
-    public String getRecord(@RequestParam(name = "catalogueId", required = true) @PathVariable("catalogueId") String catalogueId, @RequestParam(name = "recordId", required = true) @PathVariable("recordId") String recordId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
+    public String getRecord(@PathVariable(name = "catalogueId", required = true) String catalogueId, @PathVariable(name = "recordId", required = true) String recordId, @RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
         String rtn = "";
         switch (f) {
             case "json":
