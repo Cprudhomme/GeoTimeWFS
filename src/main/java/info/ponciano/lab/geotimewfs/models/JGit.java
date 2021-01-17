@@ -290,10 +290,10 @@ public class JGit {
 			// git cloning
 			JGit git;
 			try {
-				git = new JGit(localRepoName, "claire.prudhomme", "i3BKGprojekt",
+				git = new JGit(localRepoName, "claire.prudhomme", "",
 						"https://git.gdi-de.org/claire.prudhomme/schema-storage.git");
 			} catch (Exception e) {
-				git = new JGit(localRepoName, "claire.prudhomme", "i3BKGprojekt");
+				git = new JGit(localRepoName, "claire.prudhomme", "");
 			}
 			// move the file to the right place
 			File out = new File(localRepoName + "/" + dirInRepo + newFile.getName());
