@@ -25,7 +25,7 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.io.WKTReader;
+import org.locationtech.jts.io.WKTReader; 
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.ontology.DatatypeProperty;
