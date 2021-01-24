@@ -178,10 +178,13 @@ public class SchemaController {
                             UUID uuid2 = UUID.randomUUID();
                             c2.createIndividual(gt+uuid2);
                             ObjectProperty p2=ont.createObjectProperty("http://www.w3.org/ns/dcat#accessService");
-                            ont.add(ont.getResource(gt+uuid),p2,ont.getResource(gt+uuid2));
+                            org.apache.jena.rdf.model.Resource resource = ont.getResource(gt+uuid2);
+							ont.add(ont.getResource(gt+uuid),p2,resource);
                             //create the endpoint of the schema's data service
-                            //ObjectProperty p3=ont.createObjectProperty("http://www.w3.org/ns/dcat#endpointURL");
-                            //ont.add(ont.getResource(gt+uuid2),p3,ont.createResource(uri+"/"+dirInRepo+file.getOriginalFilename()));
+                            ObjectProperty p3=ont.createObjectProperty("http://www.w3.org/ns/dcat#endpointURL");
+                            String newName = uri+"/"+dirInRepo+file.getOriginalFilename();
+							org.apache.jena.rdf.model.Resource newResource = ont.createResource(newName);
+                            ont.add(resource,p3,newResource);
                         }
       	
                     }
