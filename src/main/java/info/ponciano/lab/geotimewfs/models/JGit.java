@@ -252,7 +252,7 @@ public class JGit {
 		new File(localRepoName + "/" + dirInRepo).mkdir();
 
 		// create a file (from upload maybe)
-		File newFile = new File("test.xml");
+		File newFile = file2add;
 		try {
 
 			// cloning
@@ -260,7 +260,7 @@ public class JGit {
 			try {
 				git = new JGit(localRepoName, usr, pwd, uri);
 			} catch (Exception e) {
-				git = new JGit(localRepoName, "claire.prudhomme", "i3BKGprojekt");
+				git = new JGit(localRepoName, usr, pwd);
 			}
 			// move the file to the right place
 			File out = new File(localRepoName + "/" + dirInRepo + newFile.getName());

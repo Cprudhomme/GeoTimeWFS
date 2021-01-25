@@ -38,3 +38,5 @@ metadataSaved.owl
 libs/saxon8-dom.jar
 geotimeOutput.owl
 .DS_Store
+schema-storage/
+upload-dir/metadata.xml
