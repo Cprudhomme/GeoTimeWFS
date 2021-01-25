@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+    <title>Getting Started: Serving Web Content</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+    <body>
+        <script  type='text/javascript'>
+            var elements = [
+                {link: "/home", value: "Home", active: "false"},
+                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
+                {link: "/metadata", value: "Metadata", active: "false"},
+                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+                {link: "/md2data", value: "Metadata to Data", active: "false"},
+                {link: "/schema/upload", value: "Schema upload", active: "false"},
+                {link: "/schema/validation", value: "Schema validation", active: "true"}];
+        </script>
+        
+        <header id="header">
+            <div th:insert="fragments/nav :: navbar"></div>
+            <h1>Downlift validation through schema</h1>
+        </header>
+        
+       
+
+		<div>
+                 <form action="#" th:action="@{/schema/validation}" th:object="${schemaval}" method="post">
+    	
+                     <label id="mdlabel">Downlift to validate: </label><br>
+                     <select th:field="*{dist}">
+                        <option th:each="d : ${DistList}" th:value="${d}" th:text="${d}">
+                        </option>
+                     </select><br>
+                     <input type="submit" value="Validate">
+		</form>
+	</div>
+
+	
+    </body>
+</html>
