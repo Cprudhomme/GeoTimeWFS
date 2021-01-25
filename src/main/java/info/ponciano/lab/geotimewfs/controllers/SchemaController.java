@@ -261,7 +261,6 @@ public class SchemaController {
     public String postSchemaValidation(@ModelAttribute("schemaval") SchemaValidation schemaval,
     		Model model) {
     	String rtn = "view";
-    	schemaval.display();
     	//return the message of validation result
     	boolean res=false;
     	String message;
