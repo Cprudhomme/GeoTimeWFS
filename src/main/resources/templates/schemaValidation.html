@@ -13,14 +13,28 @@
                 {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
                 {link: "/md2data", value: "Metadata to Data", active: "false"},
                 {link: "/schema/upload", value: "Schema upload", active: "false"},
-                {link: "/schema/validation", value: "Schema validation", active: "false"}];
+                {link: "/schema/validation", value: "Schema validation", active: "true"}];
         </script>
         
         <header id="header">
             <div th:insert="fragments/nav :: navbar"></div>
-            <h1>Message</h1>
+            <h1>Downlift validation through schema</h1>
         </header>
         
-        <p th:text="${message}"></p>
+       
+
+		<div>
+                 <form action="#" th:action="@{/schema/validation}" th:object="${schemaval}" method="post">
+    	
+                     <label id="mdlabel">Downlift to validate: </label><br>
+                     <select th:field="*{dist}">
+                        <option th:each="d : ${DistList}" th:value="${d}" th:text="${d}">
+                        </option>
+                     </select><br>
+                     <input type="submit" value="Validate">
+		</form>
+	</div>
+
+	
     </body>
 </html>

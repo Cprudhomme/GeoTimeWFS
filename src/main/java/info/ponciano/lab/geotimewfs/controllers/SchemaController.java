@@ -39,6 +39,7 @@ import info.ponciano.lab.geotimewfs.models.semantic.OntoManagement;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import info.ponciano.lab.geotimewfs.models.JGit;
 import info.ponciano.lab.geotimewfs.models.Schema;
+import info.ponciano.lab.geotimewfs.models.SchemaValidation;
 
 @Controller
 public class SchemaController {
@@ -205,5 +206,69 @@ public class SchemaController {
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
     }
+    
+    /**
+     * 
+     * @param model represents the thymeleaf model accessible through the view
+     * @return the web interface to validate a downlift through its associated schema
+     */
+    @GetMapping("/schema/validation")
+    public String getSchemaValidationView(Model model) {
+    	String rtn="schemaValidation";
+        
+        //initialize the list to retrieve the title, the format, and the schema end point of a distribution
+        List<String[]> info = new ArrayList<String[]>();
+        try {
+            //variable containing the query to retrieve distributions that have an associated schema
+            String query ="SELECT ?d ?f ?s "
+                        + "WHERE{"
+                        + "?di rdf:type dcat:Distribution. "
+                        + "?di <http://purl.org/dc/elements/1.1/title> ?d. "
+                        + "?di dcat:accessService ?ds1. "
+                        + "?ds1 dcat:endpointURL ?f. "
+                        + "?di <http://lab.ponciano.info/ontology/2020/geotime#hasSchema> ?sc. "
+                        + "?sc dcat:accessService ?ds2. "
+                        + "?ds2 dcat:endpointURL ?s. "
+                        + "}";
+            System.out.println(KB.get().getSPARQL(query));
+            //query the ontology
+            String[] var = {"d", "f", "s"};
+            info = KB.get().queryAsArray(query, var, true, false);
+            //create the list to give to the model from the distribution, format, and schema
+            List<String> distList = new ArrayList<String>();
+            for(int i=0; i<info.size(); i++){
+                String dist=info.get(i)[0];
+                String[] finfo = info.get(i)[1].split("=");
+                String f=finfo[1];//.substring(0, finfo[1].length()-2);
+                dist +=", ";
+                dist +=f;
+                dist +=", ";
+                dist +=info.get(i)[1];
+                distList.add(dist);
+            }
+            //add the list to the model
+            model.addAttribute("DistList", distList); 
+            model.addAttribute("schemaval", new SchemaValidation());
+        } catch (OntoManagementException ex) {
+            Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
+            final String message = "The connexion to the ontology fails: " + ex.getMessage();
+            rtn = "redirect:/error?name=" + message;
+        }
+        return rtn;
+    }
 
+    @PostMapping("/schema/validation")
+    public String postSchemaValidation(@ModelAttribute("schemaval") SchemaValidation schemaval,
+    		Model model) {
+    	String rtn = "view";
+    	//return the message of validation result
+    	boolean res=false;
+    	String message;
+    	if(res)
+    		message="The downlift has been validated !";
+    	else
+    		message="The downlift has not been validated ! Please check the downlift fonction.";
+        model.addAttribute("message", message);
+    	return rtn;
+    }
 }
