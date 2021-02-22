@@ -25,6 +25,7 @@ import org.geotoolkit.coverage.SampleDimensionType;
  *
  * @author Johann Sorel (Geomatys)
  */
+@SuppressWarnings("deprecation")
 public final class WKBRasterConstants {
 
     /** 1-bit boolean            */
