@@ -21,7 +21,7 @@ mvn -B package --file pom.xml
 java -jar target/geotimewfs-0.0.1-SNAPSHOT.jar 
 ````
 
-5. Go to [server](http://localhost:8080!
+5. Go to [server](http://localhost:8080)
 
 ## Listening server port:
 You can change the listening port in the file `application.yml`:
