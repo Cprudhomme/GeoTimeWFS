@@ -36,9 +36,6 @@ import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.impl.StatementImpl;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +83,8 @@ public class DataController {
         //retrieve data collections from the semantic WFS
         try {
             String jsoncollection = swfs.getJSONCollections();
-            JSONParser parser = new JSONParser();
+            @SuppressWarnings("deprecation")
+			JSONParser parser = new JSONParser();
             Object json = parser.parse(jsoncollection);
             model.addAttribute("objJSON", json);
         } catch (IOException | InterruptedException | ParseException ex) {
