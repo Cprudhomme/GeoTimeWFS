@@ -1,5 +1,6 @@
 package info.ponciano.lab.geotimewfs.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,6 +11,7 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.ModelFactory;
 
+import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagement;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 
@@ -26,7 +28,6 @@ public class SHPdata {
 	 private String prevAsset;
 	 
 	 public SHPdata(){
-			
 	 }
 	 
 	 public SHPdata(String version, String versionNote) {
@@ -139,8 +140,12 @@ public class SHPdata {
 	                 //add the links adms:next and adms:prev between it and its previous asset
 	                 if(this.prevAsset!=null) {
 	                	 //TODO version links
+	                 }//else add the property adms:last to itself
+	                 else
+	                 {
+	                	 op=ont.createObjectProperty("http://www.w3.org/ns/adms#last");
+		                 ont.add(ont.getResource(gtdcat+dsUri),op,ont.getResource(gtdcat+dsUri));
 	                 }
-	                 
 	                 //link dataset to catalog through dcat:dataset
 	                 op=ont.createObjectProperty("http://www.w3.org/ns/dcat#dataset");
 	                 ont.add(ont.getResource(gtdcat+"gdi_catalog"),op,ont.getResource(gtdcat+dsUri));
@@ -208,4 +213,23 @@ public class SHPdata {
 			// file path (NB: empty string "", if no file)
 			throw new java.lang.UnsupportedOperationException("Not supported yet.");
 		}
+	 
+	 public List<String[]> getDataSet() throws OntoManagementException{
+	        List<String[]> info = new ArrayList<String[]>();
+
+	            //initialize the query to retrieve all instances of asset and their associated organization, title, and dataset title
+	            String query = "SELECT ?d ?t "
+	                    + "WHERE{"
+	                    + "?d rdf:type <http://www.w3.org/ns/adms#Asset>. "
+	                    + "?d2 <http://www.w3.org/ns/adms#last> ?d. "
+	                    + "?d <http://purl.org/dc/elements/1.1/title> ?t. "
+	                    + "}";
+	            System.out.println(query);
+	            System.out.println(KB.get().getSPARQL(query));
+	            //create the table of variables
+	            String[] var = {"d", "t"};
+	            //query the ontology
+	            info = KB.get().queryAsArray(query, var, false, true);
+	        return info;
+	    }
 }

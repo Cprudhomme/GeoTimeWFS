@@ -415,6 +415,35 @@ public class DataController {
 		throw new java.lang.UnsupportedOperationException("Not supported yet.");
 	}
 	
+	/**
+	 * 
+	 * @param model represents the thymeleaf model accessible through the view
+	 * @return the web interface to choose a shapefile to uplift
+	 */
+	@GetMapping("/data/ShpUpdate")
+	public String getShpUpdateView(Model model) {
+		String rtn = "shpUpdateView";
+
+		try {
+			// retrieve assets
+			SHPdata md = new SHPdata();
+			List<String[]> info = md.getDataSet();
+			model.addAttribute("Dlist", info);
+		} catch (OntoManagementException ex) {
+			Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
+			final String message = "The connexion to the ontology fails: " + ex.getMessage();
+			rtn = "redirect:/data/error?name=" + message;
+		}
+
+		model.addAttribute("files",
+				storageService.loadAll()
+						.map(path -> MvcUriComponentsBuilder
+								.fromMethodName(MetadataController.class, "serveFile", path.getFileName().toString())
+								.build().toUri().toString())
+						.collect(Collectors.toList()));
+
+		return rtn;
+	}
 	// initialize the model attribute "updatedData"
 	@ModelAttribute(name = "updatedData")
 	public SHPdata updatedData() {

@@ -19,7 +19,7 @@
         </script>
         <header id="header">
             <div th:insert="fragments/nav :: navbar"></div>
-            <h1>Shapefile uplift</h1>
+            <h1>Shapefile update</h1>
         </header>
         
         <div th:if="${message}">
@@ -27,20 +27,20 @@
 	</div>
 
 	<div>
-        <form th:action="@{/data/ShpUplift}" th:object="${data}" method="post" enctype="multipart/form-data">
+        <form th:action="@{/data/ShpUpdate}" th:object="${data}" method="post" enctype="multipart/form-data">
 			<table>
 				<tr>
-					<td><label id="mdlabel">Metadata: </label></td>
+					<td><label id="mdlabel">Dataset to update: </label></td>
 					<td>
-						<select th:field="*{metadata}">
-                        	<option th:each="mdt : ${MDlist}" th:value="${mdt[2]}" th:text="${mdt[2]}" th:id="${mdt[0]}"></option>
+						<select th:field="*{prevAsset}">
+                        	<option th:each="dt : ${Dlist}" th:value="${dt[1]}" th:text="${dt[1]}" th:id="${dt[0]}"></option>
                      	</select>
                 	</td>
                 </tr>
                 <tr>
-					<td><label id="title">Dataset title:</label></td>
+					<td><label id="title">Dataset version notes:</label></td>
 					<td>
-						<input type="text" th:field="*{title}">
+						<input type="text" th:field="*{versionNote}">
 					</td>
                 </tr>
 				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
