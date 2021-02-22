@@ -303,6 +303,9 @@ export MAVEN_CMD_LINE_ARGS
 
 WRAPPER_LAUNCHER=org.apache.maven.wrapper.MavenWrapperMain
 
+# JJ adding
+ mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile="libs/pitools-0.1-SNAPSHOT.jar"
+ # end JJ
 exec "$JAVACMD" \
   $MAVEN_OPTS \
   -classpath "$MAVEN_PROJECTBASEDIR/.mvn/wrapper/maven-wrapper.jar" \
