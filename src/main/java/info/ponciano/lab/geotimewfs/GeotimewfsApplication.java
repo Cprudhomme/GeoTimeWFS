@@ -20,7 +20,6 @@ package info.ponciano.lab.geotimewfs;
 
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageProperties;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.boot.CommandLineRunner;

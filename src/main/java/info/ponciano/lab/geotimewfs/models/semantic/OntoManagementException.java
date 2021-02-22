@@ -24,7 +24,12 @@ package info.ponciano.lab.geotimewfs.models.semantic;
  */
 public class OntoManagementException extends Exception {
 
-    OntoManagementException(String string) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1337321576208488386L;
+
+	OntoManagementException(String string) {
         super(string);
     }
 

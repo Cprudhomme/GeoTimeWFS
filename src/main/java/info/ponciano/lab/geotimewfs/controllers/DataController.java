@@ -102,7 +102,8 @@ public class DataController {
         //retrieve data collections from the semantic WFS
         try {
             String jsoncollection = swfs.getJSONCollections();
-            JSONParser parser = new JSONParser();
+            @SuppressWarnings("deprecation")
+			JSONParser parser = new JSONParser();
             Object json = parser.parse(jsoncollection);
             model.addAttribute("objJSON", json);
         } catch (IOException | InterruptedException | ParseException ex) {

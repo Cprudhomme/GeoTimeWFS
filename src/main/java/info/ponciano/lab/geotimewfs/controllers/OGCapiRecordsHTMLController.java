@@ -20,18 +20,12 @@ package info.ponciano.lab.geotimewfs.controllers;
 
 import info.ponciano.lab.geotimewfs.models.Catalog;
 import info.ponciano.lab.geotimewfs.models.Catalogs;
-import info.ponciano.lab.geotimewfs.models.Metadata;
-import info.ponciano.lab.geotimewfs.models.SemanticWFSRequest;
-import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Controller;
@@ -82,7 +76,6 @@ public class OGCapiRecordsHTMLController {
     @GetMapping("/conformance")
     public String getConformance(@RequestParam(name = "f", required = false, defaultValue = "html") String f, Model model) {
 
-        SemanticWFSRequest sr = new SemanticWFSRequest();
         String rtn = "conformanceView";
 
         switch (f) {

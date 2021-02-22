@@ -101,6 +101,7 @@ public class CatalogTest {
     public void testSetJo() {
         try {
             CatalogTest ct=new CatalogTest();
+            System.out.println(ct);
             System.out.println("setJo");
             JSONObject jo = null;
             Catalog instance = new Catalog();
