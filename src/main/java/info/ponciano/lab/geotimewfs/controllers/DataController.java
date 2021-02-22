@@ -67,280 +67,305 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class DataController {
 
-    private SemanticWFSRequest swfs;
-    private final StorageService storageService;
+	private SemanticWFSRequest swfs;
+	private final StorageService storageService;
 
-    @Autowired
-    public DataController(StorageService storageService) {
-        this.storageService = storageService;
-        swfs = new SemanticWFSRequest();
-    }
+	@Autowired
+	public DataController(StorageService storageService) {
+		this.storageService = storageService;
+		swfs = new SemanticWFSRequest();
+	}
 
-  //=============================== Linking Metadata to Data =======================
-    
-    //initialize the model attribute
-    @ModelAttribute(name = "metadata")
-    public Metadata metadata() {
-        return new Metadata();
-    }
+	// =============================== Linking Metadata to Data
+	// =======================
 
-    //generate the metadata2data view
-    @GetMapping("/md2data")
-    public String getmd2dataView(Model model) {
-        String rtn = "metadata2data";
-        try {
-            //retrieve metadata
-            Metadata md = new Metadata();
-            List<String[]> info = md.getMetadata();
-            //providing the list of info to the model to allow the view to display all available metadata
-            model.addAttribute("MDlist", info);
-        } catch (OntoManagementException ex) {
-            Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
-            final String message = "The connexion to the ontology fails: " + ex.getMessage();
-            rtn = "redirect:/data/error?name=" + message;
-        }
-        //retrieve data collections from the semantic WFS
-        try {
-            String jsoncollection = swfs.getJSONCollections();
-            @SuppressWarnings("deprecation")
+	// initialize the model attribute
+	@ModelAttribute(name = "metadata")
+	public Metadata metadata() {
+		return new Metadata();
+	}
+
+	// generate the metadata2data view
+	@GetMapping("/md2data")
+	public String getmd2dataView(Model model) {
+		String rtn = "metadata2data";
+		try {
+			// retrieve metadata
+			Metadata md = new Metadata();
+			List<String[]> info = md.getMetadata();
+			// providing the list of info to the model to allow the view to display all
+			// available metadata
+			model.addAttribute("MDlist", info);
+		} catch (OntoManagementException ex) {
+			Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
+			final String message = "The connexion to the ontology fails: " + ex.getMessage();
+			rtn = "redirect:/data/error?name=" + message;
+		}
+		// retrieve data collections from the semantic WFS
+		try {
+			String jsoncollection = swfs.getJSONCollections();
+			@SuppressWarnings("deprecation")
 			JSONParser parser = new JSONParser();
-            Object json = parser.parse(jsoncollection);
-            model.addAttribute("objJSON", json);
-        } catch (IOException | InterruptedException | ParseException ex) {
-            Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
-            final String message = "Collection retrieving from the semantic WFS has failed: " + ex.getMessage();
-            rtn = "redirect:/data/error?name=" + message;
-        }
-        return rtn;
+			Object json = parser.parse(jsoncollection);
+			model.addAttribute("objJSON", json);
+		} catch (IOException | InterruptedException | ParseException ex) {
+			Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
+			final String message = "Collection retrieving from the semantic WFS has failed: " + ex.getMessage();
+			rtn = "redirect:/data/error?name=" + message;
+		}
+		return rtn;
 
-    }
+	}
 
-    //associate the metadata to a data collection to add them to the catalog web service
-    //modeling using the dcat vocabulary: https://www.w3.org/TR/vocab-dcat-2/
-    @PostMapping("/addmd2data")
-    public String addmd2data(@ModelAttribute("metadata") Metadata metadata, Model model) {
-        System.out.println("metadata: " + metadata.getDelivryMd());
-        OntModel ont= ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-        String gtdcat="http://lab.ponciano.info/ontology/2020/geotime/dcat#";
-        //retrieve the selected metadata uri
-        try {
-            List<String[]> info = metadata.getMetadata();
-            int i = 0;
-            boolean found = false;
-            String mduri="";
-            while (i < info.size() && !found) {
-                if (info.get(i)[2].equals(metadata.getDelivryMd())) {
-                    mduri = info.get(i)[0];
-                    //add the metadata as a catalog record 
-                    OntClass c=ont.createClass("http://www.w3.org/ns/dcat#CatalogRecord");
-                    c.createIndividual(OntoManagement.NS + mduri);
-                    /*String query = "INSERT DATA { <" + OntoManagement.NS + mduri + "> rdf:type <http://www.w3.org/ns/dcat#CatalogRecord> . "
-                            + " }";
-                    System.out.println(query);
-                    KB.get().update(query);*/
-                    
-                    //add the catalog
-                    c=ont.createClass("http://www.w3.org/ns/dcat#Catalog");
-                    c.createIndividual("http://lab.ponciano.info/ontology/2020/geotime/dcat#gdi_catalog");
-                    /*query = "INSERT DATA { "
-                            + "gtdcat:gdi_catalog rdf:type <http://www.w3.org/ns/dcat#Catalog>."
-                            + " }";
-                    System.out.println(query);
-                    KB.get().update(query);*/
-                    
-                    //add the metadata as a record of the catalog
-                    ObjectProperty p=ont.createObjectProperty("http://www.w3.org/ns/dcat#record");
-                    ont.add(ont.getResource(gtdcat+"gdi_catalog"),p,ont.getResource(OntoManagement.NS + mduri));
-                    /*query = "INSERT DATA { "
-                            + "gtdcat:gdi_catalog <http://www.w3.org/ns/dcat#record> <" + OntoManagement.NS + mduri + ">."
-                            + " }";
-                    System.out.println(query);
-                    KB.get().update(query);*/
-                    found = true;
-                }
-                i++;
-            }
+	// associate the metadata to a data collection to add them to the catalog web
+	// service
+	// modeling using the dcat vocabulary: https://www.w3.org/TR/vocab-dcat-2/
+	@PostMapping("/addmd2data")
+	public String addmd2data(@ModelAttribute("metadata") Metadata metadata, Model model) {
+		System.out.println("metadata: " + metadata.getDelivryMd());
+		OntModel ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+		String gtdcat = "http://lab.ponciano.info/ontology/2020/geotime/dcat#";
+		// retrieve the selected metadata uri
+		try {
+			List<String[]> info = metadata.getMetadata();
+			int i = 0;
+			boolean found = false;
+			String mduri = "";
+			while (i < info.size() && !found) {
+				if (info.get(i)[2].equals(metadata.getDelivryMd())) {
+					mduri = info.get(i)[0];
+					// add the metadata as a catalog record
+					OntClass c = ont.createClass("http://www.w3.org/ns/dcat#CatalogRecord");
+					c.createIndividual(OntoManagement.NS + mduri);
+					/*
+					 * String query = "INSERT DATA { <" + OntoManagement.NS + mduri +
+					 * "> rdf:type <http://www.w3.org/ns/dcat#CatalogRecord> . " + " }";
+					 * System.out.println(query); KB.get().update(query);
+					 */
 
-            //retrieve the information of the data collection
-            String jsoncollection = swfs.getJSONCollections();
-            JSONObject jo = new JSONObject(jsoncollection);
-            JSONArray jsarray = jo.getJSONArray("collections");
-            System.out.println("dataset: " + metadata.getDelivryDS());
-            int j = 0;
-            boolean foundc = false;
-            while (j < jsarray.length() && !foundc) {
-                JSONObject collection = (JSONObject) jsarray.get(j);
-                if (collection.getString("name").equals(metadata.getDelivryDS())) {
-                    System.out.println(collection.getString("name"));
-                    //create dataset
-                    UUID dsUri = UUID.randomUUID();
-                    OntClass c=ont.createClass("http://www.w3.org/ns/dcat#Dataset");
-                    c.createIndividual(gtdcat+dsUri);
-                    /*
-                    String query = "INSERT DATA { gtdcat:" + dsUri + " rdf:type <http://www.w3.org/ns/dcat#Dataset> . "
-                            + " }";
-                    System.out.println(query);
-                    KB.get().update(query);*/
-                    
-                    //add the title of the dataset from its collection 
-                    DatatypeProperty dp=ont.createDatatypeProperty("http://purl.org/dc/elements/1.1/title");
-                    ont.add(ont.getResource(gtdcat+dsUri),dp,collection.getString("name"));
-                    /*query = "INSERT DATA { gtdcat:" + dsUri + " <http://purl.org/dc/elements/1.1/title> \"" + collection.getString("name") + "\" . "
-                            + " }";
-                    System.out.println(query);
-                    KB.get().update(query);*/
-                    
-                    //link dataset to catalog through dcat:dataset
-                    ObjectProperty op=ont.createObjectProperty("http://www.w3.org/ns/dcat#dataset");
-                    ont.add(ont.getResource(gtdcat+"gdi_catalog"),op,ont.getResource(gtdcat+dsUri));
-                    /*query = "INSERT DATA { "
-                            + "gtdcat:gdi_catalog <http://www.w3.org/ns/dcat#dataset> gtdcat:" + dsUri + "."
-                            + " }";
-                    System.out.println(query);
-                    KB.get().update(query);*/
-                    
-                    //link dataset to metadata record through foaf:primaryTopic
-                    op=ont.createObjectProperty("http://xmlns.com/foaf/0.1/primaryTopic");
-                    ont.add(ont.getResource(OntoManagement.NS + mduri),op,ont.getResource(gtdcat+dsUri));
-                    /*query = "INSERT DATA { "
-                            + "<" + OntoManagement.NS + mduri + "> <http://xmlns.com/foaf/0.1/primaryTopic> gtdcat:" + dsUri + "."
-                            + " }";
-                    System.out.println(query);
-                    KB.get().update(query);*/
-                    
-                    //retrieve all links of the dataset to model its distributions
-                    JSONArray links = collection.getJSONArray("links");
-                    //for each links
-                    for (int k = 0; k < links.length(); k++) {
-                        //retrieve the current link object
-                        JSONObject link = (JSONObject) links.get(k);
-                        String rel=link.getString("rel");
-                        if(rel.equals("item")){
-                            //create a distribution
-                            UUID distUri = UUID.randomUUID();
-                            c=ont.createClass("http://www.w3.org/ns/dcat#Distribution");
-                            c.createIndividual(gtdcat+distUri);
-                            /*query = "INSERT DATA { gtdcat:" + distUri + " rdf:type <http://www.w3.org/ns/dcat#Distribution> . "
-                                    + " }";
-                            System.out.println(query);
-                            KB.get().update(query);*/
-                            
-                            //associate the distribution to the current dataset
-                            op=ont.createObjectProperty("http://www.w3.org/ns/dcat#distribution");
-                            ont.add(ont.getResource(gtdcat + dsUri),op,ont.getResource(gtdcat+distUri));
-                            /*query = "INSERT DATA { gtdcat:" + dsUri + " <http://www.w3.org/ns/dcat#distribution> gtdcat:"+distUri+" . "
-                                    + " }";
-                            System.out.println(query);
-                            KB.get().update(query);*/
-                            //create a dataservice 
-                            UUID dservUri = UUID.randomUUID();
-                            c=ont.createClass("http://www.w3.org/ns/dcat#DataService");
-                            c.createIndividual(gtdcat+dservUri);
-                            /*query = "INSERT DATA { gtdcat:" + dservUri + " rdf:type <http://www.w3.org/ns/dcat#DataService> . "
-                                    + " }";
-                            System.out.println(query);
-                            KB.get().update(query);*/
+					// add the catalog
+					c = ont.createClass("http://www.w3.org/ns/dcat#Catalog");
+					c.createIndividual("http://lab.ponciano.info/ontology/2020/geotime/dcat#gdi_catalog");
+					/*
+					 * query = "INSERT DATA { " +
+					 * "gtdcat:gdi_catalog rdf:type <http://www.w3.org/ns/dcat#Catalog>." + " }";
+					 * System.out.println(query); KB.get().update(query);
+					 */
 
-                            //create the href link as a resource
-                            String href=link.getString("href");
-                            ont.createResource(href);
-                            /*query = "INSERT DATA { <" + href + "> rdf:type rdfs:Resource . "
-                                    + " }";
-                            System.out.println(query);
-                            KB.get().update(query);*/
-                            
-                            // associate it the url to access it
-                            op=ont.createObjectProperty("http://www.w3.org/ns/dcat#endpointURL");
-                            ont.add(ont.getResource(gtdcat + dservUri),op,ont.getResource(href));
-                            /*query = "INSERT DATA { gtdcat:" + dservUri + " <http://www.w3.org/ns/dcat#endpointURL> <"+href+"> . "
-                                    + " }";
-                            System.out.println(query);
-                            KB.get().update(query);*/
-                            
-                            //associate the dataservice to the distribution
-                            op=ont.createObjectProperty("http://www.w3.org/ns/dcat#accessService");
-                            ont.add(ont.getResource(gtdcat + distUri),op,ont.getResource(gtdcat+dservUri));
-                            /*query = "INSERT DATA { gtdcat:" + distUri + " <http://www.w3.org/ns/dcat#accessService> gtdcat:"+dservUri+" . "
-                                    + " }";
-                            System.out.println(query);
-                            KB.get().update(query);*/
-                            
-                            //add the title to the distribution
-                            String title=link.getString("title");
-                            ont.add(ont.getResource(gtdcat+distUri),dp,title);
-                            /*query = "INSERT DATA { gtdcat:" + distUri + " <http://purl.org/dc/elements/1.1/title> \"" + title + "\" . "
-                                    + " }";
-                            System.out.println(query);
-                            KB.get().update(query);*/
-                            
-                            //add the type to the distribution
-                            /*String type=link.getString("type");
-                            query = "INSERT DATA { gtdcat:" + distUri + " <http://www.w3.org/ns/dcat#mediaType> gtdcat:" + type + " . "
-                                    + " }";
-                            System.out.println(query);
-                            KB.get().update(query);*/
-                        }
-                    }
-                    KB.get().getOnt().add(ont);
-                    KB.get().save();
-                    foundc = true;
-                }
-                j++;
-            }
+					// add the metadata as a record of the catalog
+					ObjectProperty p = ont.createObjectProperty("http://www.w3.org/ns/dcat#record");
+					ont.add(ont.getResource(gtdcat + "gdi_catalog"), p, ont.getResource(OntoManagement.NS + mduri));
+					/*
+					 * query = "INSERT DATA { " +
+					 * "gtdcat:gdi_catalog <http://www.w3.org/ns/dcat#record> <" + OntoManagement.NS
+					 * + mduri + ">." + " }"; System.out.println(query); KB.get().update(query);
+					 */
+					found = true;
+				}
+				i++;
+			}
 
-        } catch (IOException | InterruptedException | OntoManagementException ex) {
-            Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "redirect:/home";
-    }
-    
+			// retrieve the information of the data collection
+			String jsoncollection = swfs.getJSONCollections();
+			JSONObject jo = new JSONObject(jsoncollection);
+			JSONArray jsarray = jo.getJSONArray("collections");
+			System.out.println("dataset: " + metadata.getDelivryDS());
+			int j = 0;
+			boolean foundc = false;
+			while (j < jsarray.length() && !foundc) {
+				JSONObject collection = (JSONObject) jsarray.get(j);
+				if (collection.getString("name").equals(metadata.getDelivryDS())) {
+					System.out.println(collection.getString("name"));
+					// create dataset
+					UUID dsUri = UUID.randomUUID();
+					OntClass c = ont.createClass("http://www.w3.org/ns/dcat#Dataset");
+					c.createIndividual(gtdcat + dsUri);
+					/*
+					 * String query = "INSERT DATA { gtdcat:" + dsUri +
+					 * " rdf:type <http://www.w3.org/ns/dcat#Dataset> . " + " }";
+					 * System.out.println(query); KB.get().update(query);
+					 */
+
+					// add the title of the dataset from its collection
+					DatatypeProperty dp = ont.createDatatypeProperty("http://purl.org/dc/elements/1.1/title");
+					ont.add(ont.getResource(gtdcat + dsUri), dp, collection.getString("name"));
+					/*
+					 * query = "INSERT DATA { gtdcat:" + dsUri +
+					 * " <http://purl.org/dc/elements/1.1/title> \"" + collection.getString("name")
+					 * + "\" . " + " }"; System.out.println(query); KB.get().update(query);
+					 */
+
+					// link dataset to catalog through dcat:dataset
+					ObjectProperty op = ont.createObjectProperty("http://www.w3.org/ns/dcat#dataset");
+					ont.add(ont.getResource(gtdcat + "gdi_catalog"), op, ont.getResource(gtdcat + dsUri));
+					/*
+					 * query = "INSERT DATA { " +
+					 * "gtdcat:gdi_catalog <http://www.w3.org/ns/dcat#dataset> gtdcat:" + dsUri +
+					 * "." + " }"; System.out.println(query); KB.get().update(query);
+					 */
+
+					// link dataset to metadata record through foaf:primaryTopic
+					op = ont.createObjectProperty("http://xmlns.com/foaf/0.1/primaryTopic");
+					ont.add(ont.getResource(OntoManagement.NS + mduri), op, ont.getResource(gtdcat + dsUri));
+					/*
+					 * query = "INSERT DATA { " + "<" + OntoManagement.NS + mduri +
+					 * "> <http://xmlns.com/foaf/0.1/primaryTopic> gtdcat:" + dsUri + "." + " }";
+					 * System.out.println(query); KB.get().update(query);
+					 */
+
+					// retrieve all links of the dataset to model its distributions
+					JSONArray links = collection.getJSONArray("links");
+					// for each links
+					for (int k = 0; k < links.length(); k++) {
+						// retrieve the current link object
+						JSONObject link = (JSONObject) links.get(k);
+						String rel = link.getString("rel");
+						if (rel.equals("item")) {
+							// create a distribution
+							UUID distUri = UUID.randomUUID();
+							c = ont.createClass("http://www.w3.org/ns/dcat#Distribution");
+							c.createIndividual(gtdcat + distUri);
+							/*
+							 * query = "INSERT DATA { gtdcat:" + distUri +
+							 * " rdf:type <http://www.w3.org/ns/dcat#Distribution> . " + " }";
+							 * System.out.println(query); KB.get().update(query);
+							 */
+
+							// associate the distribution to the current dataset
+							op = ont.createObjectProperty("http://www.w3.org/ns/dcat#distribution");
+							ont.add(ont.getResource(gtdcat + dsUri), op, ont.getResource(gtdcat + distUri));
+							/*
+							 * query = "INSERT DATA { gtdcat:" + dsUri +
+							 * " <http://www.w3.org/ns/dcat#distribution> gtdcat:"+distUri+" . " + " }";
+							 * System.out.println(query); KB.get().update(query);
+							 */
+							// create a dataservice
+							UUID dservUri = UUID.randomUUID();
+							c = ont.createClass("http://www.w3.org/ns/dcat#DataService");
+							c.createIndividual(gtdcat + dservUri);
+							/*
+							 * query = "INSERT DATA { gtdcat:" + dservUri +
+							 * " rdf:type <http://www.w3.org/ns/dcat#DataService> . " + " }";
+							 * System.out.println(query); KB.get().update(query);
+							 */
+
+							// create the href link as a resource
+							String href = link.getString("href");
+							ont.createResource(href);
+							/*
+							 * query = "INSERT DATA { <" + href + "> rdf:type rdfs:Resource . " + " }";
+							 * System.out.println(query); KB.get().update(query);
+							 */
+
+							// associate it the url to access it
+							op = ont.createObjectProperty("http://www.w3.org/ns/dcat#endpointURL");
+							ont.add(ont.getResource(gtdcat + dservUri), op, ont.getResource(href));
+							/*
+							 * query = "INSERT DATA { gtdcat:" + dservUri +
+							 * " <http://www.w3.org/ns/dcat#endpointURL> <"+href+"> . " + " }";
+							 * System.out.println(query); KB.get().update(query);
+							 */
+
+							// associate the dataservice to the distribution
+							op = ont.createObjectProperty("http://www.w3.org/ns/dcat#accessService");
+							ont.add(ont.getResource(gtdcat + distUri), op, ont.getResource(gtdcat + dservUri));
+							/*
+							 * query = "INSERT DATA { gtdcat:" + distUri +
+							 * " <http://www.w3.org/ns/dcat#accessService> gtdcat:"+dservUri+" . " + " }";
+							 * System.out.println(query); KB.get().update(query);
+							 */
+
+							// add the title to the distribution
+							String title = link.getString("title");
+							ont.add(ont.getResource(gtdcat + distUri), dp, title);
+							/*
+							 * query = "INSERT DATA { gtdcat:" + distUri +
+							 * " <http://purl.org/dc/elements/1.1/title> \"" + title + "\" . " + " }";
+							 * System.out.println(query); KB.get().update(query);
+							 */
+
+							// add the type to the distribution
+							/*
+							 * String type=link.getString("type"); query = "INSERT DATA { gtdcat:" + distUri
+							 * + " <http://www.w3.org/ns/dcat#mediaType> gtdcat:" + type + " . " + " }";
+							 * System.out.println(query); KB.get().update(query);
+							 */
+						}
+					}
+					KB.get().getOnt().add(ont);
+					KB.get().save();
+					foundc = true;
+				}
+				j++;
+			}
+
+		} catch (IOException | InterruptedException | OntoManagementException ex) {
+			Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return "redirect:/home";
+	}
+
 //=============================== Data management =======================
-    
-  //========== Data Uplift management ==========
-    /*
-    @GetMapping("/data/uplift")
-    public String getUpliftView( Model model) {
-       GMLImporter importer=new GMLImporter();
-        System.out.println("data uplift");
-       importer.processFile("", "gn-lu2.gml", false, false, "gn-lu-onto.ttl", "", "", "");
-       System.out.println("data uplift done");
-       return null;
-    }
-     */
-    
-    /**
-     * 
-     * @param model represents the thymeleaf model accessible through the view
-     * @return the web interface to choose a shapefile to uplift
-     */
-    @GetMapping("/data/ShpUplift")
-    public String getShpUpliftView(Model model) {
-    	model.addAttribute("files", storageService.loadAll().map(
-                path -> MvcUriComponentsBuilder.fromMethodName(MetadataController.class,
-                        "serveFile", path.getFileName().toString()).build().toUri().toString())
-                .collect(Collectors.toList()));
-        return "shpUpliftView";
-    }
+
+	// ========== Data Uplift management ==========
+	/*
+	 * @GetMapping("/data/uplift") public String getUpliftView( Model model) {
+	 * GMLImporter importer=new GMLImporter(); System.out.println("data uplift");
+	 * importer.processFile("", "gn-lu2.gml", false, false, "gn-lu-onto.ttl", "",
+	 * "", ""); System.out.println("data uplift done"); return null; }
+	 */
+
+	/**
+	 * 
+	 * @param model represents the thymeleaf model accessible through the view
+	 * @return the web interface to choose a shapefile to uplift
+	 */
+	@GetMapping("/data/ShpUplift")
+	public String getShpUpliftView(Model model) {
+		String rtn = "shpUpliftView";
+
+		try {
+			// retrieve metadata
+			Metadata md = new Metadata();
+			List<String[]> info = md.getMetadata();
+			// providing the list of info to the model to allow the view to display all
+			// available metadata
+			model.addAttribute("MDlist", info);
+		} catch (OntoManagementException ex) {
+			Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
+			final String message = "The connexion to the ontology fails: " + ex.getMessage();
+			rtn = "redirect:/data/error?name=" + message;
+		}
+
+		model.addAttribute("files",
+				storageService.loadAll()
+						.map(path -> MvcUriComponentsBuilder
+								.fromMethodName(MetadataController.class, "serveFile", path.getFileName().toString())
+								.build().toUri().toString())
+						.collect(Collectors.toList()));
+
+		return rtn;
+	}
 
 	@GetMapping("/data/ShpUplift/files/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+	@ResponseBody
+	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
-    	Resource file = storageService.loadAsResource(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
-    
-    /**
+		Resource file = storageService.loadAsResource(filename);
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+				.body(file);
+	}
+
+	/**
      * 
      * @param file represents the shapefile to uplift into RDF triples
      * @param redirectAttributes attributes provided to the view
      * @return the same view with a message informing about the successful uplift and the link to the provided file
      */
     @PostMapping("/data/ShpUplift")
-    public String postShpUpliftAction(@RequestParam("file") MultipartFile file,
+    public String postShpUpliftAction(@ModelAttribute("metadata") Metadata metadata, @RequestParam("file") MultipartFile file,
         RedirectAttributes redirectAttributes) {
-
         String rtn = "";
         try {
             // store file
@@ -348,40 +373,154 @@ public class DataController {
 
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uplift the shapefile: " + file.getOriginalFilename() + "!");
+            //transform Shapefile into RDF data
             String rdfdata=ShpUpliftProcess();
             if (rdfdata.equals("")) {
             	throw new ControllerException("file format was incorrect");
             } else {
-            	//TODO
+            	System.out.println("metadata: " + metadata.getDelivryMd());
+                OntModel ont= ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+                String gtdcat="http://lab.ponciano.info/ontology/2020/geotime/dcat#";
+                //retrieve the selected metadata uri
+                try {
+                    List<String[]> info = metadata.getMetadata();
+                    int i = 0;
+                    boolean found = false;
+                    String mduri="";
+                    while (i < info.size() && !found) {
+                        if (info.get(i)[2].equals(metadata.getDelivryMd())) {
+                            mduri = info.get(i)[0];
+                            //create the metadata individual with catalog record type
+                            OntClass c=ont.createClass("http://www.w3.org/ns/dcat#CatalogRecord");
+                            c.createIndividual(OntoManagement.NS + mduri);
+                            
+                            //add the GDI catalog
+                            c=ont.createClass("http://www.w3.org/ns/dcat#Catalog");
+                            c.createIndividual("http://lab.ponciano.info/ontology/2020/geotime/dcat#gdi_catalog");
+                            
+                            //add the metadata as a record of the catalog
+                            ObjectProperty p=ont.createObjectProperty("http://www.w3.org/ns/dcat#record");
+                            ont.add(ont.getResource(gtdcat+"gdi_catalog"),p,ont.getResource(OntoManagement.NS + mduri));
+                            found = true;
+                        }
+                        i++;
+                    }
+
+                            //create a new dataset version = an Asset
+                            UUID dsUri = UUID.randomUUID();
+                            //OntClass c=ont.createClass("http://www.w3.org/ns/dcat#Dataset");
+                            OntClass c=ont.createClass("http://www.w3.org/ns/adms#Asset");
+                            c.createIndividual(gtdcat+dsUri);
+                            
+                            //add the title of the dataset 
+                            DatatypeProperty dp=ont.createDatatypeProperty("http://purl.org/dc/elements/1.1/title");
+                            ont.add(ont.getResource(gtdcat+dsUri),dp,metadata.getDelivryDS());
+                            
+                            //add the version of the dataset through owl:versionInfo
+                            dp=ont.createDatatypeProperty("http://www.w3.org/2002/07/owl#versionInfo");
+                            ont.add(ont.getResource(gtdcat+dsUri),dp,"V1.0");
+
+                            //add the version note of the dataset through adms:versionNotes
+                            dp=ont.createDatatypeProperty("http://www.w3.org/ns/adms#versionNotes");
+                            ont.add(ont.getResource(gtdcat+dsUri),dp,"Original version of the dataset");
+                            
+                            //add the default status of the dataset, which is unverified
+                            String statusURI= "http://lab.ponciano.info/ontology/2020/geotime/data-status#unverified";
+                            c=ont.createClass("http://www.w3.org/2004/02/skos/core#Concept");
+                            c.createIndividual(statusURI);
+                            ObjectProperty op=ont.createObjectProperty("http://www.w3.org/ns/adms#status");
+                            ont.add(ont.getResource(gtdcat+dsUri),op,ont.getResource(statusURI));
+                            
+                            //link dataset to catalog through dcat:dataset
+                            op=ont.createObjectProperty("http://www.w3.org/ns/dcat#dataset");
+                            ont.add(ont.getResource(gtdcat+"gdi_catalog"),op,ont.getResource(gtdcat+dsUri));
+                            
+                            //link dataset to metadata record through foaf:primaryTopic
+                            op=ont.createObjectProperty("http://xmlns.com/foaf/0.1/primaryTopic");
+                            ont.add(ont.getResource(OntoManagement.NS + mduri),op,ont.getResource(gtdcat+dsUri));
+
+                            //create the RDF distribution
+                                    UUID distRdfUri = UUID.randomUUID();
+                                    c=ont.createClass("http://www.w3.org/ns/dcat#Distribution");
+                                    c.createIndividual(gtdcat+distRdfUri);
+                            //create the SHP distribution
+                                    UUID distShpUri = UUID.randomUUID();
+                                    c.createIndividual(gtdcat+distShpUri);
+                                    
+                            //associate the distributions to the newly created dataset
+                                    op=ont.createObjectProperty("http://www.w3.org/ns/dcat#distribution");
+                                    ont.add(ont.getResource(gtdcat + dsUri),op,ont.getResource(gtdcat+distRdfUri));
+                                    ont.add(ont.getResource(gtdcat + dsUri),op,ont.getResource(gtdcat+distShpUri));
+                                   
+                            //create a dataservice 
+                                    UUID dservUriRDF = UUID.randomUUID();
+                                    c=ont.createClass("http://www.w3.org/ns/dcat#DataService");
+                                    c.createIndividual(gtdcat+dservUriRDF);
+                                    UUID dservUriSHP = UUID.randomUUID();
+                                    c.createIndividual(gtdcat+dservUriSHP);
+
+                            //create the local access as a resource
+                                    String hrefRDF="https://local"+rdfdata;
+                                    ont.createResource(hrefRDF);
+                                    String hrefSHP="https://local/shapefile-data/"+file.getOriginalFilename();
+                                    ont.createResource(hrefSHP);
+                                    
+                            // associate it the url to access it
+                                    op=ont.createObjectProperty("http://www.w3.org/ns/dcat#endpointURL");
+                                    ont.add(ont.getResource(gtdcat + dservUriRDF),op,ont.getResource(hrefRDF));
+                                    ont.add(ont.getResource(gtdcat + dservUriSHP),op,ont.getResource(hrefSHP));
+                                    
+                            //associate the dataservice to the distribution
+                                    op=ont.createObjectProperty("http://www.w3.org/ns/dcat#accessService");
+                                    ont.add(ont.getResource(gtdcat + distRdfUri),op,ont.getResource(gtdcat+dservUriRDF));
+                                    ont.add(ont.getResource(gtdcat + distShpUri),op,ont.getResource(gtdcat+dservUriSHP));
+                                    
+                            //add the title to the distribution
+                                    String title=metadata.getDelivryDS()+ " (RDF data)";
+                                    ont.add(ont.getResource(gtdcat+distRdfUri),dp,title);
+                                    title=metadata.getDelivryDS()+ " (Shapefile)";
+                                    ont.add(ont.getResource(gtdcat+dservUriSHP),dp,title);
+
+                            KB.get().getOnt().add(ont);
+                            KB.get().save();
+
+                } catch (IOException | OntoManagementException ex) {
+                    Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 rtn = "redirect:/data/ShpUplift";
             }
-        } catch (ControllerException ex) {
-        	//TODO remove file from upload-dir
-            final String message = "The uplift fails: " + ex.getMessage();
-            rtn = "redirect:/data/error?name=" + message;
-        }
-        return rtn;
-    }
+        }catch(
+
+	ControllerException ex)
+	{
+		// TODO remove file from upload-dir
+		final String message = "The uplift fails: " + ex.getMessage();
+		rtn = "redirect:/data/error?name=" + message;
+	}return rtn;
+	}
 
 	private String ShpUpliftProcess() {
-	// TODO 1.0 @JJPONCIANO 
-		//1- execution of script to transform Shapefile into RDF file (NB: storage of mapping file into the directory "r2rml-mapping" for now, later on git)
-		//2- save the resulting RDF file into a directory "rdf-data" and return the RDF file path (NB: empty string "", if no file) 
+		// TODO 1.0 @JJPONCIANO
+		// 1- execution of script to transform Shapefile into RDF file (NB: storage of
+		// mapping file into the directory "r2rml-mapping" for now, later on git)
+		// 2- save the resulting RDF file into a directory "rdf-data" and return the RDF
+		// file path (NB: empty string "", if no file)
 		throw new java.lang.UnsupportedOperationException("Not supported yet.");
 	}
-	
-    @ExceptionHandler(StorageFileNotFoundException.class)
-    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-        return ResponseEntity.notFound().build();
-    }
 
-    @GetMapping("data/error")
-    public String errorManagement(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
-        model.addAttribute("message", name);
-        return "errorView";
+	@ExceptionHandler(StorageFileNotFoundException.class)
+	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+		return ResponseEntity.notFound().build();
+	}
 
-    }
-    
-  //========== Spatio-temporal Data management ==========
+	@GetMapping("data/error")
+	public String errorManagement(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
+			Model model) {
+		model.addAttribute("message", name);
+		return "errorView";
+
+	}
+
+	// ========== Spatio-temporal Data management ==========
 
 }

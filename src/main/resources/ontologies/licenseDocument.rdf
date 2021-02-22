@@ -114,9 +114,9 @@
     
 
 
-    <!-- http://www.w3.org/2004/02/skos/core#Concept -->
+    <!-- http://purl.org/dc/terms/LicenseDocument -->
 
-    <owl:Class rdf:about="http://www.w3.org/2004/02/skos/core#Concept"/>
+    <owl:Class rdf:about="http://purl.org/dc/terms/LicenseDocument"/>
     
 
 
@@ -154,7 +154,7 @@
     <!-- http://dcat-ap.de/def/licenses/apache -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/apache">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>apache</dc:identifier>
         <dct:references rdf:resource="http://www.apache.org/licenses"/>
         <skos:altLabel xml:lang="de">apache</skos:altLabel>
@@ -177,7 +177,7 @@
     <!-- http://dcat-ap.de/def/licenses/bsd -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/bsd">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>bsd</dc:identifier>
         <dct:references rdf:resource="http://www.opensource.org/licenses/bsd-license.php"/>
         <skos:altLabel xml:lang="de">bsdlicense</skos:altLabel>
@@ -200,7 +200,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-by -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-by">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-by</dc:identifier>
         <dct:references rdf:resource="http://www.opendefinition.org/licenses/cc-by"/>
         <skos:altLabel xml:lang="de">cc-by</skos:altLabel>
@@ -223,7 +223,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-by-nc -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-by-nc">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-by-nc</dc:identifier>
         <dct:references rdf:resource="http://creativecommons.org/licenses/by-nc/"/>
         <skos:altLabel xml:lang="de">cc-by-nc</skos:altLabel>
@@ -246,7 +246,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-by-nd -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-by-nd">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-by-nd</dc:identifier>
         <dct:references rdf:resource="http://creativecommons.org/licenses/by-nd/3.0/"/>
         <skos:altLabel xml:lang="de">cc-by-nd</skos:altLabel>
@@ -269,7 +269,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-by-sa -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-by-sa">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-by-sa</dc:identifier>
         <dct:references rdf:resource="http://www.opendefinition.org/licenses/cc-by-sa"/>
         <skos:altLabel xml:lang="de">cc-by-sa</skos:altLabel>
@@ -292,7 +292,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-zero -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-zero">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-zero</dc:identifier>
         <dct:references rdf:resource="http://www.opendefinition.org/licenses/cc-zero"/>
         <skos:altLabel xml:lang="de">cc-zero</skos:altLabel>
@@ -315,7 +315,7 @@
     <!-- http://dcat-ap.de/def/licenses/gfdl -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/gfdl">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>gfdl</dc:identifier>
         <dct:references rdf:resource="http://www.opendefinition.org/licenses/gfdl"/>
         <skos:altLabel xml:lang="de">gfdl</skos:altLabel>
@@ -338,7 +338,7 @@
     <!-- http://dcat-ap.de/def/licenses/mozilla -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/mozilla">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>mozilla</dc:identifier>
         <dct:references rdf:resource="http://www.mozilla.org/MPL"/>
         <skos:altLabel xml:lang="de">mozilla</skos:altLabel>
@@ -361,7 +361,7 @@
     <!-- http://dcat-ap.de/def/licenses/odbl -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/odbl">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>odbl</dc:identifier>
         <dct:references rdf:resource="http://www.opendefinition.org/licenses/odc-odbl"/>
         <skos:altLabel xml:lang="de">odbl</skos:altLabel>
@@ -384,7 +384,7 @@
     <!-- http://dcat-ap.de/def/licenses/odby -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/odby">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>odby</dc:identifier>
         <dct:references rdf:resource="http://www.opendefinition.org/licenses/odc-by"/>
         <skos:altLabel xml:lang="de">odby</skos:altLabel>
@@ -407,7 +407,7 @@
     <!-- http://dcat-ap.de/def/licenses/odcpddl -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/odcpddl">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>odcpddl</dc:identifier>
         <dct:references rdf:resource="http://www.opendefinition.org/licenses/odc-pddl"/>
         <skos:altLabel xml:lang="de">odcpddl</skos:altLabel>
@@ -430,7 +430,7 @@
     <!-- http://dcat-ap.de/def/licenses/officialWork -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/officialWork">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>officialWork</dc:identifier>
         <dct:references rdf:resource="http://www.gesetze-im-internet.de/urhg/__5.html"/>
         <skos:altLabel xml:lang="de">officialWork</skos:altLabel>
@@ -453,7 +453,7 @@
     <!-- http://dcat-ap.de/def/licenses/other-closed -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/other-closed">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>other-closed</dc:identifier>
         <skos:altLabel xml:lang="de">other-closed</skos:altLabel>
         <skos:exactMatch rdf:resource="http://dcat-ap.de/def/licenses/other-closed"/>
@@ -474,7 +474,7 @@
     <!-- http://dcat-ap.de/def/licenses/other-commercial -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/other-commercial">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>other-commercial</dc:identifier>
         <skos:altLabel xml:lang="de">other-commercial</skos:altLabel>
         <skos:exactMatch rdf:resource="http://dcat-ap.de/def/licenses/other-commercial"/>
@@ -495,7 +495,7 @@
     <!-- http://dcat-ap.de/def/licenses/other-freeware -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/other-freeware">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>other-freeware</dc:identifier>
         <skos:altLabel xml:lang="de">other-freeware</skos:altLabel>
         <skos:exactMatch rdf:resource="http://dcat-ap.de/def/licenses/other-freeware"/>
@@ -516,7 +516,7 @@
     <!-- http://dcat-ap.de/def/licenses/other-open -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/other-open">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>other-open</dc:identifier>
         <skos:altLabel xml:lang="de">other-open</skos:altLabel>
         <skos:exactMatch rdf:resource="http://dcat-ap.de/def/licenses/other-open"/>
@@ -537,7 +537,7 @@
     <!-- http://dcat-ap.de/def/licenses/other-opensource -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/other-opensource">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>other-opensource</dc:identifier>
         <skos:altLabel xml:lang="de">other-opensource</skos:altLabel>
         <skos:exactMatch rdf:resource="http://dcat-ap.de/def/licenses/other-opensource"/>
@@ -558,7 +558,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-by-de/3.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-by-de/3.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-by-de/3.0</dc:identifier>
         <dct:references rdf:resource="https://creativecommons.org/licenses/by/3.0/de/"/>
         <skos:altLabel xml:lang="de">cc-by-de/3.0</skos:altLabel>
@@ -581,7 +581,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-by-nc-de/3.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-by-nc-de/3.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-by-nc-de/3.0</dc:identifier>
         <dct:references rdf:resource="https://creativecommons.org/licenses/by-nc/3.0/de/"/>
         <skos:altLabel xml:lang="de">cc-by-nc/3.0</skos:altLabel>
@@ -604,7 +604,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-by-nc/4.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-by-nc/4.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-by-nc/4.0</dc:identifier>
         <dct:references rdf:resource="http://creativecommons.org/licenses/by-nc/4.0/"/>
         <skos:altLabel xml:lang="de">cc-by-nc/4.0</skos:altLabel>
@@ -627,7 +627,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-by-nd/3.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-by-nd/3.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-by-nd/3.0</dc:identifier>
         <dct:references rdf:resource="http://creativecommons.org/licenses/by-nd/3.0/"/>
         <skos:altLabel xml:lang="de">cc-by-nd/3.0</skos:altLabel>
@@ -650,7 +650,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-by-nd/4.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-by-nd/4.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-by-nd/4.0</dc:identifier>
         <dct:references rdf:resource="https://creativecommons.org/licenses/by-nd/4.0/"/>
         <skos:altLabel xml:lang="de">cc-by-nd/4.0</skos:altLabel>
@@ -673,7 +673,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-by-sa-de/3.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-by-sa-de/3.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-by-sa-de/3.0</dc:identifier>
         <dct:references rdf:resource="https://creativecommons.org/licenses/by-sa/3.0/de/"/>
         <skos:altLabel xml:lang="de">cc-by-sa-de/3.0</skos:altLabel>
@@ -696,7 +696,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-by-sa/4.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-by-sa/4.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-by-sa/4.0</dc:identifier>
         <dct:references rdf:resource="http://creativecommons.org/licenses/by-sa/4.0/"/>
         <skos:altLabel xml:lang="de">cc-by-sa/4.0</skos:altLabel>
@@ -719,7 +719,7 @@
     <!-- http://dcat-ap.de/def/licenses/cc-by/4.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/cc-by/4.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>cc-by/4.0</dc:identifier>
         <dct:references rdf:resource="http://creativecommons.org/licenses/by/4.0/"/>
         <skos:altLabel xml:lang="de">cc-by/4.0</skos:altLabel>
@@ -742,7 +742,7 @@
     <!-- http://dcat-ap.de/def/licenses/ccpdm/1.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/ccpdm/1.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>ccpdm/1.0</dc:identifier>
         <dct:references rdf:resource="http://creativecommons.org/publicdomain/mark/1.0/"/>
         <skos:altLabel xml:lang="de">ccpdm/1.0</skos:altLabel>
@@ -765,7 +765,7 @@
     <!-- http://dcat-ap.de/def/licenses/dl-by-de/1.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/dl-by-de/1.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>dl-by-de/1.0</dc:identifier>
         <dct:references rdf:resource="https://www.govdata.de/dl-de/by-1-0"/>
         <skos:altLabel xml:lang="de">dl-by-de/1.0</skos:altLabel>
@@ -788,7 +788,7 @@
     <!-- http://dcat-ap.de/def/licenses/dl-by-de/2.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/dl-by-de/2.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>dl-by-de/2.0</dc:identifier>
         <dct:references rdf:resource="https://www.govdata.de/dl-de/by-2-0"/>
         <skos:altLabel xml:lang="de">dl-by-de/2.0</skos:altLabel>
@@ -811,7 +811,7 @@
     <!-- http://dcat-ap.de/def/licenses/dl-by-nc-de/1.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/dl-by-nc-de/1.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>dl-by-nc-de/1.0</dc:identifier>
         <dct:references rdf:resource="https://www.govdata.de/dl-de/by-nc-1-0"/>
         <skos:altLabel xml:lang="de">dl-by-nc-de/1.0</skos:altLabel>
@@ -834,7 +834,7 @@
     <!-- http://dcat-ap.de/def/licenses/dl-zero-de/2.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/dl-zero-de/2.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>dl-zero-de/2.0</dc:identifier>
         <dct:references rdf:resource="https://www.govdata.de/dl-de/zero-2-0"/>
         <skos:altLabel xml:lang="de">dl-zero-de/2.0</skos:altLabel>
@@ -857,7 +857,7 @@
     <!-- http://dcat-ap.de/def/licenses/geoNutz/20131001 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/geoNutz/20131001">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>geoNutz/20131001</dc:identifier>
         <dct:references rdf:resource="http://www.stadtentwicklung.berlin.de/geoinformation/download/nutzIII.pdf"/>
         <skos:altLabel xml:lang="de">geoNutz/20131001</skos:altLabel>
@@ -880,7 +880,7 @@
     <!-- http://dcat-ap.de/def/licenses/geonutz/20130319 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/geonutz/20130319">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>geonutz/20130319</dc:identifier>
         <dct:references rdf:resource="https://sg.geodatenzentrum.de/web_public/gdz/lizenz/geonutzv.pdf"/>
         <skos:altLabel xml:lang="de">geoNutz/20130319</skos:altLabel>
@@ -903,7 +903,7 @@
     <!-- http://dcat-ap.de/def/licenses/gpl/3.0 -->
 
     <owl:NamedIndividual rdf:about="http://dcat-ap.de/def/licenses/gpl/3.0">
-        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <rdf:type rdf:resource="http://purl.org/dc/terms/LicenseDocument"/>
         <dc:identifier>gpl/3.0</dc:identifier>
         <dct:references rdf:resource="http://www.opensource.org/licenses/gpl-3.0.html"/>
         <skos:altLabel xml:lang="de">gpl/3.0</skos:altLabel>

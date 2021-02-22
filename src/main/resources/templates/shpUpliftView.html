@@ -26,8 +26,22 @@
 	</div>
 
 	<div>
-                 <form th:action="@{/data/ShpUplift}" method="post" enctype="multipart/form-data">
+        <form th:action="@{/data/ShpUplift}" th:object="${metadata}" method="post" enctype="multipart/form-data">
 			<table>
+				<tr>
+					<td><label id="mdlabel">Metadata: </label></td>
+					<td>
+						<select th:field="*{delivryMd}">
+                        	<option th:each="mdt : ${MDlist}" th:value="${mdt[2]}" th:text="${mdt[2]}" th:id="${mdt[0]}"></option>
+                     	</select>
+                	</td>
+                </tr>
+                <tr>
+					<td><label id="title">Dataset title:</label></td>
+					<td>
+						<input type="text" th:field="*{delivryDS}">
+					</td>
+                </tr>
 				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
 				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
 			</table>
