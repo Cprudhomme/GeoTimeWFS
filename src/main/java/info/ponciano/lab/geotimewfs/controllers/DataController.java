@@ -366,6 +366,7 @@ public class DataController {
 
 	/**
      * 
+     * @param data is the model of SHPdata fulfilled by the view
      * @param file represents the shapefile to uplift into RDF triples
      * @param redirectAttributes attributes provided to the view
      * @return the same view with a message informing about the successful uplift and the link to the provided file
@@ -444,10 +445,54 @@ public class DataController {
 
 		return rtn;
 	}
+	
 	// initialize the model attribute "updatedData"
 	@ModelAttribute(name = "updatedData")
 	public SHPdata updatedData() {
 		return new SHPdata();
+	}
+	
+	/**
+	 * 
+	 * @param updatedData is the model of SHPdata fulfilled by the view
+	 * @param file represents the shapefile to uplift into RDF triples
+     * @param redirectAttributes attributes provided to the view
+     * @return the same view with a message informing about the successful uplift and the link to the provided file
+	 */
+	@PostMapping("/data/ShpUpdate")
+    public String postShpUpdateAction(@ModelAttribute("updatedData") SHPdata updatedData, @RequestParam("file") MultipartFile file,
+        RedirectAttributes redirectAttributes) {
+        String rtn = "";
+        try {
+            // store file
+            storageService.store(file);
+
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully uplift the shapefile: " + file.getOriginalFilename() + "!");
+            //transform Shapefile into RDF data
+            String rdfdata=ShpUpliftProcess();
+            if (rdfdata.equals("")) {
+            	throw new ControllerException("file format was incorrect");
+            } else {
+            	try {
+            	//retrieve the RDF representation of the data associated to its metadata
+            	OntModel ont= updatedData.representationRDF(rdfdata, file.getOriginalFilename());
+                KB.get().getOnt().add(ont);
+                KB.get().save();
+
+                } catch (IOException | OntoManagementException ex) {
+                    Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                rtn = "redirect:/data/ShpUpdate";
+            }
+        }
+        catch(ControllerException ex)
+			{
+				// TODO remove file from upload-dir
+				final String message = "The uplift fails: " + ex.getMessage();
+				rtn = "redirect:/data/error?name=" + message;
+			}
+        return rtn;
 	}
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
