@@ -24,16 +24,13 @@ package info.ponciano.lab.geotimewfs.controllers.security;
  */
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
@@ -83,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                // .anyRequest().authenticated()
                 )
                 .exceptionHandling(e -> {
-            ExceptionHandlingConfigurer<HttpSecurity> authenticationEntryPoint = e.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth")) 
+            e.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth")) 
 //                    e .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 ;
                 }
@@ -121,7 +118,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
-        UserDetails user
+        @SuppressWarnings("deprecation")
+		UserDetails user
                 = User.withDefaultPasswordEncoder()
                         .username("JJ")
                         .password("qwertz")
