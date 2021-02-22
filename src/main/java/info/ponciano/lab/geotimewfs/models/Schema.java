@@ -1,6 +1,5 @@
 package info.ponciano.lab.geotimewfs.models;
 
-import org.springframework.web.multipart.MultipartFile;
 
 public class Schema {
 
