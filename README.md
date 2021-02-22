@@ -25,6 +25,9 @@ mvn package
 java -jar target/geotimewfs-0.0.1-SNAPSHOT.jar 
 ````
 5. Call your [server](http://localhost:8080) deployed
+
+### automatic deployment
+The file `system.properties` is configured for automate deployment.
 ## Ontology mapping:
 https://www.w3.org/2015/spatial/wiki/ISO_19115_-_DCAT_-_Schema.org_mapping
 
