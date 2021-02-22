@@ -95,9 +95,8 @@ public class MetadataController {
                 throw new ControllerException("file format was incorrect");
             }
         } catch (OntoManagementException | ControllerException | IOException ex) {
-            //7Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
+        	//TODO remove file from upload-dir
             final String message = "The uplift fails: " + ex.getMessage();
-            // redirectAttributes.addFlashAttribute("message", nessage);
             rtn = "redirect:/error?name=" + message;
         }
         return rtn;
