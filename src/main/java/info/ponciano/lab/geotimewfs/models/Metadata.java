@@ -18,13 +18,11 @@
  */
 package info.ponciano.lab.geotimewfs.models;
 
-import info.ponciano.lab.geotimewfs.controllers.MetadataController;
 import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
