@@ -138,7 +138,7 @@ public class SHPdata {
 	                 //update for all its previous versions the adms:last with the new created asset, and
 	                 //add the links adms:next and adms:prev between it and its previous asset
 	                 if(this.prevAsset!=null) {
-	                	 
+	                	 //TODO version links
 	                 }
 	                 
 	                 //link dataset to catalog through dcat:dataset
@@ -186,10 +186,10 @@ public class SHPdata {
 	                         ont.add(ont.getResource(gtdcat + distShpUri),op,ont.getResource(gtdcat+dservUriSHP));
 	                         
 	                 //add the title to the distribution
-	                         String title=this.title+ " (RDF data)";
-	                         ont.add(ont.getResource(gtdcat+distRdfUri),dp,title);
-	                         title=this.title+ " (Shapefile)";
-	                         ont.add(ont.getResource(gtdcat+dservUriSHP),dp,title);
+	                         String ttle=this.title+ " (RDF data)";
+	                         ont.add(ont.getResource(gtdcat+distRdfUri),dp,ttle);
+	                         ttle=this.title+ " (Shapefile)";
+	                         ont.add(ont.getResource(gtdcat+dservUriSHP),dp,ttle);
 	              return ont;
 	 }
 	
