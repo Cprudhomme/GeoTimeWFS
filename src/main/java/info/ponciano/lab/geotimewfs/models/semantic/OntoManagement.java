@@ -424,4 +424,12 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         }
         return info;
     }
+
+	public PiSparql getPisparql() {
+		return pisparql;
+	}
+
+	public void setPisparql(PiSparql pisparql) {
+		this.pisparql = pisparql;
+	}
 }
