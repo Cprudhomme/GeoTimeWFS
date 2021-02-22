@@ -22,6 +22,7 @@ import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageFileNotFoundException;
 
 import info.ponciano.lab.geotimewfs.models.Metadata;
+import info.ponciano.lab.geotimewfs.models.SHPdata;
 import info.ponciano.lab.geotimewfs.models.SemanticWFSRequest;
 import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagement;
@@ -79,7 +80,7 @@ public class DataController {
 	// =============================== Linking Metadata to Data
 	// =======================
 
-	// initialize the model attribute
+	// initialize the model attribute "metadata"
 	@ModelAttribute(name = "metadata")
 	public Metadata metadata() {
 		return new Metadata();
@@ -356,6 +357,12 @@ public class DataController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
 				.body(file);
 	}
+	
+	// initialize the model attribute "data"
+		@ModelAttribute(name = "data")
+		public SHPdata data() {
+			return new SHPdata("V1.0", "Original version of the dataset");
+		}
 
 	/**
      * 
@@ -364,7 +371,7 @@ public class DataController {
      * @return the same view with a message informing about the successful uplift and the link to the provided file
      */
     @PostMapping("/data/ShpUplift")
-    public String postShpUpliftAction(@ModelAttribute("metadata") Metadata metadata, @RequestParam("file") MultipartFile file,
+    public String postShpUpliftAction(@ModelAttribute("data") SHPdata data, @RequestParam("file") MultipartFile file,
         RedirectAttributes redirectAttributes) {
         String rtn = "";
         try {
@@ -378,125 +385,25 @@ public class DataController {
             if (rdfdata.equals("")) {
             	throw new ControllerException("file format was incorrect");
             } else {
-            	System.out.println("metadata: " + metadata.getDelivryMd());
-                OntModel ont= ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-                String gtdcat="http://lab.ponciano.info/ontology/2020/geotime/dcat#";
-                //retrieve the selected metadata uri
-                try {
-                    List<String[]> info = metadata.getMetadata();
-                    int i = 0;
-                    boolean found = false;
-                    String mduri="";
-                    while (i < info.size() && !found) {
-                        if (info.get(i)[2].equals(metadata.getDelivryMd())) {
-                            mduri = info.get(i)[0];
-                            //create the metadata individual with catalog record type
-                            OntClass c=ont.createClass("http://www.w3.org/ns/dcat#CatalogRecord");
-                            c.createIndividual(OntoManagement.NS + mduri);
-                            
-                            //add the GDI catalog
-                            c=ont.createClass("http://www.w3.org/ns/dcat#Catalog");
-                            c.createIndividual("http://lab.ponciano.info/ontology/2020/geotime/dcat#gdi_catalog");
-                            
-                            //add the metadata as a record of the catalog
-                            ObjectProperty p=ont.createObjectProperty("http://www.w3.org/ns/dcat#record");
-                            ont.add(ont.getResource(gtdcat+"gdi_catalog"),p,ont.getResource(OntoManagement.NS + mduri));
-                            found = true;
-                        }
-                        i++;
-                    }
-
-                            //create a new dataset version = an Asset
-                            UUID dsUri = UUID.randomUUID();
-                            //OntClass c=ont.createClass("http://www.w3.org/ns/dcat#Dataset");
-                            OntClass c=ont.createClass("http://www.w3.org/ns/adms#Asset");
-                            c.createIndividual(gtdcat+dsUri);
-                            
-                            //add the title of the dataset 
-                            DatatypeProperty dp=ont.createDatatypeProperty("http://purl.org/dc/elements/1.1/title");
-                            ont.add(ont.getResource(gtdcat+dsUri),dp,metadata.getDelivryDS());
-                            
-                            //add the version of the dataset through owl:versionInfo
-                            dp=ont.createDatatypeProperty("http://www.w3.org/2002/07/owl#versionInfo");
-                            ont.add(ont.getResource(gtdcat+dsUri),dp,"V1.0");
-
-                            //add the version note of the dataset through adms:versionNotes
-                            dp=ont.createDatatypeProperty("http://www.w3.org/ns/adms#versionNotes");
-                            ont.add(ont.getResource(gtdcat+dsUri),dp,"Original version of the dataset");
-                            
-                            //add the default status of the dataset, which is unverified
-                            String statusURI= "http://lab.ponciano.info/ontology/2020/geotime/data-status#unverified";
-                            c=ont.createClass("http://www.w3.org/2004/02/skos/core#Concept");
-                            c.createIndividual(statusURI);
-                            ObjectProperty op=ont.createObjectProperty("http://www.w3.org/ns/adms#status");
-                            ont.add(ont.getResource(gtdcat+dsUri),op,ont.getResource(statusURI));
-                            
-                            //link dataset to catalog through dcat:dataset
-                            op=ont.createObjectProperty("http://www.w3.org/ns/dcat#dataset");
-                            ont.add(ont.getResource(gtdcat+"gdi_catalog"),op,ont.getResource(gtdcat+dsUri));
-                            
-                            //link dataset to metadata record through foaf:primaryTopic
-                            op=ont.createObjectProperty("http://xmlns.com/foaf/0.1/primaryTopic");
-                            ont.add(ont.getResource(OntoManagement.NS + mduri),op,ont.getResource(gtdcat+dsUri));
-
-                            //create the RDF distribution
-                                    UUID distRdfUri = UUID.randomUUID();
-                                    c=ont.createClass("http://www.w3.org/ns/dcat#Distribution");
-                                    c.createIndividual(gtdcat+distRdfUri);
-                            //create the SHP distribution
-                                    UUID distShpUri = UUID.randomUUID();
-                                    c.createIndividual(gtdcat+distShpUri);
-                                    
-                            //associate the distributions to the newly created dataset
-                                    op=ont.createObjectProperty("http://www.w3.org/ns/dcat#distribution");
-                                    ont.add(ont.getResource(gtdcat + dsUri),op,ont.getResource(gtdcat+distRdfUri));
-                                    ont.add(ont.getResource(gtdcat + dsUri),op,ont.getResource(gtdcat+distShpUri));
-                                   
-                            //create a dataservice 
-                                    UUID dservUriRDF = UUID.randomUUID();
-                                    c=ont.createClass("http://www.w3.org/ns/dcat#DataService");
-                                    c.createIndividual(gtdcat+dservUriRDF);
-                                    UUID dservUriSHP = UUID.randomUUID();
-                                    c.createIndividual(gtdcat+dservUriSHP);
-
-                            //create the local access as a resource
-                                    String hrefRDF="https://local"+rdfdata;
-                                    ont.createResource(hrefRDF);
-                                    String hrefSHP="https://local/shapefile-data/"+file.getOriginalFilename();
-                                    ont.createResource(hrefSHP);
-                                    
-                            // associate it the url to access it
-                                    op=ont.createObjectProperty("http://www.w3.org/ns/dcat#endpointURL");
-                                    ont.add(ont.getResource(gtdcat + dservUriRDF),op,ont.getResource(hrefRDF));
-                                    ont.add(ont.getResource(gtdcat + dservUriSHP),op,ont.getResource(hrefSHP));
-                                    
-                            //associate the dataservice to the distribution
-                                    op=ont.createObjectProperty("http://www.w3.org/ns/dcat#accessService");
-                                    ont.add(ont.getResource(gtdcat + distRdfUri),op,ont.getResource(gtdcat+dservUriRDF));
-                                    ont.add(ont.getResource(gtdcat + distShpUri),op,ont.getResource(gtdcat+dservUriSHP));
-                                    
-                            //add the title to the distribution
-                                    String title=metadata.getDelivryDS()+ " (RDF data)";
-                                    ont.add(ont.getResource(gtdcat+distRdfUri),dp,title);
-                                    title=metadata.getDelivryDS()+ " (Shapefile)";
-                                    ont.add(ont.getResource(gtdcat+dservUriSHP),dp,title);
-
-                            KB.get().getOnt().add(ont);
-                            KB.get().save();
+            	try {
+            	//retrieve the RDF representation of the data associated to its metadata
+            	OntModel ont= data.representationRDF(rdfdata, file.getOriginalFilename());
+                KB.get().getOnt().add(ont);
+                KB.get().save();
 
                 } catch (IOException | OntoManagementException ex) {
                     Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 rtn = "redirect:/data/ShpUplift";
             }
-        }catch(
-
-	ControllerException ex)
-	{
-		// TODO remove file from upload-dir
-		final String message = "The uplift fails: " + ex.getMessage();
-		rtn = "redirect:/data/error?name=" + message;
-	}return rtn;
+        }
+        catch(ControllerException ex)
+			{
+				// TODO remove file from upload-dir
+				final String message = "The uplift fails: " + ex.getMessage();
+				rtn = "redirect:/data/error?name=" + message;
+			}
+        return rtn;
 	}
 
 	private String ShpUpliftProcess() {
@@ -506,6 +413,12 @@ public class DataController {
 		// 2- save the resulting RDF file into a directory "rdf-data" and return the RDF
 		// file path (NB: empty string "", if no file)
 		throw new java.lang.UnsupportedOperationException("Not supported yet.");
+	}
+	
+	// initialize the model attribute "updatedData"
+	@ModelAttribute(name = "updatedData")
+	public SHPdata updatedData() {
+		return new SHPdata();
 	}
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
