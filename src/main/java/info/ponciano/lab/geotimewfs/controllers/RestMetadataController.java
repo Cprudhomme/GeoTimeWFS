@@ -3,10 +3,7 @@ import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
