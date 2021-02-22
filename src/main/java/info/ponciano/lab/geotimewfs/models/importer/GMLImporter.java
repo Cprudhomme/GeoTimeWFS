@@ -16,6 +16,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 import info.ponciano.lab.geotimewfs.models.parser.KnownSchemaParser;
 
 
+@SuppressWarnings("deprecation")
 public class GMLImporter extends FormatImporter {
 
 	public static OntModel enrichClasses(OntModel model, OntModel model2, Boolean enrich) {

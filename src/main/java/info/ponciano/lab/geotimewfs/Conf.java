@@ -18,7 +18,6 @@
  */
 package info.ponciano.lab.geotimewfs;
 
-import info.ponciano.lab.geotimewfs.controllers.examples.semanticwfs.ResController;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -39,7 +38,7 @@ public class Conf {
         try {
             this.wfsconf = new JSONObject(new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8));
         } catch (IOException ex) {
-            Logger.getLogger(ResController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Conf.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public static Conf get(){

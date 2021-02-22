@@ -7,16 +7,11 @@ import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagement;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.rdf.model.RDFNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -88,6 +83,7 @@ public class MetadataController {
             if (upliftOk) {
                 int index = file.getOriginalFilename().indexOf(".");
                 String fn = file.getOriginalFilename().substring(0, index);
+                System.out.println(fn);
                 KB.get().save();
                 //return "redirect:/metadata";
                 rtn = "redirect:/metadata/uplift";
@@ -95,9 +91,8 @@ public class MetadataController {
                 throw new ControllerException("file format was incorrect");
             }
         } catch (OntoManagementException | ControllerException | IOException ex) {
-            //7Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
+        	//TODO remove file from upload-dir
             final String message = "The uplift fails: " + ex.getMessage();
-            // redirectAttributes.addFlashAttribute("message", nessage);
             rtn = "redirect:/error?name=" + message;
         }
         return rtn;

@@ -24,7 +24,12 @@ package info.ponciano.lab.geotimewfs.controllers;
  */
 public class ControllerException extends Exception{
 
-    public ControllerException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -749076300734198568L;
+
+	public ControllerException(String message) {
         super(message);
     }
     

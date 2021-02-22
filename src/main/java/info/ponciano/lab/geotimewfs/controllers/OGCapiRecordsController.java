@@ -20,19 +20,15 @@ package info.ponciano.lab.geotimewfs.controllers;
 
 import info.ponciano.lab.geotimewfs.models.Catalog;
 import info.ponciano.lab.geotimewfs.models.Catalogs;
-import info.ponciano.lab.geotimewfs.models.SemanticWFSRequest;
-import info.ponciano.lab.geotimewfs.models.semantic.KB;
+
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.crypto.dsig.XMLObject;
-import org.json.HTTP;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.ui.Model;

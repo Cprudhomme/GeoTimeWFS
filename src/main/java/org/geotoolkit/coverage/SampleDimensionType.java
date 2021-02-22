@@ -22,6 +22,11 @@ import static org.opengis.annotation.Specification.*;
 @Deprecated
 public final class SampleDimensionType extends CodeList<SampleDimensionType> {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4367718087387270368L;
+
+	/**
      * List of all enumerations of this type.
      * Must be declared before any enum declaration.
      */
