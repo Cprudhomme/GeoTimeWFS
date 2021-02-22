@@ -18,6 +18,9 @@
  */
 package info.ponciano.lab.geotimewfs.controllers;
 
+import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
+import info.ponciano.lab.geotimewfs.controllers.storage.StorageFileNotFoundException;
+
 import info.ponciano.lab.geotimewfs.models.Metadata;
 import info.ponciano.lab.geotimewfs.models.SemanticWFSRequest;
 import info.ponciano.lab.geotimewfs.models.semantic.KB;
@@ -28,6 +31,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.apache.jena.ontology.ObjectProperty;
@@ -39,11 +44,21 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -53,12 +68,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class DataController {
 
     private SemanticWFSRequest swfs;
+    private final StorageService storageService;
 
     @Autowired
-    public DataController() {
+    public DataController(StorageService storageService) {
+        this.storageService = storageService;
         swfs = new SemanticWFSRequest();
     }
 
+  //=============================== Linking Metadata to Data =======================
+    
     //initialize the model attribute
     @ModelAttribute(name = "metadata")
     public Metadata metadata() {
@@ -78,7 +97,7 @@ public class DataController {
         } catch (OntoManagementException ex) {
             Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
             final String message = "The connexion to the ontology fails: " + ex.getMessage();
-            rtn = "redirect:/error?name=" + message;
+            rtn = "redirect:/data/error?name=" + message;
         }
         //retrieve data collections from the semantic WFS
         try {
@@ -90,7 +109,7 @@ public class DataController {
         } catch (IOException | InterruptedException | ParseException ex) {
             Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
             final String message = "Collection retrieving from the semantic WFS has failed: " + ex.getMessage();
-            rtn = "redirect:/error?name=" + message;
+            rtn = "redirect:/data/error?name=" + message;
         }
         return rtn;
 
@@ -274,6 +293,10 @@ public class DataController {
         }
         return "redirect:/home";
     }
+    
+//=============================== Data management =======================
+    
+  //========== Data Uplift management ==========
     /*
     @GetMapping("/data/uplift")
     public String getUpliftView( Model model) {
@@ -284,5 +307,81 @@ public class DataController {
        return null;
     }
      */
+    
+    /**
+     * 
+     * @param model represents the thymeleaf model accessible through the view
+     * @return the web interface to choose a shapefile to uplift
+     */
+    @GetMapping("/data/ShpUplift")
+    public String getShpUpliftView(Model model) {
+    	model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(MetadataController.class,
+                        "serveFile", path.getFileName().toString()).build().toUri().toString())
+                .collect(Collectors.toList()));
+        return "shpUpliftView";
+    }
+
+	@GetMapping("/data/ShpUplift/files/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+
+    	Resource file = storageService.loadAsResource(filename);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+    
+    /**
+     * 
+     * @param file represents the shapefile to uplift into RDF triples
+     * @param redirectAttributes attributes provided to the view
+     * @return the same view with a message informing about the successful uplift and the link to the provided file
+     */
+    @PostMapping("/data/ShpUplift")
+    public String postShpUpliftAction(@RequestParam("file") MultipartFile file,
+        RedirectAttributes redirectAttributes) {
+
+        String rtn = "";
+        try {
+            // store file
+            storageService.store(file);
+
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully uplift the shapefile: " + file.getOriginalFilename() + "!");
+            String rdfdata=ShpUpliftProcess();
+            if (rdfdata.equals("")) {
+            	throw new ControllerException("file format was incorrect");
+            } else {
+            	//TODO
+                rtn = "redirect:/data/ShpUplift";
+            }
+        } catch (ControllerException ex) {
+        	//TODO remove file from upload-dir
+            final String message = "The uplift fails: " + ex.getMessage();
+            rtn = "redirect:/data/error?name=" + message;
+        }
+        return rtn;
+    }
+
+	private String ShpUpliftProcess() {
+	// TODO 1.0 @JJPONCIANO 
+		//1- execution of script to transform Shapefile into RDF file (NB: storage of mapping file into the directory "r2rml-mapping" for now, later on git)
+		//2- save the resulting RDF file into a directory "rdf-data" and return the RDF file path (NB: empty string "", if no file) 
+		throw new java.lang.UnsupportedOperationException("Not supported yet.");
+	}
+	
+    @ExceptionHandler(StorageFileNotFoundException.class)
+    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("data/error")
+    public String errorManagement(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
+        model.addAttribute("message", name);
+        return "errorView";
+
+    }
+    
+  //========== Spatio-temporal Data management ==========
 
 }
