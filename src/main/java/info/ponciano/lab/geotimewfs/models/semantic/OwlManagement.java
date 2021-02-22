@@ -18,7 +18,6 @@
  */
 package info.ponciano.lab.geotimewfs.models.semantic;
 
-import static info.ponciano.lab.geotimewfs.models.semantic.OntoManagement.NS;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -40,9 +39,6 @@ import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntProperty;
 import org.apache.jena.ontology.OntResource;
-import org.apache.jena.ontology.impl.OntModelImpl;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
@@ -311,6 +307,7 @@ class OwlManagement extends OntoManagement {
         //and retrieve its URI into a variable
         String dsuri= NS +"dataset_"+ UUID.randomUUID().toString();
         Individual ds = om.createIndividual(dsuri, this.ont.getOntClass("http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_Dataset"));
+        System.out.println(ds);
         //Add a link between the dataset individual and each individual of the ontmodel
         //having a geometry
         
