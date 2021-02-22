@@ -5,11 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TimeZone;
@@ -24,7 +22,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
-import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.WKTReader; 
 
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +30,6 @@ import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
-import org.apache.jena.ontology.OntProperty;
 import org.apache.jena.ontology.OntResource;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
@@ -138,7 +134,7 @@ public class KnownSchemaParser implements ContentHandler {
 		this.model = model;
 		this.codelist = model.createClass("http://semgis.de/geodata#Codelist");
 		this.outertagCounter = 0;
-		this.envelope = false;
+		this.setEnvelope(false);
 		this.knownMappings = new TreeMap<String, OntResource>();
 		this.openedTags = new LinkedList<String>();
 		this.openedTags2 = new LinkedList<String>();
@@ -254,7 +250,7 @@ public class KnownSchemaParser implements ContentHandler {
 					this.currentIndividual.setRDFType(cls);
 					this.currentType = uriString;
 					if (uriString.contains("Envelop")) {
-						this.envelope = true;
+						this.setEnvelope(true);
 						this.multipleChildrenBuffer.delete(0, this.multipleChildrenBuffer.length());
 						this.attbuilder = this.attbuilder.delete(0, this.attbuilder.length());
 						attbuilder.append("<");
@@ -352,7 +348,7 @@ public class KnownSchemaParser implements ContentHandler {
 		literalBuffer.append(literal.trim());
 		if (featureMember && openedTags.size() > 1 && !literal.trim().isEmpty()) {
 			if (openedTags.get(openedTags.size() - 1).contains("value")) {
-				this.stringAttributeBool = false;
+				this.setStringAttributeBool(false);
 				System.out.println("StringAttribute Adding: " + this.stringAttribute + " - " + literal);
 				currentIndividual.addProperty(model.createDatatypeProperty(this.stringAttribute),
 						this.determineLiteralType(literal));
@@ -399,7 +395,7 @@ public class KnownSchemaParser implements ContentHandler {
 								this.currentIndividual);
 						this.lastlinkedIndividual = null;
 					}
-					Geometry geom = (Geometry) wktreader.read(wktlit);
+					wktreader.read(wktlit);
 					this.currentIndividual.addProperty(this.model.createDatatypeProperty(NSGEO + WKT),
 							this.model.createTypedLiteral(wktlit, NSGEO + WKTLiteral));
 				} catch (Exception e) {
@@ -443,42 +439,42 @@ public class KnownSchemaParser implements ContentHandler {
 		return result;
 	}
 
-	private Map<String, String> restrictedTypes(String classType) {
-		Map<String, String> restrictedTypes = new TreeMap<String, String>();
-		Queue<String> superClasses = new LinkedList<String>();
-		for (Iterator<OntClass> supers = this.model.getOntClass(classType).listSuperClasses(true); supers.hasNext();) {
-			OntClass superClass = supers.next();
-
-			if (superClass.isRestriction() && superClass.asRestriction().isAllValuesFromRestriction()) {
-				OntProperty prop = superClass.asRestriction().getOnProperty();
-				restrictedTypes.put(prop.getURI(),
-						((OntClass) superClass.asRestriction().asAllValuesFromRestriction().getAllValuesFrom())
-								.getURI());
-			} else if (superClass.isClass() && superClass.getURI() != null) {
-				// System.out.println("New SuperClass: "+superClass.toString());
-				superClasses.add(superClass.toString());
-			}
-		}
-		if (!superClasses.isEmpty()) {
-			while (!superClasses.isEmpty()) {
-				String cls = superClasses.poll();
-				for (Iterator<OntClass> supers = this.model.getOntClass(cls).listSuperClasses(true); supers
-						.hasNext();) {
-					OntClass superClass = supers.next();
-					if (superClass.isRestriction() && superClass.asRestriction().isAllValuesFromRestriction()) {
-						OntProperty prop = superClass.asRestriction().getOnProperty();
-						restrictedTypes.put(prop.getURI(),
-								((OntClass) superClass.asRestriction().asAllValuesFromRestriction().getAllValuesFrom())
-										.getURI());
-					} else if (superClass.isClass() && superClass.getURI() != null) {
-						// System.out.println("New SuperClass: "+superClass.toString());
-						superClasses.add(superClass.getURI());
-					}
-				}
-			}
-		}
-		return restrictedTypes;
-	}
+//	private Map<String, String> restrictedTypes(String classType) {
+//		Map<String, String> restrictedTypes = new TreeMap<String, String>();
+//		Queue<String> superClasses = new LinkedList<String>();
+//		for (Iterator<OntClass> supers = this.model.getOntClass(classType).listSuperClasses(true); supers.hasNext();) {
+//			OntClass superClass = supers.next();
+//
+//			if (superClass.isRestriction() && superClass.asRestriction().isAllValuesFromRestriction()) {
+//				OntProperty prop = superClass.asRestriction().getOnProperty();
+//				restrictedTypes.put(prop.getURI(),
+//						((OntClass) superClass.asRestriction().asAllValuesFromRestriction().getAllValuesFrom())
+//								.getURI());
+//			} else if (superClass.isClass() && superClass.getURI() != null) {
+//				// System.out.println("New SuperClass: "+superClass.toString());
+//				superClasses.add(superClass.toString());
+//			}
+//		}
+//		if (!superClasses.isEmpty()) {
+//			while (!superClasses.isEmpty()) {
+//				String cls = superClasses.poll();
+//				for (Iterator<OntClass> supers = this.model.getOntClass(cls).listSuperClasses(true); supers
+//						.hasNext();) {
+//					OntClass superClass = supers.next();
+//					if (superClass.isRestriction() && superClass.asRestriction().isAllValuesFromRestriction()) {
+//						OntProperty prop = superClass.asRestriction().getOnProperty();
+//						restrictedTypes.put(prop.getURI(),
+//								((OntClass) superClass.asRestriction().asAllValuesFromRestriction().getAllValuesFrom())
+//										.getURI());
+//					} else if (superClass.isClass() && superClass.getURI() != null) {
+//						// System.out.println("New SuperClass: "+superClass.toString());
+//						superClasses.add(superClass.getURI());
+//					}
+//				}
+//			}
+//		}
+//		return restrictedTypes;
+//	}
 
 	private Literal determineLiteralType(String literal) {
 		try {
@@ -600,7 +596,7 @@ public class KnownSchemaParser implements ContentHandler {
 
 		{
 			if (localName.contains("Envelop")) {
-				this.envelope = false;
+				this.setEnvelope(false);
 				if (this.lastlinkedIndividual != null)
 					this.lastlinkedIndividual.addProperty(this.model.createObjectProperty(NSGEO + hasGeometry),
 							this.currentIndividual);
@@ -620,7 +616,7 @@ public class KnownSchemaParser implements ContentHandler {
 									this.currentIndividual);
 							this.lastlinkedIndividual = null;
 						}
-						Geometry geom = (Geometry) wktreader.read(wktlit);
+						 wktreader.read(wktlit);
 						this.currentIndividual.addProperty(this.model.createDatatypeProperty(NSGEO + WKT),
 								this.model.createTypedLiteral(wktlit, NSGEO + WKTLiteral));
 					} catch (Exception e) {
@@ -666,7 +662,7 @@ public class KnownSchemaParser implements ContentHandler {
 			this.featureMember = false;
 		}
 		if (localName.contains("stringAttribute")) {
-			stringAttributeBool = false;
+			setStringAttributeBool(false);
 		}
 		if ((uri + "#" + localName).equals(currentType)) {
 			this.inClass = false;
@@ -813,6 +809,22 @@ public class KnownSchemaParser implements ContentHandler {
 	public void skippedEntity(String name) throws SAXException {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Boolean getEnvelope() {
+		return envelope;
+	}
+
+	public void setEnvelope(Boolean envelope) {
+		this.envelope = envelope;
+	}
+
+	public Boolean getStringAttributeBool() {
+		return stringAttributeBool;
+	}
+
+	public void setStringAttributeBool(Boolean stringAttributeBool) {
+		this.stringAttributeBool = stringAttributeBool;
 	}
 
 }
