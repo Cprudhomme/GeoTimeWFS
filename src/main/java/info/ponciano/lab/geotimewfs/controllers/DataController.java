@@ -20,14 +20,18 @@ package info.ponciano.lab.geotimewfs.controllers;
 
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageFileNotFoundException;
-
 import info.ponciano.lab.geotimewfs.models.Metadata;
 import info.ponciano.lab.geotimewfs.models.SHPdata;
 import info.ponciano.lab.geotimewfs.models.SemanticWFSRequest;
 import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagement;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
+import info.ponciano.lab.pitools.files.PiFile;
+
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -317,7 +321,7 @@ public class DataController {
 	 */
 
 	/**
-	 * 
+	 *
 	 * @param model represents the thymeleaf model accessible through the view
 	 * @return the web interface to choose a shapefile to uplift
 	 */
@@ -355,8 +359,9 @@ public class DataController {
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
 				.body(file);
+
 	}
-	
+
 	// initialize the model attribute "data"
 		@ModelAttribute(name = "data")
 		public SHPdata data() {
@@ -364,7 +369,7 @@ public class DataController {
 		}
 
 	/**
-     * 
+     *
      * @param data is the model of SHPdata fulfilled by the view
      * @param file represents the shapefile to uplift into RDF triples
      * @param redirectAttributes attributes provided to the view
@@ -406,17 +411,8 @@ public class DataController {
         return rtn;
 	}
 
-	private String ShpUpliftProcess() {
-		// TODO 1.0 @JJPONCIANO
-		// 1- execution of script to transform Shapefile into RDF file (NB: storage of
-		// mapping file into the directory "r2rml-mapping" for now, later on git)
-		// 2- save the resulting RDF file into a directory "rdf-data" and return the RDF
-		// file path (NB: empty string "", if no file)
-		throw new java.lang.UnsupportedOperationException("Not supported yet.");
-	}
-	
 	/**
-	 * 
+	 *
 	 * @param model represents the thymeleaf model accessible through the view
 	 * @return the web interface to choose a shapefile to uplift
 	 */
@@ -444,15 +440,15 @@ public class DataController {
 
 		return rtn;
 	}
-	
+
 	// initialize the model attribute "updatedData"
 	@ModelAttribute(name = "updatedData")
 	public SHPdata updatedData() {
 		return new SHPdata();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param updatedData is the model of SHPdata fulfilled by the view
 	 * @param file represents the shapefile to uplift into RDF triples
      * @param redirectAttributes attributes provided to the view
@@ -492,6 +488,130 @@ public class DataController {
 				rtn = "redirect:/data/error?name=" + message;
 			}
         return rtn;
+
+	private static final String DIR_RDF_DATA = "rdf-data/";
+	private static final String DIR_R2ML_MAPPING = "r2rml-mapping/";
+
+	/**
+	 * Uplift a shape file to RDF data by executing an external script
+	 *
+	 * @param pathSHP  path of the shape file
+	 * @param URI      URI use to creates RDF individuals
+ 	 * @return [0]: path of the RDF data, and in [1]: path of the mapping TTL file
+	 * @throws IOException
+	 */
+	protected static String[] shpUpliftProcess(String pathSHP, String URI) throws IOException {
+		String scriptJarPAth="script/geotriples-dependencies.jar";
+		PiFile scriptDir = new PiFile("script");
+		if (!scriptDir.exists())
+			scriptDir.mkdir();
+		PiFile scriptJar = new PiFile(scriptJarPAth);
+		if (!scriptJar.exists()) {
+			downloadDependencies();
+		}
+
+		 boolean sync=true;
+		// clone the repository according to the GIT
+		// JGit jgit=new JGit("geotriples",
+		// "https://github.com/LinkedEOData/GeoTriples.git"); Could be interesting ot
+		// use git directly
+
+		PiFile rdfData = new PiFile(DIR_RDF_DATA);
+		PiFile r2ml = new PiFile(DIR_R2ML_MAPPING);
+		// test if the directories exists. If not creates it
+		if (!rdfData.exists())
+			rdfData.mkdir();
+		if (!r2ml.exists())
+			r2ml.mkdir();
+
+		String pathTTL = rdfData + UUID.randomUUID().toString() + ".ttl";
+		String pathMappingTTL = r2ml + UUID.randomUUID().toString() + ".ttl";
+		//String dir_script = "src/main/resources/script/";
+
+		/* Generate Mapping files: */
+
+		//String cmdGMF = "java -cp " + dir_script + "geotriples-core/geotriples-dependencies.jar eu.linkedeodata.geotriples.GeoTriplesCMD generate_mapping -o  " + pathMappingTTL + " -b " + URI + " " + pathSHP;
+		String cmdGMF = "java -cp " + scriptJarPAth + " eu.linkedeodata.geotriples.GeoTriplesCMD generate_mapping -o  " + pathMappingTTL + " -b " + URI + " " + pathSHP;
+
+
+		System.out.println(cmdGMF);
+		var p1 = Runtime.getRuntime().exec(cmdGMF);
+		/* Transform file into RDF */
+		if (sync)
+			while (p1.isAlive()) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		// java -cp <geotriples-core/ dependencies jar>
+		// eu.linkedeodata.geotriples.GeoTriplesCMD dump_rdf -o <output file> -b <URI
+		// base> (-sh <shp file>) <(produced) mapping file (.ttl)>
+		String cmdRDF = "java -cp " + scriptJarPAth
+				+ " eu.linkedeodata.geotriples.GeoTriplesCMD dump_rdf -o "
+				+ pathTTL + " -b " + URI + " -sh " + pathSHP + " " + pathMappingTTL;
+		System.out.println(cmdRDF);
+		var p2 = Runtime.getRuntime().exec(cmdRDF);
+
+		if (sync)
+			while ( p2.isAlive()) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+
+		return new String[] { pathTTL, pathMappingTTL };
+
+
+	}
+
+	/**
+	 *
+	 */
+	public static final void downloadDependencies() {
+		String url = "https://seafile.rlp.net/f/c2d485a9fb4a4415b271/?dl=1";
+		try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
+				  FileOutputStream fileOS = new FileOutputStream("/Users/username/Documents/file_name.txt")) {
+				    byte data[] = new byte[1024];
+				    int byteContent;
+				    while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
+				        fileOS.write(data, 0, byteContent);
+				    }
+				} catch (IOException e) {
+				   System.err.println("SHP 2 RDF error: dependancies not downloaded\n"+e.getMessage());
+				}
+	}
+
+	// TODO @CPrudhomme:Remove the main method if the function shpUpliftProcess
+	// satisfy your expectation
+	public static void main(String[] args) {
+		String URI = "http://i3mainz.de/";
+		String shapeFilePAth = "src/main/resources/datatest/vg250krs.shp";
+		String[] results;
+		try {
+			results = shpUpliftProcess(shapeFilePAth, URI);
+
+			// assert not null
+			if (results.length == 2 && results[0] != null && results[1] != null) {
+				System.out.println("Path RDF: " + results[0]);
+				System.out.println("Path RDF: " + results[1]);
+				if (!new PiFile(results[0]).exists() || !new PiFile(results[1]).exists())
+					System.err.println("Something wrongin shpUpliftProcess(" + shapeFilePAth + "," + URI
+							+ "): the results files are not created");
+
+			} else
+				System.err.println("Something wrongin shpUpliftProcess(" + shapeFilePAth + "," + URI + ")");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
