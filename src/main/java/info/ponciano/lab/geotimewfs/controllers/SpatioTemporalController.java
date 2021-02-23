@@ -29,8 +29,8 @@ public class SpatioTemporalController {
 		model.addAttribute("pd", pd);
 		model.addAttribute("po", po);
 		
-		List<String> versions = stm.getVersion();
-		String[] shpArray= { "/data/vg250krs.shp"}; 
+		List<String> versions = stm.getVersion();	
+		String[] shpArray= { "/data/vg250krs_1998.shp","/data/vg250krs_1999.shp","/data/vg250krs_2000.shp"}; 
 		model.addAttribute("shp",shpArray);
 //		model.addAttribute("dbf", "/data/vg250krs.dbf");
 		model.addAttribute("versions", versions);
