@@ -106,7 +106,25 @@ public class JGit {
 		// closed to avoid file handle leaks!
 		System.out.println("Having repository: " + git.getRepository().getDirectory());
 	}
-
+	/**
+	 * Clone a git repository without credential
+	 * @param localRepoName local name of the repository
+	 * @param url url of the remote repository to clone 
+	 * @throws InvalidRemoteException if the remote url is wrong
+	 * @throws TransportException if something wrong during the download
+	 * @throws GitAPIException if simething wrong in the git comment ( e.g. git not installed)
+	 */
+	public JGit(String localRepoName, String url)
+			throws InvalidRemoteException, TransportException, GitAPIException {
+		// prepare a new folder for the cloned repository
+		this.cp = null;
+		// then clone
+		System.out.println("Cloning from " + url + " to " + localRepoName);
+		this.git = Git.cloneRepository().setURI(url).setDirectory(new File(localRepoName)).call();
+		// Note: the call() returns an opened repository already which needs to be
+		// closed to avoid file handle leaks!
+		System.out.println("Having repository: " + git.getRepository().getDirectory());
+	}
 	/**
 	 * @param localPath
 	 * @param url

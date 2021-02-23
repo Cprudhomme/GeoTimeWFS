@@ -40,3 +40,10 @@ geotimeOutput.owl
 .DS_Store
 schema-storage/
 upload-dir/metadata.xml
+e605e087-f19e-4672-8749-57b87869f28d.ttl
+.workspace
+mappingjj2.ttl
+r2rml-mapping/
+rdf-data/
+testjj2.ttl
+script/geotriples-dependencies.jar
