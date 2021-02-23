@@ -33,7 +33,7 @@
 					<td><label id="mdlabel">Dataset to update: </label></td>
 					<td>
 						<select th:field="*{prevAsset}">
-                        	<option th:each="dt : ${Dlist}" th:value="${dt[1]}" th:text="${dt[1]}" th:id="${dt[0]}"></option>
+                        	<option th:each="dt : ${Dlist}" th:value="${dt}" th:text="${dt}" th:id="${dt}"></option>
                      	</select>
                 	</td>
                 </tr>

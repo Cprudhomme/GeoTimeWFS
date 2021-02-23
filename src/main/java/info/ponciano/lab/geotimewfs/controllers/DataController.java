@@ -28,10 +28,7 @@ import info.ponciano.lab.geotimewfs.models.semantic.OntoManagement;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import info.ponciano.lab.pitools.files.PiFile;
 
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -333,7 +330,8 @@ public class DataController {
 			// retrieve metadata
 			Metadata md = new Metadata();
 			List<String[]> info = md.getMetadata();
-			// providing the list of info to the model to allow the view to display all available metadata
+			// providing the list of info to the model to allow the view to display all
+			// available metadata
 			model.addAttribute("MDlist", info);
 		} catch (OntoManagementException ex) {
 			Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
@@ -363,52 +361,77 @@ public class DataController {
 	}
 
 	// initialize the model attribute "data"
-		@ModelAttribute(name = "data")
-		public SHPdata data() {
-			return new SHPdata("V1.0", "Original version of the dataset");
-		}
+	@ModelAttribute(name = "data")
+	public SHPdata data() {
+		return new SHPdata("V1.0", "Original version of the dataset");
+	}
 
 	/**
-     *
-     * @param data is the model of SHPdata fulfilled by the view
-     * @param file represents the shapefile to uplift into RDF triples
-     * @param redirectAttributes attributes provided to the view
-     * @return the same view with a message informing about the successful uplift and the link to the provided file
-     */
-    @PostMapping("/data/ShpUplift")
-    public String postShpUpliftAction(@ModelAttribute("data") SHPdata data, @RequestParam("file") MultipartFile file,
-        RedirectAttributes redirectAttributes) {
-        String rtn = "";
-        try {
-            // store file
-            storageService.store(file);
+	 *
+	 * @param data               is the model of SHPdata fulfilled by the view
+	 * @param file               represents the shapefile to uplift into RDF triples
+	 * @param redirectAttributes attributes provided to the view
+	 * @return the same view with a message informing about the successful uplift
+	 *         and the link to the provided file
+	 */
+	@PostMapping("/data/ShpUplift")
+	public String postShpUpliftAction(@ModelAttribute("data") SHPdata data, @RequestParam("file") MultipartFile file,
+			RedirectAttributes redirectAttributes) {
+		String rtn = "";
 
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uplift the shapefile: " + file.getOriginalFilename() + "!");
-            //transform Shapefile into RDF data
-            String rdfdata=ShpUpliftProcess();
-            if (rdfdata.equals("")) {
-            	throw new ControllerException("file format was incorrect");
-            } else {
-            	try {
-            	//retrieve the RDF representation of the data associated to its metadata
-            	OntModel ont= data.representationRDF(rdfdata, file.getOriginalFilename());
-                KB.get().getOnt().add(ont);
-                KB.get().save();
+		// store file
+		storageService.store(file);
 
-                } catch (IOException | OntoManagementException ex) {
-                    Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                rtn = "redirect:/data/ShpUplift";
-            }
-        }
-        catch(ControllerException ex)
-			{
-				// TODO remove file from upload-dir
-				final String message = "The uplift fails: " + ex.getMessage();
-				rtn = "redirect:/data/error?name=" + message;
+		redirectAttributes.addFlashAttribute("message",
+				"You successfully uplift the shapefile: " + file.getOriginalFilename() + "!");
+
+		String pathSHP = "upload-dir/" + file.getOriginalFilename();
+		String uri = "http://lab.ponciano.info/ontology/2020/geotime/data#";
+		try {
+			// transform Shapefile into RDF data
+			String[] rdfdata = SHPdata.shpUpliftProcess(pathSHP, uri);
+
+			// creation of ontology representation, if the uplift has worked
+			if (rdfdata == null) {
+				throw new ControllerException("file format was incorrect");
+			} else {
+				try {
+					// retrieve the RDF representation of the data associated to its metadata
+					OntModel ont = data.representationRDF(rdfdata[0], file.getOriginalFilename());
+					KB.get().getOnt().add(ont);
+					KB.get().save();
+
+				} catch (Exception ex) {
+					Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
+				}
+				// store the shapefile
+				moveFile(file.getOriginalFilename(), pathSHP);
+				rtn = "redirect:/data/ShpUplift";
 			}
-        return rtn;
+		} catch (ControllerException | IOException ex) {
+			try {
+				new PiFile(pathSHP).delete();
+			} catch (IOException e) {
+				System.err.println(pathSHP + " file cannot be deleted");
+			}
+			final String message = "The uplift fails: " + ex.getMessage();
+			rtn = "redirect:/data/error?name=" + message;
+		}
+		return rtn;
+	}
+
+	/**
+	 * move a file from a directory to the Shapefile storage directory
+	 * 
+	 * @param filename: name of the file to move
+	 * @param pathSHP:  initial path of the file to move
+	 * @throws IOException
+	 */
+	private void moveFile(String filename, String pathSHP) throws IOException {
+		PiFile dirSHPdata = new PiFile(SHPdata.DIR_SHP_DATA);
+		if (!dirSHPdata.exists())
+			dirSHPdata.mkdir();
+		new PiFile(pathSHP).mv(dirSHPdata.getPath() + filename);
 	}
 
 	/**
@@ -424,7 +447,8 @@ public class DataController {
 			// retrieve assets
 			SHPdata md = new SHPdata();
 			List<String[]> info = md.getDataSet();
-			model.addAttribute("Dlist", info);
+			List<String> infolist = md.getInfoString(info);
+			model.addAttribute("Dlist", infolist);
 		} catch (OntoManagementException ex) {
 			Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
 			final String message = "The connexion to the ontology fails: " + ex.getMessage();
@@ -449,169 +473,54 @@ public class DataController {
 
 	/**
 	 *
-	 * @param updatedData is the model of SHPdata fulfilled by the view
-	 * @param file represents the shapefile to uplift into RDF triples
-     * @param redirectAttributes attributes provided to the view
-     * @return the same view with a message informing about the successful uplift and the link to the provided file
+	 * @param updatedData        is the model of SHPdata fulfilled by the view
+	 * @param file               represents the shapefile to uplift into RDF triples
+	 * @param redirectAttributes attributes provided to the view
+	 * @return the same view with a message informing about the successful uplift
+	 *         and the link to the provided file
 	 */
 	@PostMapping("/data/ShpUpdate")
-    public String postShpUpdateAction(@ModelAttribute("updatedData") SHPdata updatedData, @RequestParam("file") MultipartFile file,
-        RedirectAttributes redirectAttributes) {
-        String rtn = "";
-        try {
-            // store file
-            storageService.store(file);
+	public String postShpUpdateAction(@ModelAttribute("updatedData") SHPdata updatedData,
+			@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+		String rtn = "";
 
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uplift the shapefile: " + file.getOriginalFilename() + "!");
-            //transform Shapefile into RDF data
-            String rdfdata=ShpUpliftProcess();
-            if (rdfdata.equals("")) {
-            	throw new ControllerException("file format was incorrect");
-            } else {
-            	try {
-            	//retrieve the RDF representation of the data associated to its metadata
-            	OntModel ont= updatedData.representationRDF(rdfdata, file.getOriginalFilename());
-                KB.get().getOnt().add(ont);
-                KB.get().save();
+		// store file
+		storageService.store(file);
 
-                } catch (IOException | OntoManagementException ex) {
-                    Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                rtn = "redirect:/data/ShpUpdate";
-            }
-        }
-        catch(ControllerException ex)
-			{
-				// TODO remove file from upload-dir
-				final String message = "The uplift fails: " + ex.getMessage();
-				rtn = "redirect:/data/error?name=" + message;
-			}
-        return rtn;
+		redirectAttributes.addFlashAttribute("message",
+				"You successfully uplift the shapefile: " + file.getOriginalFilename() + "!");
 
-	private static final String DIR_RDF_DATA = "rdf-data/";
-	private static final String DIR_R2ML_MAPPING = "r2rml-mapping/";
-
-	/**
-	 * Uplift a shape file to RDF data by executing an external script
-	 *
-	 * @param pathSHP  path of the shape file
-	 * @param URI      URI use to creates RDF individuals
- 	 * @return [0]: path of the RDF data, and in [1]: path of the mapping TTL file
-	 * @throws IOException
-	 */
-	protected static String[] shpUpliftProcess(String pathSHP, String URI) throws IOException {
-		String scriptJarPAth="script/geotriples-dependencies.jar";
-		PiFile scriptDir = new PiFile("script");
-		if (!scriptDir.exists())
-			scriptDir.mkdir();
-		PiFile scriptJar = new PiFile(scriptJarPAth);
-		if (!scriptJar.exists()) {
-			downloadDependencies();
-		}
-
-		 boolean sync=true;
-		// clone the repository according to the GIT
-		// JGit jgit=new JGit("geotriples",
-		// "https://github.com/LinkedEOData/GeoTriples.git"); Could be interesting ot
-		// use git directly
-
-		PiFile rdfData = new PiFile(DIR_RDF_DATA);
-		PiFile r2ml = new PiFile(DIR_R2ML_MAPPING);
-		// test if the directories exists. If not creates it
-		if (!rdfData.exists())
-			rdfData.mkdir();
-		if (!r2ml.exists())
-			r2ml.mkdir();
-
-		String pathTTL = rdfData + UUID.randomUUID().toString() + ".ttl";
-		String pathMappingTTL = r2ml + UUID.randomUUID().toString() + ".ttl";
-		//String dir_script = "src/main/resources/script/";
-
-		/* Generate Mapping files: */
-
-		//String cmdGMF = "java -cp " + dir_script + "geotriples-core/geotriples-dependencies.jar eu.linkedeodata.geotriples.GeoTriplesCMD generate_mapping -o  " + pathMappingTTL + " -b " + URI + " " + pathSHP;
-		String cmdGMF = "java -cp " + scriptJarPAth + " eu.linkedeodata.geotriples.GeoTriplesCMD generate_mapping -o  " + pathMappingTTL + " -b " + URI + " " + pathSHP;
-
-
-		System.out.println(cmdGMF);
-		var p1 = Runtime.getRuntime().exec(cmdGMF);
-		/* Transform file into RDF */
-		if (sync)
-			while (p1.isAlive()) {
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			}
-		// java -cp <geotriples-core/ dependencies jar>
-		// eu.linkedeodata.geotriples.GeoTriplesCMD dump_rdf -o <output file> -b <URI
-		// base> (-sh <shp file>) <(produced) mapping file (.ttl)>
-		String cmdRDF = "java -cp " + scriptJarPAth
-				+ " eu.linkedeodata.geotriples.GeoTriplesCMD dump_rdf -o "
-				+ pathTTL + " -b " + URI + " -sh " + pathSHP + " " + pathMappingTTL;
-		System.out.println(cmdRDF);
-		var p2 = Runtime.getRuntime().exec(cmdRDF);
-
-		if (sync)
-			while ( p2.isAlive()) {
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			}
-
-
-		return new String[] { pathTTL, pathMappingTTL };
-
-
-	}
-
-	/**
-	 *
-	 */
-	public static final void downloadDependencies() {
-		String url = "https://seafile.rlp.net/f/c2d485a9fb4a4415b271/?dl=1";
-		try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
-				  FileOutputStream fileOS = new FileOutputStream("/Users/username/Documents/file_name.txt")) {
-				    byte data[] = new byte[1024];
-				    int byteContent;
-				    while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
-				        fileOS.write(data, 0, byteContent);
-				    }
-				} catch (IOException e) {
-				   System.err.println("SHP 2 RDF error: dependancies not downloaded\n"+e.getMessage());
-				}
-	}
-
-	// TODO @CPrudhomme:Remove the main method if the function shpUpliftProcess
-	// satisfy your expectation
-	public static void main(String[] args) {
-		String URI = "http://i3mainz.de/";
-		String shapeFilePAth = "src/main/resources/datatest/vg250krs.shp";
-		String[] results;
+		String pathSHP = "upload-dir/" + file.getOriginalFilename();
+		String uri = "http://lab.ponciano.info/ontology/2020/geotime/data#";
 		try {
-			results = shpUpliftProcess(shapeFilePAth, URI);
+			// transform Shapefile into RDF data
+			String[] rdfdata = SHPdata.shpUpliftProcess(pathSHP, uri);
+			if (rdfdata == null) {
+				throw new ControllerException("file format was incorrect");
+			} else {
+				try {
+					// retrieve the RDF representation of the data associated to its metadata
+					OntModel ont = updatedData.representationRDF(rdfdata[0], file.getOriginalFilename());
+					KB.get().getOnt().add(ont);
+					KB.get().save();
 
-			// assert not null
-			if (results.length == 2 && results[0] != null && results[1] != null) {
-				System.out.println("Path RDF: " + results[0]);
-				System.out.println("Path RDF: " + results[1]);
-				if (!new PiFile(results[0]).exists() || !new PiFile(results[1]).exists())
-					System.err.println("Something wrongin shpUpliftProcess(" + shapeFilePAth + "," + URI
-							+ "): the results files are not created");
-
-			} else
-				System.err.println("Something wrongin shpUpliftProcess(" + shapeFilePAth + "," + URI + ")");
-		} catch (IOException e) {
-			e.printStackTrace();
+				} catch (Exception ex) {
+					Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
+				}
+				// move the shapefile for permanent storage
+				moveFile(file.getOriginalFilename(), pathSHP);
+				rtn = "redirect:/data/ShpUpdate";
+			}
+		} catch (ControllerException | IOException ex) {
+			try {
+				new PiFile(pathSHP).delete();
+			} catch (IOException e) {
+				System.err.println(pathSHP + " file cannot be deleted");
+			}
+			final String message = "The uplift fails: " + ex.getMessage();
+			rtn = "redirect:/data/error?name=" + message;
 		}
+		return rtn;
 	}
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
