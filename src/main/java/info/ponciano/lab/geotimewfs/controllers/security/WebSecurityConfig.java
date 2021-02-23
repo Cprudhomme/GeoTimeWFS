@@ -97,7 +97,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/openapi", "/importer", "/home", "/configuration", "/queryinterface", "/semanticwfs/geotreeview", "/css/main.css", "/semanticwfs/css/style.css", "/semanticwfs/css/leaflet_legend.css", "/semanticwfs/css/yasqe.css").permitAll()// Specifically, the / and /home paths are configured to not require any authentication. 
-                // TODO uncomment this line for enable the security
+                //  uncomment this line for enable the security
                 //.anyRequest().authenticated()//All other paths must be authenticated.
                 .and()
                 .formLogin()

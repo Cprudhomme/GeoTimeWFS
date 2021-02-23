@@ -21,7 +21,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#SHPdata()}.
 	 */
-	@Test
+	//@Test
 	final void testSHPdata() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -30,7 +30,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#SHPdata(java.lang.String, java.lang.String)}.
 	 */
-	@Test
+	//@Test
 	final void testSHPdataStringString() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -39,7 +39,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#getMetadata()}.
 	 */
-	@Test
+	//@Test
 	final void testGetMetadata() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -48,7 +48,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#setMetadata(java.lang.String)}.
 	 */
-	@Test
+	//@Test
 	final void testSetMetadata() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -57,7 +57,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#getTitle()}.
 	 */
-	@Test
+	//@Test
 	final void testGetTitle() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -66,7 +66,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#setTitle(java.lang.String)}.
 	 */
-	@Test
+	//@Test
 	final void testSetTitle() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -75,7 +75,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#getVersion()}.
 	 */
-	@Test
+	//@Test
 	final void testGetVersion() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -84,7 +84,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#setVersion(java.lang.String)}.
 	 */
-	@Test
+	//@Test
 	final void testSetVersion() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -93,7 +93,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#getVersionNote()}.
 	 */
-	@Test
+	//@Test
 	final void testGetVersionNote() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -102,7 +102,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#setVersionNote(java.lang.String)}.
 	 */
-	@Test
+	//@Test
 	final void testSetVersionNote() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -111,7 +111,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#getPrevAsset()}.
 	 */
-	@Test
+	//@Test
 	final void testGetPrevAsset() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -120,7 +120,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#setPrevAsset(java.lang.String)}.
 	 */
-	@Test
+	//@Test
 	final void testSetPrevAsset() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -129,7 +129,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#representationRDF(java.lang.String, java.lang.String)}.
 	 */
-	@Test
+	//@Test
 	final void testRepresentationRDF() {
 		fail("Not yet implemented"); // TODO
 	}
@@ -138,7 +138,8 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#shpUpliftProcess(java.lang.String, java.lang.String)}.
 	 */
-	//@Test Passed but skipped due to the dependencies downloading that is not compatible to CI in GitHub/lab.
+	// //@Test Passed but skipped due to the dependencies downloading that is not
+	// compatible to CI in GitHub/lab.
 	final void testShpUpliftProcess() {
 		// SHPdata.main(null);
 		String URI = "http://i3mainz.de/";
@@ -146,16 +147,9 @@ class SHPdataTest {
 		String[] results;
 		try {
 			results = SHPdata.shpUpliftProcess(shapeFilePAth, URI);
-
-			// assert not null
 			if (results.length == 2 && results[0] != null && results[1] != null) {
-//				System.out.println("Path RDF: " + results[0]);
-//				System.out.println("Path RDF: " + results[1]);
 				assertTrue(new PiFile(results[0]).exists());
 				assertTrue(new PiFile(results[1]).exists());
-//				System.err.println("Something wrong in shpUpliftProcess(" + shapeFilePAth + "," + URI
-//						+ "): the results files are not created");
-
 			} else
 				fail("Something wrong in shpUpliftProcess(" + shapeFilePAth + "," + URI + ")");
 		} catch (IOException e) {
@@ -167,7 +161,7 @@ class SHPdataTest {
 	 * Test method for
 	 * {@link info.ponciano.lab.geotimewfs.models.SHPdata#getDataSet()}.
 	 */
-	@Test
+	//@Test
 	final void testGetDataSet() {
 		fail("Not yet implemented"); // TODO
 	}
