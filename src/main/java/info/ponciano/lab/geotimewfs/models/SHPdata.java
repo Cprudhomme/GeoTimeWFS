@@ -34,6 +34,7 @@ public class SHPdata {
 	private String version;
 	private String versionNote;
 	private String prevAsset;
+	private String ontoUri;
 
 	public SHPdata() {
 	}
@@ -84,38 +85,48 @@ public class SHPdata {
 		this.prevAsset = prevAsset;
 	}
 
-	public OntModel representationRDF(String rdfdata, String shpdata) throws Exception {
+	public String getOntoUri() {
+		return this.ontoUri;
+	}
 
-		// if the data is an update (that means it has a previous asset),
-		// some of its attributes must beinitiated according to its previous version
-		if (this.prevAsset != null)
-			this.initAttUpdate();
+	public OntModel representationRDF(String rdfdata, String shpdata) throws Exception {
 
 		OntModel ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 		String gtdcat = "http://lab.ponciano.info/ontology/2020/geotime/dcat#";
-		// retrieve the selected metadata uri
-		Metadata metadata = new Metadata();
-		List<String[]> info = metadata.getMetadata();
-		int i = 0;
-		boolean found = false;
-		String mduri = "";
-		while (i < info.size() && !found) {
-			if (info.get(i)[2].equals(this.metadata)) {
-				mduri = info.get(i)[0];
-				// create the metadata individual with catalog record type
-				OntClass c = ont.createClass("http://www.w3.org/ns/dcat#CatalogRecord");
-				c.createIndividual(OntoManagement.NS + mduri);
 
-				// add the GDI catalog
-				c = ont.createClass("http://www.w3.org/ns/dcat#Catalog");
-				c.createIndividual("http://lab.ponciano.info/ontology/2020/geotime/dcat#gdi_catalog");
-
-				// add the metadata as a record of the catalog
-				ObjectProperty p = ont.createObjectProperty("http://www.w3.org/ns/dcat#record");
-				ont.add(ont.getResource(gtdcat + "gdi_catalog"), p, ont.getResource(OntoManagement.NS + mduri));
-				found = true;
+		// if the data is an update (that means it has a previous asset),
+		// some of its attributes must beinitiated according to its previous version
+		if (this.prevAsset != null) {
+			this.initAttUpdate();
+		} else {
+			// retrieve the selected metadata uri according to its title
+			Metadata md = new Metadata();
+			List<String[]> info = md.getMetadata();
+			int i = 0;
+			boolean found = false;
+			String mduri = "";
+			while (i < info.size() && !found) {
+				if (info.get(i)[2].equals(this.metadata)) {
+					mduri = info.get(i)[0];
+					this.metadata = OntoManagement.NS + mduri;
+					// create the metadata individual with catalog record type
+					/*
+					 * OntClass c = ont.createClass("http://www.w3.org/ns/dcat#CatalogRecord");
+					 * c.createIndividual(OntoManagement.NS + mduri);
+					 * 
+					 * // add the GDI catalog c =
+					 * ont.createClass("http://www.w3.org/ns/dcat#Catalog"); c.createIndividual(
+					 * "http://lab.ponciano.info/ontology/2020/geotime/dcat#gdi_catalog");
+					 * 
+					 * // add the metadata as a record of the catalog ObjectProperty p =
+					 * ont.createObjectProperty("http://www.w3.org/ns/dcat#record");
+					 * ont.add(ont.getResource(gtdcat + "gdi_catalog"), p,
+					 * ont.getResource(OntoManagement.NS + mduri)); 
+					 */
+					found = true;
+				}
+				i++;
 			}
-			i++;
 		}
 
 		// create a new dataset version = an Asset
@@ -123,6 +134,7 @@ public class SHPdata {
 		// OntClass c=ont.createClass("http://www.w3.org/ns/dcat#Dataset");
 		OntClass c = ont.createClass("http://www.w3.org/ns/adms#Asset");
 		c.createIndividual(gtdcat + dsUri);
+		this.ontoUri = gtdcat + dsUri;
 
 		// add the title of the dataset
 		DatatypeProperty dp = ont.createDatatypeProperty("http://purl.org/dc/elements/1.1/title");
@@ -144,28 +156,27 @@ public class SHPdata {
 		ont.add(ont.getResource(gtdcat + dsUri), op, ont.getResource(statusURI));
 
 		// if the data is an update (that means it has a previous asset),
-		// update for all its previous versions the adms:last with the new created asset, and
 		// add the links adms:next and adms:prev between it and its previous asset
 		if (this.prevAsset != null) {
-			this.versionUpdate(gtdcat + dsUri);
 			// add the links adms:next
 			op = ont.createObjectProperty("http://www.w3.org/ns/adms#next");
 			ont.add(ont.getResource(this.prevAsset), op, ont.getResource(gtdcat + dsUri));
 			// add the links adms:prev
 			op = ont.createObjectProperty("http://www.w3.org/ns/adms#prev");
 			ont.add(ont.getResource(gtdcat + dsUri), op, ont.getResource(this.prevAsset));
-		} // else add the property adms:last to itself
-		else {
-			op = ont.createObjectProperty("http://www.w3.org/ns/adms#last");
-			ont.add(ont.getResource(gtdcat + dsUri), op, ont.getResource(gtdcat + dsUri));
 		}
+		// add the property adms:last to itself
+		op = ont.createObjectProperty("http://www.w3.org/ns/adms#last");
+		ont.add(ont.getResource(gtdcat + dsUri), op, ont.getResource(gtdcat + dsUri));
+
 		// link dataset to catalog through dcat:dataset
 		op = ont.createObjectProperty("http://www.w3.org/ns/dcat#dataset");
-		ont.add(ont.getResource(gtdcat + "gdi_catalog"), op, ont.getResource(gtdcat + dsUri));
+		ont.add(ont.getResource("http://lab.ponciano.info/ontology/2020/geotime/dcat#gdi_catalog"), op,
+				ont.getResource(gtdcat + dsUri));
 
 		// link dataset to metadata record through foaf:primaryTopic
 		op = ont.createObjectProperty("http://xmlns.com/foaf/0.1/primaryTopic");
-		ont.add(ont.getResource(OntoManagement.NS + mduri), op, ont.getResource(gtdcat + dsUri));
+		ont.add(ont.getResource(this.metadata), op, ont.getResource(gtdcat + dsUri));
 
 		// create the RDF distribution
 		UUID distRdfUri = UUID.randomUUID();
@@ -212,11 +223,6 @@ public class SHPdata {
 		return ont;
 	}
 
-	private void versionUpdate(String indnewversion) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	private void initAttUpdate() throws Exception {
 		String[] val = this.prevAsset.split("/");
 		this.title = val[0];
@@ -227,7 +233,8 @@ public class SHPdata {
 			// the version is computed according to its previous version number
 			this.computeVersion(info.get(0)[1]);
 		} else
-			throw new Exception("Error to retrieve metadata and version of the previous data version in initAttUpdate()");
+			throw new Exception(
+					"Error to retrieve metadata and version of the previous data version in initAttUpdate()");
 	}
 
 	/**
@@ -240,7 +247,7 @@ public class SHPdata {
 		// remove the V of version
 		String vnum = v.substring(1);
 		// split integer part from decimal part
-		String[] val = vnum.split(".");
+		String[] val = vnum.split("\\.");
 		// transform the string into int
 		int num = Integer.parseInt(val[0]);
 		// increase the int
@@ -398,6 +405,7 @@ public class SHPdata {
 			if (var.length >= 0) {
 				String res = var[0];
 				for (int j = 1; j < var.length; j++) {
+					System.out.println(var[j]);
 					res += "/" + var[j];
 				}
 				info.add(res);
@@ -420,6 +428,22 @@ public class SHPdata {
 		String[] var = { "m", "v" };
 		// query the ontology
 		info = KB.get().queryAsArray(query, var, false, false);
+		return info;
+	}
+
+	public List<String[]> getpreviousVersion() throws OntoManagementException {
+		List<String[]> info = new ArrayList<String[]>();
+
+		// initialize the query to retrieve all instances of previous asset
+		String query = "SELECT ?a "
+				+ "WHERE{ ?a rdf:type <http://www.w3.org/ns/adms#Asset>. ?a <http://www.w3.org/ns/adms#last> <"
+				+ this.prevAsset + ">. " + "}";
+		System.out.println(query);
+		System.out.println(KB.get().getSPARQL(query));
+		// create the table of variables
+		String[] var = { "a" };
+		// query the ontology
+		info = KB.get().queryAsArray(query, var, true, false);
 		return info;
 	}
 }

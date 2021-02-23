@@ -445,9 +445,9 @@ public class DataController {
 
 		try {
 			// retrieve assets
-			SHPdata md = new SHPdata();
-			List<String[]> info = md.getDataSet();
-			List<String> infolist = md.getInfoString(info);
+			SHPdata d = new SHPdata();
+			List<String[]> info = d.getDataSet();
+			List<String> infolist = d.getInfoString(info);
 			model.addAttribute("Dlist", infolist);
 		} catch (OntoManagementException ex) {
 			Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
@@ -502,6 +502,14 @@ public class DataController {
 					// retrieve the RDF representation of the data associated to its metadata
 					OntModel ont = updatedData.representationRDF(rdfdata[0], file.getOriginalFilename());
 					KB.get().getOnt().add(ont);
+
+					// retrieve the previous assets of the new asset version
+					List<String[]> previous = updatedData.getpreviousVersion();
+					// update for all the previous versions the adms:last with the new created asset
+					for (int i = 0; i < previous.size(); i++) {
+						KB.get().change(previous.get(i)[0], "http://www.w3.org/ns/adms#last", updatedData.getOntoUri());
+					}
+					//save the ontology
 					KB.get().save();
 
 				} catch (Exception ex) {
