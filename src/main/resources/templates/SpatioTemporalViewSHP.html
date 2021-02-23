@@ -133,35 +133,46 @@ var file = [[${shp[0]}]];
 
   </script>
 <!-- -------------------------------------------------------------------------------------------------------------- -->
-	<header id="header">
-		<div th:insert="fragments/nav :: navbar"></div>
-		<h1>Spatio temporal viewer</h1>
-	</header>
-	<canvas id="map" width="800" height="400"></canvas>
+<header id="header">
+	<div th:insert="fragments/nav :: navbar"></div>
+	<h1>Spatio temporal viewer</h1>
+</header>
+<canvas id="map" width="800" height="400"></canvas>
 
-<p>Drag the slider to display the current value.</p>
+<p>Drag the slider to display the current version.</p>
 
 <div class="slidecontainer">
-  <input type="range" min="0" th:max="${shp.length}" value="0" class="slider"
-			id="myRange">
-  <p>Version: <span id="version"></span>
-		</p>
+	<input type="range" min="0" th:max="${shp.length-1}" value="0"
+		class="slider" id="myRange">
+	<p>
+		Version: <span id="version"></span>
+	</p>
 </div>
 
-<script>
-var slider = document.getElementById("myRange");
-var output = document.getElementById("version");
-output.innerHTML = slider.value;
+<script th:inline="javascript">
+	var slider = document.getElementById("myRange");
+	var output = document.getElementById("version");
+	
+	output.innerHTML =file;
+	
+	slider.oninput = function() {
 
-slider.oninput = function() {
-  output.innerHTML = this.value;
-
-
-  var file = [[${shp[this.value]}]]; 
-    window.onload = function() {
-      var b = new BinaryAjax(file, onBinaryAjaxComplete, onBinaryAjaxFail);
-    }
-}
+	switch(this.value) {
+		case "0":
+		  file=[[${shp[0]}]]; 
+		  break;
+		case "1":
+			 file=[[${shp[1]}]]; 
+		  break;
+		case "2":
+			 file=[[${shp[2]}]]; 
+		 break;
+		default:
+			 file=[[${shp[0]}]]; 
+	}
+	output.innerHTML =file;
+	  var b = new BinaryAjax(file, onBinaryAjaxComplete, onBinaryAjaxFail);
+	}
 </script>
 </body>
 
