@@ -80,6 +80,10 @@ public class SHPdata {
 
 	public OntModel representationRDF(String rdfdata, String shpdata) throws OntoManagementException {
 		 
+		//if the data is an update (that means it has a previous asset), 
+		//some of its attributes must beinitiated according to its previous version
+		if(this.prevAsset!=null) this.initAttUpdate();
+        
 		 OntModel ont= ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 	     String gtdcat="http://lab.ponciano.info/ontology/2020/geotime/dcat#";
 	     //retrieve the selected metadata uri
@@ -117,9 +121,7 @@ public class SHPdata {
 	                 DatatypeProperty dp=ont.createDatatypeProperty("http://purl.org/dc/elements/1.1/title");
 	                 ont.add(ont.getResource(gtdcat+dsUri),dp,this.title);
 	                 
-	                 //if the data is an update (that means it has a previous asset), 
-	                 //the version is computed according to its previous version number
-	                 if(this.prevAsset!=null) this.computeVersion();
+	                 
 	                 //add the version of the dataset through owl:versionInfo
 	                 dp=ont.createDatatypeProperty("http://www.w3.org/2002/07/owl#versionInfo");
 	                 ont.add(ont.getResource(gtdcat+dsUri),dp, this.version);
@@ -198,11 +200,20 @@ public class SHPdata {
 	              return ont;
 	 }
 	
-	 /**
+	 private void initAttUpdate() {
+		 this.metadata="";
+		 this.title="";
+		//the version is computed according to its previous version number
+        this.computeVersion();
+		
+	}
+
+	/**
 	  * Compute the version number of the current data according to the version number of its previous version 
 	  */
 	 private void computeVersion() {
 		 //TODO computeVersion
+		 this.version="V";
 	 }
      
 	 public String ShpUpliftProcess(String path) {

@@ -329,8 +329,7 @@ public class DataController {
 			// retrieve metadata
 			Metadata md = new Metadata();
 			List<String[]> info = md.getMetadata();
-			// providing the list of info to the model to allow the view to display all
-			// available metadata
+			// providing the list of info to the model to allow the view to display all available metadata
 			model.addAttribute("MDlist", info);
 		} catch (OntoManagementException ex) {
 			Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
