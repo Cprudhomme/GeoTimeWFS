@@ -22,15 +22,19 @@ public class SpatioTemporalController {
 	public String spatioTemporal(@PathVariable(name = "asset", required = true) String asset,
 			@PathVariable(name = "version", required = true) String version, Model model) {
 		SpatioTemporalCModel stm = new SpatioTemporalCModel(asset, version);
-		List<String> versions = stm.getVersion();
+		
 		var geodata = stm.getGeoData();
 		List<String[]> po = stm.getPropertiesOP();
 		List<String[]> pd = stm.getPropertiesDP();
 		model.addAttribute("pd", pd);
 		model.addAttribute("po", po);
-		model.addAttribute("geodata", geodata);
+		
+		List<String> versions = stm.getVersion();
+		String[] shpArray= { "/data/vg250krs.shp"}; 
+		model.addAttribute("shp",shpArray);
+//		model.addAttribute("dbf", "/data/vg250krs.dbf");
 		model.addAttribute("versions", versions);
-		return "SpatioTemporalView";
+		return "SpatioTemporalViewSHP.html";
 	}
 
 }
