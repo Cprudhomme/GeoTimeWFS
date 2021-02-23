@@ -38,13 +38,13 @@
 			<name>ECC</name>
 			<url>https://maven.ecc.no/releases</url>
 		</repository>
-
 	</repositories>
 	<properties>
 		<java.version>14</java.version>
 	</properties>
 
 	<dependencies>
+
 		<!--OAuth2 management -->
 		<dependency>
 			<groupId>org.webjars</groupId>
