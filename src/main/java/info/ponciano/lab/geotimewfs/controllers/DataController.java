@@ -471,7 +471,7 @@ public class DataController {
 	 * 
 	 */
 	public static final void downloadDependencies() {
-		String url = "http://example.com/my-file-path.txt";
+		String url = "https://seafile.rlp.net/f/c2d485a9fb4a4415b271/?dl=1";
 		try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
 				  FileOutputStream fileOS = new FileOutputStream("/Users/username/Documents/file_name.txt")) {
 				    byte data[] = new byte[1024];
