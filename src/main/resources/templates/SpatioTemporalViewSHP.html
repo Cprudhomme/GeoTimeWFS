@@ -137,6 +137,8 @@ var file = [[${shp[0]}]];
 	<div th:insert="fragments/nav :: navbar"></div>
 	<h1>Spatio temporal viewer</h1>
 </header>
+
+<div>
 <canvas id="map" width="800" height="400"></canvas>
 
 <p>Drag the slider to display the current version.</p>
@@ -147,6 +149,7 @@ var file = [[${shp[0]}]];
 	<p>
 		Version: <span id="version"></span>
 	</p>
+</div>
 </div>
 
 <script th:inline="javascript">
