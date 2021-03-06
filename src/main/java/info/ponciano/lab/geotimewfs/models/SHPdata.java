@@ -89,6 +89,13 @@ public class SHPdata {
 		return this.ontoUri;
 	}
 
+	/**
+	 * Function that creates the RDF representation of a versioned asset representing shapefile data
+ 	 * @param rdfdata, path to the local RDF file representing the shapefile content
+	 * @param shpdata, path to the local shapefile 
+	 * @return the OntModel containing the RDF representation of a versioned asset representing shapefile data
+	 * @throws Exception
+	 */
 	public OntModel representationRDF(String rdfdata, String shpdata) throws Exception {
 
 		OntModel ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
@@ -109,6 +116,7 @@ public class SHPdata {
 				if (info.get(i)[2].equals(this.metadata)) {
 					mduri = info.get(i)[0];
 					this.metadata = OntoManagement.NS + mduri;
+					System.out.println("upload case:"+this.metadata);
 					// create the metadata individual with catalog record type
 					/*
 					 * OntClass c = ont.createClass("http://www.w3.org/ns/dcat#CatalogRecord");
@@ -175,6 +183,7 @@ public class SHPdata {
 				ont.getResource(gtdcat + dsUri));
 
 		// link dataset to metadata record through foaf:primaryTopic
+		System.out.println(this.metadata);
 		op = ont.createObjectProperty("http://xmlns.com/foaf/0.1/primaryTopic");
 		ont.add(ont.getResource(this.metadata), op, ont.getResource(gtdcat + dsUri));
 
@@ -223,6 +232,10 @@ public class SHPdata {
 		return ont;
 	}
 
+	/**
+	 * Initialization of the class attributes in the case of the adding of a new asset version
+	 * @throws Exception
+	 */
 	private void initAttUpdate() throws Exception {
 		String[] val = this.prevAsset.split("/");
 		this.title = val[0];
@@ -230,6 +243,7 @@ public class SHPdata {
 		List<String[]> info = this.getlastDataInfo();
 		if (info.size() != 0) {
 			this.metadata = info.get(0)[0];
+			System.out.println("update case:"+this.metadata);
 			// the version is computed according to its previous version number
 			this.computeVersion(info.get(0)[1]);
 		} else
@@ -335,7 +349,8 @@ public class SHPdata {
 	}
 
 	/**
-	 *
+	 * Function to download a jar dependency to heavy for GitHub
+	 * @param scriptJarPAth, path of the jar to download
 	 */
 	private static final void downloadDependencies(String scriptJarPAth) {
 		String url = "https://seafile.rlp.net/f/c2d485a9fb4a4415b271/?dl=1";
@@ -374,11 +389,15 @@ public class SHPdata {
 		}
 	}
 
+	/**
+	 * Function to retrieve instances of last versioned asset and their associated title
+	 * @return a list containing for each last versionned asset its uri and its title in a string table
+	 * @throws OntoManagementException in case of failure during SPARQL query
+	 */
 	public List<String[]> getDataSet() throws OntoManagementException {
 		List<String[]> info = new ArrayList<String[]>();
 
-		// initialize the query to retrieve all instances of asset and their associated
-		// organization, title, and dataset title
+		// initialize the query to retrieve instances of last versionned asset and their associated title
 		String query = "SELECT ?t ?d " + "WHERE{" + "?d rdf:type <http://www.w3.org/ns/adms#Asset>. "
 				+ "?d2 <http://www.w3.org/ns/adms#last> ?d. " + "?d <http://purl.org/dc/elements/1.1/title> ?t. " + "}";
 		System.out.println(query);
@@ -414,6 +433,11 @@ public class SHPdata {
 		return info;
 	}
 
+	/**
+	 * Function that retrieves version numbeer and metadata associated to the previous version of the current asset
+	 * @return the list containing the metadata uri and the version of the previous version in a string table
+	 * @throws OntoManagementException
+	 */
 	public List<String[]> getlastDataInfo() throws OntoManagementException {
 		List<String[]> info = new ArrayList<String[]>();
 
@@ -427,10 +451,15 @@ public class SHPdata {
 		// create the table of variables
 		String[] var = { "m", "v" };
 		// query the ontology
-		info = KB.get().queryAsArray(query, var, false, false);
+		info = KB.get().queryAsArray(query, var, true, false);
 		return info;
 	}
 
+	/**
+	 * Function that retrieves the previous versions of the current asset
+	 * @return the list containing the uri of previous versions as a string
+	 * @throws OntoManagementException
+	 */
 	public List<String[]> getpreviousVersion() throws OntoManagementException {
 		List<String[]> info = new ArrayList<String[]>();
 

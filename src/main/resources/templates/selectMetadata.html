@@ -48,6 +48,7 @@
                         <tr th:each="md : ${MDlist}">
                             <td><span th:text="${md[1]}"> Organization </span></td>
                             <td><span th:text="${md[2]}"> Title </span></td>
+                           <!--<td><a th:href="${'https://ld.gdi-de.org/semanticwfs/collections/'+md[3]+'?f=html'}"><span th:text="${md[3]}"> Dataset </span></a></td>-->
                             <td><a th:href="${'https://ld.gdi-de.org/semanticwfs/collections/'+md[3]+'?f=html'}"><span th:text="${md[3]}"> Dataset </span></a></td>
                             <td>
                                 <form th:action="@{|/metadata/selected?md=${md[0]}|}" method="post">
