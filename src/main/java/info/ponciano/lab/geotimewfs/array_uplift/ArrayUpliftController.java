@@ -1,6 +1,9 @@
-package info.ponciano.lab.array_uplift;
+package info.ponciano.lab.geotimewfs.array_uplift;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,12 @@ public class ArrayUpliftController {
         this.storageService = storageService;
     }
 
-	//view to load CSV file
+	
+    /**
+     * Get function to load CSV file
+     * @param model of the view
+     * @return the view to load a CSV file
+     */
 	@GetMapping("/csv_loading")
     public String getCsvLoadingView(Model model) {
 		model.addAttribute("files", storageService.loadAll().map(
@@ -66,16 +74,37 @@ public class ArrayUpliftController {
 						//+ ". Please indicate now the mapping between attributes of your file and the appropriate ontological properties");
 		
 		// store the csv file in a specific folder for CSV files
-		String pathCSV = "csv-dir/" + file.getOriginalFilename();
+		/**String pathCSV = "csv-dir/" + file.getOriginalFilename();
 		try {
 			moveFile(file.getOriginalFilename(), pathCSV);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}**/
 		String message="You successfully upload the file(s): " + file.getOriginalFilename() ;
 		message += ". Please indicate now the mapping between attributes of your file and the appropriate ontological properties";
 		model.addAttribute("message", message);
+		//File reading
+		try {
+			String filename=file.getOriginalFilename();
+			if(filename.substring(filename.length()-4).equals("csv"));
+			PiFile pf= new PiFile("upload-dir/"+filename);
+			String [][] attribute=pf.readCSV(";");
+			List<String[]> lf=new ArrayList<String []>();
+			if(attribute!=null) {
+				lf= List.of(attribute);
+				int nbcol=lf.get(0).length;
+				model.addAttribute("nbc", nbcol);
+			}
+			model.addAttribute("fc", lf);
+			//init and provide the property list
+			List<String> prop=new ArrayList<String>();
+			model.addAttribute("prop", prop);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
 		return "arrayMappingView";
 		
 	}

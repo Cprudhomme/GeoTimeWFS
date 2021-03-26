@@ -1,4 +1,4 @@
-package info.ponciano.lab.array_uplift;
+package info.ponciano.lab.geotimewfs.array_uplift;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -45,6 +45,8 @@ public abstract class ArrayUpliftModel {
 	public abstract List<String> getProperties();
 	public abstract List<String> getObjectProperties();
 	public abstract List<String> getDataProperties();
+	
+	public abstract List<String []> geFirstRows(int nbrows);
 	
 	/**
 	 * adding of a new Property from its local name, range and type that update hashmap and list of properties

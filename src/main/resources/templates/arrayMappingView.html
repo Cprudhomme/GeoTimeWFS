@@ -26,6 +26,27 @@
         <div th:if="${message}">
 		<h4 th:text="${message}"/>
 	</div>
+	<div>
+	<table>
+    <tbody>
+	<tr th:if="${fc.empty}">
+            <td> No Individuals Available </td>
+        </tr>
+        <tr>
+        	<td th:each="i : ${#numbers.sequence(1, nbc)}">
+        		<select name="properties">
+				  <option th:each="p, list : ${prop}" th:value="*{p[__${i]}__}" th:text="*{p[__${i]}__}">Property</option>
+				</select>
+			</td>
+        </tr>
+        <tr th:each="row, itemStat : *{fc}">
+            <td th:each="value, item : *{fc[__${itemStat.index}__]}"><span th:text="*{row[__${item.index}__]}"> Property value </span></td>
+        </tr>
+        
+    </tbody>
+</table>
+	
+</div>
 
         <!--<div th:insert="fragments/footer :: footer"></div>-->
     </body>
