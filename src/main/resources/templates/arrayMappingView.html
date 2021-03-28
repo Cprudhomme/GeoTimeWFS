@@ -1,53 +1,259 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head th:replace="fragments/head :: head">
-    <title>Getting Started: Serving Web Content</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-    <body>
-        <script  type='text/javascript'>
-            var elements = [
-                {link: "/home", value: "Home", active: "false"},
-                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
-                {link: "/metadata", value: "Metadata", active: "false"},
-                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
-                {link: "/md2data", value: "Metadata to Data", active: "false"},
-                {link: "/schema/upload", value: "Schema upload", active: "false"},
-                {link: "/schema/validation", value: "Schema validation", active: "false"},
-                {link: "/data/ShpUplift", value: "Shapefile uplift", active: "false"},
-                {link: "/data/ShpUpdate", value: "Shapefile update", active: "false"},
-                {link: "/csv_loading", value: "CSV uplift", active: "true"}];
-        </script>
-        <header id="header">
-            <div th:insert="fragments/nav :: navbar"></div>
-            <h1>Attributes Mapping</h1>
-        </header>
-        
-        <div th:if="${message}">
-		<h4 th:text="${message}"/>
-	</div>
-	<div>
-	<table>
-    <tbody>
-	<tr th:if="${fc.empty}">
-            <td> No Individuals Available </td>
-        </tr>
-        <tr>
-        	<td th:each="i : ${#numbers.sequence(1, nbc)}">
-        		<select name="properties">
-				  <option th:each="p, list : ${prop}" th:value="*{p[__${i]}__}" th:text="*{p[__${i]}__}">Property</option>
-				</select>
-			</td>
-        </tr>
-        <tr th:each="row, itemStat : *{fc}">
-            <td th:each="value, item : *{fc[__${itemStat.index}__]}"><span th:text="*{row[__${item.index}__]}"> Property value </span></td>
-        </tr>
-        
-    </tbody>
-</table>
-	
-</div>
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-        <!--<div th:insert="fragments/footer :: footer"></div>-->
-    </body>
+<style>
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Roboto, Helvetica, sans-serif;
+}
+/* Fixez le bouton sur le côté gauche de la page the button on the left side of the page */
+.open-btn {
+	display: flex;
+	justify-content: left;
+}
+/* Stylez et fixez le bouton sur la page */
+.open-button {
+	background-color: #1c87c9;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	opacity: 0.8;
+	position: fixed;
+}
+/* Positionnez la forme Popup */
+.login-popup {
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+/* Masquez la forme Popup */
+.form-popup {
+	display: none;
+	position: fixed;
+	left: 45%;
+	top: 5%;
+	transform: translate(-45%, 5%);
+	border: 2px solid #666;
+	z-index: 9;
+}
+/* Styles pour le conteneur de la forme */
+.form-container {
+	max-width: 300px;
+	padding: 20px;
+	background-color: #fff;
+}
+/* Largeur complète pour les champs de saisie */
+.form-container input[type=text], .form-container input[type=password] {
+	width: 100%;
+	padding: 10px;
+	margin: 5px 0 22px 0;
+	border: none;
+	background: #eee;
+}
+/* Quand les entrées sont concentrées, faites quelque chose */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus
+	{
+	background-color: #ddd;
+	outline: none;
+}
+/* Stylez le bouton de connexion */
+.form-container .btn {
+	background-color: #8ebf42;
+	color: #fff;
+	padding: 12px 20px;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	margin-bottom: 10px;
+	opacity: 0.8;
+}
+/* Stylez le bouton pour annuler */
+.form-container .cancel {
+	background-color: #cc0000;
+}
+/* Planez les effets pour les boutons */
+.form-container .btn:hover, .open-button:hover {
+	opacity: 1;
+}
+</style>
+</head>
+<body>
+	<script type='text/javascript'>
+		var elements = [ {
+			link : "/home",
+			value : "Home",
+			active : "false"
+		}, {
+			link : "/geotimeWFS/",
+			value : "GeoTimeWFS API",
+			active : "false"
+		}, {
+			link : "/metadata",
+			value : "Metadata",
+			active : "false"
+		}, {
+			link : "/metadata/uplift",
+			value : "Metadata uplift",
+			active : "false"
+		}, {
+			link : "/md2data",
+			value : "Metadata to Data",
+			active : "false"
+		}, {
+			link : "/schema/upload",
+			value : "Schema upload",
+			active : "false"
+		}, {
+			link : "/schema/validation",
+			value : "Schema validation",
+			active : "false"
+		}, {
+			link : "/data/ShpUplift",
+			value : "Shapefile uplift",
+			active : "false"
+		}, {
+			link : "/data/ShpUpdate",
+			value : "Shapefile update",
+			active : "false"
+		}, {
+			link : "/csv_loading",
+			value : "CSV uplift",
+			active : "true"
+		} ];
+	</script>
+	<header id="header">
+		<div th:insert="fragments/nav :: navbar"></div>
+		<h1>Attributes Mapping</h1>
+	</header>
+
+	<div th:if="${message}">
+		<h4 th:text="${message}" />
+	</div>
+	<!-- ---------------------------------------------------------- -->
+	<!-- ----------------POP UP----------------------- -->
+	<!-- ---------------------------------------------------------- -->
+
+	<div class="login-popup">
+		<div class="form-popup" id="popupForm">
+			<form th:action="@{/property_adding}" method="post"
+				class="form-container">
+
+				<p>Property Local Name</p>
+				<input type="text" name="propertyName" value="property name">
+
+
+
+
+
+				<input type="radio" name="propertyType" value="datatypeproperty"> Datatype property
+				<input type="radio" name="propertyType" value="objectproperty"> Object property
+	
+
+
+				<p>Property Range</p>
+				<input type="text" id="propertyRange" name="propertyRange" /> <select
+					name="thelist" onChange="combo(this, 'propertyRange')"
+					onMouseOut="combo(this, 'propertyRange')">
+					<option value="Select">Range</option>
+					<option value="string">xsd:string</option>
+					<option value="boolean">xsd:boolean</option>
+					<option value="decimal">xsd:decimal</option>
+					<option value="boolean">xsd:boolean</option>
+					<option value="float">xsd:float</option>
+					<option value="double">xsd:double</option>
+					<option value="duration">xsd:duration</option>
+					<option value="dateTime">xsd:dateTime</option>
+					<option value="time">xsd:time</option>
+					<option value="date">xsd:date</option>
+					<option value="gYearMonth">xsd:gYearMonth</option>
+					<option value="gYear">xsd:gYear</option>
+					<option value="gMonthDay">xsd:gMonthDay</option>
+					<option value="gDay">xsd:gDay</option>
+					<option value="gMonth">xsd:gMonth</option>
+					<option value="hexBinary">xsd:hexBinary</option>
+					<option value="base64Binary">xsd:base64Binary</option>
+					<option value="anyURI">xsd:anyURI</option>
+				</select> <input type="submit" class="btn" value="Submit">
+				<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+			</form>
+		</div>
+	</div>
+	<!--         <form th:action="@{/property_adding}" method="post" class="form-container"> -->
+
+
+
+
+
+	<!-- 			</div> -->
+	<!-- 			<input type="submit" class="btn" value="Submit"> -->
+	<!--           <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button> -->
+	<!--         </form> -->
+
+	<!-- ---------------------------------------------------------- -->
+	<!-- ---------------------------------------------------------- -->
+	<!-- ---------------------------------------------------------- -->
+
+	<div>
+		<table>
+			<tbody>
+				<tr th:if="${fc.empty}">
+					<td>No Individuals Available</td>
+				</tr>
+				<tr>
+					<td th:each="i : ${#numbers.sequence(1, nbc)}">
+						<!--         	add button to create new properties  that call a new frame -->
+						<button onclick="openForm()">New</button> <select
+						th:name="'properties_'+${i}">
+							<option th:each="p, list : ${prop}" th:value="*{p[__${i]}__}"
+								th:text="*{p[__${i]}__}">Property</option>
+					</select>
+
+					</td>
+				</tr>
+				<tr th:each="row, itemStat : *{fc}">
+					<td th:each="value, item : *{fc[__${itemStat.index}__]}"><span
+						th:text="*{row[__${item.index}__]}"> Property value </span></td>
+				</tr>
+
+			</tbody>
+		</table>
+
+		<!-- 	iframe: give the name and type of properties. If data select the range by combox. if object it is a textfield. -->
+		<!-- add property name to the combobox properties and post :property_adding (property name and range) -->
+
+	</div>
+
+	<script type="text/javascript">
+		closeForm();
+		function openForm() {
+			document.getElementById("popupForm").style.display = "block";
+		}
+		function closeForm() {
+			document.getElementById("popupForm").style.display = "none";
+		}
+		function comboInit(thelist) {
+			theinput = document.getElementById(theinput);
+			var idx = thelist.selectedIndex;
+			var content = thelist.options[idx].innerHTML;
+			if (theinput.value == "")
+				theinput.value = content;
+		}
+
+		function combo(thelist, theinput) {
+			theinput = document.getElementById(theinput);
+			var idx = thelist.selectedIndex;
+			var content = thelist.options[idx].innerHTML;
+			theinput.value = content;
+		}
+	</script>
+	<!--<div th:insert="fragments/footer :: footer"></div>-->
+</body>
 </html>
