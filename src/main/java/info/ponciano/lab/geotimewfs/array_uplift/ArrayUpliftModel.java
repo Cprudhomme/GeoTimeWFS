@@ -6,6 +6,7 @@ import java.util.List;
 
 import info.ponciano.lab.pisemantic.PiOnt;
 import info.ponciano.lab.pisemantic.PiSparql;
+import info.ponciano.lab.pitools.files.PiFile;
 
 public abstract class ArrayUpliftModel {
 
@@ -32,7 +33,7 @@ public abstract class ArrayUpliftModel {
 	public ArrayUpliftModel (String [][] attributesArray, String ontpath) throws FileNotFoundException {
 		this.attributes=attributesArray;
 		this.ontopath=ontpath;
-		this.ontology= new PiSparql(this.ontopath);
+		this.ontology= new PiSparql();
 		//can make a PiFile to verify if file exists, and create it if not.
 		this.vocab= new PiOnt(VOCAB_PATH);
 		this.initpropertyNames();
@@ -42,7 +43,7 @@ public abstract class ArrayUpliftModel {
 	public ArrayUpliftModel (String [][] attributesArray, String ontpath, String vocabpath) throws FileNotFoundException {
 		this.attributes=attributesArray;
 		this.ontopath=ontpath;
-		this.ontology= new PiSparql(this.ontopath);
+		this.ontology= new PiSparql();
 		//can make a PiFile to verify if file exists, and create it if not.
 		this.vocab= new PiOnt(vocabpath);
 		this.initpropertyNames();
@@ -65,6 +66,8 @@ public abstract class ArrayUpliftModel {
 	 * @return validation of the property adding
 	 */
 	public abstract boolean addProperty(String localname, String range);
+	
+	public abstract boolean addPropertyMapping(String localname, String label);
 	
 	
 	public abstract boolean createOntology();
