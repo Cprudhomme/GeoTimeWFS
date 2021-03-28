@@ -19,7 +19,7 @@ public abstract class ArrayUpliftModel {
 	 */
 	protected String ontopath;
 	//Fixed path of the vocabulary ontology
-	protected static final String VOCAB_PATH="";
+	protected static final String VOCAB_PATH="src/main/resources/ontologies/vocab.owl";
 	//Ontology containing the vocabulary/TBox for the ontology representing a table data
 	protected PiOnt vocab;
 	//Ontology to create from attributes

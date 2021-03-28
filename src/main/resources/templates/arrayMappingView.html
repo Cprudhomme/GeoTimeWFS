@@ -35,7 +35,7 @@
         <tr>
         	<td th:each="i : ${#numbers.sequence(1, nbc)}">
         		<select name="properties">
-				  <option th:each="p, list : ${prop}" th:value="*{p[__${i]}__}" th:text="*{p[__${i]}__}">Property</option>
+				  <option th:each="p, list : ${prop}" th:value="${p}" th:text="${p}">Property</option>
 				</select>
 			</td>
         </tr>
