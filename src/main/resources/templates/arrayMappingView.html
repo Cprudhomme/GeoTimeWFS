@@ -182,8 +182,9 @@ body {
 					<option value="hexBinary">xsd:hexBinary</option>
 					<option value="base64Binary">xsd:base64Binary</option>
 					<option value="anyURI">xsd:anyURI</option>
-<!-- 				</select> <input type="submit" class="btn" value="Submit"> -->
-				<button type="button" class="btn cancel" onclick="closeForm()">Submit</button>
+				</select> 
+<!-- 				<input type="submit" class="btn" value="Submit"> -->
+				<button type="button" class="btn cancel" onclick="newProperty()">Submit</button>
 				<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
 			</form>
 		</div>
@@ -213,7 +214,7 @@ body {
 					<td th:each="i : ${#numbers.sequence(1, nbc)}">
 						<!--         	add button to create new properties  that call a new frame -->
 						<button onclick="openForm()">New</button>
-						<select class="prtSelect" th:name="'properties_'+${i}">
+						<select class="prtSelect" th:id="'properties_'+${i}" th:name="'properties_'+${i}">
 							<option th:each="p, list : ${prop}" th:value="${p}" th:text="${p}">Property</option>
 					</select>
 
@@ -257,27 +258,36 @@ var server = [[@{/property_adding}]];
 			theinput.value = content;
 		}
 
-// 		function newProperty() {
-// 			var data = new FormData();
-// 			var prtName=document.getElementById("propertyName");
-// 			data.append("propertyName", prtName);
-// 			data.append("propertyType", document.getElementById("propertyType"));
-// 			data.append("propertyRange", document.getElementById("propertyRange"));
-// 			var xhr = new XMLHttpRequest();
-// 			xhr.open("POST",server);
-// 			xhr.send(data);
+		function newProperty() {
+			var data = new FormData();
+			var prtName=document.getElementById("propertyName").value;
+			
+// 			Add property name in the option
+			var allSelect =document.getElementsByClassName("prtSelect");
+			
+			var i;
+			for (i = 1; i <= allSelect.length; i++) { 
+				  var option = document.createElement("option");
+				  option.text =prtName;
+				  option.value=prtName;
+				
+				  var x = document.getElementById("properties_"+i);
+				  x.add(option);
 
-// 			closeForm();
+			}
+			
+// 			Send property name range and type to the server
+			data.append("propertyName", prtName);
+			data.append("propertyType", document.getElementById("propertyType"));//TODO check if we should send .value instead
+			data.append("propertyRange", document.getElementById("propertyRange"));
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST",server);
+			xhr.send(data);
 
-// 			var allSelect =document.getElementsByClassName("prtSelect");
-// 			for(var x in allSelect)
-// 			{
-// 				  var option = document.createElement("option");
-// 				  option.text =prtName;
-// 				  option.value=prtName;
-// 				  x.add(option);
-// 			}
-// 		}
+			closeForm();
+
+			
+		}
 	</script>
 	<!--<div th:insert="fragments/footer :: footer"></div>-->
 </body>
