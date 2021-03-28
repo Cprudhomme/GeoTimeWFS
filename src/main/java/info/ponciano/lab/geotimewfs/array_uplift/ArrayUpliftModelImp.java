@@ -20,8 +20,6 @@ import info.ponciano.lab.pisemantic.PiSparql;
 
 public class ArrayUpliftModelImp extends ArrayUpliftModel {
 
-	private static final String dataUri = "http://lab.ponciano.info/ontology/2020/geotime/data#";
-	private static final String xsdUri = "http://www.w3.org/2001/XMLSchema#";
 	
 	public ArrayUpliftModelImp(String[][] attributesArray, String ontpath) throws FileNotFoundException {
 		super(attributesArray, ontpath);
@@ -157,9 +155,10 @@ public class ArrayUpliftModelImp extends ArrayUpliftModel {
 			OntClass c=this.ontology.getOntClass(this.dataUri+classname);
 			if(c==null) c=this.ontology.createClass(this.dataUri+classname);
 			Individual ind=this.ontology.createIndividual(c);
+
 			//add the property value to the individual for each property
 			for(int k=0; k<mappedProperties.size(); k++) {
-				if(mappedProperties.get(k)!=null) {
+				if(mappedProperties.get(k)!=null && mappedProperties.get(k)!="") {
 					//retrieve the property range
 					String range=this.propertyRanges.get(mappedProperties.get(k));
 					boolean isDp=range.contains(this.xsdUri);

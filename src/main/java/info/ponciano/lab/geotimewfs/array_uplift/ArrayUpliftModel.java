@@ -10,6 +10,8 @@ import info.ponciano.lab.pitools.files.PiFile;
 
 public abstract class ArrayUpliftModel {
 
+	public static final String dataUri = "http://lab.ponciano.info/ontology/2020/geotime/data#";
+	public static final String xsdUri = "http://www.w3.org/2001/XMLSchema#";
 	/**
 	 * table representing a data to uplift as RDF triples
 	 */
@@ -34,6 +36,7 @@ public abstract class ArrayUpliftModel {
 		this.attributes=attributesArray;
 		this.ontopath=ontpath;
 		this.ontology= new PiSparql();
+		this.ontology.setNs(dataUri);
 		//can make a PiFile to verify if file exists, and create it if not.
 		this.vocab= new PiOnt(VOCAB_PATH);
 		this.initpropertyNames();
@@ -44,6 +47,7 @@ public abstract class ArrayUpliftModel {
 		this.attributes=attributesArray;
 		this.ontopath=ontpath;
 		this.ontology= new PiSparql();
+		this.ontology.setNs(dataUri);
 		//can make a PiFile to verify if file exists, and create it if not.
 		this.vocab= new PiOnt(vocabpath);
 		this.initpropertyNames();
