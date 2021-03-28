@@ -147,15 +147,16 @@ body {
 				class="form-container">
 
 				<p>Property Local Name</p>
-				<input type="text" name="propertyName" value="property name">
+				<input type="text" id="propertyName" name="propertyName" value="property name">
 
 
 
 
 
-				<input type="radio" name="propertyType" value="datatypeproperty"> Datatype property
-				<input type="radio" name="propertyType" value="objectproperty"> Object property
-	
+				<input type="radio" name="propertyType" id="propertyType" value="datatypeproperty">
+				Datatype property <input type="radio" name="propertyType"
+					value="objectproperty"> Object property
+
 
 
 				<p>Property Range</p>
@@ -181,7 +182,8 @@ body {
 					<option value="hexBinary">xsd:hexBinary</option>
 					<option value="base64Binary">xsd:base64Binary</option>
 					<option value="anyURI">xsd:anyURI</option>
-				</select> <input type="submit" class="btn" value="Submit">
+<!-- 				</select> <input type="submit" class="btn" value="Submit"> -->
+				<button type="button" class="btn cancel" onclick="closeForm()">Submit</button>
 				<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
 			</form>
 		</div>
@@ -210,8 +212,8 @@ body {
 				<tr>
 					<td th:each="i : ${#numbers.sequence(1, nbc)}">
 						<!--         	add button to create new properties  that call a new frame -->
-						<button onclick="openForm()">New</button> <select
-						th:name="'properties_'+${i}">
+						<button onclick="openForm()">New</button> 
+						<select class="prtSelect" th:name="'properties_'+${i}">
 							<option th:each="p, list : ${prop}" th:value="*{p[__${i]}__}"
 								th:text="*{p[__${i]}__}">Property</option>
 					</select>
@@ -231,7 +233,9 @@ body {
 
 	</div>
 
-	<script type="text/javascript">
+<script th:inline="javascript">
+var server = [[@{/property_adding}]];
+
 		closeForm();
 		function openForm() {
 			document.getElementById("popupForm").style.display = "block";
@@ -253,6 +257,28 @@ body {
 			var content = thelist.options[idx].innerHTML;
 			theinput.value = content;
 		}
+
+// 		function newProperty() {
+// 			var data = new FormData();
+// 			var prtName=document.getElementById("propertyName");
+// 			data.append("propertyName", prtName);
+// 			data.append("propertyType", document.getElementById("propertyType"));
+// 			data.append("propertyRange", document.getElementById("propertyRange"));
+// 			var xhr = new XMLHttpRequest();
+// 			xhr.open("POST",server);
+// 			xhr.send(data);
+			
+// 			closeForm();
+			
+// 			var allSelect =document.getElementsByClassName("prtSelect");
+// 			for(var x in allSelect)
+// 			{
+// 				  var option = document.createElement("option");
+// 				  option.text =prtName;
+// 				  option.value=prtName;
+// 				  x.add(option);
+// 			}
+// 		}
 	</script>
 	<!--<div th:insert="fragments/footer :: footer"></div>-->
 </body>
