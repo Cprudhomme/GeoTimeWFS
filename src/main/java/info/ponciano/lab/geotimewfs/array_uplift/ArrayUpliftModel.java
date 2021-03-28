@@ -38,6 +38,16 @@ public abstract class ArrayUpliftModel {
 		this.initpropertyNames();
 		this.initpropertyRanges();
 	}
+	
+	public ArrayUpliftModel (String [][] attributesArray, String ontpath, String vocabpath) throws FileNotFoundException {
+		this.attributes=attributesArray;
+		this.ontopath=ontpath;
+		this.ontology= new PiSparql(this.ontopath);
+		//can make a PiFile to verify if file exists, and create it if not.
+		this.vocab= new PiOnt(vocabpath);
+		this.initpropertyNames();
+		this.initpropertyRanges();
+	}
 
 	protected abstract void initpropertyNames();
 	protected abstract void initpropertyRanges();
@@ -62,5 +72,51 @@ public abstract class ArrayUpliftModel {
 	 * 
 	 * @return the created ontology from attributes
 	 */
-	public abstract PiSparql getOntology(); 
+	public abstract PiSparql getOntology();
+
+	public String[][] getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(String[][] attributes) {
+		this.attributes = attributes;
+	}
+
+	public String getOntopath() {
+		return ontopath;
+	}
+
+	public void setOntopath(String ontopath) {
+		this.ontopath = ontopath;
+	}
+
+	public PiOnt getVocab() {
+		return vocab;
+	}
+
+	public void setVocab(PiOnt vocab) {
+		this.vocab = vocab;
+	}
+
+	public HashMap<String, String> getPropertyNames() {
+		return propertyNames;
+	}
+
+	public void setPropertyNames(HashMap<String, String> propertyNames) {
+		this.propertyNames = propertyNames;
+	}
+
+	public HashMap<String, String> getPropertyRanges() {
+		return propertyRanges;
+	}
+
+	public void setPropertyRanges(HashMap<String, String> propertyRanges) {
+		this.propertyRanges = propertyRanges;
+	}
+
+	public void setOntology(PiSparql ontology) {
+		this.ontology = ontology;
+	} 
+	
+	
 }
