@@ -130,11 +130,28 @@ public class ArrayUpliftController {
 	
 	//adding of a new Property from its local name, range and type
 	//require to update hashmap and list 
-	//@PostMapping("/property_adding")
-    //public abstract String addNewProperty();
+	@PostMapping("/property_adding")
+    public String addNewProperty() {
+		String localname="";
+		String range="";
+		String message="";
+		boolean adding=false;
+		if(am!=null) {
+			adding=this.am.addProperty(localname, range);
+			if(adding) message="The property "+localname+" has been successfully added.";
+			else message="The adding of the property "+localname+" has failed.";
+		}
+		else
+			message="The model has not been initialized";
+
+		return message;
+	}
 	
-	//@PostMapping("/uplift_validation")
-    //public abstract String ontologyPopulation();
+	@PostMapping("/uplift_validation")
+    public String ontologyPopulation() {
+		//TODO
+		return "";
+	}
 	
 	
 	

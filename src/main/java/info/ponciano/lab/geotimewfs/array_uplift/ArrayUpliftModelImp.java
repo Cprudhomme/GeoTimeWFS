@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.jena.ontology.DatatypeProperty;
+import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntProperty;
@@ -19,6 +20,9 @@ import info.ponciano.lab.pisemantic.PiSparql;
 
 public class ArrayUpliftModelImp extends ArrayUpliftModel {
 
+	private static final String dataUri = "http://lab.ponciano.info/ontology/2020/geotime/data#";
+	private static final String xsdUri = "http://www.w3.org/2001/XMLSchema#";
+	
 	public ArrayUpliftModelImp(String[][] attributesArray, String ontpath) throws FileNotFoundException {
 		super(attributesArray, ontpath);
 	}
@@ -114,10 +118,11 @@ public class ArrayUpliftModelImp extends ArrayUpliftModel {
 	public boolean addProperty(String localname, String range) {
 		boolean datatypeproperty=range.contains("xsd:");
 		//case of Datatypeproperty
+		
 		if(datatypeproperty) {
 			//adding to vocab ontology
-			DatatypeProperty dp=this.vocab.createDatatypeProperty("http://lab.ponciano.info/ontology/2020/geotime/data#"+localname);
-			Resource r=new ResourceImpl("http://www.w3.org/2001/XMLSchema#"+range.substring(4));
+			DatatypeProperty dp=this.vocab.createDatatypeProperty(dataUri+localname);
+			Resource r=new ResourceImpl(xsdUri+range.substring(4));
 			dp.addRange(r);
 			//adding to propertyRanges
 			this.propertyRanges.put(dp.getURI(), dp.getRange().getURI());
@@ -125,8 +130,8 @@ public class ArrayUpliftModelImp extends ArrayUpliftModel {
 		//case of ObjectProperties
 		else {
 			//adding to vocab ontology
-			ObjectProperty op=this.vocab.createObjectProperty("http://lab.ponciano.info/ontology/2020/geotime/data#"+localname);
-			OntClass c=this.vocab.createClass("http://lab.ponciano.info/ontology/2020/geotime/data#"+range);
+			ObjectProperty op=this.vocab.createObjectProperty(dataUri+localname);
+			OntClass c=this.vocab.createClass(dataUri+range);
 			op.addRange(c);
 			//adding to propertyRanges
 			this.propertyRanges.put(op.getURI(), op.getRange().getURI());
@@ -135,9 +140,55 @@ public class ArrayUpliftModelImp extends ArrayUpliftModel {
 	}
 
 	@Override
-	public boolean createOntology() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean createOntology(String classname, List<String> mappedProperties) throws Exception {
+		//first row processing: add the mapping for each property
+		List<String[]> at=List.of(this.attributes);
+		if(at.size()>0) {
+			if(at.get(0).length!= mappedProperties.size()) throw new Exception("The size of mapping array does not fit with the number of properties");
+			else{
+				for(int i=0; i<at.get(0).length; i++)
+					this.addPropertyMapping(mappedProperties.get(i),at.get(0)[i]);
+			}
+		}
+		
+		//for each other row of the attributes array
+		for(int j=1; j<at.size(); j++) {
+			//create an individual
+			OntClass c=this.ontology.getOntClass(this.dataUri+classname);
+			if(c==null) c=this.ontology.createClass(this.dataUri+classname);
+			Individual ind=this.ontology.createIndividual(c);
+			//add the property value to the individual for each property
+			for(int k=0; k<mappedProperties.size(); k++) {
+				if(mappedProperties.get(k)!=null) {
+					//retrieve the property range
+					String range=this.propertyRanges.get(mappedProperties.get(k));
+					boolean isDp=range.contains(this.xsdUri);
+					//DatatypeProperty case
+					if(isDp) {
+						DatatypeProperty dp=this.ontology.getDataProperty(mappedProperties.get(k));
+						if(dp==null) dp=this.ontology.createDatatypeProperty(mappedProperties.get(k));
+						ind.addLiteral(dp, at.get(j)[k]);
+					}
+					//Objectproperty case
+					else {
+						//retrieve property
+						ObjectProperty op=this.ontology.getObjectProperty(mappedProperties.get(k));
+						if(op==null) op=this.ontology.createObjectProperty(mappedProperties.get(k));
+						//retrieve its range class
+						OntClass cr=this.ontology.getOntClass(range);
+						if(cr==null) cr=this.ontology.createClass(range);
+						//create an individual of the range
+						Individual indrange=this.ontology.createIndividual(cr);
+						indrange.addLabel(at.get(j)[k], null);
+						ind.addProperty(op, indrange);
+					}
+				}
+			}	
+		}
+		
+		//save the created ontology
+		this.ontology.write(this.ontopath);
+		return true;
 	}
 
 	@Override
@@ -147,7 +198,7 @@ public class ArrayUpliftModelImp extends ArrayUpliftModel {
 
 	@Override
 	public boolean addPropertyMapping(String localname, String label) {
-		OntProperty p=this.vocab.getOntProperty("http://lab.ponciano.info/ontology/2020/geotime/data#"+localname);
+		OntProperty p=this.vocab.getOntProperty(dataUri+localname);
 		if(p==null)
 			return false;
 		else {

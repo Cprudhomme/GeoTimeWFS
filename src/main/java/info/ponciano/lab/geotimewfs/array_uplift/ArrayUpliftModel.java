@@ -70,7 +70,8 @@ public abstract class ArrayUpliftModel {
 	public abstract boolean addPropertyMapping(String localname, String label);
 	
 	
-	public abstract boolean createOntology();
+	public abstract boolean createOntology(String classname, List<String> mappedProperties) throws Exception;
+	
 	/**
 	 * 
 	 * @return the created ontology from attributes
