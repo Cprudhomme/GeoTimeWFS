@@ -212,10 +212,9 @@ body {
 				<tr>
 					<td th:each="i : ${#numbers.sequence(1, nbc)}">
 						<!--         	add button to create new properties  that call a new frame -->
-						<button onclick="openForm()">New</button> 
+						<button onclick="openForm()">New</button>
 						<select class="prtSelect" th:name="'properties_'+${i}">
-							<option th:each="p, list : ${prop}" th:value="*{p[__${i]}__}"
-								th:text="*{p[__${i]}__}">Property</option>
+							<option th:each="p, list : ${prop}" th:value="${p}" th:text="${p}">Property</option>
 					</select>
 
 					</td>
@@ -267,9 +266,9 @@ var server = [[@{/property_adding}]];
 // 			var xhr = new XMLHttpRequest();
 // 			xhr.open("POST",server);
 // 			xhr.send(data);
-			
+
 // 			closeForm();
-			
+
 // 			var allSelect =document.getElementsByClassName("prtSelect");
 // 			for(var x in allSelect)
 // 			{

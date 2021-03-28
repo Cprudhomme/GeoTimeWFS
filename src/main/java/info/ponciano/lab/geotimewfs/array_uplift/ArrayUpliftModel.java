@@ -19,7 +19,7 @@ public abstract class ArrayUpliftModel {
 	 */
 	protected String ontopath;
 	//Fixed path of the vocabulary ontology
-	protected static final String VOCAB_PATH="";
+	protected static final String VOCAB_PATH="src/main/resources/ontologies/vocab.owl";
 	//Ontology containing the vocabulary/TBox for the ontology representing a table data
 	protected PiOnt vocab;
 	//Ontology to create from attributes
@@ -70,7 +70,8 @@ public abstract class ArrayUpliftModel {
 	public abstract boolean addPropertyMapping(String localname, String label);
 	
 	
-	public abstract boolean createOntology();
+	public abstract boolean createOntology(String classname, List<String> mappedProperties) throws Exception;
+	
 	/**
 	 * 
 	 * @return the created ontology from attributes

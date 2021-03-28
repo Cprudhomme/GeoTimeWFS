@@ -84,21 +84,26 @@ public class ArrayUpliftController {
 		String message="You successfully upload the file(s): " + file.getOriginalFilename() ;
 		message += ". Please indicate now the mapping between attributes of your file and the appropriate ontological properties";
 		model.addAttribute("message", message);
-		//File reading
 		try {
+			//File reading
 			String filename=file.getOriginalFilename();
 			if(filename.substring(filename.length()-4).equals("csv"));
 			PiFile pf= new PiFile("upload-dir/"+filename);
 			String [][] attribute=pf.readCSV(";");
+			//init the array uplift model with attribute
+			this.am=new ArrayUpliftModelImp(attribute, "rdf-data/"+filename.substring(0, filename.length()-4)+".owl");
+			//init list to display a sample of the csv file 
 			List<String[]> lf=new ArrayList<String []>();
 			if(attribute!=null) {
-				lf= List.of(attribute);
+				lf= this.am.geFirstRows(5);
+				//init the number of property to map
 				int nbcol=lf.get(0).length;
 				model.addAttribute("nbc", nbcol);
 			}
+			//provide the sample to the model used by the view
 			model.addAttribute("fc", lf);
 			//init and provide the property list
-			List<String> prop=new ArrayList<String>();
+			List<String> prop=this.am.getProperties();
 			model.addAttribute("prop", prop);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -125,11 +130,28 @@ public class ArrayUpliftController {
 	
 	//adding of a new Property from its local name, range and type
 	//require to update hashmap and list 
-	//@PostMapping("/property_adding")
-    //public abstract String addNewProperty();
+	@PostMapping("/property_adding")
+    public String addNewProperty() {
+		String localname="";
+		String range="";
+		String message="";
+		boolean adding=false;
+		if(am!=null) {
+			adding=this.am.addProperty(localname, range);
+			if(adding) message="The property "+localname+" has been successfully added.";
+			else message="The adding of the property "+localname+" has failed.";
+		}
+		else
+			message="The model has not been initialized";
+
+		return message;
+	}
 	
-	//@PostMapping("/uplift_validation")
-    //public abstract String ontologyPopulation();
+	@PostMapping("/uplift_validation")
+    public String ontologyPopulation() {
+		//TODO
+		return "";
+	}
 	
 	
 	
