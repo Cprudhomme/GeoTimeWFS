@@ -260,8 +260,7 @@ var server = [[@{/property_adding}]];
 
 		function newProperty() {
 			var data = new FormData();
-			var prtName=document.getElementById("propertyName").value;
-			
+			var prtName=document.getElementById("propertyName").value;// HERE we get the property name			
 // 			Add property name in the option
 			var allSelect =document.getElementsByClassName("prtSelect");
 			
@@ -277,9 +276,18 @@ var server = [[@{/property_adding}]];
 			}
 			
 // 			Send property name range and type to the server
-			data.append("propertyName", prtName);
-			data.append("propertyType", document.getElementById("propertyType"));//TODO check if we should send .value instead
+
+// 			if  you need values TODO check if we should send .value 
+				// data.append("propertyName", prtName);
+				// data.append("propertyType", document.getElementById("propertyType").value);
+				// data.append("propertyRange", document.getElementById("propertyRange").value);
+// 				else 
+			data.append("propertyName",document.getElementById("propertyName"); 
+			data.append("propertyType", document.getElementById("propertyType"));
 			data.append("propertyRange", document.getElementById("propertyRange"));
+			
+			
+			
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST",server);
 			xhr.send(data);
