@@ -27,24 +27,39 @@
 		<h4 th:text="${message}"/>
 	</div>
 	<div>
+	<form action="#" th:action="@{/uplift_validation}" th:object="${propmap}" method="post">
+	<label id="title">Class Name:</label>
+	<input type="text" th:field="*{classname}">
+	
 	<table>
     <tbody>
-	<tr th:if="${fc.empty}">
-            <td> No Individuals Available </td>
+		<tr th:if="${fc.empty}">
+            <td> No Rows Available </td>
         </tr>
         <tr>
-        	<td th:each="i : ${#numbers.sequence(1, nbc)}">
-        		<select name="properties">
+        	<td th:each="i : ${#numbers.sequence(0, nbc-1)}">
+        		<select name="properties" th:field="*{properties[__${i}__]}">
 				  <option th:each="p, list : ${prop}" th:value="${p}" th:text="${p}">Property</option>
 				</select>
 			</td>
+        </tr>
+ 		<tr>
+ 			<td colspan="${nbc}">
+        	<input type="submit" value="Submit">
+			</form>
+			</td>
+		</tr>
+		
+	   	<tr th:if="${fc.empty}">
+            <td> No Rows Available </td>
         </tr>
         <tr th:each="row, itemStat : *{fc}">
             <td th:each="value, item : *{fc[__${itemStat.index}__]}"><span th:text="*{row[__${item.index}__]}"> Property value </span></td>
         </tr>
         
     </tbody>
-</table>
+	</table>
+
 	
 </div>
 

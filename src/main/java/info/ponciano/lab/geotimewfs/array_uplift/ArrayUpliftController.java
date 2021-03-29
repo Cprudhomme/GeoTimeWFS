@@ -13,14 +13,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
+import info.ponciano.lab.geotimewfs.models.Metadata;
 import info.ponciano.lab.geotimewfs.models.SHPdata;
 import info.ponciano.lab.pitools.files.PiFile;
 
@@ -129,28 +132,43 @@ public class ArrayUpliftController {
 	}
 	
 	//adding of a new Property from its local name, range and type
-	//require to update hashmap and list 
-	@PostMapping("/property_adding")
-    public String addNewProperty() {
-		String localname="";
-		String range="";
-		String message="";
-		boolean adding=false;
-		if(am!=null) {
-			adding=this.am.addProperty(localname, range);
-			if(adding) message="The property "+localname+" has been successfully added.";
-			else message="The adding of the property "+localname+" has failed.";
-		}
-		else
-			message="The model has not been initialized";
+		//require to update hashmap and list 
+		@PostMapping("/property_adding")
+	    public String addNewProperty() {
+			String localname="";
+			String range="";
+			String message="";
+			boolean adding=false;
+			if(am!=null) {
+				adding=this.am.addProperty(localname, range);
+				if(adding) message="The property "+localname+" has been successfully added.";
+				else message="The adding of the property "+localname+" has failed.";
+			}
+			else
+				message="The model has not been initialized";
 
-		return message;
-	}
+			return message;
+		}
 	
+	// initialize the model attribute "metadata"
+		@ModelAttribute(name = "propmap")
+		public PropertyMapping propmap() {
+			return new PropertyMapping();
+		}
+
 	@PostMapping("/uplift_validation")
-    public String ontologyPopulation() {
-		//TODO
-		return "";
+    public String ontologyPopulation(@ModelAttribute("propmap") PropertyMapping propmap, Model model) {
+		String m="";
+		try {
+			this.am.createOntology(propmap.getClassname(), propmap.getProperties());
+			m="Ontology successfully created.";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			m="Error: the ontology has not been created.";
+		}
+		model.addAttribute("message", m);
+		return "view";
 	}
 	
 	
