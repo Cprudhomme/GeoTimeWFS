@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import javax.validation.Valid;
+import org.springframework.validation.BindingResult;
 
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.models.Metadata;
@@ -29,7 +31,7 @@ import info.ponciano.lab.pitools.files.PiFile;
 
 @Controller
 public class ArrayUpliftController {
-	
+
 	private ArrayUpliftModel am;
 	private final StorageService storageService;
 
@@ -38,7 +40,7 @@ public class ArrayUpliftController {
         this.storageService = storageService;
     }
 
-	
+
     /**
      * Get function to load CSV file
      * @param model of the view
@@ -64,21 +66,21 @@ public class ArrayUpliftController {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
-	
+
 	//view to load DBF file
 	//@GetMapping("/dbf_loading")
     //public abstract String getDbfLoadingView(Model model);
-	
-	//View with name of uploaded file and view of the array to define the properties of the ontology  
+
+	//View with name of uploaded file and view of the array to define the properties of the ontology
 	@PostMapping("/array_uplift")
     public String arrayUpliftView(@RequestParam("file") MultipartFile file, Model model) {//RedirectAttributes redirectAttributes) {
 		// store file
 		storageService.store(file);
 
 		//redirectAttributes.addFlashAttribute("message",
-						//"You successfully upload the file(s): " + file.getOriginalFilename() 
+						//"You successfully upload the file(s): " + file.getOriginalFilename()
 						//+ ". Please indicate now the mapping between attributes of your file and the appropriate ontological properties");
-		
+
 		// store the csv file in a specific folder for CSV files
 		/**String pathCSV = "csv-dir/" + file.getOriginalFilename();
 		try {
@@ -98,7 +100,7 @@ public class ArrayUpliftController {
 			String [][] attribute=pf.readCSV(";");
 			//init the array uplift model with attribute
 			this.am=new ArrayUpliftModelImp(attribute, "rdf-data/"+filename.substring(0, filename.length()-4)+".owl");
-			//init list to display a sample of the csv file 
+			//init list to display a sample of the csv file
 			List<String[]> lf=new ArrayList<String []>();
 			if(attribute!=null) {
 				lf= this.am.geFirstRows(5);
@@ -114,15 +116,15 @@ public class ArrayUpliftController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		
+		}
+
 		return "arrayMappingView";
-		
+
 	}
-	
+
 	/**
 	 * move a file from a directory to the CSV storage directory
-	 * 
+	 *
 	 * @param filename: name of the file to move
 	 * @param pathSHP:  initial path of the file to move
 	 * @throws IOException
@@ -133,9 +135,9 @@ public class ArrayUpliftController {
 			dirSHPdata.mkdir();
 		new PiFile(pathSHP).mv(dirSHPdata.getPath() + filename);
 	}
-	
+
 	//adding of a new Property from its local name, range and type
-		//require to update hashmap and list 
+		//require to update hashmap and list
 		@PostMapping("/property_adding")
 	    public String addNewProperty() {
 			String localname="";
@@ -152,7 +154,7 @@ public class ArrayUpliftController {
 
 			return message;
 		}
-	
+
 	// initialize the model attribute "metadata"
 		@ModelAttribute(name = "propmap")
 		public PropertyMapping propmap() {
@@ -173,7 +175,16 @@ public class ArrayUpliftController {
 		model.addAttribute("message", m);
 		return "view";
 	}
-	
-	
-	
+
+	@PostMapping("/property_adding")
+public String checkPersonInfo(@Valid PropertyForm personForm, BindingResult bindingResult) {
+
+	if (bindingResult.hasErrors()) {
+		return "form";
+	}
+
+	return "redirect:/results";
+}
+
+
 }
