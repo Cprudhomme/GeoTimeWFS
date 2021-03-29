@@ -50,6 +50,9 @@ public class ArrayUpliftController {
                 path -> MvcUriComponentsBuilder.fromMethodName(ArrayUpliftController.class,
                         "serveFile", path.getFileName().toString()).build().toUri().toString())
                 .collect(Collectors.toList()));
+		String m="You successfully uplift the shapefile: vg250gem.shp, if you want to uplift shapefile attributes, "
+				+"please convert the DBF file into CSV file and load it.";
+		model.addAttribute("message", m);
         return "csvloading";
     }
 
