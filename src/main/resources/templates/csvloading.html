@@ -26,6 +26,28 @@
         <div th:if="${message}">
 		<h2 th:text="${message}"/>
 	</div>
+	<div>
+	<h3>Good Practice to transform DBF file of a Shapefile into CSV manually </h3>
+	<ol>
+		<li>Open DBF file with Libre-office in encoding "Western europa (international)"</li>
+
+		<li>Select "save as", define the same name than the shapefile name and choose CSV extension of file</li>
+
+		<li>Click on "use text csv file"</li>
+
+		<li>Set the parameters as follow to save into CSV: </li>
+		<ul>
+			<li>Character set: Unicode (UTF-8)</li>
+
+			<li>Field delimiter: ;</li>
+
+			<li>String delimiter: " </li>
+		</ul>
+
+		<li>Click on ok</li>
+	</ol>
+
+	</div>
 
 	<div>
         <form th:action="@{/array_uplift}" th:object="${data}" method="post" enctype="multipart/form-data">

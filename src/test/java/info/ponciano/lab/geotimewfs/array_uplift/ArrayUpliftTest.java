@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntProperty;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +23,7 @@ class ArrayUpliftTest {
 		String[][] attribute;
 		try {
 			attribute = pf.readCSV(";");
-			this.instance = new ArrayUpliftModelImp(attribute, "testdata/ontoCSVtest.ttl", "testdata/vocabtest.owl");
+			this.instance = new ArrayUpliftModelImp(attribute, "testdata/ontoCSVtest", "testdata/vocabtest.owl");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			fail("Exception from ArrayUpliftModelImp constructor: " + e.getMessage());
@@ -131,9 +132,30 @@ class ArrayUpliftTest {
 		assertEquals(expectedProperty,instance.propertyNames.get("wheelchair"));
 	}
 	
+	@Test
 	final void createOntologyTest() {
-		// TODO Auto-generated method stub
-		
+		List<String> ls=new ArrayList<String>();
+		ls.add(instance.dataUri+"hasArea");
+		ls.add(instance.dataUri+"hasPerimeter");
+		ls.add(instance.dataUri+"hasNumber");
+		ls.add(instance.dataUri+"hasId");
+		ls.add(instance.dataUri+"hasShapeNode");
+		ls.add(instance.dataUri+"hasSpace");
+		ls.add(instance.dataUri+"hasUse");
+		ls.add(instance.dataUri+"hasKey");
+		ls.add(instance.dataUri+"hasMunicipality");
+		ls.add(instance.dataUri+"hasDescription");
+		try {
+			instance.createOntology("Gemeinde", ls);
+			OntClass c=instance.ontology.getOntClass(instance.dataUri+"Gemeinde");
+			String exp=instance.dataUri+"Gemeinde";
+			assertEquals(exp,c.getURI());
+			c=instance.ontology.getOntClass(instance.dataUri+"Municipality");
+			exp=instance.dataUri+"Municipality";
+			assertEquals(exp,c.getURI());
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
 	}
 
 }

@@ -383,7 +383,8 @@ public class DataController {
 		storageService.store(file);
 
 		redirectAttributes.addFlashAttribute("message",
-				"You successfully uplift the shapefile: " + file.getOriginalFilename() + "!");
+				"You successfully uplift the shapefile: " + file.getOriginalFilename() + ", if you want to uplift shapefile attributes, "
+				+"please convert the DBF file into CSV file and load it.");
 
 		String pathSHP = "upload-dir/" + file.getOriginalFilename();
 		String uri = "http://lab.ponciano.info/ontology/2020/geotime/data#";
@@ -406,7 +407,7 @@ public class DataController {
 				}
 				// store the shapefile
 				moveFile(file.getOriginalFilename(), pathSHP);
-				rtn = "redirect:/data/ShpUplift";
+				rtn = "redirect:/csv_loading";//"redirect:/data/ShpUplift";
 			}
 		} catch (ControllerException | IOException ex) {
 			try {
