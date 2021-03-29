@@ -143,19 +143,29 @@ body {
 
 	<div class="login-popup">
 		<div class="form-popup" id="popupForm">
-			<form th:action="@{/property_adding}" method="post"
+			<form  action="#" th:action="@{/property_adding}" th:object="${personForm}" method="post"
 				class="form-container">
 
-				<p>Property Local Name</p>
-				<input type="text" id="propertyName" name="propertyName" value="property name">
+				<table>
+							<tr>
+									<td>>Property Local Name:</td>
+									<td><input type="text" th:field="*{name}" /></td>
+									<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+							</tr>
+							<tr>
+									<td>Age:</td>
+									<td><input type="text" th:field="*{age}" /></td>
+									<td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</td>
+							</tr>
+							<tr>
+									<td><button type="submit">Submit</button></td>
+							</tr>
+					</table>
 
-
-
-
-
+<!-- 
 				<input type="radio" name="propertyType" id="propertyType" value="datatypeproperty">
 				Datatype property <input type="radio" name="propertyType"
-					value="objectproperty"> Object property
+					value="objectproperty"> Object property -->
 
 
 
