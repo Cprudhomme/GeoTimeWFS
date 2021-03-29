@@ -4,11 +4,9 @@
 <title>Getting Started: Serving Web Content</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<style>
-
-</style>
 </head>
 <body>
+	    <link rel="stylesheet" type="text/css" href="/css/form.css">
 	<script type='text/javascript'>
 		var elements = [ {
 			link : "/home",
@@ -63,62 +61,54 @@
 	<!-- ---------------------------------------------------------- -->
 	<!-- ----------------POP UP----------------------- -->
 	<!-- ---------------------------------------------------------- -->
+	<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
 
 	<div class="login-popup">
 		<div class="form-popup" id="popupForm">
-			<form  action="#" th:action="@{/property_adding}" th:object="${personForm}" method="post"
+			<form  target="#_blank" action="#" th:action="@{/property_adding}" th:object="${perPropertyForm}" method="post"
 				class="form-container">
 
 				<table>
 							<tr>
-									<td>>Property Local Name:</td>
-									<td><input type="text" th:field="*{name}" /></td>
+									<td>Property Name:</td>
+									<td><input  id="propertyName" type="text" th:field="*{name}" /></td>
 									<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
 							</tr>
 							<tr>
-									<td>Age:</td>
-									<td><input type="text" th:field="*{age}" /></td>
-									<td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</td>
+									<td>Range:</td>
+									<td><input id="propertyRange"  type="text" th:field="*{range}" /></td>
+									<td th:if="${#fields.hasErrors('range')}" th:errors="*{range}">Range Error</td>
+									<td><select
+				 					name="thelist" onChange="combo(this, 'propertyRange')"
+				 					onMouseOut="combo(this, 'propertyRange')">
+				 					<option value="Select">Range</option>
+				 					<option value="string">xsd:string</option>
+				 					<option value="boolean">xsd:boolean</option>
+				 					<option value="decimal">xsd:decimal</option>
+				 					<option value="boolean">xsd:boolean</option>
+				 					<option value="float">xsd:float</option>
+				 					<option value="double">xsd:double</option>
+				 					<option value="duration">xsd:duration</option>
+				 					<option value="dateTime">xsd:dateTime</option>
+				 					<option value="time">xsd:time</option>
+				 					<option value="date">xsd:date</option>
+				 					<option value="gYearMonth">xsd:gYearMonth</option>
+				 					<option value="gYear">xsd:gYear</option>
+				 					<option value="gMonthDay">xsd:gMonthDay</option>
+				 					<option value="gDay">xsd:gDay</option>
+				 					<option value="gMonth">xsd:gMonth</option>
+				 					<option value="hexBinary">xsd:hexBinary</option>
+				 					<option value="base64Binary">xsd:base64Binary</option>
+				 					<option value="anyURI">xsd:anyURI</option>
+				 				</select></td>
 							</tr>
 							<tr>
-									<td><button type="submit">Submit</button></td>
+								<!-- <td>				<button type="button" class="btn cancel" onclick="newProperty()">Add</button></td> -->
+								<td>	<input type="submit" class="btn" value="Submit" onclick="newProperty()"></td>
+								<td>				<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button></td>
 							</tr>
 					</table>
-
-<!-- 
-				<input type="radio" name="propertyType" id="propertyType" value="datatypeproperty">
-				Datatype property <input type="radio" name="propertyType"
-					value="objectproperty"> Object property -->
-
-
-
-				<p>Property Range</p>
-				<input type="text" id="propertyRange" name="propertyRange" /> <select
-					name="thelist" onChange="combo(this, 'propertyRange')"
-					onMouseOut="combo(this, 'propertyRange')">
-					<option value="Select">Range</option>
-					<option value="string">xsd:string</option>
-					<option value="boolean">xsd:boolean</option>
-					<option value="decimal">xsd:decimal</option>
-					<option value="boolean">xsd:boolean</option>
-					<option value="float">xsd:float</option>
-					<option value="double">xsd:double</option>
-					<option value="duration">xsd:duration</option>
-					<option value="dateTime">xsd:dateTime</option>
-					<option value="time">xsd:time</option>
-					<option value="date">xsd:date</option>
-					<option value="gYearMonth">xsd:gYearMonth</option>
-					<option value="gYear">xsd:gYear</option>
-					<option value="gMonthDay">xsd:gMonthDay</option>
-					<option value="gDay">xsd:gDay</option>
-					<option value="gMonth">xsd:gMonth</option>
-					<option value="hexBinary">xsd:hexBinary</option>
-					<option value="base64Binary">xsd:base64Binary</option>
-					<option value="anyURI">xsd:anyURI</option>
-				</select>
 <!-- 				<input type="submit" class="btn" value="Submit"> -->
-				<button type="button" class="btn cancel" onclick="newProperty()">Add</button>
-				<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
 			</form>
 		</div>
 	</div>
