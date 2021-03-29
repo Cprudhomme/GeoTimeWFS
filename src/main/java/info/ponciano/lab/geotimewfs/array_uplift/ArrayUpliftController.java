@@ -73,7 +73,7 @@ public class ArrayUpliftController {
 
 	//View with name of uploaded file and view of the array to define the properties of the ontology
 	@PostMapping("/array_uplift")
-    public String arrayUpliftView(@RequestParam("file") MultipartFile file, Model model) {//RedirectAttributes redirectAttributes) {
+    public String arrayUpliftView(@RequestParam("file") MultipartFile file,PropertyForm perPropertyForm, Model model) {//RedirectAttributes redirectAttributes) {
 		// store file
 		storageService.store(file);
 
@@ -114,10 +114,9 @@ public class ArrayUpliftController {
 			List<String> prop=this.am.getProperties();
 			model.addAttribute("prop", prop);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		model.addAttribute("perPropertyForm",new PropertyForm());
 		return "arrayMappingView";
 
 	}
@@ -139,21 +138,30 @@ public class ArrayUpliftController {
 	//adding of a new Property from its local name, range and type
 		//require to update hashmap and list
 		@PostMapping("/property_adding")
-	    public String addNewProperty() {
-			String localname="";
-			String range="";
-			String message="";
-			boolean adding=false;
-			if(am!=null) {
-				adding=this.am.addProperty(localname, range);
-				if(adding) message="The property "+localname+" has been successfully added.";
-				else message="The adding of the property "+localname+" has failed.";
-			}
-			else
-				message="The model has not been initialized";
+	    public String addNewProperty(@Valid PropertyForm perPropertyForm, BindingResult bindingResult,Model model) {
+				
+				System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+				System.out.println(perPropertyForm);
+				System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
-			return message;
+				String localname=perPropertyForm.getName();
+				String range=perPropertyForm.getRange();
+				if (bindingResult.hasErrors()) {
+					return "form";
+				}
+				String message="";
+				boolean adding=false;
+				if(am!=null) {
+					adding=this.am.addProperty(localname, range);
+					if(adding) message="The property "+localname+" has been successfully added.";
+					else message="The adding of the property "+localname+" has failed.";
+				}
+				else
+					message="The model has not been initialized";
+					model.addAttribute("message", message);
+				return "sucess";
 		}
+
 
 	// initialize the model attribute "metadata"
 		@ModelAttribute(name = "propmap")
@@ -168,23 +176,12 @@ public class ArrayUpliftController {
 			this.am.createOntology(propmap.getClassname(), propmap.getProperties());
 			m="Ontology successfully created.";
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			m="Error: the ontology has not been created.";
 		}
 		model.addAttribute("message", m);
 		return "view";
 	}
-
-	@PostMapping("/property_adding")
-public String checkPersonInfo(@Valid PropertyForm personForm, BindingResult bindingResult) {
-
-	if (bindingResult.hasErrors()) {
-		return "form";
-	}
-
-	return "redirect:/results";
-}
 
 
 }
