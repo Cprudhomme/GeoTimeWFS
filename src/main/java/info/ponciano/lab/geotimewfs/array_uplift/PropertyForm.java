@@ -13,6 +13,10 @@ public class  PropertyForm  {
 	@Size(min=2, max=30)
 	private String range;
 
+public  PropertyForm(){
+  this.name="Property Name";
+  this.range="Range";
+}
 
 
 	public String getName() {
@@ -37,7 +41,7 @@ public String getRange() {
 }
 @Override
 public String toString() {
-  return 	 "Property( Name: " + this.name + ", Age: " + this.range + ")";
+  return 	 "Property( Name: " + this.name + ", Range: " + this.range + ")";
 
 }
 }
