@@ -184,7 +184,7 @@ body {
 					<option value="anyURI">xsd:anyURI</option>
 				</select>
 <!-- 				<input type="submit" class="btn" value="Submit"> -->
-				<button type="button" class="btn cancel" onclick="newProperty()">Submit</button>
+				<button type="button" class="btn cancel" onclick="newProperty()">Add</button>
 				<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
 			</form>
 		</div>
@@ -216,9 +216,10 @@ body {
 	        </tr>
 	        <tr>
 	        	<td th:each="i : ${#numbers.sequence(0, nbc-1)}">
-	        		<select th:id="'properties_'+${i}" th:name="'properties_'+${i}" th:field="*{properties[__${i}__]}">
-					  <option th:each="p, list : ${prop}" th:value="${p}" th:text="${p}">Property</option>
-					</select>
+	        		<select class="prtSelect" th:id="'properties_'+${i}" th:name="'properties_'+${i}" th:field="*{properties[__${i}__]}">
+							  	<option th:each="p, list : ${prop}" th:value="${p}" th:text="${p}">Property</option>
+							</select>
+							<a onclick="openForm()">new property</a>
 				</td>
 	        </tr>
 	 		<tr>
@@ -287,7 +288,7 @@ var server = [[@{/property_adding}]];
 				// data.append("propertyType", document.getElementById("propertyType").value);
 				// data.append("propertyRange", document.getElementById("propertyRange").value);
 // 				else
-			data.append("propertyName",document.getElementById("propertyName");
+			data.append("propertyName",document.getElementById("propertyName"));
 			data.append("propertyType", document.getElementById("propertyType"));
 			data.append("propertyRange", document.getElementById("propertyRange"));
 
