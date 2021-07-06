@@ -49,3 +49,4 @@ testjj2.ttl
 script/geotriples-dependencies.jar
 upload-dir/vg250gem.csv
 testdata/ontoCSVtest.owl
+*.csv
