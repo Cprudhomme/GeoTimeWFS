@@ -319,6 +319,9 @@ public class MetadataController {
             model.addAttribute("OPlist", infoOP);
             model.addAttribute("DPlist", infoDP);
 
+            System.out.println(infoOP);
+            System.out.println(infoDP);
+            
         } catch (OntoManagementException ex) {
             Logger.getLogger(MetadataController.class.getName()).log(Level.SEVERE, null, ex);
             final String message = "The connexion to the ontology fails: " + ex.getMessage();
