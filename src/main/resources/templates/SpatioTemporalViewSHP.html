@@ -141,7 +141,7 @@ var file = [[${shp[0]}]];
 <div>
 <canvas id="map" width="800" height="400"></canvas>
 
-<p>Drag the slider to display the current version.</p>
+<p>Drag the slider to display the current version information.</p>
 
 <div class="slidecontainer">
 	<input type="range" min="0" th:max="${shp.length-1}" value="0"
@@ -177,6 +177,20 @@ var file = [[${shp[0]}]];
 	  var b = new BinaryAjax(file, onBinaryAjaxComplete, onBinaryAjaxFail);
 	}
 </script>
+
+<div>
+	<table>
+    <tbody>
+	<tr th:if="${fc.empty}">
+            <td> No Individuals Available </td>
+        </tr>
+        <tr th:each="row, itemStat : *{fc}">
+            <td th:each="value, item : *{fc[__${itemStat.index}__]}"><span th:text="*{row[__${item.index}__]}"> Property value </span></td>
+        </tr>
+    </tbody>
+</table>
+	
+</div>
 </body>
 
 

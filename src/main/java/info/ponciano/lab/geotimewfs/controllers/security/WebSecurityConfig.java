@@ -59,8 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
      */
  /*The WebSecurityConfig class is annotated with @EnableWebSecurity to enable
-    Spring Security’s web security support and provide the Spring MVC integration. 
-    It also extends WebSecurityConfigurerAdapter and overrides a couple 
+    Spring Security’s web security support and provide the Spring MVC integration.
+    It also extends WebSecurityConfigurerAdapter and overrides a couple
     of its methods to set some specifics of the web security configuration.*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -72,7 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests(a -> a
                 .antMatchers("/", "/openapi", "/importer", "/home", "/auth", "/user", "/configuration",
-                        "/queryinterface", "/semanticwfs/geotreeview", "/css/main.css", "/css/navbar.css",
+                        "/queryinterface", "/semanticwfs/geotreeview", "/css/main.css", "/css/navbar.css", "/css/form.css",
                         "/pictures/github.png",
                         "/semanticwfs/css/style.css", "/semanticwfs/css/leaflet_legend.css",
                         "/semanticwfs/css/yasqe.css", "/error", "/metadata/update", "/webjars/**")
@@ -80,11 +80,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                // .anyRequest().authenticated()
                 )
                 .exceptionHandling(e -> {
-            e.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth")) 
+            e.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth"))
 //                    e .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 ;
                 }
-               
+
                 ).logout(l -> l
                 .logoutSuccessUrl("/").permitAll()
                 ).csrf(c -> c
@@ -96,8 +96,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void localLogin(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/openapi", "/importer", "/home", "/configuration", "/queryinterface", "/semanticwfs/geotreeview", "/css/main.css", "/semanticwfs/css/style.css", "/semanticwfs/css/leaflet_legend.css", "/semanticwfs/css/yasqe.css").permitAll()// Specifically, the / and /home paths are configured to not require any authentication. 
-                // TODO uncomment this line for enable the security
+                .antMatchers("/", "/openapi", "/importer", "/home", "/configuration", "/queryinterface", "/semanticwfs/geotreeview", "/css/main.css","/css/form.css", "/semanticwfs/css/style.css", "/semanticwfs/css/leaflet_legend.css", "/semanticwfs/css/yasqe.css").permitAll()// Specifically, the / and /home paths are configured to not require any authentication. 
+                //  uncomment this line for enable the security
                 //.anyRequest().authenticated()//All other paths must be authenticated.
                 .and()
                 .formLogin()

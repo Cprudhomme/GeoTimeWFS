@@ -229,13 +229,13 @@ public class WKBRasterWriter {
             // band description
             final byte flags = (byte) pixelType;
             // OffDatabase = false
-            // TODO HasNodata : we don't have informations for no data
+            //  HasNodata : we don't have informations for no data
             //      this would requiere a SampleDimension object
             // IsNodata = false
             // Reserved = false
             ds.write(flags);
 
-            // TODO no data value
+            //  no data value
             ds.write(new byte[bytePerpixel]);
 
             //write values

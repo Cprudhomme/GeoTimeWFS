@@ -73,6 +73,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         prefix += "PREFIX iso115: <http://lab.ponciano.info/ontology/2020/geotime/iso-19115#>\n";
         prefix += "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n";
         prefix += "PREFIX gtdcat: <http://lab.ponciano.info/ontology/2020/geotime/dcat#>\n";
+        prefix += "PREFIX adms: <http://www.w3.org/ns/adms#>\n";
     }
 
     /**
@@ -404,7 +405,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
                                 ls[i]=asResource.getURI();
                             }
                             else{
-                                ls[i]=asResource.getLocalName();
+                            	ls[i]=getIndName(asResource.getURI());//ls[i]=asResource.getLocalName();
                             }
                         }
                     }
@@ -413,7 +414,8 @@ import org.apache.jena.util.iterator.ExtendedIterator;
                             ls[i]=asResource.getURI();
                         }
                         else{
-                            ls[i]=asResource.getLocalName();
+                            ls[i]=getIndName(asResource.getURI());//asResource.getLocalName();
+                            System.out.println(ls[i]);
                         }
                     }
                 }
@@ -423,6 +425,19 @@ import org.apache.jena.util.iterator.ExtendedIterator;
             info.add(ls);
         }
         return info;
+    }
+    private String getIndName(String fullUri) {
+    	String res;
+    	if(fullUri.contains("#")) {
+    		String[] var=fullUri.split("#");
+    		res=var[var.length-1];
+    	}
+    	else{
+    		String[] var=fullUri.split("/");
+    		res=var[var.length-1];
+    	}
+    	
+    	return res;
     }
 
 	public PiSparql getPisparql() {

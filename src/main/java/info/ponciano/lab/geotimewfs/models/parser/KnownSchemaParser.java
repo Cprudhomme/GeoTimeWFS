@@ -159,7 +159,7 @@ public class KnownSchemaParser implements ContentHandler {
 
 	@Override
 	public void startPrefixMapping(String prefix, String uri) throws SAXException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("not yet implemented");
 	}
 
 	private void importMetaData(Individual ind, String indname, String publisher) {
@@ -200,7 +200,6 @@ public class KnownSchemaParser implements ContentHandler {
 			convertedDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc).toXMLFormat();
 			importactivity.addProperty(startedAtTime, convertedDate);
 		} catch (DatatypeConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
@@ -208,7 +207,6 @@ public class KnownSchemaParser implements ContentHandler {
 			convertedDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc).toXMLFormat();
 			importactivity.addProperty(endedAtTime, convertedDate);
 		} catch (DatatypeConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ind.addRDFType(entity);
@@ -279,7 +277,6 @@ public class KnownSchemaParser implements ContentHandler {
 										+ attributes.getQName(i) + "> \"" + liter.getValue() + "\"^^"
 										+ liter.getDatatype());
 							} catch (IOException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}*/
 							if (domain)
@@ -777,38 +774,32 @@ public class KnownSchemaParser implements ContentHandler {
 
 	@Override
 	public void setDocumentLocator(Locator locator) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("not yet implemented");
 	}
 
 	@Override
 	public void startDocument() throws SAXException {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("not yet implemented");
 	}
 
 	@Override
 	public void endDocument() throws SAXException {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("not yet implemented");
 	}
 
 	@Override
 	public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("not yet implemented");
 	}
 
 	@Override
 	public void processingInstruction(String target, String data) throws SAXException {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("not yet implemented");
 	}
 
 	@Override
 	public void skippedEntity(String name) throws SAXException {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("not yet implemented");
 	}
 
 	public Boolean getEnvelope() {
