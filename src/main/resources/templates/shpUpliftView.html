@@ -14,7 +14,8 @@
                 {link: "/md2data", value: "Metadata to Data", active: "false"},
                 {link: "/schema/upload", value: "Schema upload", active: "false"},
                 {link: "/schema/validation", value: "Schema validation", active: "false"},
-                {link: "/data/ShpUplift", value: "Shapefile uplift", active: "true"}];
+                {link: "/data/ShpUplift", value: "Shapefile uplift", active: "true"},
+                {link: "/data/ShpUpdate", value: "Shapefile update", active: "false"}];
         </script>
         <header id="header">
             <div th:insert="fragments/nav :: navbar"></div>
@@ -26,8 +27,22 @@
 	</div>
 
 	<div>
-                 <form th:action="@{/data/ShpUplift}" method="post" enctype="multipart/form-data">
+        <form th:action="@{/data/ShpUplift}" th:object="${data}" method="post" enctype="multipart/form-data">
 			<table>
+				<tr>
+					<td><label id="mdlabel">Metadata: </label></td>
+					<td>
+						<select th:field="*{metadata}">
+                        	<option th:each="mdt : ${MDlist}" th:value="${mdt[2]}" th:text="${mdt[2]}" th:id="${mdt[0]}"></option>
+                     	</select>
+                	</td>
+                </tr>
+                <tr>
+					<td><label id="title">Dataset title:</label></td>
+					<td>
+						<input type="text" th:field="*{title}">
+					</td>
+                </tr>
 				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
 				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
 			</table>

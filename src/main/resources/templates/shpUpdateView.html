@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+    <title>Getting Started: Serving Web Content</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+    <body>
+        <script  type='text/javascript'>
+            var elements = [
+                {link: "/home", value: "Home", active: "false"},
+                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
+                {link: "/metadata", value: "Metadata", active: "false"},
+                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+                {link: "/md2data", value: "Metadata to Data", active: "false"},
+                {link: "/schema/upload", value: "Schema upload", active: "false"},
+                {link: "/schema/validation", value: "Schema validation", active: "false"},
+                {link: "/data/ShpUplift", value: "Shapefile uplift", active: "false"},
+                {link: "/data/ShpUpdate", value: "Shapefile update", active: "true"}];
+        </script>
+        <header id="header">
+            <div th:insert="fragments/nav :: navbar"></div>
+            <h1>Shapefile update</h1>
+        </header>
+        
+        <div th:if="${message}">
+		<h2 th:text="${message}"/>
+	</div>
+
+	<div>
+        <form th:action="@{/data/ShpUpdate}" th:object="${data}" method="post" enctype="multipart/form-data">
+			<table>
+				<tr>
+					<td><label id="mdlabel">Dataset to update: </label></td>
+					<td>
+						<select th:field="*{prevAsset}">
+                        	<option th:each="dt : ${Dlist}" th:value="${dt}" th:text="${dt}" th:id="${dt}"></option>
+                     	</select>
+                	</td>
+                </tr>
+                <tr>
+					<td><label id="title">Dataset version notes:</label></td>
+					<td>
+						<input type="text" th:field="*{versionNote}">
+					</td>
+                </tr>
+				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+			</table>
+		</form>
+	</div>
+
+	<div>
+		<ul>
+			<li th:each="file : ${files}">
+				<a th:href="${file}" th:text="${file}" />
+			</li>
+		</ul>
+	</div>
+        <!--<div th:insert="fragments/footer :: footer"></div>-->
+    </body>
+</html>

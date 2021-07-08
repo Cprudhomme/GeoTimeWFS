@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<style>
+
+</style>
+</head>
+<body>
+	<script type='text/javascript'>
+		var elements = [ {
+			link : "/home",
+			value : "Home",
+			active : "false"
+		}, {
+			link : "/geotimeWFS/",
+			value : "GeoTimeWFS API",
+			active : "false"
+		}, {
+			link : "/metadata",
+			value : "Metadata",
+			active : "false"
+		}, {
+			link : "/metadata/uplift",
+			value : "Metadata uplift",
+			active : "false"
+		}, {
+			link : "/md2data",
+			value : "Metadata to Data",
+			active : "false"
+		}, {
+			link : "/schema/upload",
+			value : "Schema upload",
+			active : "false"
+		}, {
+			link : "/schema/validation",
+			value : "Schema validation",
+			active : "false"
+		}, {
+			link : "/data/ShpUplift",
+			value : "Shapefile uplift",
+			active : "false"
+		}, {
+			link : "/data/ShpUpdate",
+			value : "Shapefile update",
+			active : "false"
+		}, {
+			link : "/csv_loading",
+			value : "CSV uplift",
+			active : "true"
+		} ];
+	</script>
+	<header id="header">
+		<div th:insert="fragments/nav :: navbar"></div>
+		<h1>Attributes Mapping</h1>
+	</header>
+
+	<div th:if="${message}">
+		<h4 th:text="${message}" />
+	</div>
+	<!-- ---------------------------------------------------------- -->
+	<!-- ----------------POP UP----------------------- -->
+	<!-- ---------------------------------------------------------- -->
+
+	<div class="login-popup">
+		<div class="form-popup" id="popupForm">
+			<form th:action="@{/property_adding}" method="post"
+				class="form-container">
+
+				<p>Property Local Name</p>
+				<input type="text" id="propertyName" name="propertyName" value="property name">
+
+
+
+
+
+				<input type="radio" name="propertyType" id="propertyType" value="datatypeproperty">
+				Datatype property <input type="radio" name="propertyType"
+					value="objectproperty"> Object property
+
+
+
+				<p>Property Range</p>
+				<input type="text" id="propertyRange" name="propertyRange" /> <select
+					name="thelist" onChange="combo(this, 'propertyRange')"
+					onMouseOut="combo(this, 'propertyRange')">
+					<option value="Select">Range</option>
+					<option value="string">xsd:string</option>
+					<option value="boolean">xsd:boolean</option>
+					<option value="decimal">xsd:decimal</option>
+					<option value="boolean">xsd:boolean</option>
+					<option value="float">xsd:float</option>
+					<option value="double">xsd:double</option>
+					<option value="duration">xsd:duration</option>
+					<option value="dateTime">xsd:dateTime</option>
+					<option value="time">xsd:time</option>
+					<option value="date">xsd:date</option>
+					<option value="gYearMonth">xsd:gYearMonth</option>
+					<option value="gYear">xsd:gYear</option>
+					<option value="gMonthDay">xsd:gMonthDay</option>
+					<option value="gDay">xsd:gDay</option>
+					<option value="gMonth">xsd:gMonth</option>
+					<option value="hexBinary">xsd:hexBinary</option>
+					<option value="base64Binary">xsd:base64Binary</option>
+					<option value="anyURI">xsd:anyURI</option>
+				</select>
+<!-- 				<input type="submit" class="btn" value="Submit"> -->
+				<button type="button" class="btn cancel" onclick="newProperty()">Add</button>
+				<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+			</form>
+		</div>
+	</div>
+	<!--         <form th:action="@{/property_adding}" method="post" class="form-container"> -->
+
+
+
+
+
+	<!-- 			</div> -->
+	<!-- 			<input type="submit" class="btn" value="Submit"> -->
+	<!--           <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button> -->
+	<!--         </form> -->
+
+	<!-- ---------------------------------------------------------- -->
+	<!-- ---------------------------------------------------------- -->
+	<!-- ---------------------------------------------------------- -->
+
+	<div>
+		<form action="#" th:action="@{/uplift_validation}" th:object="${propmap}" method="post">
+		<label id="title">Class Name:</label>
+		<input type="text" th:field="*{classname}">
+
+		<table>
+	    <tbody>
+			<tr th:if="${fc.empty}">
+	            <td> No Rows Available </td>
+	        </tr>
+	        <tr>
+	        	<td th:each="i : ${#numbers.sequence(0, nbc-1)}">
+	        		<select class="prtSelect" th:id="'properties_'+${i}" th:name="'properties_'+${i}" th:field="*{properties[__${i}__]}">
+							  	<option th:each="p, list : ${prop}" th:value="${p}" th:text="${p}">Property</option>
+							</select>
+							<a class="btn" onclick="openForm()">New property</a>
+				</td>
+	        </tr>
+	 		<tr>
+	 			<td colspan="${nbc}">
+	        	<input type="submit" value="Submit">
+				</form>
+				</td>
+			</tr>
+
+		   	<tr th:if="${fc.empty}">
+	            <td> No Rows Available </td>
+	        </tr>
+	        <tr th:each="row, itemStat : *{fc}">
+	            <td th:each="value, item : *{fc[__${itemStat.index}__]}"><span th:text="*{row[__${item.index}__]}"> Property value </span></td>
+	        </tr>
+
+	    </tbody>
+		</table>
+	</div>
+<script th:inline="javascript">
+var server = [[@{/property_adding}]];
+
+		closeForm();
+		function openForm() {
+			document.getElementById("popupForm").style.display = "block";
+		}
+		function closeForm() {
+			document.getElementById("popupForm").style.display = "none";
+		}
+		function comboInit(thelist) {
+			theinput = document.getElementById(theinput);
+			var idx = thelist.selectedIndex;
+			var content = thelist.options[idx].innerHTML;
+			if (theinput.value == "")
+				theinput.value = content;
+		}
+
+		function combo(thelist, theinput) {
+			theinput = document.getElementById(theinput);
+			var idx = thelist.selectedIndex;
+			var content = thelist.options[idx].innerHTML;
+			theinput.value = content;
+		}
+
+		function newProperty() {
+			var data = new FormData();
+			var prtName=document.getElementById("propertyName").value;// HERE we get the property name
+// 			Add property name in the option
+			var allSelect =document.getElementsByClassName("prtSelect");
+
+			var i;
+			for (i = 0; i < allSelect.length; i++) {
+				  var option = document.createElement("option");
+				  option.text =prtName;
+				  option.value=prtName;
+
+				  var x = document.getElementById("properties_"+i);
+				  x.add(option);
+
+			}
+
+// 			Send property name range and type to the server
+
+// 			if  you need values TODO check if we should send .value
+				// data.append("propertyName", prtName);
+				// data.append("propertyType", document.getElementById("propertyType").value);
+				// data.append("propertyRange", document.getElementById("propertyRange").value);
+// 				else
+			data.append("propertyName",document.getElementById("propertyName"));
+			data.append("propertyType", document.getElementById("propertyType"));
+			data.append("propertyRange", document.getElementById("propertyRange"));
+
+
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST",server);
+			xhr.send(data);
+			closeForm();
+		}
+	</script>
+	<!--<div th:insert="fragments/footer :: footer"></div>-->
+</body>
+</html>
