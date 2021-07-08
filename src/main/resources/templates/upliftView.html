@@ -32,11 +32,20 @@
 		 <!--  <form method="POST" enctype="multipart/form-data" action="/metadata/uplift">-->
                  <form th:action="@{/metadata/uplift}" method="post" enctype="multipart/form-data">
 			<table>
-				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+				<tr><td>Files to upload:</td><td><input type="file" name="file" multiple="multiple" /></td></tr>
 				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
 			</table>
 		</form>
 	</div>
+	
+	 <!--  <form th:action="@{/metadata/uplift}" method="post">
+            <input type="submit" value="Metadata uplift"/>
+        </form>
+        -->
+        <div th:if="${message}">
+		<h2 th:text="${message}"/>
+	</div>
+
 
 	<div>
 		<ul>
