@@ -41,11 +41,13 @@ public class MetadataController {
     /**
      * 
      * @param model represents the thymeleaf model accesible through the view
-     * @return the web interface to choose a metadata file to uplift
+     * @return the web interface to choose metadata files to uplift
      */
+    
     @GetMapping("/metadata/uplift")
     public String getUpliftView( Model model) {
         model.addAttribute("files", storageService.loadAll().map(
+        		
                 path -> MvcUriComponentsBuilder.fromMethodName(MetadataController.class,
                         "serveFile", path.getFileName().toString()).build().toUri().toString())
                 .collect(Collectors.toList()));
@@ -55,47 +57,48 @@ public class MetadataController {
     @GetMapping("/metadata/uplift/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
         Resource file = storageService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
+    
     /**
      * 
-     * @param file represents the  XML file to uplift into RDF triples
+     * @param file represents XML files to uplift into RDF triples
      * @param redirectAttributes attributes provided to the view
-     * @return the same view with a message informing about the successful uplift and the link to the provided XML file
+     * @return the same view with a message informing about the successful uplift and the link to provided XML files
      */
+    
     @PostMapping("/metadata/uplift")
-    public String postUpliftAction(@RequestParam("file") MultipartFile file,
+    public String postUpliftAction(@RequestParam("file") List<MultipartFile> files,
             RedirectAttributes redirectAttributes) {
+    	String rtn = "";
+    	for (int i=0; i<files.size(); i++) {
+            try {
+                // store file
+            	storageService.store(files.get(i));
+                redirectAttributes.addFlashAttribute("message",
+                        "You successfully uplift " + files.get(i) + "!");
 
-        String rtn = "";
-        try {
-            // store file
-            storageService.store(file);
-
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uplift " + file.getOriginalFilename() + "!");
-
-            boolean upliftOk = KB.get().uplift("upload-dir/" + file.getOriginalFilename());
-            if (upliftOk) {
-                int index = file.getOriginalFilename().indexOf(".");
-                String fn = file.getOriginalFilename().substring(0, index);
-                System.out.println(fn);
-                KB.get().save();
-                //return "redirect:/metadata";
-                rtn = "redirect:/metadata/uplift";
-            } else {
-                throw new ControllerException("file format was incorrect");
+                boolean upliftOk = KB.get().uplift("upload-dir/" + files.get(i).getOriginalFilename());
+                if (upliftOk) {
+                    int index = files.get(i).getOriginalFilename().indexOf(".");
+                    String fn = files.get(i).getOriginalFilename().substring(0, index);
+                    System.out.println(fn);
+                    KB.get().save();
+                    //return "redirect:/metadata";
+                    rtn = "redirect:/metadata/uplift";
+                } else {
+                    throw new ControllerException("file format was incorrect");
+                }
+            } catch (OntoManagementException | ControllerException | IOException ex) {
+            	//TODO remove file from upload-dir
+                final String message = "The uplift fails: " + ex.getMessage();
+                rtn = "redirect:/error?name=" + message;
             }
-        } catch (OntoManagementException | ControllerException | IOException ex) {
-        	//TODO remove file from upload-dir
-            final String message = "The uplift fails: " + ex.getMessage();
-            rtn = "redirect:/error?name=" + message;
-        }
-        return rtn;
+    	}
+		return rtn;
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
