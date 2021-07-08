@@ -1,16 +1,13 @@
 /*
 Copyright (C) 2020 Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>.
-
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
 version 2.1 of the License, or (at your option) any later version.
-
 This library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
-
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -26,24 +23,26 @@ MA 02110-1301  USA
 
 .topnav {
   background-color: #870909;
-  width: 100%;
   display: flex;
   justify-content: center;
+
 }
 
 #innernavBar {
-  min-height: 50px;
   position: relative;
+  min-height: 40px;
 }
 
 #innernavBar a {
-  margin: 0;
+  display: inline-block;
+  border: 2px solid gray;
   position: relative;
   color: #ffffffb6;
   text-align: center;
-  padding: 14px 16px;
+  padding: 16px;
   text-decoration: none;
-  font-size: 12pt;
+  font-size: 1.4em;
+  font-weight: bold;
 }
 
 #openspan {
@@ -54,16 +53,15 @@ MA 02110-1301  USA
 }
 
 #innernavBar a:hover {
-  color: white;
+  color: gray;
+  background-color: white;
 }
 
 #innernavBar a.active {
-  color: white;
+  color: darkgrey;
 }
 
 .overlaynav {
-  height: 100%;
-  width: 100%;
   position: fixed;
   z-index: 1;
   top: 0;

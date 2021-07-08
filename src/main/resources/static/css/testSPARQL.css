@@ -1,0 +1,12 @@
+.tableContentSPARQL{
+	font-weight: bold;
+	text-align: center;
+	font-size: 1.2em;
+}
+
+th.tableContentSPARQL{
+	width: 170px;
+}
+caption.tableContentSPARQL{
+	caption-side: top;
+}

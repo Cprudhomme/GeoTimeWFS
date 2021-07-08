@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <!--
 Copyright (C) 2020 Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>.
-
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
 version 2.1 of the License, or (at your option) any later version.
-
 This library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
-
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -31,22 +28,17 @@ MA 02110-1301  USA
 
                 /*Variable to give*/
                 var elements = [
-                {link: "/home", value: "Home", active: "true"},
-                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
-                {link: "/metadata", value: "Metadata", active: "false"},
-                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
-                {link: "/md2data", value: "Metadata to Data", active: "false"},
-                {link: "/schema/upload", value: "Schema upload", active: "false"},
-                {link: "/schema/validation", value: "Schema validation", active: "false"},
-                {link: "/data/ShpUplift", value: "Shapefile uplift", active: "false"}];
+                {link: "/home", value: "Home", active:"true"},
+                {link: "/data/management", value: "Data management", active: "false"},
+                {link: "https://www.i3mainz.de/projekte/bkg/semanticwfs/config/queryinterface.html", value: "SPARQL endpoint", active: "false"},
+                {link: "/semantic_WFS", value: "Semantic WFS", active: "false"},
+                {link: "/metadata_catalogue", value: "Metadata catalogue", active: "false"},
+                {link: "/thematic_map", value: "Thematic map", active: "false"},
+                {link: "/documentation", value: "Documentation", active: "false"}];
                 // [ ' <a href="/home/">Semantic Segmentation</a>', '<a href=" /home/publication">Scientific Publications</a>', ' <a href="/home/info">Information</a> ', '<a class="active" href="/home/processing">Process my point clouds</a>']
                 // var contentNav = [ ' <a href="/home/">Semantic Segmentation</a>', '<a href=" /home/publication">Scientific Publications</a>', ' <a href="/home/info">Information</a> ', '<a class="active" href="/home/processing">Process my point clouds</a>']
 //                var elements =[
-//		{link:"/home/",value:"Semantic Segmentation",active:"false"},
-//		{link:"/home/publication",value:"Scientific Publications",active:"false"},
-//		{link:"/home/info",value:"Information",active:"true"},
-//		{link:"/home/processing",value:"Process my point clouds",active:"false"}]
-//
+
     var navContentClose = '<span id="openspan" onclick="openNav()">&#9776;</span>  ';
 
 

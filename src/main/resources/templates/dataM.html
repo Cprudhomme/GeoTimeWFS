@@ -1,29 +1,22 @@
 <!DOCTYPE html>
-<!--
-Copyright (C) 2021 Claire Prudhomme <claire@prudhomme.info>.
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301  USA
--->
 <html>
+<head th:replace="fragments/head :: head">
+    <title>Getting Started: Serving Web Content</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<script type="text/javascript">
+    	var elements = [
+                {link: "/home", value: "Home", active:"true"},
+                {link: "/data_management", value: "Data management", active: "false"},
+                {link: "/SPARQL_endpoint", value: "SPARQL endpoint", active: "false"},
+                {link: "/semantic_WFS", value: "Semantic WFS", active: "false"},
+                {link: "/metadata_catalogue", value: "Metadata catalogue", active: "false"},
+                {link: "/thematic_map", value: "Thematic map", active: "false"},
+                {link: "/documentation", value: "Documentation", active: "false"}];
+    </script>
 
-    <head th:replace="fragments/head :: head"></head>
-
-    <body>
-
-         <!--Header with the picture, title and Contact-->
+    <!--Header with the picture, title and Contact-->
     <div class="containerfull">
     <a href="http://localhost:8080/home"><img class="pictureOfHeader" src="https://www.verwaltung-innovativ.de/SharedDocs/Bilder/DE/Artikel/GDI_DE_Logo.jpg?__blob=poster&v=2"></a> 
     <span class="titleOfHeader">Linked Data</span>
@@ -31,19 +24,26 @@ MA 02110-1301  USA
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_the_United_Kingdom_%282-3%29.svg/1024px-Flag_of_the_United_Kingdom_%282-3%29.svg.png" style="width: 32px; margin-right: 13px;">English | <a href="http://localhost:8080/login" style="text-decoration: none; color: #333333;">Login</a> | Contact<br><br>
         <a href="https://www.gdi-de.org" target="_blank"><img src="/pictures/GDI-DE.jpg" style="width: 250px; float: right;"></a></span>
     </div>
-   
-        <header id="header">
-            <div th:insert="fragments/nav :: navbar"></div>
-            <h1  style="text-align: right;">Home</h1>
-        </header>
 
+    <header id="header">
+        <div th:insert="fragments/nav :: navbar"></div>
+        <h1>Data Management Menu</h1>
+    </header>
+<body>
 
     <div class="containerfull">
         <div class="containercontent">
-            <span>HOME PAGE</span>
-        </div>
+    <ul>
+        <li><a href="http://localhost:8080/data/ShpUplift">Shapefile importer</a></li>
+        <li><a href="https://www.i3mainz.de/projekte/bkg/importer/">Other importer</a></li>
+        <li><a href="http://localhost:8080/">Data verification</a></li>
+        <li><a href="http://localhost:8080/test/SPARQL">Linked data enrichement</a></li>
+        <li><a href="http://localhost:8080/schema/upload">Schema upload</a></li>
+        <li><a href="http://localhost:8080/schema/validation">Schema validation</a></li>
+    </ul>
+</div>
 
-        <!--The boxes "Provider" and "Contact"-->
+    <!--The boxes "Provider" and "Contact"-->
         <div class="containerbox">
             <div class="box">
                 <div class="titlebox">
@@ -71,14 +71,14 @@ MA 02110-1301  USA
                     60598 Frankfurt am Main, Germany<br><br>
                     <span class="boldfont"> Press contact:</span> <a href="mailto:pressekontakt@gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;" >pressekontakt@gdi-de.org</a> <br><br>
                     <span class="boldfont"> Twitter:</span> <a href="https://twitter.com/gdi_de" target="_blank" style="color: #000000; text-decoration: none;">www.twitter.com/gdi_de</a> <br><br>
-
                 </div>
-            </div>
+            </div>  
         </div>
     </div>
 
-    </body>
-    <!--The footer of the application-->
+</body>
+
+<!--The footer of the application-->
 <footer>
     <hr style="height: 1px; background-color: #FF0000">
     <div style="float: right;">
@@ -87,4 +87,3 @@ MA 02110-1301  USA
     </div>
 </footer>
 </html>
-
