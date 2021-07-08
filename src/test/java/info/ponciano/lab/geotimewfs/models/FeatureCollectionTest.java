@@ -18,7 +18,7 @@ class FeatureCollectionTest {
  * Text of the functuion initPaths
  * @throws OntoManagementException 
  */
-	@Test 
+	//@Test 
 	final void testInitPaths() throws OntoManagementException {
 		System.out.println("testInitPaths");
 		FeatureCollection instance= new FeatureCollection("2c04f566-ec08-4c6d-8beb-becc89a0418c");
