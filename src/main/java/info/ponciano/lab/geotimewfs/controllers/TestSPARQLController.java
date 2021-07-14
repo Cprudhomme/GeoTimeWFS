@@ -198,4 +198,23 @@ public class TestSPARQLController {
 	public String documentationMenu(Model model) {
 		return "docu";
 	}
+	
+	@GetMapping("/contact")
+	public String contactMenu(Model model) {
+		return "ctct";
+	}
+	
+	
+	@GetMapping("/enrichment")
+	public String enrichmentMenu(Model model) {
+		return "sparql";
+	}
+
+
+	@PostMapping("/enrichment/results")
+	public String returnQuery(@ModelAttribute("squery") String sq, Model model) throws Exception {
+		return "sparql";
+	}
+	
 }
+

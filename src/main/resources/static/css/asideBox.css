@@ -41,3 +41,8 @@
 	font-family: "Source Sans Pro", sans-serif;
 	font-size: 0.9em;
 }
+
+.inputRange{
+	content: attr(min);
+	content: attr(max);
+}

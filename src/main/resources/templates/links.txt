@@ -1,0 +1,11 @@
+
+
+                    </ul>Local Options:<ul>
+                        <li><a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/geotreeview.html">Ontology
+                                Browser</a></li>
+                        <li><a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/queryinterface.html">SPARQL
+                                Query Interface</a></li>
+                        <li><a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/configuration.html">Semantic WFS
+                                Configuration</a></li>
+                        <li><a href="https://www.i3mainz.de/projekte/bkg/importer/">Semantic Uplift Tools</a></li>
+                    </ul>

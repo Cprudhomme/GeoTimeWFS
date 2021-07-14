@@ -1,12 +1,12 @@
-<!DOCTYPE HTML>
-<html xmlns:th="https://www.thymeleaf.org">
+<!DOCTYPE html>
+<html>
 <head th:replace="fragments/head :: head">
     <title>Getting Started: Serving Web Content</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 	<script type="text/javascript">
-        var elements = [
+    	var elements = [
                 {link: "/home", value: "Home", active:"true"},
                 {link: "/data_management", value: "Data management", active: "false"},
                 {link: "/SPARQL_endpoint", value: "SPARQL endpoint", active: "false"},
@@ -24,62 +24,16 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_the_United_Kingdom_%282-3%29.svg/1024px-Flag_of_the_United_Kingdom_%282-3%29.svg.png" style="width: 32px; margin-right: 13px;">English | <a href="http://localhost:8080/login" style="text-decoration: none; color: #333333;">Login</a> | <a href="http://localhost:8080/contact" style="text-decoration: none; color: #333333">Contact</a><br><br>
         <a href="https://www.gdi-de.org" target="_blank"><img src="/pictures/GDI-DE.jpg" style="width: 250px; float: right;"></a></span>
     </div>
-    
+
     <header id="header">
         <div th:insert="fragments/nav :: navbar"></div>
-        <h1>Test SPARQL request</h1>
+        <h1>Metadata catalogue menu</h1>
     </header>
-    <body>
+<body>
+
     <div class="containerfull">
         <div class="containercontent">
-            <div class="container-fluid" role="main">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="tableContentSPARQL">
-
-                        <table border="1" style="margin-bottom: 20px;">
-                            <thead>
-                            <tr><th colspan="3">Local SPARQL request</th></tr>
-                            <tr>
-                                <th> Organization </th>
-                                <th> Title </th>
-                                <th> Dataset </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="ac: ${lc}">
-                                    <td style="width: 170px;"><span th:text="${ac[0]}"></span></td>
-                                    <td style="width: 170px;"><span th:text="${ac[1]}"></span></td>
-                                    <td style="width: 170px;"><span th:text="${ac[2]}"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <table border="1">
-                            <thead>
-                                <tr><th colspan="3">Remote SPARQL request</th></tr>
-                                <tr>
-                                    <th><span th:text="${cl[0]}"></span></th>
-                                    <th><span th:text="${cl[1]}"></span></th>
-                                    <th><span th:text="${cl[2]}"></span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="md: ${MDlist}">
-                                    <td style="width: 170px;"><span th:text="${md[0]}"></span></td>
-                                    <td style="width: 170px;"><span th:text="${md[1]}"></span></td>
-                                    <td style="width: 170px;"><span th:text="${md[2]}"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--The boxes "Provider" and "Contact"-->
-        <div class="containerbox">
+    <!--The boxes "Provider" and "Contact"-->
             <div class="box">
                 <div class="titlebox">
                     <span> Provider</span>
@@ -110,6 +64,7 @@
             </div>  
         </div>
     </div>
+
 </body>
 
 <!--The footer of the application-->
