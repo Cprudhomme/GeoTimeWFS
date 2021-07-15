@@ -6,22 +6,22 @@
 </head>
 <body>
 	<script type="text/javascript">
-       var elements = [
-       {link: "/home", value: "Home", active:"true"},
-       {link: "/data_management", value: "Data management", active: "false"},
-       {link: "/SPARQL_endpoint", value: "SPARQL endpoint", active: "false"},
-       {link: "/semantic_WFS", value: "Semantic WFS", active: "false"},
-       {link: "/metadata_catalogue", value: "Metadata catalogue", active: "false"},
-       {link: "/thematic_map", value: "Thematic map", active: "false"},
-       {link: "/documentation", value: "Documentation", active: "false"}];
-   </script>
+     var elements = [
+     {link: "/home", value: "Home", active:"true"},
+     {link: "/data_management", value: "Data management", active: "false"},
+     {link: "/SPARQL_endpoint", value: "SPARQL endpoint", active: "false"},
+     {link: "/semantic_WFS", value: "Semantic WFS", active: "false"},
+     {link: "/metadata_catalogue", value: "Metadata catalogue", active: "false"},
+     {link: "/thematic_map", value: "Thematic map", active: "false"},
+     {link: "/documentation", value: "Documentation", active: "false"}];
+ </script>
 
-   <script type="text/javascript">
+ <script type="text/javascript">
     function getQueryText(){
 
         var a = "YOUR QUERY"
         const queries = {
-            schools: '#SCHOOLS\n SELECT ?item ?itemLabel ?location WHERE {\n?item wdt:P31 wd:Q3914.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],de". }\n  ?item wdt:P17 wd:Q183.\n    OPTIONAL { ?item wdt:P625 ?location. }\n   }\n     LIMIT 20',
+            schools: 'SELECT ?item ?itemLabel ?latitude ?longitude WHERE {\n  ?item wdt:P31 wd:Q3914.\n  ?item wdt:P17 wd:Q183.\n  ?item p:P625 ?statement . \n  ?statement psv:P625 ?coordinate_node .\n  ?coordinate_node wikibase:geoLatitude ?latitude .\n  ?coordinate_node wikibase:geoLongitude ?longitude .\n  SERVICE wikibase:label {\n    bd:serviceParam wikibase:language "[AUTO_LANGUAGE],de".\n  }\n}\nLIMIT 10',
             hospital: '#SCHOOLS\n SELECT ?item ?itemLabel ?location WHERE {\n?item wdt:P31 wd:Q16917.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],de". }\n  ?item wdt:P17 wd:Q183.\n    OPTIONAL { ?item wdt:P625 ?location. }\n   }\n     LIMIT 20',
             policeStation: 'SPARQL query for police station'
         }
@@ -66,24 +66,33 @@
                         <select name="areaOfSearch">
                             <option value="germeinde">Germeinde</option>
                         </select>
+                        <br><br>
+
+                            <span style="font-weight: bold; font-size: 1.5em;">Potential error</span>
+                            <pre style="margin-right: 30px;">
+                                <code th:text="${errorMessage}"></code>
+                            </pre> 
+
 
                     </div>
 
                     <div style="float: right;">
                         <form action="#" th:action="@{/enrichment/results}" th:object="${squery}" method="post">
-                            <textarea id="sparqlText" rows="16" cols="60" style="font-size: 1.6em; width: 100%; height: 100%; line-height: 150%" th:field="*{results}">YOUR QUERY</textarea><br><input type="submit" name="Submit" value="Get the query results" >
+                            <textarea id="sparqlText" rows="16" cols="60" style="font-size: 1.6em; width: 100%; height: 100%; line-height: 150%" th:field="*{results}">YOUR QUERY</textarea><br><input style="margin-left: auto; margin-right: auto; font-size: 1.4em;" type="submit" name="Submit" value="Get the query results">
                         </form>
+                        <br><br>
                     </div>
                 </div>
                 <section> 
                     <div class="tableContentSPARQL">                    
                         <table border="1" style="width: 700px;">
                             <thead>
-                                <tr><th colspan="3" style="text-align: center; margin-left: auto; margin-right: auto; font-size: 1.2em;">Results of the query</th></tr>
+                                <tr><th colspan="4" style="text-align: center; font-size: 1.2em;">Results of the query</th></tr>
                                 <tr style="text-align: center;">
                                     <th><span>item</span></th>
                                     <th><span>itemLabel</span></th>
-                                    <th><span>Location</span></th>
+                                    <th><span>Latitude</span></th>
+                                    <th><span>Longitude</span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,6 +100,7 @@
                                     <td style="width: 170px;"><span th:text="${md[0]}"></span></td>
                                     <td style="width: 170px;"><span th:text="${md[1]}"></span></td>
                                     <td style="width: 170px;"><span th:text="${md[2]}"></span></td>
+                                    <td style="width: 170px;"><span th:text="${md[3]}"></span></td>
                                 </tr>
                             </tbody>
                         </table>

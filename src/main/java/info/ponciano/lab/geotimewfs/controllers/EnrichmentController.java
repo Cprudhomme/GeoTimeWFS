@@ -71,7 +71,7 @@ public class EnrichmentController {
     @PostMapping("/results")
     public String results(@ModelAttribute("squery") SparqlQuery sq, Model model) throws Exception {
 
-    	String r;
+    	String r = null;
     	List<String> columnNames = new ArrayList<String>();
 		List<String[]> resultList = new ArrayList<String[]>();
         
@@ -89,7 +89,8 @@ public class EnrichmentController {
   				"PREFIX wds: <http://www.wikidata.org/entity/statement/>\r\n" + 
   				"PREFIX wdv: <http://www.wikidata.org/value/>"+
   				"PREFIX p: <http://www.wikidata.org/prop/>\r\n" + 
-  				"PREFIX ps: <http://www.wikidata.org/prop/statement/>\r\n" + 
+  				"PREFIX ps: <http://www.wikidata.org/prop/statement/>\r\n" +
+  				"PREFIX psv: <http://www.wikidata.org/prop/statement/value/>" + 
   				"PREFIX pq: <http://www.wikidata.org/prop/qualifier/>";
     
         try {
@@ -128,8 +129,8 @@ public class EnrichmentController {
                     if(node.isLiteral()) {
                         a = node.asLiteral().toString();
                     }
-                    if(a.contains("^^http://www.opengis.net/ont/geosparql#wktLiteral")) {
-                        a = a.replace("^^http://www.opengis.net/ont/geosparql#wktLiteral", "");
+                    if(a.contains("^^http://www.w3.org/2001/XMLSchema#double")) {
+                        a = a.replace("^^http://www.w3.org/2001/XMLSchema#double", "");
                     }
                     ls[i]=a;
     			}
@@ -143,6 +144,8 @@ public class EnrichmentController {
 
 		model.addAttribute("cl", columnNames);
 		model.addAttribute("MDlist", resultList);
+		model.addAttribute("errorMessage", r);
+		
         return "sparql";
     }
     
