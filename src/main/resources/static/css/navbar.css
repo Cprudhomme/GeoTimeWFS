@@ -33,10 +33,11 @@ MA 02110-1301  USA
   min-height: 40px;
 }
 
-#innernavBar a {
+.dropbtn {
   display: inline-block;
   border: 2px solid gray;
   position: relative;
+  background-color: #870909;
   color: #ffffffb6;
   text-align: center;
   padding: 16px;
@@ -45,58 +46,64 @@ MA 02110-1301  USA
   font-weight: bold;
 }
 
-#openspan {
-  cursor: pointer;
-  text-align: center;
-  font-size: 12pt;
-  color: white;
-}
-
-#innernavBar a:hover {
-  color: gray;
+.dropbtn:hover {
   background-color: white;
+  color: gray;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
-#innernavBar a.active {
-  color: darkgrey;
-}
-
-.overlaynav {
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.98);
-  overflow-x: hidden;
-  transition: 0.5s;
-}
-
-.overlaynav-content {
+.btn {
+  display: inline-block;
+  border: 2px solid gray;
   position: relative;
-  top: 25%;
-  width: 100%;
+  background-color: #870909;
+  color: #ffffffb6;
   text-align: center;
-  margin-top: 30px;
+  padding: 16px;
+  text-decoration: none;
+  font-size: 1.4em;
+  font-weight: bold;
 }
 
-.overlaynav #innernavBar a {
-  padding: 8px;
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  min-width: 130px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 16px;
   text-decoration: none;
   display: block;
-  transition: 0.3s;
+  font-size: 1.3em;
   text-align: center;
-  font-size: 24pt;
+  position: relative;
 }
 
-.overlaynav a:hover, .overlaynav a:focus {
-  color: #f1f1f1;
+.dropdown-content a:hover {
+  background-color: #870909;
+  color: white;
+  font-size: 1.3em;
+  text-align: center;
 }
 
-.overlaynav #innernavBar .closebtn {
-  font-size: 40pt;
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 
-#openspan {
-  font-size: 24pt;
+.dropdown:hover .dropbtn .btn {
+  background-color: white;
+  color: gray;
 }
+
+
