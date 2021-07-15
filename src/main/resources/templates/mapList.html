@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"> 
+    <title>Getting Started: Serving Web Content</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--<link rel="stylesheet" href='..\static\css\main.css'/>  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <style> 
+        #mapButton {
+            height: 0px;
+            width: 0px;
+        }
+    </style>
+
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        function openWin() {
+            var newWindowContent = document.getElementById("map").innerHTML;
+            var myWindow = window.open('', '');
+            var doc = myWindow.document;
+            doc.open();
+            doc.write(newWindowContent);
+            doc.close();
+        }
+
+        function displayButton() {
+            $('#mapButton').animate({width:200,height:20},100);
+            $('#map').animate({width:500,height:500},100);
+        } 
+
+        function displayMap() {
+            $("#map").show();
+        }
+    </script>
+    
+    <header id="header">
+        <div th:insert="fragments/nav :: navbar"></div>
+        <h1>Thematic map creation</h1>
+    </header>
+
+    <label for="list"> Search for (among features collections) : <list> 
+        <br>
+        <select name="list" id="list">
+            <option value="schools">TEST (Q3914)</option>
+            <option value="universities">Universities (from GeoJSON)</option>
+            <option value="hospitals">Hospitals (Q16917)</option>
+            <option value="townhalls">Town Halls (Q543654)</option>
+        </select>
+    </list>
+</label> 
+<br>
+
+Area of search : 
+
+<select name="area"></select>
+<select name="subarea"></select>
+
+<br><br><br>
+
+Data date : 
+
+<input type="date" id="date">
+<script> 
+    document.getElementById('date').valueAsDate = new Date();
+</script>   
+
+<br><br>
+
+<input type="checkbox"> Extend search with Linked Open Data from WikiData 
+
+<br><br>  
+
+<input type="button" class="button" id="submit" value="Generate" onclick="displayButton();" style="background-color: #870909;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;">
+
+<div id='mapButton' style="position : relative; width: 0px; height: 0px;">
+<a href onclick="openWin();">Open map in a new tab</a>
+</div>
+
+<script>
+    const maps = {
+        schools: 'mapCreation/schools'
+        ,universities: 'mapCreation/universities'
+        ,townhalls: 'mapCreation/townhalls'
+        ,hospitals: 'mapCreation/hospitals'
+    }
+    document.getElementById('submit').addEventListener('click', () => window.open(maps[document.getElementById('list').value], '_blank'));
+              //location.href = maps[document.getElementById('list').value])
+              
+          </script>
+
+          <div id=map  style="position : relative; width: 0px; height: 0px;">
+            <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+            integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+            crossorigin=""/>
+
+            <script>
+                var cities = new L.layerGroup();
+
+                L.marker([50.11, 8.68]).bindPopup('Frankfurt').addTo(cities),
+                L.marker([49.99, 8.24]).bindPopup('Mainz').addTo(cities),
+                L.marker([50.07, 8.23]).bindPopup('Wiesbaden').addTo(cities);
+
+                var universities = new L.layerGroup();
+
+                L.marker([49.997328408298145, 8.27853230401006]).bindPopup('University of Applied Sciences - Mainz').addTo(universities),
+                L.marker([49.993200897757106, 8.241440127816325]).bindPopup('Johannes Gutenberg University of Mainz').addTo(universities),
+                L.marker([49.98676378595688, 8.425170123876455]).bindPopup('RheinMain University - Campus "On Brückweg"').addTo(universities),
+                L.marker([50.132425696149056, 8.691578671069479]).bindPopup('Frankfurt University of Applied Sciences').addTo(universities),
+                L.marker([49.993200897757106, 8.241440127816325]).bindPopup('RheinMain University of Applied Sciences').addTo(universities);
+
+                var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+                var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr}),
+                streets  = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+
+                var map = L.map('map', {
+                    center: [49.99, 8.24],
+                    zoom: 10,
+                    layers: [grayscale, cities]
+                });
+
+                var baseLayers = {
+                    "Grayscale": grayscale,
+                    "Streets": streets
+                };
+
+                var overlays = {
+                    "Cities": cities,
+                    "Universities": universities
+                };
+                L.control.layers(baseLayers, overlays).addTo(map);
+            </script>
+        </div>
+    </body>
+    </html>
