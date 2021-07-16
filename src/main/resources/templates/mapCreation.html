@@ -16,7 +16,7 @@
 
 </head>
 <body>
-     <!--Header with the picture, title and Contact-->
+   <!--Header with the picture, title and Contact-->
    <div class="containerfull">
     <a href="http://localhost:8080/home"><img class="pictureOfHeader" src="https://www.verwaltung-innovativ.de/SharedDocs/Bilder/DE/Artikel/GDI_DE_Logo.jpg?__blob=poster&v=2"></a> 
     <span class="titleOfHeader">Linked Data</span>
@@ -24,33 +24,18 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_the_United_Kingdom_%282-3%29.svg/1024px-Flag_of_the_United_Kingdom_%282-3%29.svg.png" style="width: 32px; margin-right: 13px;">English | <a href="http://localhost:8080/login" style="text-decoration: none; color: #333333;">Login</a> | <a href="http://localhost:8080/contact" style="text-decoration: none; color: #333333">Contact</a><br><br>
         <a href="https://www.gdi-de.org" target="_blank"><img src="/pictures/GDI-DE.jpg" style="width: 250px; float: right;"></a></span>
     </div>
+
+    <!-- JQuery script-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script>
-        function openWin() {
-            var newWindowContent = document.getElementById("map").innerHTML;
-            var myWindow = window.open('', '');
-            var doc = myWindow.document;
-            doc.open();
-            doc.write(newWindowContent);
-            doc.close();
-        }
-
-        function displayButton() {
-            $('#mapButton').animate({width:200,height:20},100);
-            $('#map').animate({width:500,height:500},100);
-        } 
-
-        function displayMap() {
-            $("#map").show();
-        }
-    </script>
     
+    <!-- Navigation bar -->
     <header id="header">
         <div th:insert="fragments/nav :: navbar"></div>
         <h1>Thematic map creation</h1>
     </header>
 
+    <!-- List of feature collections -->
     <label for="list"> Search for (among features collections) : <list> 
         <br>
         <select name="list" id="list">
@@ -63,6 +48,7 @@
 </label> 
 <br>
 
+<!-- Area of search --> 
 Area of search : 
 
 <select name="area"></select>
@@ -70,92 +56,110 @@ Area of search :
 
 <br><br><br>
 
+<!-- Data date -->
 Data date : 
 
 <input type="date" id="date">
 <script> 
+    // Displaying current date 
     document.getElementById('date').valueAsDate = new Date();
 </script>   
 
 <br><br>
 
-<input type="checkbox"> Extend search with Linked Open Data from WikiData 
+<!-- Checkbox to extend data with WikiData -->
+<input type="checkbox"> Extend search with Linked Open Data from WikiData
 
-<br><br>  
+<br><br> 
 
-<input type="button" class="button" id="submit" value="Generate" onclick="displayButton();" style="background-color: #870909;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;">
+<script type="text/javascript">
+        // Opening a new map with the selected map 
+        function openWin() {
+            var newWindowContent = document.getElementById("map").innerHTML;
+            var myWindow = window.open('', '');
+            var doc = myWindow.document;
+            doc.open();
+            doc.write(newWindowContent);
+            doc.close();
+        }
 
-<div id='mapButton' style="position : relative; width: 0px; height: 0px;">
-<a href onclick="openWin();">Open map in a new tab</a>
-</div>
+        // Displaying the button and the map 
+        function displayButtonAndMap() {
+            document.getElementById("mapButton").style.color = '#870909';
+            $('#map').animate({width:500,height:500},100);
+        }
+    </script> 
 
-<script>
-    const maps = {
-        schools: 'mapCreation/schools'
-        ,universities: 'mapCreation/universities'
-        ,townhalls: 'mapCreation/townhalls'
-        ,hospitals: 'mapCreation/hospitals'
-    }
-    document.getElementById('submit').addEventListener('click', () => window.open(maps[document.getElementById('list').value], '_blank'));
-              //location.href = maps[document.getElementById('list').value])
-              
-          </script>
+    <input type="button" class="button" id="submit" value="Generate" onclick="displayButtonAndMap();" 
+    style="background-color: #870909;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;">
 
-          <div id=map  style="position : relative; width: 0px; height: 0px;">
-            <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <!-- "Open map in a new tab" button, displaying on generation of the map -->
+    <div style="position : relative; width: 150px; height: 10px;">
+        <a href id="mapButton" style="color: #FFFFFF">Open map in a new tab</a>
+    </div>
+    <br>
 
-            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-            integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-            crossorigin=""/>
+    <script>
+        // Definition of links
+        const maps = {
+            schools: 'mapCreation/schools'
+            ,universities: 'mapCreation/universities'
+            ,townhalls: 'mapCreation/townhalls'
+            ,hospitals: 'mapCreation/hospitals'
+        }
 
-            <script>
-                var cities = new L.layerGroup();
+        // Listener to click on "Open map in a new tab" button
+        document.getElementById('mapButton').addEventListener('click', () => window.open(maps[document.getElementById('list').value], '_blank'));
+    </script>
 
-                L.marker([50.11, 8.68]).bindPopup('Frankfurt').addTo(cities),
-                L.marker([49.99, 8.24]).bindPopup('Mainz').addTo(cities),
-                L.marker([50.07, 8.23]).bindPopup('Wiesbaden').addTo(cities);
+    <!-- Definition of the map -->
+    <div id=map  style="position : relative; width: 0px; height: 0px;">
 
-                var universities = new L.layerGroup();
+        <!-- Leaflet script and stylesheet -->
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 
-                L.marker([49.997328408298145, 8.27853230401006]).bindPopup('University of Applied Sciences - Mainz').addTo(universities),
-                L.marker([49.993200897757106, 8.241440127816325]).bindPopup('Johannes Gutenberg University of Mainz').addTo(universities),
-                L.marker([49.98676378595688, 8.425170123876455]).bindPopup('RheinMain University - Campus "On Brückweg"').addTo(universities),
-                L.marker([50.132425696149056, 8.691578671069479]).bindPopup('Frankfurt University of Applied Sciences').addTo(universities),
-                L.marker([49.993200897757106, 8.241440127816325]).bindPopup('RheinMain University of Applied Sciences').addTo(universities);
 
-                var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+        <script>
+            var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
 
-                var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr}),
-                streets  = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+            // Creation of two layers : grayscale, and streets map 
+            // It is also possible to add a satelite map, landform map, ..
+            var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr}),
+            streets  = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
 
-                var map = L.map('map', {
-                    center: [49.99, 8.24],
-                    zoom: 10,
-                    layers: [grayscale, cities]
-                });
+            // Definition of the map, and setup of details : coordinates of the center, zoom level and layers that appear on loading
+            var map = L.map('map', {
+                center: [49.99, 8.24],
+                zoom: 10,
+                layers: [Grayscale]
+            });
 
-                var baseLayers = {
-                    "Grayscale": grayscale,
-                    "Streets": streets
-                };
+            // Definition of layers
+            var baseLayers = {
+                "Grayscale": grayscale,
+                "Streets": streets
+            };
 
-                var overlays = {
-                    "Cities": cities,
-                    "Universities": universities
-                };
-                L.control.layers(baseLayers, overlays).addTo(map);
-            </script>
-        </div>
-    </body>
-    </html>
+            // Definition of point layers
+            var overlays = {
+            };
+
+            // Add layers and points layers to the map
+            L.control.layers(baseLayers, overlays).addTo(map);
+        </script>
+    </div>
+</body>
+</html>

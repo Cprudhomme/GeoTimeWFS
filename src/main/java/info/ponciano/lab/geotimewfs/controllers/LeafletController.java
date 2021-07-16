@@ -44,30 +44,37 @@ public class LeafletController {
      * @throws OntoManagementException 
      */
     
+    // Link to Thematic Maps home
     @GetMapping("/thematicMaps")
     public String displayThematicMapsHome(Model model) throws OntoManagementException  {
         String rtn="thematicMaps";
         return rtn;
     }
 
+    // Link to Creation of Thematic Maps
     @GetMapping("/mapCreation")
     public String displayMapCreation(Model model) throws OntoManagementException  {
         String rtn="mapCreation";
         return rtn;
     }
 
+    // Link to list of Thematic Maps
     @GetMapping("/mapList")
     public String displayMapList(Model model) throws OntoManagementException  {
         String rtn="mapList";
         return rtn;
     }
 
+    // Link to Thematic Map Example
     @GetMapping("/mapExample")
     public String displayMapExample(Model model) throws OntoManagementException  {
         String rtn="mapExample";
         return rtn;
     }
 
+    // Data are not stored in the triple store yet
+    // The following links lead to new maps
+    
     @GetMapping("/mapCreation/schools")
     public String displaySchools(Model model) throws OntoManagementException  {
         String rtn="schools";
