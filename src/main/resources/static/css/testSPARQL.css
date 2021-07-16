@@ -4,8 +4,18 @@
 	font-size: 1.2em;
 }
 
-th.tableContentSPARQL{
+.tableContentSPARQL th {
 	width: 170px;
+}
+
+.tableContentSPARQL th:hover{
+	background-color:  #000000;
+	color: white;
+}
+
+.tableContentSPARQL td:hover{
+	background-color: #383434;
+	color: white;
 }
 caption.tableContentSPARQL{
 	caption-side: top;
