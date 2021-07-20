@@ -15,94 +15,69 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301  USA
 -->
 <html>
+<head>
+</head>
     <body>
         <div th:fragment="navbar" >
             <div id="topnavbar" class="topnav">
                 <div id="innernavBar">
-                </div>
-            </div>
-                <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+                    <div>
+                        <link rel="stylesheet" type="text/css" href="/css/navbar.css">
 
-                  <script  type='text/javascript'>
+<div class="dropdown">
+  <button class="dropbtn" onclick="window.location.href = 'http://localhost:8080/home';">Home</button>
+</div>
 
+<div class="dropdown">
+  <button class="dropbtn">Data management</button>
+  <div class="dropdown-content">
+  <a href="http://localhost:8080/data/ShpUplift">Shapefile importer</a>
+  <a href="https://www.i3mainz.de/projekte/bkg/importer/">Other importers</a>
+  <a href="http://localhost:8080/enrichment/">Linked Data enrichment</a>
+  <a href="http://localhost:8080/schema/upload">Schema upload</a>
+  <a href="http://localhost:8080/schema/validation">Schema verification</a>
+  </div>
+</div>
 
-                /*Variable to give*/
-                var elements = [
-                {link: "/home", value: "Home", active:"true"},
-                {link: "/data/management", value: "Data management", active: "false"},
-                {link: "https://www.i3mainz.de/projekte/bkg/semanticwfs/config/queryinterface.html", value: "SPARQL endpoint", active: "false"},
-                {link: "/semantic_WFS", value: "Semantic WFS", active: "false"},
-                {link: "/metadata_catalogue", value: "Metadata catalogue", active: "false"},
-                {link: "/thematic_map", value: "Thematic map", active: "false"},
-                {link: "/documentation", value: "Documentation", active: "false"}];
-                // [ ' <a href="/home/">Semantic Segmentation</a>', '<a href=" /home/publication">Scientific Publications</a>', ' <a href="/home/info">Information</a> ', '<a class="active" href="/home/processing">Process my point clouds</a>']
-                // var contentNav = [ ' <a href="/home/">Semantic Segmentation</a>', '<a href=" /home/publication">Scientific Publications</a>', ' <a href="/home/info">Information</a> ', '<a class="active" href="/home/processing">Process my point clouds</a>']
-//                var elements =[
+<div class="dropdown">
+  <button class="dropbtn" onclick="window.location.href = 'https://www.i3mainz.de/projekte/bkg/semanticwfs/config/queryinterface.html';">SPARQL endpoint</button>
+</div>
 
-    var navContentClose = '<span id="openspan" onclick="openNav()">&#9776;</span>  ';
+  <div class="dropdown">
+  <button class="dropbtn">Semantic WFS</button>
+  <div class="dropdown-content">
+  <a href="http://localhost:8080/semantic_WFS/home">Semantic WFS landing page</a>
+  <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/configuration.html">Semantic WFS configuration</a>
+  <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/geotreeview.html">Semantic WFS ontology browser</a>
+  </div>
+</div>
 
+<div class="dropdown">
+  <button class="dropbtn">Metadata catalogue</button>
+  <div class="dropdown-content">
+  <a href="http://localhost:8080/geotimeWFS/">Semantic OGC API Records landing page</a>
+  <a href="http://localhost:8080/metadata/uplift">Metadata importer</a>
+  <a href="http://localhost:8080/md2data">Link Metadata to Data</a>
+  </div>
+</div>
 
-        // change the content of the nav according to the screen size
-        var resizeFn = function () {
-                        document.getElementById("innernavBar").innerHTML = "";
-                if (window.screen.width > 768) {
+<div class="dropdown">
+  <button class="dropbtn" onclick="window.location.href = 'http://localhost:8080/thematicMaps';">Thematic maps</button>
+  <div class="dropdown-content">
+  <a href="http://localhost:8080/mapCreation">Create a thematic map</a>
+  <a href="http://localhost:8080/mapExample">Spatio-temporal data example</a>
+  <a href="http://localhost:8080/mapList">Thematic maps</a>
+  </div>
+</div>
 
-                    elements.forEach(element => {
+<div class="dropdown">
+  <button class="dropbtn" onclick="window.location.href = 'http://localhost:8080/documentation';">Documentation</button>
+</div>
 
-                        var newA = document.createElement("a");
-                        newA.href = element.link;
-                        newA.innerHTML = element.value;
-                        if (element.active == "true") {
-                            newA.className = "active";
-                        }
-                        document.getElementById("innernavBar").appendChild(newA);
-                    });
-                } else {
-                        document.getElementById("innernavBar").innerHTML = navContentClose;
-                    }
-
-                }
-
-
-
-
-
-                function openNav() {
-                            document.getElementById("topnavbar").className = "overlaynav";
-                    var navContentOver = '<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> ';
-                    /**/
-                    var innerbar = document.getElementById("innernavBar");
-                    innerbar.innerHTML = navContentOver;
-                    elements.forEach(element => {
-                        var newA = document.createElement("a");
-                        newA.href = element.link;
-                        newA.innerHTML = element.value;
-                        if (element.active == "true") {
-                                newA.className = "active";
-                        }
-                        innerbar.appendChild(newA);
-                        var hr = document.createElement("hr");
-                        hr.className = "major";
-                        innerbar.appendChild(hr);
-                    });
-                    /**/
-                        }
-
-
-
-
-
-                    function closeNav() {
-                            document.getElementById("topnavbar").className = "topnav";
-                    resizeFn();
-                    }
-
-
-
-
-                window.addEventListener('load', resizeFn());
-                            window.addEventListener('resize', resizeFn);
-            </script>
-        </div>
+</div> 
+</div>
+</div>
+</div>
+    </div>
     </body>
 </html>
