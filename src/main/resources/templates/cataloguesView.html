@@ -19,62 +19,62 @@ MA 02110-1301  USA
 -->
 <html>
 
-    <head th:replace="fragments/head :: head"></head>
+<head th:replace="fragments/head :: head"></head>
 
-    <body>
-        <script  type='text/javascript'>
-            var elements = [
-                {link: "/home", value: "Home", active: "false"},
-                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "true"},
-                {link: "/metadata", value: "Metadata", active: "false"},
-                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
-                {link: "/md2data", value: "Metadata to Data", active: "false"},
-                {link: "/schema/upload", value: "Schema upload", active: "false"},
-                {link: "/schema/validation", value: "Schema validation", active: "false"}];
-        </script>
-        <header id="header">
-            <div th:insert="fragments/nav :: navbar"></div>
-            <h1  style="text-align: right;">Metadata catalogues</h1>
-        </header>
+<body>
+    <script  type='text/javascript'>
+        var elements = [
+        {link: "/home", value: "Home", active: "false"},
+        {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "true"},
+        {link: "/metadata", value: "Metadata", active: "false"},
+        {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+        {link: "/md2data", value: "Metadata to Data", active: "false"},
+        {link: "/schema/upload", value: "Schema upload", active: "false"},
+        {link: "/schema/validation", value: "Schema validation", active: "false"}];
+    </script>
+    <header id="header">
+        <div th:insert="fragments/nav :: navbar"></div>
+        <h1  style="text-align: right;">Metadata catalogues</h1>
+    </header>
 
 
 
-        <div class="sticky row crumbs">
-            <div class="col-sm-12 col-md-10 col-md-offset-1">
-                <p>
-                    <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
-                    <a th:href="@{/geotimeWFS/}">> GeoTime WFS Service landingpage </a>
-                    <a th:href="@{/geotimeWFS/collections}">> Collections </a>
-                </p>
-            </div>
+    <div class="sticky row crumbs">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <p>
+                <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
+                <a th:href="@{/geotimeWFS/}">> GeoTime WFS Service landingpage </a>
+                <a th:href="@{/geotimeWFS/collections}">> Collections </a>
+            </p>
         </div>
-        <div class="container-fluid" role="main">
-            <div class="row">
-                <div class="col-sm-12">
-                    <p>List of catalogues:</p>
-                    <p th:if="${catalogues.empty}"> No Metadata Catalogue Available </p>
+    </div>
+    <div class="container-fluid" role="main">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>List of catalogues:</p>
+                <p th:if="${catalogues.empty}"> No Metadata Catalogue Available </p>
 
-                    <ul th:each="c:${catalogues}">
-                        <li th:text="${c.title}"> </li>
-                            <ul>
-                                <li th:text= "${'RecordId: '+c.catalogId}"></li>
-                                <li th:text="${'Description: '+c.description}"></li>  
-                                <li th:unless="${c.links.empty}">
-                                    Download: <a th:each="l:${c.links}" th:href="${l[1]}" th:text="${'['+l[0]+'] '}">  </a>
-                                </li> 
-                                <li><a th:href="@{|/geotimeWFS/collections/${c.catalogId}/items|}">Catalogue Records </a></li>
-                                <li>Catalogue Queryables: 
-                                    <a th:href="@{|/geotimeWFS/collections/${c.catalogId}/queryables|}"> [HTML] </a>
-                                    <a th:href="@{|/api/geotimeWFS/collections/${c.catalogId}/queryables|}"> [JSON] </a>
-                                </li>
-                            </ul>
-                        
+                <ul th:each="c:${catalogues}">
+                    <li th:text="${c.title}"> </li>
+                    <ul>
+                        <li th:text= "${'RecordId: '+c.catalogId}"></li>
+                        <li th:text="${'Description: '+c.description}"></li>  
+                        <li th:unless="${c.links.empty}">
+                            Download: <a th:each="l:${c.links}" th:href="${l[1]}" th:text="${'['+l[0]+'] '}">  </a>
+                        </li> 
+                        <li><a th:href="@{|/geotimeWFS/collections/${c.catalogId}/items|}">Catalogue Records </a></li>
+                        <li>Catalogue Queryables: 
+                            <a th:href="@{|/geotimeWFS/collections/${c.catalogId}/queryables|}"> [HTML] </a>
+                            <a th:href="@{|/api/geotimeWFS/collections/${c.catalogId}/queryables|}"> [JSON] </a>
+                        </li>
                     </ul>
-                </div>
+                    
+                </ul>
             </div>
         </div>
+    </div>
 
 
-        <!--<div th:insert="fragments/footer :: footer"></div>-->
-    </body>
+    <!--<div th:insert="fragments/footer :: footer"></div>-->
+</body>
 </html>

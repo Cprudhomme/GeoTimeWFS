@@ -7,7 +7,6 @@
 	padding: 10px;
 	width: 80%;
 }
-
 .containerbox {
 	display: flex;
 	align-items: right;
@@ -31,7 +30,6 @@
 	font-size: 1.4em;
 	font-weight: bold;
 }
-
 .boldfont {
 	margin-bottom: 20px;
 	font-family: "Source Sans Pro", sans-serif;
