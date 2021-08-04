@@ -1,4 +1,7 @@
 <!DOCTYPE HTML>
+<!--
+This view is an example for the displaying of the results of a SPARQL request
+-->
 <html xmlns:th="https://www.thymeleaf.org">
 <head th:replace="fragments/head :: head">
     <title>Getting Started: Serving Web Content</title> 
@@ -36,43 +39,29 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="tableContentSPARQL">
-
-                        <table border="1" style="margin-bottom: 20px;">
-                            <thead>
-                            <tr><th colspan="3">Local SPARQL request</th></tr>
-                            <tr>
-                                <th> Organization </th>
-                                <th> Title </th>
-                                <th> Dataset </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="ac: ${lc}">
-                                    <td style="width: 170px;"><span th:text="${ac[0]}"></span></td>
-                                    <td style="width: 170px;"><span th:text="${ac[1]}"></span></td>
-                                    <td style="width: 170px;"><span th:text="${ac[2]}"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <table border="1">
-                            <thead>
-                                <tr><th colspan="3">Remote SPARQL request</th></tr>
-                                <tr>
-                                    <th><span th:text="${cl[0]}"></span></th>
-                                    <th><span th:text="${cl[1]}"></span></th>
-                                    <th><span th:text="${cl[2]}"></span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="md: ${MDlist}">
-                                    <td style="width: 170px;"><span th:text="${md[0]}"></span></td>
-                                    <td style="width: 170px;"><span th:text="${md[1]}"></span></td>
-                                    <td style="width: 170px;"><span th:text="${md[2]}"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            <!--Creation of the table containing the results-->
+                            <table border="1">
+                                <thead>
+                                    <!--Title of the table-->
+                                    <tr><th colspan="3">Remote SPARQL request</th></tr>
+                                    <tr>
+                                        <!--Display the name of column corresponding the correct number-->
+                                        <th><span th:text="${cl[0]}"></span></th>
+                                        <th><span th:text="${cl[1]}"></span></th>
+                                        <th><span th:text="${cl[2]}"></span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--Fort each element contained md in MDlist-->
+                                    <tr th:each="md: ${MDlist}">
+                                        <!--Print the three element in md with the correct column number-->
+                                        <td style="width: 170px;"><span th:text="${md[0]}"></span></td>
+                                        <td style="width: 170px;"><span th:text="${md[1]}"></span></td>
+                                        <td style="width: 170px;"><span th:text="${md[2]}"></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

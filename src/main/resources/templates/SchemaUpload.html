@@ -1,12 +1,13 @@
 <!DOCTYPE HTML>
+<!--
+This view represents the submenu "Schema upload" of the menu "Data management"
+-->
 <html xmlns:th="https://www.thymeleaf.org">
 <head th:replace="fragments/head :: head">
     <title>Getting Started: Serving Web Content</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-
-    
 
     <script  type='text/javascript'>
         var elements = [
@@ -26,75 +27,65 @@
         <span class="titleOfHeader">Linked Data</span>
         <span class="textOfHeader">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_the_United_Kingdom_%282-3%29.svg/1024px-Flag_of_the_United_Kingdom_%282-3%29.svg.png" style="width: 32px; margin-right: 13px;">English | <a href="http://localhost:8080/login" style="text-decoration: none; color: #333333;">Login</a> | <a href="http://localhost:8080/contact" style="text-decoration: none; color: #333333">Contact</a><br><br>
-            <a href="https://www.gdi-de.org" target="_blank"><img src="/pictures/GDI-DE.jpg" style="width: 250px; float: right;"></a></span>
-        </div>
-        
-        <header id="header">
-            <div th:insert="fragments/nav :: navbar"></div>
-            <h1>Schema Upload</h1>
-        </header>
+            <a href="https://www.gdi-de.org" target="_blank"><img src="/pictures/GDI-DE.jpg" style="width: 250px; float: right;"></a>
+        </span>
+    </div>
 
-        <div class="containerfull">
-            <div class="containercontent">
-                
-                <div th:if="${message}">
-                  <h2 th:text="${message}"/>
-              </div>
+    <header id="header">
+        <div th:insert="fragments/nav :: navbar"></div>
+        <h1>Schema Upload</h1>
+    </header>
 
-              <div>
-                 <!--  <form method="POST" enctype="multipart/form-data" action="/schema/upload">-->
-                  <!--   <form th:action="@{/schema/upload}" method="post" enctype="multipart/form-data">-->
-                    <form action="#" th:action="@{/schema/upload}" th:object="${schema}" method="post" enctype="multipart/form-data">
-                       
-                       <h4>Type of schema to upload </h4>
-                       
-                       <input type="radio" th:field="*{type}" value="xsd" checked/> 
-                       <label for="xsd">XSD schema</label>
-                       <input type="radio" th:field="*{type}" value="mapping"/> 
-                       <label for="mapping">Mapping schema</label>
-                       
-                       <h4>Dataset and distribution associated to the schema</h4>
-                       <label id="mdlabel">Dataset/Distribution: </label>
-                       <select th:field="*{dist}">
-                        <option th:each="d : ${DistList}" th:value="${d}" th:text="${d}" th:id="${d}">
+    <div class="containerfull">
+        <div class="containercontent">
+            <div th:if="${message}">
+              <h2 th:text="${message}"/>
+            </div>
+            <div>
+                <form action="#" th:action="@{/schema/upload}" th:object="${schema}" method="post" enctype="multipart/form-data">
+                    <h4>Type of schema to upload </h4>
+                    <input type="radio" th:field="*{type}" value="xsd" checked/> 
+                    <label for="xsd">XSD schema</label>
+                    <input type="radio" th:field="*{type}" value="mapping"/> 
+                    <label for="mapping">Mapping schema</label>
+                    <h4>Dataset and distribution associated to the schema</h4>
+                    <label id="mdlabel">Dataset/Distribution: </label>
+                    <select th:field="*{dist}">
+                       <option th:each="d : ${DistList}" th:value="${d}" th:text="${d}" th:id="${d}">
                         </option>
                     </select>
-                    
                     <h4>GitLab login</h4>  
                     <label for="username">Username:</label>
                     <input type="text" th:field="*{username}">
-
                     <label for="pass">Password:</label>
                     <input type="password" th:field="*{psw}">
-                    
-                    
                     <h4>Schema upload</h4>
                     <table>
                         <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
                         <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
                     </table>
-                    
+
                 </form>
             </div>
-
             <div>
-              <ul>
-                 <li th:each="file : ${files}">
+                <ul>
+                    <li th:each="file : ${files}">
                     <a th:href="${file}" th:text="${file}" />
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <!--The boxes "Provider" and "Contact"-->
-    <div class="containerbox">
-        <div class="box">
-            <div class="titlebox">
-                <span> Provider</span>
+                    </li>
+                </ul>
             </div>
-            <div class="normalfont">
-                <br><span class="boldfont"> GDI-DE Geodateninfrastruktur Deutschland</span>
-                <span><a href="https://www.gdi-de.org/" target="_blank" style="color: #007F7F;text-decoration: none;"> https://www.gdi-de.org</a></span><br><br>
+        </div>
+
+        <!--The boxes "Provider" and "Contact"-->
+        <div class="containerbox">
+            <div class="box">
+                <div class="titlebox">
+                    <span> Provider</span>
+                </div>
+                <div class="normalfont">
+                    <br><span class="boldfont"> GDI-DE Geodateninfrastruktur Deutschland</span>
+                    <span><a href="https://www.gdi-de.org/" target="_blank" style="color: #007F7F;text-decoration: none;"> https://www.gdi-de.org</a></span><br><br>
+                </div>
             </div>
         </div>
         <div class="box">

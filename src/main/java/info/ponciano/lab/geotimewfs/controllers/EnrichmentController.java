@@ -49,18 +49,18 @@ import info.ponciano.lab.pitools.files.PiFile;
 @Controller
 @RequestMapping(value = "/enrichment")
 public class EnrichmentController {
-	
-	private PiSparql ont = new PiSparql();
+    
+    private PiSparql ont = new PiSparql();
     private final StorageService storageService;
     
     @Autowired
     public EnrichmentController(StorageService storageService) {
-    	this.storageService = storageService;
+        this.storageService = storageService;
     }
     
     @GetMapping("/")
     public String enrichmentHome(Model model) {
-    	return "sparql";
+        return "sparql";
     }
     
     @ModelAttribute(name = "squery")
@@ -71,7 +71,7 @@ public class EnrichmentController {
     @PostMapping("/results")
     public String results(@ModelAttribute("squery") SparqlQuery sq, Model model) throws Exception {
 
-    	String r = null;
+      String r = null;
     	List<String> columnNames = new ArrayList<String>();
 		List<String[]> resultList = new ArrayList<String[]>();
         
@@ -133,27 +133,27 @@ public class EnrichmentController {
                         a = a.replace("^^http://www.w3.org/2001/XMLSchema#double", "");
                     }
                     ls[i]=a;
-    			}
-    			Arrays.deepToString(ls);
-    			resultList.add(ls);
-    		}
-    		
+                }
+                Arrays.deepToString(ls);
+                resultList.add(ls);
+            }
+            
         } catch (Exception e) {
             r = e.getMessage();
         }
 
-		model.addAttribute("cl", columnNames);
-		model.addAttribute("MDlist", resultList);
-		model.addAttribute("errorMessage", r);
-		
+        //add attributes to model
+        model.addAttribute("cl", columnNames);
+        model.addAttribute("MDlist", resultList);
+        model.addAttribute("errorMessage", r);
         return "sparql";
     }
     
     @PostMapping("/ont")
     public String voc_custom(@RequestParam("file") MultipartFile file, Model model) throws FileNotFoundException {
-        // store file
+        //store file
         storageService.store(file);
-        //File reading
+        //file reading
         String filename = file.getOriginalFilename();
         String fileOnt = "upload-dir/" + filename;
         this.ont.read(fileOnt);
