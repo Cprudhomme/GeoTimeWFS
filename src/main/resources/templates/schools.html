@@ -2,15 +2,15 @@
 <html>
   <head>
     <title>Schools</title>
+    <!--.css and .js files used by Leaflet-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
     <script src="hs.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto|Source+Code+Pro" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/monokai.min.css">
-    <!--<link rel="stylesheet" href="index.css"> -->
-
-     <style>
+    <!--style of element (equivalent to a .css file)-->
+    <style>
     html, body {
       height: 100%;
       margin: 0;
@@ -19,30 +19,27 @@
       width: 100%;
       height: 100%;
     }
-  </style> 
-
-   </head>
-
-  <body>
-
-
-    <script src="http://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
+    </style> 
+  </head>
+<body>
+  <!--.js file used for map creation-->
+  <script src="http://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.21/jquery.csv.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
-    <div id='map'> <script>
+    <div id='map'> 
+      <script>
+        //initialise the map
       hljs.initHighlightingOnLoad();
-
       $(document).ready(() => {
         parse();
       });
-
+      //run the creation of the map by a click
       $('#run').bind('click', function () {
         parse();
       });
-
-    var schools = new L.layerGroup();
-    //var universities = new L.layerGroup();
-
+      //create a new layer on the map
+      var schools = new L.layerGroup();
+      //the function classify datas and fill the input field to add to the map
       function parse() {
         const input = $('#input').val();
         const data = $.csv.toArrays(input);
@@ -50,37 +47,34 @@
           L.marker([data[i][3], data[i][4]]).bindPopup(data[i][1]).addTo(schools);
         }
       }
-
+    //generate the style of the map
     var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
     'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
-
+    //grayscale or street view of the map
     var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr}),
     streets  = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
-
+    //focus the map on Germany
     var map = L.map('map', {
       center: [52, 9],
       zoom: 6,
       layers: [grayscale, streets]
     });
-
+    //define the two view possibilities
     var baseLayers = {
       "Grayscale": grayscale,
       "Streets": streets
     };
-
+    //define the name of the data list
     var overlays = {
-      "Schools": schools
-      //"Universities": universities 
+      "Schools": schools 
     };
-
+    //add these entities to the map to fill it
     L.control.layers(baseLayers, overlays).addTo(map);
-    //L.geoJSON(hs).addTo(universities);
     </script>
 </div>
-
-
   </body>
+  <!--Datas for schools that are added to the map-->
   <textarea id="input">http://www.wikidata.org/entity/Q104679988,Q104679988,Point(9.009105563 48.697723553),48.697723553472,9.0091055631638,        
 http://www.wikidata.org/entity/Q105549181,Q105549181,Point(8.720864653 48.720930932),48.720930932341,8.7208646535873,       
 http://www.wikidata.org/entity/Q105694576,Q105694576,Point(8.7819 52.1378),52.1378,8.7819,        

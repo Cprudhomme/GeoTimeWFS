@@ -4,64 +4,64 @@
     <title>Getting Started: Serving Web Content</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-    <body>
-         <script  type='text/javascript'>
-            var elements = [
-                {link: "/home", value: "Home", active: "false"},
-                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
-                {link: "/metadata", value: "Metadata", active: "true"},
-                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
-                {link: "/md2data", value: "Metadata to Data", active: "false"},
-                {link: "/schema/upload", value: "Schema upload", active: "false"},
-                {link: "/schema/validation", value: "Schema validation", active: "false"}];
-        </script>
-        <header id="header">
-            <div th:insert="fragments/nav :: navbar"></div>
-            <h1>Metadata records</h1>
-        </header>
-        <div class="sticky row crumbs">
-            <div class="col-sm-12 col-md-10 col-md-offset-1">
-                <p>
-                    <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
-                    <a th:href="@{/geotimeWFS/}">> GeoTime WFS Service landingpage </a>
-                    <a th:href="@{/geotimeWFS/collections}">> Collections </a>
-                    <a th:href="@{/geotimeWFS/collections/gdi_catalog}">> GDI Catalog </a>
-                    <a th:href="@{/geotimeWFS/collections/gdi_catalog/items}">> Records </a>
-                </p>
-            </div>
+<body>
+   <script  type='text/javascript'>
+    var elements = [
+    {link: "/home", value: "Home", active: "false"},
+    {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
+    {link: "/metadata", value: "Metadata", active: "true"},
+    {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+    {link: "/md2data", value: "Metadata to Data", active: "false"},
+    {link: "/schema/upload", value: "Schema upload", active: "false"},
+    {link: "/schema/validation", value: "Schema validation", active: "false"}];
+</script>
+<header id="header">
+    <div th:insert="fragments/nav :: navbar"></div>
+    <h1>Metadata records</h1>
+</header>
+<div class="sticky row crumbs">
+    <div class="col-sm-12 col-md-10 col-md-offset-1">
+        <p>
+            <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
+            <a th:href="@{/geotimeWFS/}">> GeoTime WFS Service landingpage </a>
+            <a th:href="@{/geotimeWFS/collections}">> Collections </a>
+            <a th:href="@{/geotimeWFS/collections/gdi_catalog}">> GDI Catalog </a>
+            <a th:href="@{/geotimeWFS/collections/gdi_catalog/items}">> Records </a>
+        </p>
+    </div>
+</div>
+<div class="container-fluid" role="main">
+    <div class="row">
+        <div class="col-sm-12">
+            <table>
+                <thead>
+                    <tr>
+                        <th> Organization </th>
+                        <th> Title </th>
+                        <th> Dataset </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${MDlist.empty}">
+                        <td colspan="2"> No Metadata Available </td>
+                    </tr>
+                    <tr th:each="md : ${MDlist}">
+                        <td><span th:text="${md[1]}"> Organization </span></td>
+                        <td><span th:text="${md[2]}"> Title </span></td>
+                        <!--<td><a th:href="${'https://ld.gdi-de.org/semanticwfs/collections/'+md[3]+'?f=html'}"><span th:text="${md[3]}"> Dataset </span></a></td>-->
+                        <td><a th:href="${'https://ld.gdi-de.org/semanticwfs/collections/'+md[3]+'?f=html'}"><span th:text="${md[3]}"> Dataset </span></a></td>
+                        <td>
+                            <form th:action="@{|/metadata/selected?md=${md[0]}|}" method="post">
+                                <input type="submit" value="View"/>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="container-fluid" role="main">
-            <div class="row">
-                <div class="col-sm-12">
-                <table>
-                    <thead>
-                        <tr>
-                            <th> Organization </th>
-                            <th> Title </th>
-                            <th> Dataset </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:if="${MDlist.empty}">
-                            <td colspan="2"> No Metadata Available </td>
-                        </tr>
-                        <tr th:each="md : ${MDlist}">
-                            <td><span th:text="${md[1]}"> Organization </span></td>
-                            <td><span th:text="${md[2]}"> Title </span></td>
-                           <!--<td><a th:href="${'https://ld.gdi-de.org/semanticwfs/collections/'+md[3]+'?f=html'}"><span th:text="${md[3]}"> Dataset </span></a></td>-->
-                            <td><a th:href="${'https://ld.gdi-de.org/semanticwfs/collections/'+md[3]+'?f=html'}"><span th:text="${md[3]}"> Dataset </span></a></td>
-                            <td>
-                                <form th:action="@{|/metadata/selected?md=${md[0]}|}" method="post">
-                                    <input type="submit" value="View"/>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                </div>
-            </div>
-        </div>
-        
-        <!--<div th:insert="fragments/footer :: footer"></div>-->
-    </body>
+    </div>
+</div>
+
+<!--<div th:insert="fragments/footer :: footer"></div>-->
+</body>
 </html>
