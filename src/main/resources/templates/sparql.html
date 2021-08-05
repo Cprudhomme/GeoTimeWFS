@@ -37,6 +37,7 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
         <h1>Linked Data enrichment</h1>
     </header>
 
+
     <!-- Body -->
     <!-- The onLoad() function fill the query space with an example -->
     <body onload="onLoad()">
@@ -277,36 +278,73 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
                     <br><span class="boldfont"> GDI-DE Geodateninfrastruktur Deutschland</span>
                     <span><a href="https://www.gdi-de.org/" target="_blank" style="color: #007F7F;text-decoration: none;"> https://www.gdi-de.org</a></span><br><br>
                 </div>
+                <section> 
+                    <div class="tableContentSPARQL">                    
+                        <table border="1" style="width: 700px;">
+                            <thead>
+                                <tr><th colspan="4" style="text-align: center; font-size: 1.2em;">Results of the query</th></tr>
+                                <tr style="text-align: center;">
+                                    <th><span>item</span></th>
+                                    <th><span>itemLabel</span></th>
+                                    <th><span>Latitude</span></th>
+                                    <th><span>Longitude</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="md: ${MDlist}">
+                                    <td style="width: 170px;"><span th:text="${md[0]}"></span></td>
+                                    <td style="width: 170px;"><span th:text="${md[1]}"></span></td>
+                                    <td style="width: 170px;"><span th:text="${md[2]}"></span></td>
+                                    <td style="width: 170px;"><span th:text="${md[3]}"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
             </div>
-            <div class="box">
-                <div class="titlebox">
-                    <span>Contact</span>
+
+            <!--The boxes "Provider" and "Contact"-->
+            <div class="containerbox">
+                <div class="box">
+                    <div class="titlebox">
+                        <span> Provider</span>
+                    </div>
+                    <div class="normalfont">
+                        <br><span class="boldfont"> GDI-DE Geodateninfrastruktur Deutschland</span>
+                        <span><a href="https://www.gdi-de.org/" target="_blank" style="color: #007F7F;text-decoration: none;"> https://www.gdi-de.org</a></span><br><br>
+                    </div>
                 </div>
-                <div class="normalfont">
-                    <br><span class="boldfont"> Coordination Office SDI Germany:</span><br>
-                    Telefon: 069 6333-258<br>
-                    Telefax: 069 6333-446<br>
-                    <a href="mailto:mail@gdi-de.org" style="color: #000000; text-decoration: none;"> mail@gdi-de.org</a><br>
-                    <a href="https://www.gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;"> www.gdi-de.org</a><br><br>
-                    <span class="boldfont"> Postal address:</span><br>
-                    Coordination Office SDI Germany<br>
-                    Federal Office for Cartography and Geodesy<br>
-                    Richard-Strauss-Avenue 11<br>
-                    60598 Frankfurt am Main, Germany<br><br>
-                    <span class="boldfont"> Press contact:</span> <a href="mailto:pressekontakt@gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;" >pressekontakt@gdi-de.org</a> <br><br>
-                    <span class="boldfont"> Twitter:</span> <a href="https://twitter.com/gdi_de" target="_blank" style="color: #000000; text-decoration: none;">www.twitter.com/gdi_de</a> <br><br>
-                </div>
-            </div>  
+                <div class="box">
+                    <div class="titlebox">
+                        <span>Contact</span>
+                    </div>
+                    <div class="normalfont">
+                        <br><span class="boldfont"> Coordination Office SDI Germany:</span><br>
+                        Telefon: 069 6333-258<br>
+                        Telefax: 069 6333-446<br>
+                        <a href="mailto:mail@gdi-de.org" style="color: #000000; text-decoration: none;"> mail@gdi-de.org</a><br>
+                        <a href="https://www.gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;"> www.gdi-de.org</a><br><br>
+                        <span class="boldfont"> Postal address:</span><br>
+                        Coordination Office SDI Germany<br>
+                        Federal Office for Cartography and Geodesy<br>
+                        Richard-Strauss-Avenue 11<br>
+                        60598 Frankfurt am Main, Germany<br><br>
+                        <span class="boldfont"> Press contact:</span> <a href="mailto:pressekontakt@gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;" >pressekontakt@gdi-de.org</a> <br><br>
+                        <span class="boldfont"> Twitter:</span> <a href="https://twitter.com/gdi_de" target="_blank" style="color: #000000; text-decoration: none;">www.twitter.com/gdi_de</a> <br><br>
+                    </div>
+                </div>  
+            </div>
         </div>
     </div>
 </body>
 
-<!--The footer of the application-->
-<footer>
-    <hr style="height: 1px; background-color: #FF0000">
-    <div style="float: right;">
-        <span class="footerpage">This page in [ <span style="color: #007F7F">XML</span>  ]  [<span style="color: #007F7F"> JSON </span>] </span><br>
-        <span class="footertext">© 2019 - Bundesamt für Kartographie und Geodäsie, Richard-Strauss-Allee 11, 60598 Frankfurt am Main<img style="width: 25px; margin-left: 10px;" src="https://logodix.com/logo/1010052.png"></span>
-    </div>
-</footer>
-</html>
+    <!--The footer of the application-->
+    <footer>
+        <hr style="height: 1px; background-color: #FF0000">
+        <div style="float: right;">
+            <span class="footerpage">This page in [ <span style="color: #007F7F">XML</span>  ]  [<span style="color: #007F7F"> JSON </span>] </span><br>
+            <span class="footertext">© 2019 - Bundesamt für Kartographie und Geodäsie, Richard-Strauss-Allee 11, 60598 Frankfurt am Main<img style="width: 25px; margin-left: 10px;" src="https://logodix.com/logo/1010052.png"></span>
+        </div>
+    </footer>
+    </html>
