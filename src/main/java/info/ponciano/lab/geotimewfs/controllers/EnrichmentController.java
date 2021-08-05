@@ -3,8 +3,6 @@ package info.ponciano.lab.geotimewfs.controllers;
 import org.apache.jena.query.*;
 
 import java.io.FileNotFoundException;
-import java.io.OutputStream;
-import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -95,6 +93,7 @@ public class EnrichmentController {
     
         try {
             
+        	//building of the query
             String queryString = prefixes + sq.getResults();
             Query query = QueryFactory.create(queryString);
             System.out.println(queryString);        
@@ -105,6 +104,7 @@ public class EnrichmentController {
             columnNames = results.getResultVars();
             System.out.println("Column Names : "+ columnNames); 
             
+            //permits to have the name of columns and their number
             List<Integer> numberOfColumns = new ArrayList<Integer>();
             for (int i=0; i<columnNames.size(); i++) {
                 numberOfColumns.add(i);
@@ -142,6 +142,7 @@ public class EnrichmentController {
             r = e.getMessage();
         }
 
+        //add attributes to model
         model.addAttribute("cl", columnNames);
         model.addAttribute("MDlist", resultList);
         model.addAttribute("errorMessage", r);
@@ -151,9 +152,9 @@ public class EnrichmentController {
     
     @PostMapping("/ont")
     public String voc_custom(@RequestParam("file") MultipartFile file, Model model) throws FileNotFoundException {
-        // store file
+        //store file
         storageService.store(file);
-        //File reading
+        //file reading
         String filename = file.getOriginalFilename();
         String fileOnt = "upload-dir/" + filename;
         this.ont.read(fileOnt);

@@ -1,101 +1,77 @@
 <!DOCTYPE html>
 <!--
-Copyright (C) 2020 Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>.
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-MA 02110-1301  USA
+This view represents the submenu "Semantic OGC API Records" of the menu "Metadata catalogue"
 -->
 <html>
 
-    <head th:replace="fragments/head :: head"></head>
+<head th:replace="fragments/head :: head"></head>
 
-    <body>
-        <script  type='text/javascript'>
-            var elements = [
-                {link: "/home", value: "Home", active: "false"},
-                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "true"},
-                {link: "/metadata", value: "Metadata", active: "false"},
-                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
-                {link: "/md2data", value: "Metadata to Data", active: "false"},
-                {link: "/schema/upload", value: "Schema upload", active: "false"},
-                {link: "/schema/validation", value: "Schema validation", active: "false"}];
-        </script>
+<body>
+    <script  type='text/javascript'>
+        var elements = [
+        {link: "/home", value: "Home", active: "false"},
+        {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "true"},
+        {link: "/metadata", value: "Metadata", active: "false"},
+        {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+        {link: "/md2data", value: "Metadata to Data", active: "false"},
+        {link: "/schema/upload", value: "Schema upload", active: "false"},
+        {link: "/schema/validation", value: "Schema validation", active: "false"}];
+    </script>
 
- <!--Header with the picture, title and Contact-->
+    <!--Header with the picture, title and Contact-->
     <div class="containerfull">
-    <a href="http://localhost:8080/home"><img class="pictureOfHeader" src="https://www.verwaltung-innovativ.de/SharedDocs/Bilder/DE/Artikel/GDI_DE_Logo.jpg?__blob=poster&v=2"></a> 
-    <span class="titleOfHeader">Linked Data</span>
-    <span class="textOfHeader">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_the_United_Kingdom_%282-3%29.svg/1024px-Flag_of_the_United_Kingdom_%282-3%29.svg.png" style="width: 32px; margin-right: 13px;">English | <a href="http://localhost:8080/login" style="text-decoration: none; color: #333333;">Login</a> | <a href="http://localhost:8080/contact" style="text-decoration: none; color: #333333">Contact</a><br><br>
-        <a href="https://www.gdi-de.org" target="_blank"><img src="/pictures/GDI-DE.jpg" style="width: 250px; float: right;"></a></span>
+        <a href="http://localhost:8080/home"><img class="pictureOfHeader" src="https://www.verwaltung-innovativ.de/SharedDocs/Bilder/DE/Artikel/GDI_DE_Logo.jpg?__blob=poster&v=2"></a> 
+        <span class="titleOfHeader">Linked Data</span>
+        <span class="textOfHeader">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_the_United_Kingdom_%282-3%29.svg/1024px-Flag_of_the_United_Kingdom_%282-3%29.svg.png" style="width: 32px; margin-right: 13px;">English | <a href="http://localhost:8080/login" style="text-decoration: none; color: #333333;">Login</a> | <a href="http://localhost:8080/contact" style="text-decoration: none; color: #333333">Contact</a><br><br>
+            <a href="https://www.gdi-de.org" target="_blank"><img src="/pictures/GDI-DE.jpg" style="width: 250px; float: right;"></a>
+        </span>
     </div>
 
-        <header id="header">
-            <div th:insert="fragments/nav :: navbar"></div>
-            <h1  style="text-align: right;">OGC API Records landing page</h1>
-        </header>
+    <header id="header">
+        <div th:insert="fragments/nav :: navbar"></div>
+        <h1  style="text-align: right;">OGC API Records landing page</h1>
+    </header>
 
-<div class="containerfull">
+    <div class="containerfull">
         <div class="containercontent">
 
-        <div class="sticky row crumbs">
-            <div class="col-sm-12 col-md-10 col-md-offset-1">
-                <p>
-                    <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
-                    <!--<a th:href="@{/geotimeWFS/}">> OGC API Records </a>-->
-                    <a th:href="@{/geotimeWFS/}">> GeoTime Web Service </a>
-                </p>
+            <div class="sticky row crumbs">
+                <div class="col-sm-12 col-md-10 col-md-offset-1">
+                    <p>
+                        <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
+                        <!--<a th:href="@{/geotimeWFS/}">> OGC API Records </a>-->
+                        <a th:href="@{/geotimeWFS/}">> GeoTime Web Service </a>
+                    </p>
+                </div>
             </div>
-            </div>
-        <div class="container-fluid" role="main">
-            <div class="row">
-                <div class="col-sm-12">
-                    <p>Testwebservice with a Triple Store backend</p>
-                    <ul>
-                        <li>GeoTimeWFS API Documentation in 
-                            <a th:href="@{/api}">[HTML]</a>
-                            <a th:href="@{/api?format=YAML}">[YAML]</a> 
-                            <a th:href="@{/api?format=JSON}">[JSON]</a>
-                        </li>
-                        <li>Conformance Declaration in 
-                            <a th:href="@{/geotimeWFS/conformance}">[HTML]</a>
-                            <!--<a th:href="@{/api/geotimeWFS/conformance?f=xml}">[XML]</a> -->
-                            <a th:href="@{/api/geotimeWFS/conformance?f=json}">[JSON]</a>
-                        </li>
-                        <li>Metadata Catalogues in 
-                            <a th:href="@{/geotimeWFS/collections}">[HTML]</a>
-                            <!--<a th:href="@{/api/geotimeWFS/collections?f=xml}">[XML]</a> -->
-                            <a th:href="@{/api/geotimeWFS/collections?f=json}">[JSON]</a>
-                        </li>
-                    <!--</ul>This homepage also exposes a WFS 1.0.0, 1.1.0, 2.0.0 compatible Webservice:<ul>
-                        <li>GetCapabilities WFS 1.0.0 <a
-                                href="https://www.i3mainz.de/projekte/bkg/semanticwfs/wfs?REQUEST=getCapabilities&VERSION=1.0.0">[XML]</a><br />
-                        </li>
-                        <li>GetCapabilities WFS 1.1.0 <a
-                                href="https://www.i3mainz.de/projekte/bkg/semanticwfs/wfs?REQUEST=getCapabilities&VERSION=1.1.0">[XML]</a>
-                        </li>
-                        <li>GetCapabilities WFS 2.0.0 <a
-                                href="https://www.i3mainz.de/projekte/bkg/semanticwfs/wfs?REQUEST=getCapabilities&VERSION=2.0.0">[XML]</a>
-                        </li>-->
-                    </ul>
+            <div class="container-fluid" role="main">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p>Testwebservice with a Triple Store backend</p>
+                        <ul>
+                            <li>GeoTimeWFS API Documentation in 
+                                <a th:href="@{/api}">[HTML]</a>
+                                <a th:href="@{/api?format=YAML}">[YAML]</a> 
+                                <a th:href="@{/api?format=JSON}">[JSON]</a>
+                            </li>
+                            <li>Conformance Declaration in 
+                                <a th:href="@{/geotimeWFS/conformance}">[HTML]</a>
+                                <!--<a th:href="@{/api/geotimeWFS/conformance?f=xml}">[XML]</a> -->
+                                <a th:href="@{/api/geotimeWFS/conformance?f=json}">[JSON]</a>
+                            </li>
+                            <li>Metadata Catalogues in 
+                                <a th:href="@{/geotimeWFS/collections}">[HTML]</a>
+                                <!--<a th:href="@{/api/geotimeWFS/collections?f=xml}">[XML]</a> -->
+                                <a th:href="@{/api/geotimeWFS/collections?f=json}">[JSON]</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-     <!--The boxes "Provider" and "Contact"-->
+        <!--The boxes "Provider" and "Contact"-->
         <div class="containerbox">
             <div class="box">
                 <div class="titlebox">
@@ -127,13 +103,10 @@ MA 02110-1301  USA
             </div> 
         </div>
     </div>
+</body>
 
-
-
-        <!--<div th:insert="fragments/footer :: footer"></div>-->
-    </body>
-
-    <footer>
+<!--The footer of the application-->
+<footer>
     <hr style="height: 1px; background-color: #FF0000">
     <div style="float: right;">
         <span class="footerpage">This page in [ <span style="color: #007F7F">XML</span>  ]  [<span style="color: #007F7F"> JSON </span>] </span><br>

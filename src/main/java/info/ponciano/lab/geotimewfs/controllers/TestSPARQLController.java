@@ -59,8 +59,10 @@ public class TestSPARQLController {
 	 * @throws OntoManagementException 
 	 */
 	
+	//the url we want to associate is "https://localhost:8080/test/SPARQL"
 	@GetMapping("/test/SPARQL")
 	public String getSPARQLRequest(Model model) throws OntoManagementException  {
+		//the name of the view associated is "testSPARQL.html"
 		String rtn="testSPARQL";
 	
 		//prefixes for SPARQL query
@@ -90,10 +92,13 @@ public class TestSPARQLController {
 				"  OPTIONAL { ?city wdt:P1082 ?population. }\r\n" + 
 				"}\r\n" + 
 				"LIMIT 10";
-		//build of the query and execution
+		//build of the query with prefixes and the content of the query
 		String queryString = prefixes + queryContent;
+		//Create a query type with the String 'queryString'
 		Query query = QueryFactory.create(queryString);
-		System.out.println(queryString);		
+		//Print the query in console to ensure that it works
+		System.out.println(queryString);
+		//execute the query with the endpoint of Wikidata		
 		QueryExecution qexec = QueryExecutionFactory.sparqlService("https://query.wikidata.org/sparql", query);
 		//store results in ResultSet format
 		ResultSet results = qexec.execSelect();
@@ -101,99 +106,69 @@ public class TestSPARQLController {
 		List<String> columnNames = results.getResultVars();
 		System.out.println("Column Names : "+ columnNames);	
 		
+		//return the number of column of the results
 		List<Integer> numberOfColumns = new ArrayList<Integer>();
 		for (int i=0; i<columnNames.size(); i++) {
 			numberOfColumns.add(i);
 		}
 		System.out.println(numberOfColumns);
-		
+		//the empty list that will contain all the results
 		List<String[]> resultList = new ArrayList<String[]>();
 		
 		//for all the QuerySolution in the ResultSet file
 		while (results.hasNext()) {
+			//the QuerySolution is find on the ResultSet file
 			QuerySolution solu = results.next();
+			//empty array that have the size of the number of columns
 			String[]ls=new String[columnNames.size()];
+			//for all the column in the results
 			for (int i=0; i<columnNames.size(); i++) {
+				//the name of the column
 				String columnName = columnNames.get(i);
+				//the node is the result corresponding to the current column in the current QuerySolution
 				RDFNode node = solu.get(columnName);
 				String a = null;
 
-                //test if resource
+                //test if the node is a resource type
                 if(node.isResource()){
+                	//a is equal to the Local Name (String)
                 	a =node.asResource().getLocalName();
                 }
             	//test if literal
                 if(node.isLiteral()) {
+                	//a is in String type
                     a = node.asLiteral().toString();
                 } 
+                //remove characters contains in the latitude and longitude fields
                 if(a.contains("^^http://www.w3.org/2001/XMLSchema#decimal")) {
                     a = a.replace("^^http://www.w3.org/2001/XMLSchema#decimal", "");
                 }
+                //remove characters contains in the itemLabal field
                 if(a.contains("@en")) {
                     a = a.replace("@en", "");
                 }
+                //add the node to the list
                 ls[i]=a;
 			}
 			//force a String[] content and add into resultList
 			Arrays.deepToString(ls);
+			//add the list corresponding to a QuerySolution in the list of results
 			resultList.add(ls);
 			}
 		
-			List<String[]> info = new ArrayList<String[]>();
-	
-	        //initialize the query to retrieve all instances of metadata and their associated organization, title, and dataset title
-	        String queryLocal = "SELECT ?m ?o ?t ?dt "
-	                + "WHERE{"
-	                + "?m rdf:type iso115:MD_Metadata. "
-	                + "?m <http://xmlns.com/foaf/0.1/primaryTopic> ?d. "
-	                + "?d <http://purl.org/dc/elements/1.1/title> ?dt. "
-	                + "?m iso115:contact ?co. "
-	                + "?co iso115:organisationName ?o. "
-	                + "?m iso115:identificationInfo ?i. "
-	                + "?i iso115:citation ?ci. "
-	                + "?ci iso115:title ?t. "
-	                + "}";
-	        System.out.println(queryLocal);
-	        //create the table of variables
-	        String[] var = {"m", "o", "t", "dt"};
-	        //query the ontology
-	        info = KB.get().queryAsArray(queryLocal, var, false, true);
-			
-
 			//add into the model attribute
         	
 			model.addAttribute("nc", numberOfColumns);
 			model.addAttribute("cl", columnNames);
 			model.addAttribute("MDlist", resultList);
-			model.addAttribute("lc", info);
 			qexec.close();
 			return rtn;
 
 	}
 	
-	@GetMapping("/data/management")
-	public String dataManagementMenu(Model model) {
-		return "dataM";
-	}
-	
-	@GetMapping("/semantic_WFS")
-	public String semanticWFSMenu(Model model) {
-		return "smtc";
-	}
-	
 	@GetMapping("/semantic_WFS/home")
 	public String semanticWFSHome(Model model) {
 		return "home2";
-	}
-	
-	@GetMapping("/metadata_catalogue")
-	public String mtdataHome(Model model) {
-		return "mtdt";
-	}
-	
-	@GetMapping("/thematic_map")
-	public String thematicMapHome(Model model) {
-		return "thmp";
 	}
 	
 	@GetMapping("/documentation")

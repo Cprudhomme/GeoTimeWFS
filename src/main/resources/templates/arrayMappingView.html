@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head th:replace="fragments/head :: head">
-<title>Getting Started: Serving Web Content</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Getting Started: Serving Web Content</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 </head>
 <body>
-	    <link rel="stylesheet" type="text/css" href="/css/form.css">
+	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<script type='text/javascript'>
 		var elements = [ {
 			link : "/home",
@@ -66,53 +66,53 @@
 	<div class="login-popup">
 		<div class="form-popup" id="popupForm">
 			<form  target="#_blank" action="#" th:action="@{/property_adding}" th:object="${perPropertyForm}" method="post"
-				class="form-container">
+			class="form-container">
 
-				<table>
-							<tr>
-									<td>Property Name:</td>
-									<td><input  id="propertyName" type="text" th:field="*{name}" /></td>
-									<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
-							</tr>
-							<tr>
-									<td>Range:</td>
-									<td><input id="propertyRange"  type="text" th:field="*{range}" /></td>
-									<td th:if="${#fields.hasErrors('range')}" th:errors="*{range}">Range Error</td>
-									<td><select
-				 					name="thelist" onChange="combo(this, 'propertyRange')"
-				 					onMouseOut="combo(this, 'propertyRange')">
-				 					<option value="Select">Range</option>
-				 					<option value="string">xsd:string</option>
-				 					<option value="boolean">xsd:boolean</option>
-				 					<option value="decimal">xsd:decimal</option>
-				 					<option value="boolean">xsd:boolean</option>
-				 					<option value="float">xsd:float</option>
-				 					<option value="double">xsd:double</option>
-				 					<option value="duration">xsd:duration</option>
-				 					<option value="dateTime">xsd:dateTime</option>
-				 					<option value="time">xsd:time</option>
-				 					<option value="date">xsd:date</option>
-				 					<option value="gYearMonth">xsd:gYearMonth</option>
-				 					<option value="gYear">xsd:gYear</option>
-				 					<option value="gMonthDay">xsd:gMonthDay</option>
-				 					<option value="gDay">xsd:gDay</option>
-				 					<option value="gMonth">xsd:gMonth</option>
-				 					<option value="hexBinary">xsd:hexBinary</option>
-				 					<option value="base64Binary">xsd:base64Binary</option>
-				 					<option value="anyURI">xsd:anyURI</option>
-				 				</select></td>
-							</tr>
-							<tr>
-								<!-- <td>				<button type="button" class="btn cancel" onclick="newProperty()">Add</button></td> -->
-								<td>	<input type="submit" class="btn" value="Submit" onclick="newProperty()"></td>
-								<td>				<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button></td>
-							</tr>
-					</table>
-<!-- 				<input type="submit" class="btn" value="Submit"> -->
-			</form>
-		</div>
+			<table>
+				<tr>
+					<td>Property Name:</td>
+					<td><input  id="propertyName" type="text" th:field="*{name}" /></td>
+					<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+				</tr>
+				<tr>
+					<td>Range:</td>
+					<td><input id="propertyRange"  type="text" th:field="*{range}" /></td>
+					<td th:if="${#fields.hasErrors('range')}" th:errors="*{range}">Range Error</td>
+					<td><select
+						name="thelist" onChange="combo(this, 'propertyRange')"
+						onMouseOut="combo(this, 'propertyRange')">
+						<option value="Select">Range</option>
+						<option value="string">xsd:string</option>
+						<option value="boolean">xsd:boolean</option>
+						<option value="decimal">xsd:decimal</option>
+						<option value="boolean">xsd:boolean</option>
+						<option value="float">xsd:float</option>
+						<option value="double">xsd:double</option>
+						<option value="duration">xsd:duration</option>
+						<option value="dateTime">xsd:dateTime</option>
+						<option value="time">xsd:time</option>
+						<option value="date">xsd:date</option>
+						<option value="gYearMonth">xsd:gYearMonth</option>
+						<option value="gYear">xsd:gYear</option>
+						<option value="gMonthDay">xsd:gMonthDay</option>
+						<option value="gDay">xsd:gDay</option>
+						<option value="gMonth">xsd:gMonth</option>
+						<option value="hexBinary">xsd:hexBinary</option>
+						<option value="base64Binary">xsd:base64Binary</option>
+						<option value="anyURI">xsd:anyURI</option>
+					</select></td>
+				</tr>
+				<tr>
+					<!-- <td>				<button type="button" class="btn cancel" onclick="newProperty()">Add</button></td> -->
+					<td>	<input type="submit" class="btn" value="Submit" onclick="newProperty()"></td>
+					<td>				<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button></td>
+				</tr>
+			</table>
+			<!-- 				<input type="submit" class="btn" value="Submit"> -->
+		</form>
 	</div>
-	<!--         <form th:action="@{/property_adding}" method="post" class="form-container"> -->
+</div>
+<!--         <form th:action="@{/property_adding}" method="post" class="form-container"> -->
 
 
 
@@ -129,41 +129,41 @@
 
 	<div>
 		<form action="#" th:action="@{/uplift_validation}" th:object="${propmap}" method="post">
-		<label id="title">Class Name:</label>
-		<input type="text" th:field="*{classname}">
+			<label id="title">Class Name:</label>
+			<input type="text" th:field="*{classname}">
 
-		<table>
-	    <tbody>
-			<tr th:if="${fc.empty}">
-	            <td> No Rows Available </td>
-	        </tr>
-	        <tr>
-	        	<td th:each="i : ${#numbers.sequence(0, nbc-1)}">
-	        		<select class="prtSelect" th:id="'properties_'+${i}" th:name="'properties_'+${i}" th:field="*{properties[__${i}__]}">
-							  	<option th:each="p, list : ${prop}" th:value="${p}" th:text="${p}">Property</option>
+			<table>
+				<tbody>
+					<tr th:if="${fc.empty}">
+						<td> No Rows Available </td>
+					</tr>
+					<tr>
+						<td th:each="i : ${#numbers.sequence(0, nbc-1)}">
+							<select class="prtSelect" th:id="'properties_'+${i}" th:name="'properties_'+${i}" th:field="*{properties[__${i}__]}">
+								<option th:each="p, list : ${prop}" th:value="${p}" th:text="${p}">Property</option>
 							</select>
 							<a class="btn" onclick="openForm()">New property</a>
-				</td>
-	        </tr>
-	 		<tr>
-	 			<td colspan="${nbc}">
-	        	<input type="submit" value="Submit">
-				</form>
-				</td>
-			</tr>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="${nbc}">
+							<input type="submit" value="Submit">
+						</form>
+					</td>
+				</tr>
 
-		   	<tr th:if="${fc.empty}">
-	            <td> No Rows Available </td>
-	        </tr>
-	        <tr th:each="row, itemStat : *{fc}">
-	            <td th:each="value, item : *{fc[__${itemStat.index}__]}"><span th:text="*{row[__${item.index}__]}"> Property value </span></td>
-	        </tr>
+				<tr th:if="${fc.empty}">
+					<td> No Rows Available </td>
+				</tr>
+				<tr th:each="row, itemStat : *{fc}">
+					<td th:each="value, item : *{fc[__${itemStat.index}__]}"><span th:text="*{row[__${item.index}__]}"> Property value </span></td>
+				</tr>
 
-	    </tbody>
+			</tbody>
 		</table>
 	</div>
-<script th:inline="javascript">
-var server = [[@{/property_adding}]];
+	<script th:inline="javascript">
+		var server = [[@{/property_adding}]];
 
 		closeForm();
 		function openForm() {
@@ -191,18 +191,18 @@ var server = [[@{/property_adding}]];
 			var data = new FormData();
 			var prtName=document.getElementById("propertyName").value;// HERE we get the property name
 // 			Add property name in the option
-			var allSelect =document.getElementsByClassName("prtSelect");
+var allSelect =document.getElementsByClassName("prtSelect");
 
-			var i;
-			for (i = 0; i < allSelect.length; i++) {
-				  var option = document.createElement("option");
-				  option.text =prtName;
-				  option.value=prtName;
+var i;
+for (i = 0; i < allSelect.length; i++) {
+	var option = document.createElement("option");
+	option.text =prtName;
+	option.value=prtName;
 
-				  var x = document.getElementById("properties_"+i);
-				  x.add(option);
+	var x = document.getElementById("properties_"+i);
+	x.add(option);
 
-			}
+}
 
 // 			Send property name range and type to the server
 
@@ -211,17 +211,17 @@ var server = [[@{/property_adding}]];
 				// data.append("propertyType", document.getElementById("propertyType").value);
 				// data.append("propertyRange", document.getElementById("propertyRange").value);
 // 				else
-			data.append("propertyName",document.getElementById("propertyName"));
-			data.append("propertyType", document.getElementById("propertyType"));
-			data.append("propertyRange", document.getElementById("propertyRange"));
+data.append("propertyName",document.getElementById("propertyName"));
+data.append("propertyType", document.getElementById("propertyType"));
+data.append("propertyRange", document.getElementById("propertyRange"));
 
 
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST",server);
-			xhr.send(data);
-			closeForm();
-		}
-	</script>
-	<!--<div th:insert="fragments/footer :: footer"></div>-->
+var xhr = new XMLHttpRequest();
+xhr.open("POST",server);
+xhr.send(data);
+closeForm();
+}
+</script>
+<!--<div th:insert="fragments/footer :: footer"></div>-->
 </body>
 </html>
