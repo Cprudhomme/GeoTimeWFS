@@ -116,36 +116,97 @@
         document.getElementById('mapButton').addEventListener('click', () => window.open(maps[document.getElementById('list').value], '_blank'));
     </script>
 
+<!-- Checkbox to extend data with WikiData -->
+<input type="checkbox"> Extend search with Linked Open Data from WikiData
+
+<br><br> 
+
+<script type="text/javascript">
+        // Opening a new map with the selected map 
+        function openWin() {
+            var newWindowContent = document.getElementById("map").innerHTML;
+            var myWindow = window.open('', '');
+            var doc = myWindow.document;
+            doc.open();
+            doc.write(newWindowContent);
+            doc.close();
+        }
+
+        // Displaying the button and the map 
+        function displayButtonAndMap() {
+            document.getElementById("mapButton").style.color = '#870909';
+            $('#map').animate({width:500,height:500},100);
+        }
+    </script> 
+
+    <input type="button" class="button" id="submit" value="Generate" onclick="displayButtonAndMap();" 
+    style="background-color: #870909;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;">
+
+    <!-- "Open map in a new tab" button, displaying on generation of the map -->
+    <div style="position : relative; width: 150px; height: 10px;">
+        <a href id="mapButton" style="color: #FFFFFF">Open map in a new tab</a>
+    </div>
+    <br>
+
+    <script>
+        // Definition of links
+        const maps = {
+            schools: 'mapCreation/schools'
+            ,universities: 'mapCreation/universities'
+            ,townhalls: 'mapCreation/townhalls'
+            ,hospitals: 'mapCreation/hospitals'
+        }
+
+        // Listener to click on "Open map in a new tab" button
+        document.getElementById('mapButton').addEventListener('click', () => window.open(maps[document.getElementById('list').value], '_blank'));
+    </script>
+
     <!-- Definition of the map -->
     <div id=map  style="position : relative; width: 0px; height: 0px;">
 
-    	<!-- Leaflet script and stylesheet -->
-    	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-    	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    	integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+        <!-- Leaflet script and stylesheet -->
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 
-    	<script>
-    		var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-    		'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    		mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+        <script>
+            var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+
             // Creation of two layers : grayscale, and streets map 
             // It is also possible to add a satelite map, landform map, ..
             var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr}),
             streets  = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+
             // Definition of the map, and setup of details : coordinates of the center, zoom level and layers that appear on loading
             var map = L.map('map', {
-            	center: [49.99, 8.24],
-            	zoom: 10,
-            	layers: [Grayscale]
+                center: [49.99, 8.24],
+                zoom: 10,
+                layers: [Grayscale]
             });
+
             // Definition of layers
             var baseLayers = {
-            	"Grayscale": grayscale,
-            	"Streets": streets
+                "Grayscale": grayscale,
+                "Streets": streets
             };
+
             // Definition of point layers
             var overlays = {
             };
+
             // Add layers and points layers to the map
             L.control.layers(baseLayers, overlays).addTo(map);
         </script>

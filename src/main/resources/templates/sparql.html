@@ -8,6 +8,7 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+
     <script type="text/javascript">
        var elements = [
        {link: "/home", value: "Home", active:"true"},
@@ -40,7 +41,9 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
     <!-- Body -->
     <!-- The onLoad() function fill the query space with an example -->
     <body onload="onLoad()">
+
         <script type="text/javascript">
+
             // Definition of example queries
             const queries = {
                 schools: 'SELECT ?item ?itemLabel ?latitude ?longitude WHERE {\n  ?item wdt:P31 wd:Q3914.\n  ?item wdt:P17 wd:Q183.\n  ?item p:P625 ?statement . \n  ?statement psv:P625 ?coordinate_node .\n  ?coordinate_node wikibase:geoLatitude ?latitude .\n  ?coordinate_node wikibase:geoLongitude ?longitude .\n  SERVICE wikibase:label {\n    bd:serviceParam wikibase:language "[AUTO_LANGUAGE],de".\n  }\n}\nLIMIT ',
@@ -84,6 +87,7 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
                 document.getElementById("nbOfPoints").innerHTML= document.getElementById("pointsCursor").value;
                 document.getElementById("sparqlText").value = queries[document.getElementById('requestChoice').value].concat(document.getElementById('pointsCursor').value);
             }
+
 
             // Checks if the request should be updated or not
             function checkRequest(){
@@ -150,6 +154,7 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
                     <!-- Text box where the request is shown -->
                     <div style="float: right;" onload="onLoad()">
                         <form action="#" th:action="@{/enrichment/results}" th:object="${squery}" method="post">
+
                             <!-- Text box -->
                             <textarea id="sparqlText" rows="16" cols="60" style="font-size: 1.6em; width: 100%; height: 100%; line-height: 150%" th:field="*{results}">YOUR QUERY</textarea><br>
                             <!-- Submit button -->
@@ -159,12 +164,14 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
                     </div>
                 </div>
                 <section> 
+
                     <!-- Map -->
                     <div id=map  style="position : relative; width: 800px; height: 800px; margin: 0 auto;">
                         <!-- Leaflet script and stylesheet -->
                         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
                         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
                         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+
                     <!-- Retreving data from the request -->
                     <script th:inline="javascript">
                             var dataArray = /*[[${MDlist}]]*/ 'default';
@@ -180,35 +187,42 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
                             return size;
                         };
                         var sizeOfArray = Object.size(dataArray);
+
                     </script>
                     <script>
                         // Creation of one layer of points
                         var query = new L.layerGroup()
+
                         // Loop to add every point of the results to the map 
                         for(let i = 0; i<sizeOfArray; i++){
 
                             // To add a point :
                             // L.marker([latitude, longitude]).bindPopup(nameOfThePoint).addTo(nameOfTheLayer);
                             L.marker([dataArray[i][2],dataArray[i][3]]).bindPopup(dataArray[i][1]).addTo(query);
+
                         }
                         var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
                         'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                         mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
                         // Creation of two layers : grayscale, and streets map 
                         // It is also possible to add a satelite map, landform map, ..
                         var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr}),
                         streets  = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+
                         // Definition of the map, and setup of details : coordinates of the center, zoom level and layers that appear on loading
                         var map = L.map('map', {
                             center: [49.99, 8.24],
                             zoom: 6,
                             layers: [streets, query]
                         });
+
                         // Definition of layers
                         var baseLayers = {
                             "Grayscale": grayscale,
                             "Streets": streets
                         };
+
                         // Definition of point layers
                         var overlays = {
                             "Query" : query
@@ -217,6 +231,7 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
                         L.control.layers(baseLayers, overlays).addTo(map);
                     </script>
                 </div> 
+
                 <br><br>
 
                 <!-- Displaying the table of results -->
