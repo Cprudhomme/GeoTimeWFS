@@ -1,10 +1,14 @@
 <!DOCTYPE html>
+<!--
+This view represents the submenu "Linked Data enrichment" of the menu "Data management"
+-->
 <html>
 <head th:replace="fragments/head :: head">
     <title>Getting Started: Serving Web Content</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+
     <script type="text/javascript">
        var elements = [
        {link: "/home", value: "Home", active:"true"},
@@ -33,10 +37,11 @@
         <h1>Linked Data enrichment</h1>
     </header>
 
+
     <!-- Body -->
     <!-- The onLoad() function fill the query space with an example -->
-
     <body onload="onLoad()">
+
         <script type="text/javascript">
 
             // Definition of example queries
@@ -83,6 +88,7 @@
                 document.getElementById("sparqlText").value = queries[document.getElementById('requestChoice').value].concat(document.getElementById('pointsCursor').value);
             }
 
+
             // Checks if the request should be updated or not
             function checkRequest(){
                 if(document.getElementById('requestChoice').value!="twentyBiggestCities" 
@@ -95,7 +101,6 @@
                 }
             }
         </script>
-
 
         <div class="containerfull">
             <div class="containercontent">
@@ -148,12 +153,10 @@
 
                     <!-- Text box where the request is shown -->
                     <div style="float: right;" onload="onLoad()">
-
                         <form action="#" th:action="@{/enrichment/results}" th:object="${squery}" method="post">
 
                             <!-- Text box -->
                             <textarea id="sparqlText" rows="16" cols="60" style="font-size: 1.6em; width: 100%; height: 100%; line-height: 150%" th:field="*{results}">YOUR QUERY</textarea><br>
-
                             <!-- Submit button -->
                             <input style="margin-left: auto; margin-right: auto; font-size: 1.4em;" type="submit" name="Submit" value="Get the query results">
                         </form>
@@ -164,19 +167,14 @@
 
                     <!-- Map -->
                     <div id=map  style="position : relative; width: 800px; height: 800px; margin: 0 auto;">
-
                         <!-- Leaflet script and stylesheet -->
                         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-
                         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
                         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 
                     <!-- Retreving data from the request -->
                     <script th:inline="javascript">
-                            /*<![CDATA[*/
-
                             var dataArray = /*[[${MDlist}]]*/ 'default';
-
                             // Function used to retrieve size of the data array 
                             // Data is stored as followed :
                             // data = [ itemIndex, itemLabel, latitude, longitude]
@@ -188,10 +186,8 @@
                             }
                             return size;
                         };
-
                         var sizeOfArray = Object.size(dataArray);
 
-                        /*]]>*/
                     </script>
                     <script>
                         // Creation of one layer of points
@@ -205,7 +201,6 @@
                             L.marker([dataArray[i][2],dataArray[i][3]]).bindPopup(dataArray[i][1]).addTo(query);
 
                         }
-
                         var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
                         'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                         mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
@@ -232,11 +227,11 @@
                         var overlays = {
                             "Query" : query
                         };
-
                         // Add layers and points layers to the map 
                         L.control.layers(baseLayers, overlays).addTo(map);
                     </script>
                 </div> 
+
                 <br><br>
 
                 <!-- Displaying the table of results -->
@@ -283,37 +278,73 @@
                     <br><span class="boldfont"> GDI-DE Geodateninfrastruktur Deutschland</span>
                     <span><a href="https://www.gdi-de.org/" target="_blank" style="color: #007F7F;text-decoration: none;"> https://www.gdi-de.org</a></span><br><br>
                 </div>
+                <section> 
+                    <div class="tableContentSPARQL">                    
+                        <table border="1" style="width: 700px;">
+                            <thead>
+                                <tr><th colspan="4" style="text-align: center; font-size: 1.2em;">Results of the query</th></tr>
+                                <tr style="text-align: center;">
+                                    <th><span>item</span></th>
+                                    <th><span>itemLabel</span></th>
+                                    <th><span>Latitude</span></th>
+                                    <th><span>Longitude</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="md: ${MDlist}">
+                                    <td style="width: 170px;"><span th:text="${md[0]}"></span></td>
+                                    <td style="width: 170px;"><span th:text="${md[1]}"></span></td>
+                                    <td style="width: 170px;"><span th:text="${md[2]}"></span></td>
+                                    <td style="width: 170px;"><span th:text="${md[3]}"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
             </div>
-            <div class="box">
-                <div class="titlebox">
-                    <span>Contact</span>
+
+            <!--The boxes "Provider" and "Contact"-->
+            <div class="containerbox">
+                <div class="box">
+                    <div class="titlebox">
+                        <span> Provider</span>
+                    </div>
+                    <div class="normalfont">
+                        <br><span class="boldfont"> GDI-DE Geodateninfrastruktur Deutschland</span>
+                        <span><a href="https://www.gdi-de.org/" target="_blank" style="color: #007F7F;text-decoration: none;"> https://www.gdi-de.org</a></span><br><br>
+                    </div>
                 </div>
-                <div class="normalfont">
-                    <br><span class="boldfont"> Coordination Office SDI Germany:</span><br>
-                    Telefon: 069 6333-258<br>
-                    Telefax: 069 6333-446<br>
-                    <a href="mailto:mail@gdi-de.org" style="color: #000000; text-decoration: none;"> mail@gdi-de.org</a><br>
-                    <a href="https://www.gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;"> www.gdi-de.org</a><br><br>
-                    <span class="boldfont"> Postal address:</span><br>
-                    Coordination Office SDI Germany<br>
-                    Federal Office for Cartography and Geodesy<br>
-                    Richard-Strauss-Avenue 11<br>
-                    60598 Frankfurt am Main, Germany<br><br>
-                    <span class="boldfont"> Press contact:</span> <a href="mailto:pressekontakt@gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;" >pressekontakt@gdi-de.org</a> <br><br>
-                    <span class="boldfont"> Twitter:</span> <a href="https://twitter.com/gdi_de" target="_blank" style="color: #000000; text-decoration: none;">www.twitter.com/gdi_de</a> <br><br>
-                </div>
-            </div>  
+                <div class="box">
+                    <div class="titlebox">
+                        <span>Contact</span>
+                    </div>
+                    <div class="normalfont">
+                        <br><span class="boldfont"> Coordination Office SDI Germany:</span><br>
+                        Telefon: 069 6333-258<br>
+                        Telefax: 069 6333-446<br>
+                        <a href="mailto:mail@gdi-de.org" style="color: #000000; text-decoration: none;"> mail@gdi-de.org</a><br>
+                        <a href="https://www.gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;"> www.gdi-de.org</a><br><br>
+                        <span class="boldfont"> Postal address:</span><br>
+                        Coordination Office SDI Germany<br>
+                        Federal Office for Cartography and Geodesy<br>
+                        Richard-Strauss-Avenue 11<br>
+                        60598 Frankfurt am Main, Germany<br><br>
+                        <span class="boldfont"> Press contact:</span> <a href="mailto:pressekontakt@gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;" >pressekontakt@gdi-de.org</a> <br><br>
+                        <span class="boldfont"> Twitter:</span> <a href="https://twitter.com/gdi_de" target="_blank" style="color: #000000; text-decoration: none;">www.twitter.com/gdi_de</a> <br><br>
+                    </div>
+                </div>  
+            </div>
         </div>
     </div>
-
 </body>
 
-<!--The footer of the application-->
-<footer>
-    <hr style="height: 1px; background-color: #FF0000">
-    <div style="float: right;">
-        <span class="footerpage">This page in [ <span style="color: #007F7F">XML</span>  ]  [<span style="color: #007F7F"> JSON </span>] </span><br>
-        <span class="footertext">© 2019 - Bundesamt für Kartographie und Geodäsie, Richard-Strauss-Allee 11, 60598 Frankfurt am Main<img style="width: 25px; margin-left: 10px;" src="https://logodix.com/logo/1010052.png"></span>
-    </div>
-</footer>
-</html>
+    <!--The footer of the application-->
+    <footer>
+        <hr style="height: 1px; background-color: #FF0000">
+        <div style="float: right;">
+            <span class="footerpage">This page in [ <span style="color: #007F7F">XML</span>  ]  [<span style="color: #007F7F"> JSON </span>] </span><br>
+            <span class="footertext">© 2019 - Bundesamt für Kartographie und Geodäsie, Richard-Strauss-Allee 11, 60598 Frankfurt am Main<img style="width: 25px; margin-left: 10px;" src="https://logodix.com/logo/1010052.png"></span>
+        </div>
+    </footer>
+    </html>
