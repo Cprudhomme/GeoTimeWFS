@@ -5,7 +5,6 @@ package info.ponciano.lab.geotimewfs.models;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
 
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 
