@@ -6,7 +6,6 @@ import java.util.List;
 
 import info.ponciano.lab.pisemantic.PiOnt;
 import info.ponciano.lab.pisemantic.PiSparql;
-import info.ponciano.lab.pitools.files.PiFile;
 
 public abstract class ArrayUpliftModel {
 

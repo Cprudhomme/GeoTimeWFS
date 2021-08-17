@@ -1,31 +1,12 @@
 package info.ponciano.lab.geotimewfs.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-
-import info.ponciano.lab.geotimewfs.controllers.storage.StorageFileNotFoundException;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
-import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
-import info.ponciano.lab.geotimewfs.models.JGit;
-import info.ponciano.lab.geotimewfs.models.Schema;
-import info.ponciano.lab.geotimewfs.models.SchemaValidation;
 
 @Controller
 public class LeafletController {
