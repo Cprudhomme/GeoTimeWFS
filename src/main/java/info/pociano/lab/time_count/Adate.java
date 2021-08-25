@@ -16,12 +16,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package Time;
+package info.pociano.lab.time_count;
 
 /**
  *
  * @author pc-asus
  */
-public class Countup {
+public abstract class Adate {
+    int secondes;
+    int minutes;
+       final String input;   
+
+    public Adate(String input) {
+        this.input = input;
+        
+        System.currentTimeMillis();
+    }
+
+    public abstract int getSecondes(); 
+      
+    
     
 }

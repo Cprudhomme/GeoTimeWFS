@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 pc-asus.
+ * Copyright (C)  2021 Dr Claire Prudhomme <claire@prudhomme.info)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,12 +16,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package Time;
+package info.pociano.lab.time_count;
 
 /**
  *
- * @author A.H
+ * @author pc-asus
  */
-public class Countdown {
+public class Countup {
     
 }
