@@ -3,7 +3,6 @@ package info.ponciano.lab.geotimewfs.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 
 public abstract class LocalFCManager implements FeatureCollectionManager{

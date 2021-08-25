@@ -4,23 +4,25 @@
     <title>Getting Started: Serving Web Content</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-    <body>
-        <script  type='text/javascript'>
-            var elements = [
-                {link: "/home", value: "Home", active: "false"},
-                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
-                {link: "/metadata", value: "Metadata", active: "false"},
-                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
-                {link: "/md2data", value: "Metadata to Data", active: "false"},
-                {link: "/schema/upload", value: "Schema upload", active: "false"},
-                {link: "/schema/validation", value: "Schema validation", active: "false"}];
-        </script>
-        
-        <header id="header">
-            <div th:insert="fragments/nav :: navbar"></div>
-            <h1>Message</h1>
-        </header>
-        
-        <p th:text="${message}"></p>
-    </body>
+<body>
+    <script  type='text/javascript'>
+        var elements = [
+        {link: "/home", value: "Home", active: "false"},
+        {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
+        {link: "/metadata", value: "Metadata", active: "false"},
+        {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+        {link: "/md2data", value: "Metadata to Data", active: "false"},
+        {link: "/schema/upload", value: "Schema upload", active: "false"},
+        {link: "/schema/validation", value: "Schema validation", active: "false"}];
+    </script>
+    
+    <header id="header">
+        <div th:insert="fragments/nav :: navbar"></div>
+        <h1>Message</h1>
+    </header>
+    
+    <p th:text="${message}"></p>
+</body>
 </html>
+
+<div th:insert="fragments/footer :: footer"></div>

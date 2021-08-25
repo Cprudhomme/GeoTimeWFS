@@ -1,116 +1,88 @@
 <!DOCTYPE html>
 <!--
 Copyright (C) 2020 Dr Jean-Jacques Ponciano <jean-jacques@ponciano.info>.
-
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
 version 2.1 of the License, or (at your option) any later version.
-
 This library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
-
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 MA 02110-1301  USA
 -->
 <html>
-    <body>
-        <div th:fragment="navbar" >
-            <div id="topnavbar" class="topnav">
-                <div id="innernavBar">
-                </div>
+<head>
+</head>
+<body>
+  <div th:fragment="navbar" >
+    <div id="topnavbar" class="topnav">
+      <div id="innernavBar">
+        <div>
+          <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+          <!--Home menu-->
+          <div class="dropdown">
+            <button class="dropbtn" onclick="window.location.href = 'http://localhost:8080/home';">Home</button>
+          </div>
+          <!--Data management menu with 5 submenus-->
+          <div class="dropdown">
+            <!--Button corresponding to menu which have submenu,
+              when the cursor pass in this button, it displays the submenus-->
+            <button class="dropbtn">Data management</button>
+            <div class="dropdown-content">
+              <!--The Submenus with their url-->
+              <a href="http://localhost:8080/data/ShpUplift">Shapefile importer</a>
+              <a href="https://www.i3mainz.de/projekte/bkg/importer/">Other importers</a>
+              <a href="http://localhost:8080/enrichment/">Linked Data enrichment</a>
+              <a href="http://localhost:8080/schema/upload">Schema upload</a>
+              <a href="http://localhost:8080/schema/validation">Schema verification</a>
             </div>
-                <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+          </div>
+          <!--SPARQL endpoint menu (external link)-->
+          <div class="dropdown">
+            <!--The button for a menu without subemnus
+              the button have a function in JavaScript that gives to it a url that is reached when the button is clicked-->
+            <button class="dropbtn" onclick="window.location.href = 'https://www.i3mainz.de/projekte/bkg/semanticwfs/config/queryinterface.html';">SPARQL endpoint</button>
+          </div>
+          <!--Semantic WFS menu with 3 submenus-->
+          <div class="dropdown">
+            <button class="dropbtn">Semantic WFS</button>
+            <div class="dropdown-content">
+              <a href="http://localhost:8080/semantic_WFS/home">Semantic WFS landing page</a>
+              <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/configuration.html">Semantic WFS configuration</a>
+              <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs/config/geotreeview.html">Semantic WFS ontology browser</a>
+            </div>
+          </div>
 
-                  <script  type='text/javascript'>
-
-
-                /*Variable to give*/
-                var elements = [
-                {link: "/home", value: "Home", active: "true"},
-                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
-                {link: "/metadata", value: "Metadata", active: "false"},
-                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
-                {link: "/md2data", value: "Metadata to Data", active: "false"},
-                {link: "/schema/upload", value: "Schema upload", active: "false"},
-                {link: "/schema/validation", value: "Schema validation", active: "false"},
-                {link: "/data/ShpUplift", value: "Shapefile uplift", active: "false"}];
-                // [ ' <a href="/home/">Semantic Segmentation</a>', '<a href=" /home/publication">Scientific Publications</a>', ' <a href="/home/info">Information</a> ', '<a class="active" href="/home/processing">Process my point clouds</a>']
-                // var contentNav = [ ' <a href="/home/">Semantic Segmentation</a>', '<a href=" /home/publication">Scientific Publications</a>', ' <a href="/home/info">Information</a> ', '<a class="active" href="/home/processing">Process my point clouds</a>']
-//                var elements =[
-//		{link:"/home/",value:"Semantic Segmentation",active:"false"},
-//		{link:"/home/publication",value:"Scientific Publications",active:"false"},
-//		{link:"/home/info",value:"Information",active:"true"},
-//		{link:"/home/processing",value:"Process my point clouds",active:"false"}]
-//
-    var navContentClose = '<span id="openspan" onclick="openNav()">&#9776;</span>  ';
-
-
-        // change the content of the nav according to the screen size
-        var resizeFn = function () {
-                        document.getElementById("innernavBar").innerHTML = "";
-                if (window.screen.width > 768) {
-
-                    elements.forEach(element => {
-
-                        var newA = document.createElement("a");
-                        newA.href = element.link;
-                        newA.innerHTML = element.value;
-                        if (element.active == "true") {
-                            newA.className = "active";
-                        }
-                        document.getElementById("innernavBar").appendChild(newA);
-                    });
-                } else {
-                        document.getElementById("innernavBar").innerHTML = navContentClose;
-                    }
-
-                }
-
-
-
-
-
-                function openNav() {
-                            document.getElementById("topnavbar").className = "overlaynav";
-                    var navContentOver = '<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> ';
-                    /**/
-                    var innerbar = document.getElementById("innernavBar");
-                    innerbar.innerHTML = navContentOver;
-                    elements.forEach(element => {
-                        var newA = document.createElement("a");
-                        newA.href = element.link;
-                        newA.innerHTML = element.value;
-                        if (element.active == "true") {
-                                newA.className = "active";
-                        }
-                        innerbar.appendChild(newA);
-                        var hr = document.createElement("hr");
-                        hr.className = "major";
-                        innerbar.appendChild(hr);
-                    });
-                    /**/
-                        }
-
-
-
-
-
-                    function closeNav() {
-                            document.getElementById("topnavbar").className = "topnav";
-                    resizeFn();
-                    }
-
-
-
-
-                window.addEventListener('load', resizeFn());
-                            window.addEventListener('resize', resizeFn);
-            </script>
-        </div>
-    </body>
+          <!--Metadata catalogue with 3 submenus-->
+          <div class="dropdown">
+            <button class="dropbtn">Metadata catalogue</button>
+            <div class="dropdown-content">
+              <a href="http://localhost:8080/geotimeWFS/">Semantic OGC API Records landing page</a>
+              <a href="http://localhost:8080/metadata/uplift">Metadata importer</a>
+              <a href="http://localhost:8080/md2data">Link Metadata to Data</a>
+            </div>
+          </div>
+          <!--Thematic maps menu with 3 submenus-->
+          <div class="dropdown">
+            <button class="dropbtn" onclick="window.location.href = 'http://localhost:8080/thematicMaps';">Thematic maps</button>
+            <div class="dropdown-content">
+              <a href="http://localhost:8080/mapCreation">Create a thematic map</a>
+              <a href="http://localhost:8080/mapExample">Spatio-temporal data example</a>
+              <a href="http://localhost:8080/mapList">Thematic maps</a>
+            </div>
+          </div>
+          <!--Documentation menu-->
+          <div class="dropdown">
+            <button class="dropbtn" onclick="window.location.href = 'http://localhost:8080/documentation';">Documentation</button>
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+</body>
 </html>

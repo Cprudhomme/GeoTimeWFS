@@ -10,7 +10,6 @@ import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntProperty;
 import org.junit.jupiter.api.Test;
 
-import info.ponciano.lab.pisemantic.PiOnt;
 import info.ponciano.lab.pitools.files.PiFile;
 
 class ArrayUpliftTest {
