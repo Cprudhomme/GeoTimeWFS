@@ -31,7 +31,7 @@ public abstract class Adate {
     int months;
     int years; {
     
-  
+    //Defines each variable in a unit of one e.g 1 minute is equivalent to 60 secondes
    1 secondes = 1000 millisecondes;
    1 minutes = 60 secondes;
    1 hours = 60 minutes;
@@ -40,16 +40,33 @@ public abstract class Adate {
    1 months = 4 weeks;
    1years = 12 months;  
 }
-       final String input;   
+    Date d1 = new Date ();
+    Date d2 = new Date (); // Current date 
+    Date d3 = new Date 
+    
+            boolean a = d3.after(d1);
+     System.out.printIn("Date d3 comes after" + "Date d2: " + a);
+     
+     boolean b = d3.before(d2);
+     System.out.printIn("Date d3 comes before" + "Date d2: " + b);
+     
+     int c = d1.compareTo(d2);
+     System.out.printIn(c);
+     
+     System.out.printIn("Miliseconds from jan1" + "1970 tp date d1 is" + d1.gettime()); 
+     
+     Sytem.out.printIn("Before settings"+d2);
+     d2.setTime(204587433443L);
+     System.out.printIn("After setting" + d2);
+     
+       final String input;    
 
     public Adate(String input) {
         this.input = input;
-        
+       Date() 
         System.currentTimeMillis();
     }
 
     public abstract int getSecondes(); 
-      
+
     
-    
-}
