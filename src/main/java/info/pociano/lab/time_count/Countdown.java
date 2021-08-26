@@ -22,6 +22,19 @@ package info.pociano.lab.time_count;
  *
  * @author A.H
  */
-public class Countdown {
-    
+public class Countdown extends Adate{
+
+    public Countdown(String input) {
+        super(input);
+    }
+
+    @Override
+    public int getSecondes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    public static void main(String[] args) {
+        Countdown cd = new Countdown("26/08/28");
+        cd.inwork();
+        
+    }
 }
