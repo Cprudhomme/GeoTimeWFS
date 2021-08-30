@@ -80,4 +80,10 @@ public abstract class Adate {
     }
 
     public abstract int getSecondes();
+    public abstract int getMinutes();
+    public abstract int getHours();
+    public abstract int getDays();
+    public abstract int getWeeks();
+    public abstract int getMonths();
+    public abstract int getYears();
 }

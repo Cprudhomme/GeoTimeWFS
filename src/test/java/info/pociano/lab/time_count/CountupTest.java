@@ -1,5 +1,5 @@
 /*
- * Copyright (C)  2021 Dr Claire Prudhomme <claire@prudhomme.info)
+ * Copyright (C) 2021 pc-asus.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,24 +18,42 @@
  */
 package info.pociano.lab.time_count;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  *
  * @author pc-asus
  */
-public class Countup extends Adate {
-
-    public Countup(String input) {
-        super(input);
+public class CountupTest {
+    
+    public CountupTest() {
+    }
+    
+    @BeforeAll
+    public static void setUpClass() {
+    }
+    
+    @AfterAll
+    public static void tearDownClass() {
+    }
+    
+    @BeforeEach
+    public void setUp() {
+    }
+    
+    @AfterEach
+    public void tearDown() {
     }
 
-    @Override
-    public int getSecondes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    public static void main(String[] args) {
-        countup cd = new countup("30/08/2023");
-        cd.inwork();
-     
+    @Test
+    public void testSomeMethod() {
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }

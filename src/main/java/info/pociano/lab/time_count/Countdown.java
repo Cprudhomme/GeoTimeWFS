@@ -33,7 +33,7 @@ public class Countdown extends Adate{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     public static void main(String[] args) {
-        Countdown cd = new Countdown("26/08/28");
+        Countdown cd = new Countdown("26/08/2021");
         cd.inwork();
         
     }
