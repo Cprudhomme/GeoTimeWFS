@@ -1,6 +1,5 @@
 package info.ponciano.lab.geotimewfs.controllers;
 
-
 import org.apache.jena.query.*;
 
 import java.io.OutputStream;
@@ -44,95 +43,94 @@ import info.ponciano.lab.geotimewfs.models.SparqlQuery;
 
 @Controller
 public class TestSPARQLController {
-	
-	private final StorageService storageService;
-	
-	@Autowired
-	public TestSPARQLController(StorageService storageService) {
-		this.storageService = storageService;
-	}
-	
-	/**
-	 * 
-	 * @param model represents the thymeleaf model accessible through the view
-	 * @return the web interface of the result of a specific SPARQL request
-	 * @throws OntoManagementException 
-	 */
-	
-	@GetMapping("/test/SPARQL")
-	public String getSPARQLRequest(Model model) throws OntoManagementException  {
-		String rtn="testSPARQL";
-	
-		//prefixes for SPARQL query
-		String prefixes = "PREFIX schema: <http://schema.org/>"+
-				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"+
-				"PREFIX owl: <http://www.w3.org/2002/07/owl#>"+
-				"PREFIX hist: <http://wikiba.se/history/ontology#>"+
-				"PREFIX wd: <http://www.wikidata.org/entity/>"+
-				"PREFIX wdt: <http://www.wikidata.org/prop/direct/>"+
-				"PREFIX wikibase: <http://wikiba.se/ontology#>"+
-				"PREFIX dct: <http://purl.org/dc/terms/>"+
-				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
-				"PREFIX bd: <http://www.bigdata.com/rdf#>"+
-				"PREFIX wds: <http://www.wikidata.org/entity/statement/>\r\n" + 
-				"PREFIX wdv: <http://www.wikidata.org/value/>"+
-				"PREFIX p: <http://www.wikidata.org/prop/>\r\n" + 
-				"PREFIX ps: <http://www.wikidata.org/prop/statement/>\r\n" + 
-				"PREFIX pq: <http://www.wikidata.org/prop/qualifier/>";
-		//content of the query
-		String queryContent = "SELECT ?city ?cityLabel ?population WHERE {\r\n" + 
-				"  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\r\n" + 
-				"  VALUES ?town_or_city {\r\n" + 
-				"    wd:Q515\r\n" + 
-				"  }\r\n" + 
-				"  ?city (wdt:P31/(wdt:P279*)) ?town_or_city;\r\n" + 
-				"    wdt:P17 wd:Q183.\r\n" + 
-				"  OPTIONAL { ?city wdt:P1082 ?population. }\r\n" + 
-				"}\r\n" + 
-				"LIMIT 10";
-		//build of the query and execution
-		String queryString = prefixes + queryContent;
-		Query query = QueryFactory.create(queryString);
-		System.out.println(queryString);		
-		QueryExecution qexec = QueryExecutionFactory.sparqlService("https://query.wikidata.org/sparql", query);
-		//store results in ResultSet format
-		ResultSet results = qexec.execSelect();
-		//gives the column names of the query
-		List<String> columnNames = results.getResultVars();
-		System.out.println("Column Names : "+ columnNames);	
-		
-		List<Integer> numberOfColumns = new ArrayList<Integer>();
-		for (int i=0; i<columnNames.size(); i++) {
-			numberOfColumns.add(i);
-		}
-		System.out.println(numberOfColumns);
-		
-		List<String[]> resultList = new ArrayList<String[]>();
-		
-		//for all the QuerySolution in the ResultSet file
-		while (results.hasNext()) {
-			QuerySolution solu = results.next();
-			String[]ls=new String[columnNames.size()];
-			for (int i=0; i<columnNames.size(); i++) {
-				String columnName = columnNames.get(i);
-				RDFNode node = solu.get(columnName);
-				String a = null;
+
+    private final StorageService storageService;
+
+    @Autowired
+    public TestSPARQLController(StorageService storageService) {
+        this.storageService = storageService;
+    }
+
+    /**
+     *
+     * @param model represents the thymeleaf model accessible through the view
+     * @return the web interface of the result of a specific SPARQL request
+     * @throws OntoManagementException
+     */
+    @GetMapping("/test/SPARQL")
+    public String getSPARQLRequest(Model model) throws OntoManagementException {
+        String rtn = "testSPARQL";
+
+        //content of the query
+        String queryContent = "SELECT ?city ?cityLabel ?population WHERE {\r\n"
+                + "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\r\n"
+                + "  VALUES ?town_or_city {\r\n"
+                + "    wd:Q515\r\n"
+                + "  }\r\n"
+                + "  ?city (wdt:P31/(wdt:P279*)) ?town_or_city;\r\n"
+                + "    wdt:P17 wd:Q183.\r\n"
+                + "  OPTIONAL { ?city wdt:P1082 ?population. }\r\n"
+                + "}\r\n"
+                + "LIMIT 10";
+
+        //prefixes for SPARQL query
+        String prefixes = "PREFIX schema: <http://schema.org/>"
+                + "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
+                + "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
+                + "PREFIX hist: <http://wikiba.se/history/ontology#>"
+                + "PREFIX wd: <http://www.wikidata.org/entity/>"
+                + "PREFIX wdt: <http://www.wikidata.org/prop/direct/>"
+                + "PREFIX wikibase: <http://wikiba.se/ontology#>"
+                + "PREFIX dct: <http://purl.org/dc/terms/>"
+                + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+                + "PREFIX bd: <http://www.bigdata.com/rdf#>"
+                + "PREFIX wds: <http://www.wikidata.org/entity/statement/>\r\n"
+                + "PREFIX wdv: <http://www.wikidata.org/value/>"
+                + "PREFIX p: <http://www.wikidata.org/prop/>\r\n"
+                + "PREFIX ps: <http://www.wikidata.org/prop/statement/>\r\n"
+                + "PREFIX pq: <http://www.wikidata.org/prop/qualifier/>";
+        //build of the query and execution
+        String queryString = prefixes + queryContent;
+        Query query = QueryFactory.create(queryString);
+        System.out.println(queryString);
+        QueryExecution qexec = QueryExecutionFactory.sparqlService("https://query.wikidata.org/sparql", query);
+        //store results in ResultSet format
+        ResultSet results = qexec.execSelect();
+        
+
+//gives the column names of the query
+        List<String> columnNames = results.getResultVars();
+        System.out.println("Column Names : " + columnNames);
+
+        List<Integer> numberOfColumns = new ArrayList<>();
+        for (int i = 0; i < columnNames.size(); i++) {
+            numberOfColumns.add(i);
+        }
+        System.out.println(numberOfColumns);
+
+        List<String[]> resultList = new ArrayList<String[]>();
+
+        //for all the QuerySolution in the ResultSet file
+        while (results.hasNext()) {
+            QuerySolution solu = results.next();
+            String[] ls = new String[columnNames.size()];
+            for (int i = 0; i < columnNames.size(); i++) {
+                String columnName = columnNames.get(i);
+                RDFNode node = solu.get(columnName);
+                String a = null;
 
                 //test if resource
-                if(node.isResource()){
-                	a =node.asResource().getLocalName();
+                if (node.isResource()) {
+                    a = node.asResource().getLocalName();
                 }
-            	//test if literal
-                if(node.isLiteral()) {
+                //test if literal
+                if (node.isLiteral()) {
                     a = node.asLiteral().toString();
-                } 
-                if(a.contains("^^http://www.w3.org/2001/XMLSchema#decimal")) {
+                }
+                if (a.contains("^^http://www.w3.org/2001/XMLSchema#decimal")) {
                     a = a.replace("^^http://www.w3.org/2001/XMLSchema#decimal", "");
                 }
-                if(a.contains("@en")) {
-                    a = a.replace("@en", "");
-                }
-                ls[i]=a;
+
 			}
 			//force a String[] content and add into resultList
 			Arrays.deepToString(ls);
@@ -206,5 +204,6 @@ public class TestSPARQLController {
 		return "ctct";
 	}
 	
+
 }
 
