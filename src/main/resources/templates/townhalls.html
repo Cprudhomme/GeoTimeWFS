@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Town Halls</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script src= "https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+    <script src="hs.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto|Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/monokai.min.css">
+    <!-- <link rel="stylesheet" href="index.css"> -->
+
+     <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+  </style> 
+
+   </head>
+
+  <body>
+
+
+    <script src="http://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.21/jquery.csv.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <div id='map'> <script>
+      hljs.initHighlightingOnLoad();
+
+      $(document).ready(() => {
+        parse();
+      });
+
+      $('#run').bind('click', function () {
+        parse();
+      });
+
+    //var schools = new L.layerGroup();
+    var townhalls = new L.layerGroup();
+
+      function parse() {
+        const input = $('#input').val();
+        const data = $.csv.toArrays(input);
+        for(let i=0; i<data.length; i++){
+          L.marker([data[i][3], data[i][4]]).bindPopup(data[i][1]).addTo(townhalls);
+        }
+      }
+
+    var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+    'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+    var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr}),
+    streets  = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+
+    var map = L.map('map', {
+      center: [52, 9],
+      zoom: 6,
+      layers: [grayscale, streets]
+    });
+
+    var baseLayers = {
+      "Grayscale": grayscale,
+      "Streets": streets
+    };
+
+    var overlays = {
+      "Town halls": townhalls 
+    };
+
+    L.control.layers(baseLayers, overlays).addTo(map);
+    </script>
+</div>
+
+
+  </body>
+  <textarea id="input">http://www.wikidata.org/entity/Q105237154,Q105237154,Point(8.632442951 48.718736672),48.718736672016,8.6324429512024  
+http://www.wikidata.org/entity/Q106350078,Q106350078,Point(8.966442346 48.554263557),48.554263557389,8.9664423465729  
+http://www.wikidata.org/entity/Q68025941,Q68025941,Point(8.403472222 49.008583333),49.008583333333,8.4034722222222  
+http://www.wikidata.org/entity/Q439124,Altes Amtshaus Hemer,Point(7.76812 51.3811),51.3811,7.76812  
+http://www.wikidata.org/entity/Q439188,Altes Elberfelder Rathaus,Point(7.14667 51.2572),51.2572,7.14667 
+http://www.wikidata.org/entity/Q19964263,Altes Lindener Rathaus,Point(9.71957 52.36598),52.36598,9.71957  
+http://www.wikidata.org/entity/Q98381402,Altes Rathaus,Point(10.09241 48.83756),48.83756,10.09241 
+http://www.wikidata.org/entity/Q439505,Altes Rathaus,Point(7.184113888 51.398086111),51.398086111111,7.1841138888889  
+http://www.wikidata.org/entity/Q328778,Altes Rathaus,Point(12.9189 50.8326),50.8326,12.9189 
+http://www.wikidata.org/entity/Q439493,Altes Rathaus,Point(11.6278 52.2472),52.2472,11.6278 
+http://www.wikidata.org/entity/Q439452,Altes Rathaus,Point(11.0492 53.7816),53.7816,11.0492 
+http://www.wikidata.org/entity/Q439372,Altes Rathaus,Point(6.31618 51.0798),51.0798,6.31618 
+http://www.wikidata.org/entity/Q439420,Altes Rathaus,Point(8.91693 52.2886),52.2886,8.91693 
+http://www.wikidata.org/entity/Q439326,Altes Rathaus,Point(8.06396 51.3973),51.3973,8.06396 
+http://www.wikidata.org/entity/Q75044239,Altes Rathaus,Point(9.67725 50.5516),50.5516,9.67725 
+http://www.wikidata.org/entity/Q21037000,Altes Rathaus,Point(9.05077 54.4773),54.4773,9.05077 
+http://www.wikidata.org/entity/Q21037000,Altes Rathaus,Point(9.05088 54.47724),54.4773,9.05077  
+http://www.wikidata.org/entity/Q21037000,Altes Rathaus,Point(9.05077 54.4773),54.47724,9.05088  
+http://www.wikidata.org/entity/Q21037000,Altes Rathaus,Point(9.05088 54.47724),54.47724,9.05088 
+http://www.wikidata.org/entity/Q15782799,Altes Rathaus,Point(10.23487377 50.0446701),50.0446701,10.23487377 
+http://www.wikidata.org/entity/Q19060018,Altes Rathaus,Point(10.09978 50.18356),50.18356,10.09978 
+http://www.wikidata.org/entity/Q14545595,Altes Rathaus,Point(11.325 50.2416),50.2416,11.325 
+http://www.wikidata.org/entity/Q439408,Altes Rathaus,Point(10.3628 48.2431),48.2431,10.3628 
+http://www.wikidata.org/entity/Q19060019,Altes Rathaus,Point(10.0766 50.19981),50.19981,10.0766 
+http://www.wikidata.org/entity/Q14360371,Altes Rathaus,Point(7.170079 50.70951),50.70951,7.170079 
+http://www.wikidata.org/entity/Q439459,Altes Rathaus,Point(6.60232 51.5456),51.5456,6.60232 
+http://www.wikidata.org/entity/Q439484,Altes Rathaus,Point(10.9722 49.031),49.031,10.9722 
+http://www.wikidata.org/entity/Q439466,Altes Rathaus,Point(7.23788 52.0919),52.0919,7.23788 
+http://www.wikidata.org/entity/Q439463,Altes Rathaus,Point(8.43092 51.4918),51.4918,8.43092 
+http://www.wikidata.org/entity/Q439489,Altes Rathaus,Point(8.24111 50.0819),50.0819,8.24111 
+http://www.wikidata.org/entity/Q439391,Altes Rathaus,Point(9.73583 52.3714),52.3714,9.73583 
+http://www.wikidata.org/entity/Q439336,Altes Rathaus,Point(7.102916 50.735105),50.735105,7.102916 
+http://www.wikidata.org/entity/Q20170635,Altes Rathaus,Point(10.793828 51.501952),51.501952,10.793828 
+http://www.wikidata.org/entity/Q439353,Altes Rathaus,Point(10.0813 52.6247),52.6247,10.0813 
+http://www.wikidata.org/entity/Q439398,Altes Rathaus,Point(11.425 48.7631),48.7631,11.425 
+http://www.wikidata.org/entity/Q19834459,Altes Rathaus,Point(8.65596 49.87219),49.87219,8.65596 
+http://www.wikidata.org/entity/Q15791839,Altes Rathaus,Point(6.85508333 49.2495),49.2495,6.85508333 
+http://www.wikidata.org/entity/Q439447,Altes Rathaus,Point(12.0949 49.0203),49.0203,12.0949 
+http://www.wikidata.org/entity/Q439335,Altes Rathaus,Point(10.886897 49.89157),49.89157,10.886897 
+http://www.wikidata.org/entity/Q439362,Altes Rathaus,Point(7.46614 51.5135),51.5135,7.46614 
+http://www.wikidata.org/entity/Q439431,Altes Rathaus,Point(12.3754 51.3403),51.3403,12.3754 
+http://www.wikidata.org/entity/Q322512,Altes Rathaus,Point(13.0619 52.3958),52.3958,13.0619 
+http://www.wikidata.org/entity/Q439434,Altes Rathaus,Point(9.98822 54.0701),54.0701,9.98822 
+http://www.wikidata.org/entity/Q27907253,Altes Rathaus,Point(10.139138888 54.323138888),54.323138888889,10.139138888889 
+http://www.wikidata.org/entity/Q439458,Altes Rathaus,Point(11.5769 48.1367),48.1367,11.5769 
+http://www.wikidata.org/entity/Q439329,Altes Rathaus (Berlin),Point(13.40762997 52.51869965),52.51869965,13.40762997  
+http://www.wikidata.org/entity/Q439333,Altes Rathaus (Boppard),Point(7.59152 50.2319),50.2319,7.59152 
+http://www.wikidata.org/entity/Q439352,Altes Rathaus (BÃ¼rstadt),Point(8.45475 49.6415),49.6415,8.45475 
+http://www.wikidata.org/entity/Q21061018,Altes Rathaus (DinkelsbÃ¼hl),Point(10.32048 49.06745),49.06745,10.32048  
+http://www.wikidata.org/entity/Q439357,Altes Rathaus (Dirmstein),Point(8.2475 49.5633),49.5633,8.2475 
+http://www.wikidata.org/entity/Q15106458,Altes Rathaus (Dresden),Point(13.73791667 51.05),51.05,13.73791667 
+http://www.wikidata.org/entity/Q439363,Altes Rathaus (Dresden-LÃ¶btau),Point(13.704 51.0422),51.0422,13.704 
+http://www.wikidata.org/entity/Q439367,Altes Rathaus (DÃ¼rrenzimmern),Point(9.07876 49.0897),49.0897,9.07876  
+http://www.wikidata.org/entity/Q439369,Altes Rathaus (DÃ¼sseldorf),Point(6.77199 51.2261),51.2261,6.77199 
+http://www.wikidata.org/entity/Q99770839,Altes Rathaus (Esslingen am Neckar),Point(9.30775 48.74233),48.74233,9.30775 
+http://www.wikidata.org/entity/Q439380,Altes Rathaus (GÃ¶ttingen),Point(9.93468 51.5329),51.5329,9.93468  
+http://www.wikidata.org/entity/Q106432861,Altes Rathaus (GÃ¼glingen),Point(9.000271 49.066405),49.066405,9.000271 
+http://www.wikidata.org/entity/Q439386,Altes Rathaus (Heilbronn),Point(9.21847222 49.1425),49.1425,9.21847222 
+http://www.wikidata.org/entity/Q439388,Altes Rathaus (Heusenstamm),Point(8.80663 50.06),50.06,8.80663 
+http://www.wikidata.org/entity/Q439392,Altes Rathaus (Hoyerswerda),Point(14.2433 51.4392),51.4392,14.2433 
+http://www.wikidata.org/entity/Q439397,Altes Rathaus (Ittlingen),Point(8.93344 49.1923),49.1923,8.93344 
+http://www.wikidata.org/entity/Q439403,Altes Rathaus (Kirchheim an der WeinstraÃŸe),Point(8.1809 49.5391),49.5391,8.1809  
+http://www.wikidata.org/entity/Q439406,Altes Rathaus (KÃ¶nigsbach),Point(8.61322 48.9656),48.9656,8.61322 
+http://www.wikidata.org/entity/Q14531662,Altes Rathaus (KÃ¶nigstein im Taunus),Point(8.46328 50.1832),50.1832,8.46328 
+http://www.wikidata.org/entity/Q439410,Altes Rathaus (KÃ¼nzelsau),Point(9.68938 49.279),49.279,9.68938  
+http://www.wikidata.org/entity/Q439428,Altes Rathaus (Neubrandenburg),Point(13.2601 53.5575),53.5575,13.2601  
+http://www.wikidata.org/entity/Q439436,Altes Rathaus (Niederbrechen),Point(8.1654 50.3632),50.3632,8.1654 
+http://www.wikidata.org/entity/Q439440,Altes Rathaus (OsnabrÃ¼ck),Point(8.04142 52.2772),52.2772,8.04142  
+http://www.wikidata.org/entity/Q439460,Altes Rathaus (Rotenberg),Point(8.71555 49.2582),49.2582,8.71555 
+http://www.wikidata.org/entity/Q439467,Altes Rathaus (Stadthagen),Point(9.20556 52.3239),52.3239,9.20556  
+http://www.wikidata.org/entity/Q439472,Altes Rathaus (Stebbach),Point(8.96285 49.1465),49.1465,8.96285  
+http://www.wikidata.org/entity/Q439492,Altes Rathaus (Wohnbach),Point(8.82841 50.4292),50.4292,8.82841  
+http://www.wikidata.org/entity/Q439496,Altes Rathaus (WÃ¶ssingen),Point(8.61198 49.0101),49.0101,8.61198  
+http://www.wikidata.org/entity/Q439497,Altes Rathaus Erwitte,Point(8.34017 51.6128),51.6128,8.34017 
+http://www.wikidata.org/entity/Q16724434,Altes Rathaus Falkenstein,Point(8.478556 50.190443),50.190443,8.478556 
+http://www.wikidata.org/entity/Q439507,Altes Rathaus Kolbermoor,Point(12.0629 47.8507),47.8507,12.0629  
+http://www.wikidata.org/entity/Q439508,Altes Rathaus LÃ¼denscheid,Point(7.63289 51.216),51.216,7.63289  
+http://www.wikidata.org/entity/Q58808639,Altes Rathaus Merseburg,Point(11.999709 51.355331),51.355331,11.999709 
+http://www.wikidata.org/entity/Q105990191,Altes Rathaus Metzingen,Point(9.28339 48.53968),48.53968,9.28339  
+http://www.wikidata.org/entity/Q1957943,Altes Rathaus MÃ¶lln,Point(10.6914 53.6303),53.6303,10.6914 
+http://www.wikidata.org/entity/Q2651638,Altes Rathaus Steinfurt,Point(7.33911 52.1479),52.1479,7.33911  
+http://www.wikidata.org/entity/Q439476,Altes Rathaus Untergruppenbach,Point(9.27895 49.0886),49.0886,9.27895  
+http://www.wikidata.org/entity/Q106962844,Altes Rathaus Woldegk,Point(13.583332 53.459352),53.459352,13.583332  
+http://www.wikidata.org/entity/Q22691062,Altes Rathaus in Roth,Point(11.09078 49.24637),49.24637,11.09078 
+http://www.wikidata.org/entity/Q22691064,Altes Rathaus in Spalt,Point(10.92474 49.17566),49.17566,10.92474  
+http://www.wikidata.org/entity/Q439567,Altes Schloss (Tettnang),Point(9.586502 47.670406),47.670406,9.586502  
+http://www.wikidata.org/entity/Q95429,Altes Stadthaus,Point(7.09725 50.734409),50.734409,7.09725  
+http://www.wikidata.org/entity/Q444036,Altonaer Rathaus,Point(9.93527778 53.54694444),53.54694444,9.93527778  
+http://www.wikidata.org/entity/Q445656,Altstadtrathaus (Braunschweig),Point(10.5167 52.2631),52.2631,10.5167  
+http://www.wikidata.org/entity/Q445805,AltstÃ¤dter Rathaus,Point(9.14674 51.4856),51.4856,9.14674 
+http://www.wikidata.org/entity/Q14444258,AltstÃ¤dter Rathaus,Point(13.7367 51.0497),51.0497,13.7367 
+http://www.wikidata.org/entity/Q19594119,AltstÃ¤dtisches Rathaus (Brandenburg an der Havel),Point(12.5539 52.4141),52.4141,12.5539  
+http://www.wikidata.org/entity/Q836826,AltstÃ¤dtisches Rathaus (Schwerin),Point(11.4155 53.6289),53.6289,11.4155  
+http://www.wikidata.org/entity/Q468138,Amerikahaus Ruhr,Point(7.01083 51.4561),51.4561,7.01083  
+http://www.wikidata.org/entity/Q695117,Augsburger Rathaus,Point(10.8987 48.3687),48.3687,10.8987  
+http://www.wikidata.org/entity/Q98650224,Baudenkmal D-1-80-117-206 in Garmisch-Partenkirchen im Ortsteil Partenkirchen,Point(11.103773643 47.493825862),47.493825862983,11.103773643671 
+http://www.wikidata.org/entity/Q98647747,Baudenkmal D-1-82-120-2 in Holzkirchen (Oberbayern) im Ortsteil Holzkirchen,Point(11.701584027 47.8776186),47.877618600961,11.701584027108 
+http://www.wikidata.org/entity/Q98650694,Baudenkmal D-1-84-120-51 in GrÃ¤felfing im Ortsteil GrÃ¤felfing,Point(11.425195516 48.121044272),48.121044272102,11.425195516395 
+http://www.wikidata.org/entity/Q98644743,Baudenkmal D-1-84-123-2 in Haar (bei MÃ¼nchen) im Ortsteil Haar,Point(11.72787018 48.110254097),48.11025409726,11.72787018022  
+http://www.wikidata.org/entity/Q98644714,Baudenkmal D-1-84-135-38 in OberschleiÃŸheim im Ortsteil OberschleiÃŸheim,Point(11.557747449 48.25118487),48.251184870293,11.557747449239  
+http://www.wikidata.org/entity/Q98650498,Baudenkmal D-1-89-119-8 in GrabenstÃ¤tt im Ortsteil GrabenstÃ¤tt,Point(12.543668182 47.842902003),47.842902003272,12.543668182622  
+http://www.wikidata.org/entity/Q98645248,Baudenkmal D-1-89-155-207 in Traunstein im Ortsteil Traunstein,Point(12.6477371 47.869150335),47.86915033579,12.647737100992 
+http://www.wikidata.org/entity/Q98645312,Baudenkmal D-1-90-148-61 in Schongau im Ortsteil Schongau,Point(10.896645487 47.812402722),47.812402722213,10.896645487814 
+http://www.wikidata.org/entity/Q98696665,Baudenkmal D-2-77-138-69 in Pfarrkirchen im Ortsteil Pfarrkirchen,Point(12.937652352 48.432067045),48.432067045055,12.937652352065 
+http://www.wikidata.org/entity/Q106540540,Baudenkmal D-5-64-000-1589 in NÃ¼rnberg,Point(11.077530568 49.455247413),49.455247413206,11.077530568254  
+http://www.wikidata.org/entity/Q98608367,Baudenkmal D-5-64-000-2098 in NÃ¼rnberg im Ortsteil NÃ¼rnberg-Sebald,Point(11.075245408 49.455214945),49.455214945091,11.075245408249  
+http://www.wikidata.org/entity/Q98607578,Baudenkmal D-5-71-136-540 in DinkelsbÃ¼hl im Ortsteil DinkelsbÃ¼hl,Point(10.316532066 49.069309281),49.069309281379,10.316532066426  
+http://www.wikidata.org/entity/Q98607770,Baudenkmal D-5-71-166-21 in Herrieden im Ortsteil Herrieden,Point(10.499333108 49.232416296),49.232416296656,10.499333108333 
+http://www.wikidata.org/entity/Q98607998,Baudenkmal D-5-75-157-4 in Oberscheinfeld im Ortsteil Oberscheinfeld,Point(10.43076661 49.709271037),49.709271037175,10.430766610983 
+http://www.wikidata.org/entity/Q98717121,Baudenkmal D-7-80-139-10 in Sonthofen im Ortsteil Sonthofen,Point(10.281193933 47.512081725),47.512081725278,10.281193933194 
+http://www.wikidata.org/entity/Q105714326,Bezirksrathaus KÃ¶ln-Rodenkirchen,Point(6.996563 50.892053),50.892053,6.996563  
+http://www.wikidata.org/entity/Q884744,Blockhausturm (Burgau),Point(10.406 48.4319),48.4319,10.406  
+http://www.wikidata.org/entity/Q901951,Braunschweiger Rathaus,Point(10.5253 52.2646),52.2646,10.5253  
+http://www.wikidata.org/entity/Q19479,Bremer Rathaus,Point(8.8076 53.0759),53.0759,8.8076 
+http://www.wikidata.org/entity/Q1205666,Deutsches Goldschmiedehaus,Point(8.91778 50.1367),50.1367,8.91778 
+http://www.wikidata.org/entity/Q49336428,Ehem. Gemeindeamt und Sparkasse von Neustadt in offener Bebauung in Ecklage mit Vorgarten Zwickauer StraÃŸe 341,Point(12.85868 50.81893),50.81893,12.85868 
+http://www.wikidata.org/entity/Q41377196,Ehemalige Gemeindeverwaltung,Point(10.04304 49.5522),49.5522,10.04304  
+http://www.wikidata.org/entity/Q1299493,Ehemaliges Gemeindehaus (Petterweil),Point(8.71556 50.2442),50.2442,8.71556 
+http://www.wikidata.org/entity/Q41310461,Ehemaliges Rathaus,Point(9.68398 47.54597),47.54597,9.68398  
+http://www.wikidata.org/entity/Q1299525,Ehemaliges Rathaus Birkesdorf,Point(6.46308 50.8211),50.8211,6.46308  
+http://www.wikidata.org/entity/Q1299527,Ehemaliges Rathaus Burtscheid (Neubad),Point(6.09309 50.7635),50.7635,6.09309 
+http://www.wikidata.org/entity/Q49328344,"Ehemaliges Rathaus in Ecklage, heute Mietshaus Markersdorfer StraÃŸe 89",Point(12.896914 50.791586),50.791586,12.896914 
+http://www.wikidata.org/entity/Q49329129,Ehemaliges Rathaus mit Vorgarten (Nebenanlage) Louis-Schreiter-StraÃŸe 9,Point(12.830503 50.829544),50.829544,12.830503  
+http://www.wikidata.org/entity/Q49336477,Ehemaliges Rathaus mit Vorgarten und kleinem Vorplatz GauÃŸstraÃŸe 5,Point(12.84269 50.81762),50.81762,12.84269  
+http://www.wikidata.org/entity/Q47532540,Ehemaliges Rathaus und Pfarrhaus,Point(8.526573938 50.67474405),50.674744050893,8.5265739380478  
+http://www.wikidata.org/entity/Q41248094,Ehemals Schule,Point(9.67915 49.78124),49.78124,9.67915  
+http://www.wikidata.org/entity/Q98603552,FilmbÃ¼hne,Point(13.85578 51.47774),51.47774,13.85578  
+http://www.wikidata.org/entity/Q15810015,Forum Castrop-Rauxel,Point(7.31179 51.56499),51.56499,7.31179  
+http://www.wikidata.org/entity/Q98480095,Friedhof,Point(9.144726594 49.973394218),49.973394218624,9.1447265941086 
+http://www.wikidata.org/entity/Q1464405,Friedrichswerdersches Rathaus,Point(13.3989 52.515),52.515,13.3989  
+http://www.wikidata.org/entity/Q41291603,Gemeindekanzlei,Point(9.20701 50.07889),50.07889,9.20701 
+http://www.wikidata.org/entity/Q1541481,Grafenburg,Point(9.15661 49.0764),49.0764,9.15661 
+http://www.wikidata.org/entity/Q1541514,Grafenstock,Point(11.9082 48.3064),48.3064,11.9082  
+http://www.wikidata.org/entity/Q1265415,Hagenrathaus,Point(10.5248 52.2674),52.2674,10.5248 
+http://www.wikidata.org/entity/Q3987,Hamburger Rathaus,Point(9.99277 53.55022),53.55022,9.99277 
+http://www.wikidata.org/entity/Q95870456,Harzkornmagazin,Point(10.252944444 51.728805555),51.728805555556,10.252944444444 
+http://www.wikidata.org/entity/Q1590694,Haus WilhelmstraÃŸe 7 (Heilbronn),Point(9.21958 49.1378),49.1378,9.21958  
+http://www.wikidata.org/entity/Q106581162,Haus des Gastes,Point(10.47206 51.62965),51.62965,10.47206  
+http://www.wikidata.org/entity/Q1590977,Haus â€žZum Schwarzen Hornâ€œ,Point(6.77407 51.2294),51.2294,6.77407  
+http://www.wikidata.org/entity/Q1614093,Herrenhaus Wedderstedt,Point(11.2453 51.8411),51.8411,11.2453 
+http://www.wikidata.org/entity/Q439412,Historisches Rathaus,Point(10.8764 48.0498),48.0498,10.8764  
+http://www.wikidata.org/entity/Q1621017,Historisches Rathaus,Point(7.3161 52.52255),52.52255,7.3161 
+http://www.wikidata.org/entity/Q1621013,Historisches Rathaus (Bergheim),Point(6.64177 50.9544),50.9544,6.64177  
+http://www.wikidata.org/entity/Q1621014,Historisches Rathaus (Deidesheim),Point(8.18694 49.4078),49.4078,8.18694  
+http://www.wikidata.org/entity/Q1621015,Historisches Rathaus (GroÃŸheubach),Point(9.22212 49.7265),49.7265,9.22212  
+http://www.wikidata.org/entity/Q63534245,Historisches Rathaus (Haltern am See),Point(7.187040905 51.743178343),51.743178343525,7.1870409050955  
+http://www.wikidata.org/entity/Q1621018,Historisches Rathaus Anholt,Point(6.4276 51.8466),51.8466,6.4276  
+http://www.wikidata.org/entity/Q1621021,Historisches Rathaus Bocholt,Point(6.61454 51.8382),51.8382,6.61454 
+http://www.wikidata.org/entity/Q2718711,Historisches Rathaus Erftstadt,Point(6.765579 50.800103),50.800103,6.765579 
+http://www.wikidata.org/entity/Q538437,Historisches Rathaus MÃ¼nster,Point(7.62806 51.9617),51.9617,7.62806 
+http://www.wikidata.org/entity/Q1621022,Historisches Rathaus Wesel,Point(6.61104 51.6567),51.6567,6.61104 
+http://www.wikidata.org/entity/Q1621024,Historisches Rathaus Wolgast,Point(13.7773 54.0545),54.0545,13.7773 
+http://www.wikidata.org/entity/Q1658768,Illenau,Point(8.08476 48.625),48.625,8.08476  
+http://www.wikidata.org/entity/Q1678353,Jagdschloss Hohengehren,Point(9.42711 48.749),48.749,9.42711  
+http://www.wikidata.org/entity/Q1740971,Kieler Rathaus,Point(10.1325 54.3225),54.3225,10.1325 
+http://www.wikidata.org/entity/Q19965209,KlosterstraÃŸe 8-10,Point(6.412417 51.129683),51.129683,6.412417 
+http://www.wikidata.org/entity/Q98821882,Kulturhaus Rositz,Point(12.37925 51.01173),51.01173,12.37925 
+http://www.wikidata.org/entity/Q58400707,Kurhaus Westerland,Point(8.30641 54.90927),54.90927,8.30641  
+http://www.wikidata.org/entity/Q1879741,LÃ¶rracher Rathaus,Point(7.66453564 47.61499456),47.61499456,7.66453564 
+http://www.wikidata.org/entity/Q538453,LÃ¼becker Rathaus,Point(10.6855 53.867),53.867,10.6855 
+http://www.wikidata.org/entity/Q1885748,Mainzer Rathaus,Point(8.27722 50.0008),50.0008,8.27722  
+http://www.wikidata.org/entity/Q15119656,Markt 6 (Bad Honnef),Point(7.227135 50.645362),50.645362,7.227135  
+http://www.wikidata.org/entity/Q61709304,Neues Lindener Rathaus,Point(9.714305555 52.366805555),52.366805555556,9.7143055555556 
+http://www.wikidata.org/entity/Q18288590,Neues Rathaus,Point(10.07595 50.20095),50.20095,10.07595 
+http://www.wikidata.org/entity/Q638378,Neues Rathaus,Point(10.9718 49.0301),49.0301,10.9718 
+http://www.wikidata.org/entity/Q318744,Neues Rathaus,Point(8.24194 50.0819),50.0819,8.24194 
+http://www.wikidata.org/entity/Q573618,Neues Rathaus,Point(9.7375 52.3672),52.3672,9.7375 
+http://www.wikidata.org/entity/Q1384948,Neues Rathaus,Point(10.088 52.6197),52.6197,10.088  
+http://www.wikidata.org/entity/Q152979,Neues Rathaus,Point(11.575833333 48.137777777),48.137777777778,11.575833333333 
+http://www.wikidata.org/entity/Q106686652,Neues Rathaus,Point(6.85944 49.25137),49.25137,6.85944  
+http://www.wikidata.org/entity/Q51189033,Neues Rathaus,Point(11.0077 49.591130555),49.591130555556,11.0077  
+http://www.wikidata.org/entity/Q1515123,Neues Rathaus,Point(6.77167 51.2259),51.2259,6.77167  
+http://www.wikidata.org/entity/Q676338,Neues Rathaus,Point(12.3725 51.3358),51.3358,12.3725 
+http://www.wikidata.org/entity/Q87891075,Neues Rathaus,Point(11.077095 49.454649),49.454649,11.077095 
+http://www.wikidata.org/entity/Q1274763,Neues Rathaus,Point(14.2431 51.435),51.435,14.2431  
+http://www.wikidata.org/entity/Q98000366,Neues Rathaus,Point(14.331848 51.760813),51.760813,14.331848 
+http://www.wikidata.org/entity/Q96456573,Neues Rathaus (Bernau bei Berlin),Point(13.586602 52.679277),52.679277,13.586602 
+http://www.wikidata.org/entity/Q14538536,Neues Rathaus (Bremen),Point(8.80825 53.076),53.076,8.80825  
+http://www.wikidata.org/entity/Q1980361,Neues Rathaus (Chemnitz),Point(12.9198 50.833),50.833,12.9198 
+http://www.wikidata.org/entity/Q1980363,Neues Rathaus (Dresden),Point(13.7411 51.0481),51.0481,13.7411  
+http://www.wikidata.org/entity/Q20893945,Neues Rathaus (Einbeck),Point(9.87287045 51.82032013),51.82032013,9.87287045 
+http://www.wikidata.org/entity/Q1980368,Neues Rathaus (Esslingen),Point(9.30748 48.7429),48.7429,9.30748  
+http://www.wikidata.org/entity/Q1980370,Neues Rathaus (Ingolstadt),Point(11.4256 48.7629),48.7629,11.4256 
+http://www.wikidata.org/entity/Q105890161,Neues Rathaus (KÃ¼nzelsau),Point(9.68738889 49.27766667),49.27766667,9.68738889 
+http://www.wikidata.org/entity/Q28541619,Neues Rathaus (Pirmasens),Point(7.603529 49.202909),49.202909,7.603529 
+http://www.wikidata.org/entity/Q11793912,Neues Rathaus GÃ¶rlitz,Point(14.9908 51.1561),51.1561,14.9908  
+http://www.wikidata.org/entity/Q889032,Neues Rathaus und Kulturzentrum Bocholt,Point(6.61186 51.8369),51.8369,6.61186 
+http://www.wikidata.org/entity/Q1980385,Neues Schloss (Gaildorf),Point(9.77236 49.0033),49.0033,9.77236 
+http://www.wikidata.org/entity/Q17325450,Neues Schloss Rechberghausen,Point(9.642265 48.731882),48.731882,9.642265  
+http://www.wikidata.org/entity/Q1324650,Neues Schloss Wehr,Point(7.905036 47.626014),47.626014,7.905036 
+http://www.wikidata.org/entity/Q1981695,Neustadtrathaus (Braunschweig),Point(10.5219 52.2664),52.2664,10.5219 
+http://www.wikidata.org/entity/Q1649667,NeustÃ¤dter Rathaus,Point(8.91694 50.1333),50.1333,8.91694  
+http://www.wikidata.org/entity/Q1981807,NeustÃ¤dter Rathaus (Dresden),Point(13.7412 51.0586),51.0586,13.7412  
+http://www.wikidata.org/entity/Q1981810,NeustÃ¤dter Rathaus (Herford),Point(8.67486 52.1163),52.1163,8.67486  
+http://www.wikidata.org/entity/Q1766391,NeustÃ¤dtisches Rathaus,Point(11.4173 53.6333),53.6333,11.4173  
+http://www.wikidata.org/entity/Q1426507,NiederlÃ¶ÃŸnitzer Rathaus,Point(13.6444 51.1097),51.1097,13.6444  
+http://www.wikidata.org/entity/Q461314,NÃ¼rnberger Rathaus,Point(11.0776 49.4552),49.4552,11.0776 
+http://www.wikidata.org/entity/Q2009517,Oberes Schloss (Immendingen),Point(8.732781 47.939564),47.939564,8.732781 
+http://www.wikidata.org/entity/Q1530352,Pasinger Rathaus,Point(11.4622 48.1472),48.1472,11.4622 
+http://www.wikidata.org/entity/Q2055922,Passauer Rathaus,Point(13.4689 48.5749),48.5749,13.4689 
+http://www.wikidata.org/entity/Q41289150,Pflegerschloss (ObergÃ¼nzburg),Point(10.41952 47.84611),47.84611,10.41952  
+http://www.wikidata.org/entity/Q100151783,Quadrium,Point(9.4179 48.69028),48.69028,9.4179 
+http://www.wikidata.org/entity/Q1396503,Radebeuler Rathaus,Point(13.6769 51.1002),51.1002,13.6769 
+http://www.wikidata.org/entity/Q104352318,Rathaus,Point(11.21228 52.14752),52.14752,11.21228  
+http://www.wikidata.org/entity/Q2132396,Rathaus,Point(7.12991 50.9921),50.9921,7.12991  
+http://www.wikidata.org/entity/Q21036584,Rathaus,Point(10.236768 51.136764),51.136764,10.236768 
+http://www.wikidata.org/entity/Q1278483,Rathaus,Point(6.48256 50.8027),50.8027,6.48256  
+http://www.wikidata.org/entity/Q34368513,Rathaus,Point(9.614075 47.781621),47.781621,9.614075 
+http://www.wikidata.org/entity/Q20192158,Rathaus,Point(11.745833 50.73625),50.73625,11.745833 
+http://www.wikidata.org/entity/Q1428868,Rathaus,Point(7.95708 52.6762),52.6762,7.95708  
+http://www.wikidata.org/entity/Q104352376,Rathaus,Point(11.57689 52.04128),52.04128,11.57689  
+http://www.wikidata.org/entity/Q104352358,Rathaus,Point(10.541 52.38134),52.38134,10.541  
+http://www.wikidata.org/entity/Q18289019,Rathaus,Point(7.612186 53.646732),53.646732,7.612186 
+http://www.wikidata.org/entity/Q88962246,Rathaus,Point(12.70603 50.93324),50.93324,12.70603 
+http://www.wikidata.org/entity/Q55808171,Rathaus,Point(7.25487 49.34977),49.34977,7.25487 
+http://www.wikidata.org/entity/Q105575873,Rathaus,Point(10.447582 51.803261),51.803261,10.447582  
+http://www.wikidata.org/entity/Q19964268,Rathaus,Point(11.201195 47.677492),47.677492,11.201195 
+http://www.wikidata.org/entity/Q721510,Rathaus,Point(10.9678 49.0609),49.0609,10.9678 
+http://www.wikidata.org/entity/Q98455893,Rathaus,Point(9.148028704 49.842182266),49.842182266296,9.1480287043819  
+http://www.wikidata.org/entity/Q1258490,Rathaus,Point(9.57411 49.9948),49.9948,9.57411  
+http://www.wikidata.org/entity/Q41351957,Rathaus,Point(10.16159 49.73908),49.73908,10.16159 
+http://www.wikidata.org/entity/Q98455062,Rathaus,Point(10.110348509 49.821421186),49.821421186186,10.11034850968  
+http://www.wikidata.org/entity/Q1687158,Rathaus,Point(8.96442 48.3529),48.3529,8.96442  
+http://www.wikidata.org/entity/Q22693570,Rathaus,Point(10.22027 48.44894),48.44894,10.22027 
+http://www.wikidata.org/entity/Q98455424,Rathaus,Point(10.063299782 49.664851566),49.664851566811,10.063299782616 
+http://www.wikidata.org/entity/Q22693569,Rathaus,Point(11.846283 48.815509),48.815509,11.846283 
+http://www.wikidata.org/entity/Q22693579,Rathaus,Point(10.46981 48.28254),48.28254,10.46981 
+http://www.wikidata.org/entity/Q22693577,Rathaus,Point(10.37926 48.22392),48.22392,10.37926 
+http://www.wikidata.org/entity/Q21004320,Rathaus,Point(10.96075 49.24253),49.24253,10.96075 
+http://www.wikidata.org/entity/Q98455697,Rathaus,Point(10.242882209 49.659857471),49.659857471209,10.242882209189 
+http://www.wikidata.org/entity/Q16320693,Rathaus,Point(10.132965 49.70808),49.70808,10.132965 
+http://www.wikidata.org/entity/Q98455917,Rathaus,Point(10.065312132 49.66428131),49.664281310533,10.065312132709  
+http://www.wikidata.org/entity/Q13377585,Rathaus,Point(10.9107 48.9555),48.9555,10.9107 
+http://www.wikidata.org/entity/Q98455402,Rathaus,Point(10.167104411 49.657714191),49.657714191536,10.167104411536 
+http://www.wikidata.org/entity/Q721532,Rathaus,Point(10.9745 48.9346),48.9346,10.9745 
+http://www.wikidata.org/entity/Q98454937,Rathaus,Point(10.006104171 50.166155115),50.166155115561,10.006104171121 
+http://www.wikidata.org/entity/Q18289023,Rathaus,Point(10.11991 48.16315),48.16315,10.11991 
+http://www.wikidata.org/entity/Q1714806,Rathaus,Point(10.407 48.4318),48.4318,10.407  
+http://www.wikidata.org/entity/Q41329685,Rathaus,Point(10.488381 48.851589),48.851589,10.488381 
+http://www.wikidata.org/entity/Q41367854,Rathaus,Point(10.5982255 49.0433942),49.0433942,10.5982255 
+http://www.wikidata.org/entity/Q721384,Rathaus,Point(10.7542 49.1147),49.1147,10.7542 
+http://www.wikidata.org/entity/Q22693574,Rathaus,Point(10.30545 48.37009),48.37009,10.30545 
+http://www.wikidata.org/entity/Q20180806,Rathaus,Point(10.343605 49.794432),49.794432,10.343605 
+http://www.wikidata.org/entity/Q721548,Rathaus,Point(10.9845 49.1056),49.1056,10.9845 
+http://www.wikidata.org/entity/Q22693573,Rathaus,Point(9.393139 49.496194),49.496194,9.393139 
+http://www.wikidata.org/entity/Q1659255,Rathaus,Point(9.73686 49.1124),49.1124,9.73686  
+http://www.wikidata.org/entity/Q1555950,Rathaus,Point(9.00681 50.0681),50.0681,9.00681  
+http://www.wikidata.org/entity/Q106424176,Rathaus,Point(9.90865 49.041067),49.041067,9.90865  
+http://www.wikidata.org/entity/Q1806395,Rathaus,Point(8.96141 49.2921),49.2921,8.96141  
+http://www.wikidata.org/entity/Q1768440,Rathaus,Point(9.08138 49.2908),49.2908,9.08138  
+http://www.wikidata.org/entity/Q22693572,Rathaus,Point(11.23673 49.25151),49.25151,11.23673 
+http://www.wikidata.org/entity/Q98494332,Rathaus,Point(9.694551814 49.804765975),49.804765975546,9.6945518145544  
+http://www.wikidata.org/entity/Q98455111,Rathaus,Point(10.138185002 50.528481234),50.528481234351,10.138185002315 
+http://www.wikidata.org/entity/Q22693571,Rathaus,Point(8.77815 49.68302),49.68302,8.77815 
+http://www.wikidata.org/entity/Q98494119,Rathaus,Point(9.831973505 49.945628786),49.945628786378,9.8319735058432  
+http://www.wikidata.org/entity/Q1747553,Rathaus,Point(8.51253 49.902),49.902,8.51253  
+http://www.wikidata.org/entity/Q998924,Rathaus,Point(7.73603 48.1233),48.1233,7.73603 
+http://www.wikidata.org/entity/Q20180800,Rathaus,Point(10.1983 50.0024),50.0024,10.1983 
+http://www.wikidata.org/entity/Q1467709,Rathaus,Point(9.05828 49.1417),49.1417,9.05828  
+http://www.wikidata.org/entity/Q1707620,Rathaus,Point(8.85659 49.7455),49.7455,8.85659  
+http://www.wikidata.org/entity/Q1302615,Rathaus,Point(9.59175 49.8924),49.8924,9.59175  
+http://www.wikidata.org/entity/Q19968222,Rathaus,Point(10.28238 50.01923),50.01923,10.28238 
+http://www.wikidata.org/entity/Q98494153,Rathaus,Point(10.569844106 50.081754561),50.081754561251,10.569844106537 
+http://www.wikidata.org/entity/Q98494908,Rathaus,Point(10.277100576 50.321386727),50.321386727584,10.277100576546 
+http://www.wikidata.org/entity/Q26772515,Rathaus,Point(7.08699 51.38517),51.38517,7.08699 
+http://www.wikidata.org/entity/Q22693240,Rathaus,Point(9.135338 49.31755),49.31755,9.135338 
+http://www.wikidata.org/entity/Q16320692,Rathaus,Point(10.093119 49.670683),49.670683,10.093119 
+http://www.wikidata.org/entity/Q1229754,Rathaus,Point(10.9894 49.4772),49.4772,10.9894  
+http://www.wikidata.org/entity/Q1385273,Rathaus,Point(10.3169 47.7264),47.7264,10.3169  
+http://www.wikidata.org/entity/Q1415071,Rathaus,Point(13.5308 51.2914),51.2914,13.5308  
+http://www.wikidata.org/entity/Q98486869,Rathaus,Point(9.928108809 49.793930535),49.793930535489,9.9281088094965  
+http://www.wikidata.org/entity/Q1754524,Rathaus,Point(10.3205 50.9748),50.9748,10.3205  
+http://www.wikidata.org/entity/Q1118573,Rathaus,Point(12.6435 51.8667),51.8667,12.6435  
+http://www.wikidata.org/entity/Q660785,Rathaus,Point(8.71083 49.4122),49.4122,8.71083 
+http://www.wikidata.org/entity/Q25203380,Rathaus,Point(8.2142 53.139),53.139,8.2142 
+http://www.wikidata.org/entity/Q877595,Rathaus,Point(7.767777777 49.446666666),49.446666666667,7.7677777777778  
+http://www.wikidata.org/entity/Q1485632,Rathaus,Point(7.59806 50.3603),50.3603,7.59806  
+http://www.wikidata.org/entity/Q2132413,Rathaus,Point(7.46528 51.5113),51.5113,7.46528  
+http://www.wikidata.org/entity/Q104419389,Rathaus,Point(6.89669 49.23064),49.23064,6.89669  
+http://www.wikidata.org/entity/Q104919811,Rathaus,Point(9.367678909 49.584018885),49.584018885284,9.3676789092595 
+http://www.wikidata.org/entity/Q2132455,Rathaus,Point(9.21847 49.1425),49.1425,9.21847  
+http://www.wikidata.org/entity/Q17325823,Rathaus,Point(9.4339 54.7811),54.7811,9.4339 
+http://www.wikidata.org/entity/Q2132383,Rathaus (Adelshofen),Point(8.89022 49.1681),49.1681,8.89022 
+http://www.wikidata.org/entity/Q21029407,Rathaus (Aichach),Point(11.1311106 48.4592996),48.4592996,11.1311106 
+http://www.wikidata.org/entity/Q2132384,Rathaus (Altstadt Eisleben),Point(11.5457 51.5283),51.5283,11.5457  
+http://www.wikidata.org/entity/Q2132388,Rathaus (Amberg),Point(11.859 49.4454),49.4454,11.859 
+http://www.wikidata.org/entity/Q2132390,Rathaus (Apolda),Point(11.5134 51.0227),51.0227,11.5134 
+http://www.wikidata.org/entity/Q62063471,Rathaus (Assamstadt),Point(9.68665 49.42722),49.42722,9.68665  
+http://www.wikidata.org/entity/Q16071060,Rathaus (Aub),Point(10.065664 49.55264),49.55264,10.065664 
+http://www.wikidata.org/entity/Q15125876,Rathaus (Bad Honnef),Point(7.229524 50.644871),50.644871,7.229524  
+http://www.wikidata.org/entity/Q62063474,Rathaus (Bad Mergentheim),Point(9.77176 49.49297),49.49297,9.77176 
+http://www.wikidata.org/entity/Q26707931,Rathaus (Bad Rodach),Point(10.77888 50.34152),50.34152,10.77888  
+http://www.wikidata.org/entity/Q2132401,Rathaus (Blomberg),Point(9.09088 51.9436),51.9436,9.09088 
+http://www.wikidata.org/entity/Q2132407,Rathaus (BÃ¼dingen),Point(9.11694 50.2919),50.2919,9.11694  
+http://www.wikidata.org/entity/Q16024454,Rathaus (BÃ¼rgstadt),Point(9.266603 49.715372),49.715372,9.266603  
+http://www.wikidata.org/entity/Q1104839,Rathaus (Coburg),Point(10.9646 50.2579),50.2579,10.9646 
+http://www.wikidata.org/entity/Q95681236,Rathaus (Coesfeld),Point(7.16822 51.94554),51.94554,7.16822  
+http://www.wikidata.org/entity/Q62063479,Rathaus (Creglingen),Point(10.0302 49.46878),49.46878,10.0302  
+http://www.wikidata.org/entity/Q16270651,Rathaus (Dettelbach),Point(10.160226 49.802157),49.802157,10.160226  
+http://www.wikidata.org/entity/Q64577207,Rathaus (DieÃŸen am Ammersee),Point(11.103059 47.948043),47.948043,11.103059 
+http://www.wikidata.org/entity/Q16934613,Rathaus (Dinkelscherben),Point(10.5916553 48.3478624),48.3478624,10.5916553  
+http://www.wikidata.org/entity/Q21515825,Rathaus (DonauwÃ¶rth),Point(10.78097 48.71809),48.71809,10.78097 
+http://www.wikidata.org/entity/Q63531532,Rathaus (DÃ¼lmen),Point(7.277960632 51.829358495),51.829358495705,7.2779606321093  
+http://www.wikidata.org/entity/Q84220649,Rathaus (Ebingen),Point(9.025555555 48.212694444),48.212694444444,9.0255555555556  
+http://www.wikidata.org/entity/Q16167154,Rathaus (Eibelstadt),Point(10.000581 49.723841),49.723841,10.000581  
+http://www.wikidata.org/entity/Q2132420,Rathaus (Eppingen),Point(8.90899 49.137),49.137,8.90899 
+http://www.wikidata.org/entity/Q2132432,Rathaus (Erfurt),Point(11.0292 50.9778),50.9778,11.0292 
+http://www.wikidata.org/entity/Q2132423,Rathaus (Erpel),Point(7.237546 50.582516),50.582516,7.237546  
+http://www.wikidata.org/entity/Q2132426,Rathaus (Eschelbach),Point(8.78369 49.2503),49.2503,8.78369 
+http://www.wikidata.org/entity/Q2132429,Rathaus (Farchant),Point(11.1096 47.5299),47.5299,11.1096 
+http://www.wikidata.org/entity/Q2132435,Rathaus (Flein),Point(9.2137 49.1005),49.1005,9.2137  
+http://www.wikidata.org/entity/Q2132437,Rathaus (Frankenberg an der Eder),Point(8.80133 51.0588),51.0588,8.80133  
+http://www.wikidata.org/entity/Q2132439,Rathaus (Freiburg im Breisgau),Point(7.8493 47.996256),47.996256,7.8493 
+http://www.wikidata.org/entity/Q2132441,Rathaus (Freising),Point(11.7436 48.4006),48.4006,11.7436 
+http://www.wikidata.org/entity/Q2132444,Rathaus (Friedberg),Point(10.9784 48.3552),48.3552,10.9784  
+http://www.wikidata.org/entity/Q16232760,Rathaus (Giebelstadt),Point(9.947129 49.652432),49.652432,9.947129 
+http://www.wikidata.org/entity/Q1532816,Rathaus (GlÃ¼ckstadt),Point(9.42372 53.7885),53.7885,9.42372  
+http://www.wikidata.org/entity/Q21517087,Rathaus (Greding),Point(11.35266 49.0461),49.0461,11.35266 
+http://www.wikidata.org/entity/Q62063485,Rathaus (GroÃŸrinderfeld),Point(9.73303 49.66612),49.66612,9.73303 
+http://www.wikidata.org/entity/Q2132448,Rathaus (GrÃ¶tzingen),Point(8.49596 49.0076),49.0076,8.49596  
+http://www.wikidata.org/entity/Q2132450,Rathaus (GrÃ¼nsfeld),Point(9.74496 49.6078),49.6078,9.74496 
+http://www.wikidata.org/entity/Q2132452,Rathaus (Gundelfingen an der Donau),Point(10.3681 48.5534),48.5534,10.3681  
+http://www.wikidata.org/entity/Q21517125,Rathaus (Heideck),Point(11.1256738 49.134127),49.134127,11.1256738 
+http://www.wikidata.org/entity/Q30765448,Rathaus (Herford),Point(8.67003 52.11604),52.11604,8.67003 
+http://www.wikidata.org/entity/Q21008790,Rathaus (Hilpoltstein),Point(11.1918611 49.1892441),49.1892441,11.1918611  
+http://www.wikidata.org/entity/Q62063487,Rathaus (Igersheim),Point(9.81647 49.4936),49.4936,9.81647 
+http://www.wikidata.org/entity/Q2132456,Rathaus (Karlsruhe),Point(8.40329 49.0086),49.0086,8.40329  
+http://www.wikidata.org/entity/Q62063489,Rathaus (KÃ¶nigheim),Point(9.59507 49.61817),49.61817,9.59507  
+http://www.wikidata.org/entity/Q62063492,Rathaus (KÃ¼lsheim),Point(9.52136 49.671),49.671,9.52136 
+http://www.wikidata.org/entity/Q2132457,Rathaus (Landshut),Point(12.1507 48.535),48.535,12.1507 
+http://www.wikidata.org/entity/Q62063493,Rathaus (Lauda-KÃ¶nigshofen),Point(9.70168 49.56976),49.56976,9.70168  
+http://www.wikidata.org/entity/Q2132460,Rathaus (Lauingen),Point(10.4311 48.5708),48.5708,10.4311 
+http://www.wikidata.org/entity/Q97143067,Rathaus (Leingarten),Point(9.1242 49.14306),49.14306,9.1242  
+http://www.wikidata.org/entity/Q2132461,Rathaus (Lemgo),Point(8.90098 52.0283),52.0283,8.90098  
+http://www.wikidata.org/entity/Q16300320,Rathaus (Mainstockheim),Point(10.151986 49.7725211),49.7725211,10.151986 
+http://www.wikidata.org/entity/Q2132463,Rathaus (Memmingen),Point(10.1814 47.9867),47.9867,10.1814  
+http://www.wikidata.org/entity/Q2132465,Rathaus (Merkendorf),Point(10.7017 49.2038),49.2038,10.7017 
+http://www.wikidata.org/entity/Q20931977,Rathaus (Mindelheim),Point(10.4886837 48.04664993),48.04664993,10.4886837  
+http://www.wikidata.org/entity/Q2132467,Rathaus (Mosbach),Point(9.14581 49.352),49.352,9.14581  
+http://www.wikidata.org/entity/Q2132468,Rathaus (MÃ¶ckmÃ¼hl),Point(9.36082 49.3231),49.3231,9.36082 
+http://www.wikidata.org/entity/Q84944946,Rathaus (MÃ¼hlheim an der Donau),Point(8.889806 48.024667),48.024667,8.889806  
+http://www.wikidata.org/entity/Q58636366,Rathaus (Nackenheim),Point(8.342363 49.914995),49.914995,8.342363  
+http://www.wikidata.org/entity/Q15978346,Rathaus (Neuburg an der Donau),Point(11.17904484 48.7376148),48.7376148,11.17904484  
+http://www.wikidata.org/entity/Q62063495,Rathaus (Niederstetten),Point(9.91782 49.40137),49.40137,9.91782 
+http://www.wikidata.org/entity/Q15125881,Rathaus (Nordhorn),Point(7.067648 52.432889),52.432889,7.067648  
+http://www.wikidata.org/entity/Q2132473,Rathaus (Oettingen),Point(10.6035 48.9523),48.9523,10.6035  
+http://www.wikidata.org/entity/Q2132474,"Rathaus (Ortenberg, Hessen)",Point(9.05583 50.3581),50.3581,9.05583  
+http://www.wikidata.org/entity/Q45196194,Rathaus (Penzberg),Point(11.37714 47.75111),47.75111,11.37714  
+http://www.wikidata.org/entity/Q2132475,Rathaus (Pfaffenhausen),Point(10.4567 48.1205),48.1205,10.4567  
+http://www.wikidata.org/entity/Q26690122,Rathaus (Pfaffenhofen an der Ilm),Point(11.50884 48.52962),48.52962,11.50884 
+http://www.wikidata.org/entity/Q14544688,Rathaus (SchwÃ¤bisch GmÃ¼nd),Point(9.79838 48.7994),48.7994,9.79838  
+http://www.wikidata.org/entity/Q41353165,Rathaus (Stadelschwarzach),Point(10.33022 49.8364),49.8364,10.33022  
+http://www.wikidata.org/entity/Q46259621,Rathaus (Tauberbischofsheim),Point(9.662558 49.623184),49.623184,9.662558  
+http://www.wikidata.org/entity/Q2132489,Rathaus (Teuschnitz),Point(11.3809 50.3968),50.3968,11.3809 
+http://www.wikidata.org/entity/Q16303880,Rathaus (Tiefenstockheim),Point(10.207462 49.663399),49.663399,10.207462 
+http://www.wikidata.org/entity/Q2132486,Rathaus (Tirschenreuth),Point(12.3367 49.8785),49.8785,12.3367  
+http://www.wikidata.org/entity/Q2132491,Rathaus (Ulm),Point(9.99333 48.397),48.397,9.99333  
+http://www.wikidata.org/entity/Q14545074,Rathaus (Volkach),Point(10.2257 49.8657),49.8657,10.2257 
+http://www.wikidata.org/entity/Q62064592,Rathaus (Weikersheim),Point(9.89751 49.48043),49.48043,9.89751 
+http://www.wikidata.org/entity/Q21516657,Rathaus (Wemding),Point(10.723997 48.87481),48.87481,10.723997 
+http://www.wikidata.org/entity/Q62063500,Rathaus (Werbach),Point(9.63821 49.67085),49.67085,9.63821 
+http://www.wikidata.org/entity/Q62063503,Rathaus (Wertheim),Point(9.51772 49.7576),49.7576,9.51772  
+http://www.wikidata.org/entity/Q15661533,Rathaus (Widdern),Point(9.421063 49.318263),49.318263,9.421063 
+http://www.wikidata.org/entity/Q14912690,Rathaus (Wilsdruff),Point(13.5379 51.052),51.052,13.5379 
+http://www.wikidata.org/entity/Q62063505,Rathaus (Wittighausen),Point(9.83834 49.61252),49.61252,9.83834  
+http://www.wikidata.org/entity/Q2132498,Rathaus (Wolfach),Point(8.22278 48.2987),48.2987,8.22278  
+http://www.wikidata.org/entity/Q20064089,Rathaus (Wolfratshausen),Point(11.41837 47.91419),47.91419,11.41837  
+http://www.wikidata.org/entity/Q15125890,Rathaus (Wolfsburg),Point(10.78694444 52.42),52.42,10.78694444 
+http://www.wikidata.org/entity/Q47351233,Rathaus (Worms),Point(8.362916 49.630085),49.630085,8.362916 
+http://www.wikidata.org/entity/Q49319693,Rathaus (zwei Hausnummern) mit Remise im Hof Einsiedler HauptstraÃŸe 79a  79b,Point(12.974588 50.773318),50.773318,12.974588
+http://www.wikidata.org/entity/Q15125891,Rathaus (Ãœberlingen),Point(9.160674 47.76679),47.76679,9.160674 
+http://www.wikidata.org/entity/Q300747,Rathaus Aachen,Point(6.083783333 50.776075),50.776075,6.0837833333333  
+http://www.wikidata.org/entity/Q1309858,Rathaus Abtei,Point(6.43111 51.1928),51.1928,6.43111  
+http://www.wikidata.org/entity/Q62063461,Rathaus Ahorn (Baden),Point(9.53925 49.50056),49.50056,9.53925 
+http://www.wikidata.org/entity/Q58856362,Rathaus Aken,Point(12.043945 51.85517),51.85517,12.043945  
+http://www.wikidata.org/entity/Q58827283,Rathaus Allstedt,Point(11.385269 51.404009),51.404009,11.385269  
+http://www.wikidata.org/entity/Q104816248,Rathaus AltdÃ¶bern,Point(14.034504 51.650642),51.650642,14.034504 
+http://www.wikidata.org/entity/Q15841785,Rathaus Altentreptow,Point(13.251262 53.69248),53.69248,13.251262  
+http://www.wikidata.org/entity/Q21091928,Rathaus AngermÃ¼nde,Point(14.004242 53.018026),53.018026,14.004242 
+http://www.wikidata.org/entity/Q2132504,Rathaus Arendsee,Point(11.4857 52.8811),52.8811,11.4857 
+http://www.wikidata.org/entity/Q28152358,Rathaus Aschersleben,Point(11.456194 51.756028),51.756028,11.456194  
+http://www.wikidata.org/entity/Q105906677,Rathaus Backnang,Point(9.43041 48.94672),48.94672,9.43041 
+http://www.wikidata.org/entity/Q96196205,Rathaus Bad Cannstatt,Point(9.21418 48.80511),48.80511,9.21418 
+http://www.wikidata.org/entity/Q38931605,Rathaus Bad DÃ¼ben,Point(12.58581 51.591074),51.591074,12.58581  
+http://www.wikidata.org/entity/Q55773875,Rathaus Bad Freienwalde (Oder),Point(14.029841 52.787795),52.787795,14.029841  
+http://www.wikidata.org/entity/Q1773307,Rathaus Bad Hersfeld,Point(9.70747 50.8683),50.8683,9.70747 
+http://www.wikidata.org/entity/Q57496830,Rathaus Bad LauchstÃ¤dt,Point(11.867496 51.38747),51.38747,11.867496 
+http://www.wikidata.org/entity/Q98149829,Rathaus Bad Urach,Point(9.39913 48.49324),48.49324,9.39913 
+http://www.wikidata.org/entity/Q52707826,Rathaus Balingen,Point(8.85132 48.273),48.273,8.85132  
+http://www.wikidata.org/entity/Q107288165,Rathaus Baltmannsweiler,Point(9.44912 48.74231),48.74231,9.44912  
+http://www.wikidata.org/entity/Q1531426,Rathaus Barmen,Point(7.2 51.2719),51.2719,7.2 
+http://www.wikidata.org/entity/Q811923,Rathaus Bautzen,Point(14.4238 51.1816),51.1816,14.4238 
+http://www.wikidata.org/entity/Q106351876,Rathaus Beilstein (WÃ¼rttemberg),Point(9.31438 49.04089),49.04089,9.31438 
+http://www.wikidata.org/entity/Q61896510,Rathaus Bensberg,Point(7.163398634 50.965016202),50.965016202481,7.1633986349259 
+http://www.wikidata.org/entity/Q2132506,Rathaus Bensheim,Point(8.62018 49.6886),49.6886,8.62018 
+http://www.wikidata.org/entity/Q62475480,Rathaus Bermatingen,Point(9.349792 47.730363),47.730363,9.349792 
+http://www.wikidata.org/entity/Q1796220,Rathaus Bernburg,Point(11.7358 51.7942),51.7942,11.7358 
+http://www.wikidata.org/entity/Q1392865,Rathaus Bernburg II,Point(11.736 51.7939),51.7939,11.736  
+http://www.wikidata.org/entity/Q106373260,Rathaus Besigheim,Point(9.14133 48.99944),48.99944,9.14133  
+http://www.wikidata.org/entity/Q50378703,Rathaus Bietigheim,Point(9.1257 48.9593),48.9593,9.1257  
+http://www.wikidata.org/entity/Q47464041,Rathaus Blankenburg,Point(10.954722222 51.788333333),51.788333333333,10.954722222222 
+http://www.wikidata.org/entity/Q14548130,Rathaus Blasewitz,Point(13.8057 51.0526),51.0526,13.8057 
+http://www.wikidata.org/entity/Q2132513,Rathaus Blieskastel,Point(7.25992 49.2371),49.2371,7.25992  
+http://www.wikidata.org/entity/Q426205,Rathaus Bochum,Point(7.215239 51.482269),51.482269,7.215239  
+http://www.wikidata.org/entity/Q1655237,Rathaus Bockum-HÃ¶vel,Point(7.76139 51.6947),51.6947,7.76139  
+http://www.wikidata.org/entity/Q891127,Rathaus Boizenburg,Point(10.7233 53.3744),53.3744,10.7233  
+http://www.wikidata.org/entity/Q62063477,Rathaus Boxberg (Baden),Point(9.64092 49.48097),49.48097,9.64092 
+http://www.wikidata.org/entity/Q15362912,Rathaus Breckerfeld,Point(7.46845 51.258988888),51.258988888889,7.46845  
+http://www.wikidata.org/entity/Q105245161,Rathaus Breitenholz,Point(8.959468603 48.571268859),48.571268859448,8.9594686031342 
+http://www.wikidata.org/entity/Q2132515,Rathaus Brilon,Point(8.56772 51.3952),51.3952,8.56772 
+http://www.wikidata.org/entity/Q38086887,Rathaus Bromskirchen,Point(8.62433 51.09508),51.09508,8.62433  
+http://www.wikidata.org/entity/Q4390829,Rathaus Buer,Point(7.0580722 51.5771111),51.5771111,7.0580722 
+http://www.wikidata.org/entity/Q23786131,Rathaus Burg an der Wupper,Point(7.14781 51.13639),51.13639,7.14781  
+http://www.wikidata.org/entity/Q2132517,Rathaus Burg auf Fehmarn,Point(11.1972 54.4389),54.4389,11.1972 
+http://www.wikidata.org/entity/Q88846219,Rathaus Burgthann,Point(11.31505 49.35115),49.35115,11.31505 
+http://www.wikidata.org/entity/Q35813346,Rathaus Buxtehude,Point(9.7003 53.4765632),53.4765632,9.7003 
+http://www.wikidata.org/entity/Q46110502,Rathaus BÃ¼ckeburg,Point(9.04542 52.26106),52.26106,9.04542  
+http://www.wikidata.org/entity/Q18397187,Rathaus BÃ¼sum,Point(8.860602 54.129749),54.129749,8.860602  
+http://www.wikidata.org/entity/Q1021865,Rathaus BÃ¼tzow,Point(11.9828 53.8487),53.8487,11.9828  
+http://www.wikidata.org/entity/Q17353970,Rathaus Calau,Point(13.949354 51.746368),51.746368,13.949354 
+http://www.wikidata.org/entity/Q289771,Rathaus Charlottenburg,Point(13.308611 52.517778),52.517778,13.308611  
+http://www.wikidata.org/entity/Q56809054,Rathaus Clausthal-Zellerfeld,Point(10.3333 51.80362),51.80362,10.3333  
+http://www.wikidata.org/entity/Q1799819,Rathaus Cotta,Point(13.6879 51.0563),51.0563,13.6879  
+http://www.wikidata.org/entity/Q106027873,Rathaus Crailsheim,Point(10.07168 49.13696),49.13696,10.07168 
+http://www.wikidata.org/entity/Q2132519,Rathaus Cronenberg,Point(7.12956 51.2048),51.2048,7.12956 
+http://www.wikidata.org/entity/Q83874281,Rathaus Cuxhaven,Point(8.698796 53.868601),53.868601,8.698796  
+http://www.wikidata.org/entity/Q107265360,Rathaus Dargun,Point(12.849944 53.900886),53.900886,12.849944 
+http://www.wikidata.org/entity/Q1498632,Rathaus Delmenhorst,Point(8.62818 53.0478),53.0478,8.62818  
+http://www.wikidata.org/entity/Q1185784,Rathaus Demmin,Point(13.0333 53.9073),53.9073,13.0333 
+http://www.wikidata.org/entity/Q2132522,Rathaus Detmold,Point(8.87938 51.9354),51.9354,8.87938  
+http://www.wikidata.org/entity/Q105318979,Rathaus Deuben,Point(13.646507 50.996257),50.996257,13.646507 
+http://www.wikidata.org/entity/Q2132525,Rathaus Dinklage,Point(8.12368 52.6623),52.6623,8.12368 
+http://www.wikidata.org/entity/Q59180585,Rathaus Doberlug-Kirchhain,Point(13.562841 51.637477),51.637477,13.562841  
+http://www.wikidata.org/entity/Q2132417,Rathaus Duderstadt,Point(10.2613 51.5121),51.5121,10.2613 
+http://www.wikidata.org/entity/Q1776133,Rathaus DÃ¶hlen,Point(13.6501 51.007),51.007,13.6501  
+http://www.wikidata.org/entity/Q41394078,Rathaus Eckersdorf,Point(11.50168 49.93293),49.93293,11.50168  
+http://www.wikidata.org/entity/Q2132527,Rathaus Eibenstock,Point(12.5956 50.495),50.495,12.5956 
+http://www.wikidata.org/entity/Q2132529,Rathaus Eilenburg,Point(12.6336 51.4597),51.4597,12.6336  
+http://www.wikidata.org/entity/Q1316105,Rathaus Elberfeld,Point(7.14639 51.2589),51.2589,7.14639  
+http://www.wikidata.org/entity/Q1752595,Rathaus Elsterwerda,Point(13.523 51.4567),51.4567,13.523  
+http://www.wikidata.org/entity/Q1335258,Rathaus Emden,Point(7.20666 53.3668),53.3668,7.20666  
+http://www.wikidata.org/entity/Q1312588,Rathaus Ennepetal,Point(7.36981 51.2965),51.2965,7.36981  
+http://www.wikidata.org/entity/Q135672,Rathaus Essen,Point(7.016111111 51.458055555),51.458055555556,7.0161111111111  
+http://www.wikidata.org/entity/Q60949655,Rathaus Falkensee,Point(13.101202 52.567497),52.567497,13.101202 
+http://www.wikidata.org/entity/Q83467407,Rathaus Fellbach,Point(9.27607 48.80834),48.80834,9.27607  
+http://www.wikidata.org/entity/Q100980018,Rathaus Finsterwalde,Point(13.70861 51.62977),51.62977,13.70861 
+http://www.wikidata.org/entity/Q2132533,Rathaus Forchheim,Point(11.0581 49.7198),49.7198,11.0581  
+http://www.wikidata.org/entity/Q43812918,Rathaus Frankfurt (Oder),Point(14.554083 52.344139),52.344139,14.554083  
+http://www.wikidata.org/entity/Q62063483,Rathaus Freudenberg (Baden),Point(9.32284 49.74143),49.74143,9.32284 
+http://www.wikidata.org/entity/Q58809378,Rathaus Freyburg,Point(11.770176 51.212459),51.212459,11.770176  
+http://www.wikidata.org/entity/Q2132539,Rathaus Friedrichshagen,Point(13.6248 52.4544),52.4544,13.6248  
+http://www.wikidata.org/entity/Q49574413,Rathaus Frohburg,Point(12.560128018 51.05650785),51.056507850979,12.560128018577 
+http://www.wikidata.org/entity/Q19298958,Rathaus FÃ¼rstenwalde,Point(14.063436 52.358527),52.358527,14.063436 
+http://www.wikidata.org/entity/Q33747451,Rathaus Gardelegen,Point(11.3925 52.526389),52.526389,11.3925  
+http://www.wikidata.org/entity/Q1509771,Rathaus Gera,Point(12.0839 50.8762),50.8762,12.0839 
+http://www.wikidata.org/entity/Q15363042,Rathaus Gevelsberg,Point(7.340333333 51.320638888),51.320638888889,7.3403333333333 
+http://www.wikidata.org/entity/Q1540944,Rathaus Grabow,Point(11.5632 53.2791),53.2791,11.5632 
+http://www.wikidata.org/entity/Q107224726,Rathaus Grebenstein,Point(9.41404 51.44746),51.44746,9.41404  
+http://www.wikidata.org/entity/Q1545500,Rathaus Greifswald,Point(13.3805 54.0958),54.0958,13.3805 
+http://www.wikidata.org/entity/Q1546878,Rathaus Grimmen,Point(13.0433 54.1128),54.1128,13.0433  
+http://www.wikidata.org/entity/Q97598295,Rathaus GroÃŸbottwar,Point(9.29295 49.00146),49.00146,9.29295  
+http://www.wikidata.org/entity/Q14912689,Rathaus GroÃŸhadern,Point(11.4788 48.1157),48.1157,11.4788 
+http://www.wikidata.org/entity/Q104816260,Rathaus GroÃŸrÃ¤schen,Point(14.01042 51.58578),51.58578,14.01042  
+http://www.wikidata.org/entity/Q18412435,Rathaus GrÃ¤frath,Point(7.073733 51.203508),51.203508,7.073733 
+http://www.wikidata.org/entity/Q1795557,Rathaus GrÃ¼nberg,Point(8.96012 50.5911),50.5911,8.96012  
+http://www.wikidata.org/entity/Q1421894,Rathaus GÃ¶rlitz,Point(14.990611111 51.156277777),51.156277777778,14.990611111111 
+http://www.wikidata.org/entity/Q1324263,Rathaus GÃ¼strow,Point(12.1763 53.7933),53.7933,12.1763 
+http://www.wikidata.org/entity/Q15140938,Rathaus Hagen,Point(7.47427 51.35804),51.35804,7.47427 
+http://www.wikidata.org/entity/Q87891307,Rathaus Hahnenklee,Point(10.34128 51.8607),51.8607,10.34128  
+http://www.wikidata.org/entity/Q2132540,Rathaus Haldensleben,Point(11.4125 52.2909),52.2909,11.4125 
+http://www.wikidata.org/entity/Q1760787,Rathaus Hamm,Point(7.82167 51.6769),51.6769,7.82167 
+http://www.wikidata.org/entity/Q2132543,Rathaus Harburg,Point(9.97972222 53.45944444),53.45944444,9.97972222  
+http://www.wikidata.org/entity/Q21516008,Rathaus Harburg (Schwaben),Point(10.688436 48.787163),48.787163,10.688436  
+http://www.wikidata.org/entity/Q53001944,Rathaus Hardtberg,Point(7.051561 50.716358),50.716358,7.051561 
+http://www.wikidata.org/entity/Q15363172,Rathaus Hattingen,Point(7.1845 51.400905555),51.400905555556,7.1845  
+http://www.wikidata.org/entity/Q58397185,Rathaus Heiligenhafen,Point(10.97737 54.37257),54.37257,10.97737 
+http://www.wikidata.org/entity/Q2132545,Rathaus Hemelingen,Point(8.88374 53.0556),53.0556,8.88374 
+http://www.wikidata.org/entity/Q998725,Rathaus Hemer,Point(7.76683 51.3852),51.3852,7.76683 
+http://www.wikidata.org/entity/Q15362942,Rathaus Herdecke,Point(7.432388888 51.400152777),51.400152777778,7.4323888888889 
+http://www.wikidata.org/entity/Q2132547,Rathaus Herne,Point(7.21953 51.537982),51.537982,7.21953  
+http://www.wikidata.org/entity/Q58827305,Rathaus Hettstedt,Point(11.511935 51.645729),51.645729,11.511935 
+http://www.wikidata.org/entity/Q106883374,Rathaus Hildesheim,Point(9.95225 52.15274),52.15274,9.95225 
+http://www.wikidata.org/entity/Q1802344,Rathaus Hirschau,Point(11.9459 49.5446),49.5446,11.9459 
+http://www.wikidata.org/entity/Q96071268,Rathaus Hohenbrunn,Point(11.701769444 48.047919444),48.047919444444,11.701769444444  
+http://www.wikidata.org/entity/Q24325832,Rathaus HohenmÃ¶lsen,Point(12.098129 51.156683),51.156683,12.098129  
+http://www.wikidata.org/entity/Q2132550,Rathaus Homberg (Ohm),Point(8.99773 50.728),50.728,8.99773  
+http://www.wikidata.org/entity/Q1465779,Rathaus HÃ¶xter,Point(9.3823 51.7738),51.7738,9.3823  
+http://www.wikidata.org/entity/Q106855038,Rathaus Immenhausen,Point(9.480052 51.427131),51.427131,9.480052  
+http://www.wikidata.org/entity/Q2132552,Rathaus JÃ¼terbog,Point(13.080324 51.990952),51.990952,13.080324  
+http://www.wikidata.org/entity/Q1395384,Rathaus Kamenz,Point(14.095 51.2697),51.2697,14.095 
+http://www.wikidata.org/entity/Q1703821,Rathaus Kassel,Point(9.49278 51.3119),51.3119,9.49278 
+http://www.wikidata.org/entity/Q61953980,Rathaus Kernen im Remstal,Point(9.320866 48.807408),48.807408,9.320866 
+http://www.wikidata.org/entity/Q2132554,Rathaus Kettwig,Point(6.9396 51.3633),51.3633,6.9396  
+http://www.wikidata.org/entity/Q104117092,Rathaus Kirchheim unter Teck,Point(9.45132 48.64868),48.64868,9.45132 
+http://www.wikidata.org/entity/Q2132555,Rathaus Kirtorf,Point(9.10657 50.7691),50.7691,9.10657  
+http://www.wikidata.org/entity/Q99862556,Rathaus Konstanz,Point(9.17357 47.66032),47.66032,9.17357  
+http://www.wikidata.org/entity/Q2132557,Rathaus Krempe,Point(9.48983 53.8363),53.8363,9.48983 
+http://www.wikidata.org/entity/Q1790037,Rathaus Kroppenstedt,Point(11.3084 51.9413),51.9413,11.3084 
+http://www.wikidata.org/entity/Q323556,Rathaus KÃ¶ln,Point(6.9593 50.938),50.938,6.9593 
+http://www.wikidata.org/entity/Q59187775,Rathaus KÃ¶nnern,Point(11.770904 51.669952),51.669952,11.770904  
+http://www.wikidata.org/entity/Q1273780,Rathaus KÃ¶penick,Point(13.5747 52.4457),52.4457,13.5747  
+http://www.wikidata.org/entity/Q59168723,Rathaus KÃ¶then,Point(11.974473 51.751705),51.751705,11.974473 
+http://www.wikidata.org/entity/Q106700812,Rathaus Laage,Point(12.34639 53.928606),53.928606,12.34639  
+http://www.wikidata.org/entity/Q2132559,Rathaus Lage,Point(8.79265 51.9904),51.9904,8.79265 
+http://www.wikidata.org/entity/Q57496854,Rathaus Landsberg,Point(12.15901 51.524609),51.524609,12.15901 
+http://www.wikidata.org/entity/Q59198594,Rathaus Laucha,Point(11.679688 51.22317),51.22317,11.679688  
+http://www.wikidata.org/entity/Q104680561,Rathaus Leer,Point(7.45065 53.22661),53.22661,7.45065 
+http://www.wikidata.org/entity/Q1498110,Rathaus Lehe,Point(8.58598 53.5664),53.5664,8.58598 
+http://www.wikidata.org/entity/Q2132561,Rathaus Leuben,Point(13.8253 51.0103),51.0103,13.8253 
+http://www.wikidata.org/entity/Q323656,Rathaus Lichtenberg,Point(13.4797 52.5158),52.5158,13.4797 
+http://www.wikidata.org/entity/Q72273306,Rathaus Loitz,Point(13.12847 53.96911),53.96911,13.12847 
+http://www.wikidata.org/entity/Q28041666,Rathaus LÃ¶bau,Point(14.66612 51.09565),51.09565,14.66612  
+http://www.wikidata.org/entity/Q58794682,Rathaus LÃ¶bejÃ¼n,Point(11.902753 51.6347),51.6347,11.902753 
+http://www.wikidata.org/entity/Q2132563,Rathaus LÃ¼denscheid,Point(7.62944 51.2169),51.2169,7.62944 
+http://www.wikidata.org/entity/Q14913914,Rathaus LÃ¼neburg,Point(10.4069 53.2504),53.2504,10.4069 
+http://www.wikidata.org/entity/Q2132565,Rathaus Magdeburg,Point(11.6398 52.1314),52.1314,11.6398  
+http://www.wikidata.org/entity/Q1746698,Rathaus Malchin,Point(12.7628 53.7393),53.7393,12.7628  
+http://www.wikidata.org/entity/Q106450534,Rathaus Malchow,Point(12.430758 53.476014),53.476014,12.430758  
+http://www.wikidata.org/entity/Q105967334,Rathaus Marbach am Neckar,Point(9.2568 48.94035),48.94035,9.2568  
+http://www.wikidata.org/entity/Q16732499,Rathaus MarkgrÃ¶ningen,Point(9.080238888 48.905088888),48.905088888889,9.0802388888889 
+http://www.wikidata.org/entity/Q57899658,Rathaus Markkleeberg,Point(12.377502 51.2805),51.2805,12.377502  
+http://www.wikidata.org/entity/Q49535720,Rathaus Markt 1,Point(13.123076648 50.972315616),50.972315616602,13.123076648053 
+http://www.wikidata.org/entity/Q1649257,Rathaus Marl,Point(7.09576 51.6564),51.6564,7.09576 
+http://www.wikidata.org/entity/Q1902155,Rathaus Marlow,Point(12.5726 54.1544),54.1544,12.5726 
+http://www.wikidata.org/entity/Q60773554,Rathaus MeiÃŸen,Point(13.47048 51.163506),51.163506,13.47048 
+http://www.wikidata.org/entity/Q15841787,Rathaus Melsungen,Point(9.54393 51.13137),51.13137,9.54393 
+http://www.wikidata.org/entity/Q87200123,Rathaus Merzig,Point(6.6372335 49.4428672),49.4428672,6.6372335  
+http://www.wikidata.org/entity/Q21037050,Rathaus Mitte,Point(13.42333317 52.52111053),52.52111053,13.42333317 
+http://www.wikidata.org/entity/Q101209771,Rathaus Moers,Point(6.625641 51.453229),51.453229,6.625641  
+http://www.wikidata.org/entity/Q6899833,Rathaus Monheim (Schwaben),Point(10.8566 48.8428),48.8428,10.8566 
+http://www.wikidata.org/entity/Q57624562,Rathaus MÃ¼cheln,Point(11.803927 51.301938),51.301938,11.803927  
+http://www.wikidata.org/entity/Q22693576,Rathaus MÃ¼nden,Point(9.651204 51.417291),51.417291,9.651204 
+http://www.wikidata.org/entity/Q19799383,Rathaus Naumburg (Saale),Point(11.809357 51.152696),51.152696,11.809357  
+http://www.wikidata.org/entity/Q26690191,Rathaus Neu Wulmstorf,Point(9.791206 53.468353),53.468353,9.791206 
+http://www.wikidata.org/entity/Q61731660,Rathaus Neuenhagen,Point(13.688471 52.526548),52.526548,13.688471  
+http://www.wikidata.org/entity/Q105989735,Rathaus Neuffen,Point(9.37581 48.55478),48.55478,9.37581  
+http://www.wikidata.org/entity/Q608280,Rathaus NeukÃ¶lln,Point(13.435 52.48138889),52.48138889,13.435 
+http://www.wikidata.org/entity/Q104813317,Rathaus Neupetershain,Point(14.16602 51.60885),51.60885,14.16602  
+http://www.wikidata.org/entity/Q41173541,Rathaus Neuried,Point(11.46519 48.09354),48.09354,11.46519 
+http://www.wikidata.org/entity/Q2132574,Rathaus Neustadt-Glewe,Point(11.5856 53.3835),53.3835,11.5856 
+http://www.wikidata.org/entity/Q1342758,Rathaus Neustrelitz,Point(13.0631 53.3628),53.3628,13.0631  
+http://www.wikidata.org/entity/Q19965699,Rathaus Neuwerk,Point(6.46871614 51.22449875),51.22449875,6.46871614 
+http://www.wikidata.org/entity/Q2132577,Rathaus Niedersedlitz,Point(13.8235 50.9997),50.9997,13.8235  
+http://www.wikidata.org/entity/Q2132580,Rathaus Nieheim,Point(9.11046 51.8043),51.8043,9.11046  
+http://www.wikidata.org/entity/Q55774148,Rathaus Niemegk,Point(12.688898 52.074732),52.074732,12.688898 
+http://www.wikidata.org/entity/Q106571523,Rathaus Nienburg/Weser,Point(9.205715 52.638249),52.638249,9.205715 
+http://www.wikidata.org/entity/Q41337079,Rathaus NÃ¼dlingen,Point(10.1239 50.22115),50.22115,10.1239  
+http://www.wikidata.org/entity/Q105988751,Rathaus NÃ¼rtingen,Point(9.33699 48.62589),48.62589,9.33699 
+http://www.wikidata.org/entity/Q2132591,Rathaus Oberhausen,Point(6.86044 51.474),51.474,6.86044 
+http://www.wikidata.org/entity/Q18289027,Rathaus Oelsnitz,Point(12.172589 50.41519),50.41519,12.172589  
+http://www.wikidata.org/entity/Q2132587,Rathaus Ortrand,Point(13.7575 51.3763),51.3763,13.7575  
+http://www.wikidata.org/entity/Q2132589,Rathaus Oschersleben,Point(11.2269 52.0269),52.0269,11.2269 
+http://www.wikidata.org/entity/Q2132598,Rathaus OsnabrÃ¼ck,Point(8.04118 52.2774),52.2774,8.04118 
+http://www.wikidata.org/entity/Q106460734,Rathaus Ottmarsheim (Besigheim),Point(9.202283 49.016878),49.016878,9.202283  
+http://www.wikidata.org/entity/Q2132594,Rathaus Paderborn,Point(8.75404 51.7173),51.7173,8.75404  
+http://www.wikidata.org/entity/Q2132595,Rathaus Pankow,Point(13.4023 52.5691),52.5691,13.4023 
+http://www.wikidata.org/entity/Q1552609,Rathaus Parchim,Point(11.848 53.4272),53.4272,11.848  
+http://www.wikidata.org/entity/Q66364580,Rathaus Pegau,Point(12.255313 51.16676),51.16676,12.255313 
+http://www.wikidata.org/entity/Q1581348,Rathaus Pieschen,Point(13.7215 51.0773),51.0773,13.7215 
+http://www.wikidata.org/entity/Q62081468,Rathaus Pirna,Point(13.94198 50.96249),50.96249,13.94198 
+http://www.wikidata.org/entity/Q2132600,Rathaus Plauen (Dresden),Point(13.70731 51.02904),51.02904,13.70731 
+http://www.wikidata.org/entity/Q96679465,Rathaus PlÃ¼derhausen,Point(9.60263 48.79347),48.79347,9.60263 
+http://www.wikidata.org/entity/Q49344550,Rathaus Potschappel (ehem.)   heute Rathaus Freital Dresdner StraÃŸe 56,Point(13.66299 51.01327),51.01327,13.66299
+http://www.wikidata.org/entity/Q105223702,Rathaus Pritzwalk,Point(12.1768 53.14972),53.14972,12.1768  
+http://www.wikidata.org/entity/Q1295851,Rathaus Quedlinburg,Point(11.142 51.7896),51.7896,11.142  
+http://www.wikidata.org/entity/Q58791956,Rathaus Querfurt,Point(11.597455 51.378703),51.378703,11.597455  
+http://www.wikidata.org/entity/Q21516065,Rathaus Rain (Lech),Point(10.9147777 48.6899664),48.6899664,10.9147777 
+http://www.wikidata.org/entity/Q87066060,Rathaus Recklinghausen,Point(7.20034 51.61163),51.61163,7.20034  
+http://www.wikidata.org/entity/Q98273337,Rathaus Reinhardshagen,Point(9.60107 51.49476),51.49476,9.60107  
+http://www.wikidata.org/entity/Q78069986,Rathaus Reinickendorf,Point(13.324027777 52.589055555),52.589055555556,13.324027777778 
+http://www.wikidata.org/entity/Q67515623,Rathaus Remshalden,Point(9.43721 48.8113),48.8113,9.43721  
+http://www.wikidata.org/entity/Q19965700,Rathaus Rheydt,Point(6.445852 51.167226),51.167226,6.445852  
+http://www.wikidata.org/entity/Q1604773,Rathaus Ribnitz,Point(12.4318 54.2433),54.2433,12.4318  
+http://www.wikidata.org/entity/Q106684377,Rathaus Richtenberg,Point(12.88797 54.20069),54.20069,12.88797  
+http://www.wikidata.org/entity/Q875084,Rathaus Rostock,Point(12.1411 54.0886),54.0886,12.1411 
+http://www.wikidata.org/entity/Q21517552,Rathaus Roth,Point(11.09129 49.24593),49.24593,11.09129  
+http://www.wikidata.org/entity/Q85602205,Rathaus Rudersberg,Point(9.52749 48.88613),48.88613,9.52749  
+http://www.wikidata.org/entity/Q2132606,Rathaus RÃ¶bel,Point(12.606 53.3771),53.3771,12.606 
+http://www.wikidata.org/entity/Q63406581,Rathaus Saalfeld,Point(11.361386 50.647781),50.647781,11.361386  
+http://www.wikidata.org/entity/Q22693578,Rathaus Saarlouis,Point(6.750255 49.316259),49.316259,6.750255 
+http://www.wikidata.org/entity/Q106640377,Rathaus Sachsenhagen,Point(9.264915 52.396132),52.396132,9.264915 
+http://www.wikidata.org/entity/Q58827256,Rathaus Sandersleben,Point(11.566774 51.67696),51.67696,11.566774  
+http://www.wikidata.org/entity/Q58841431,Rathaus Sangerhausen,Point(11.298952 51.473255),51.473255,11.298952  
+http://www.wikidata.org/entity/Q61466263,Rathaus Schechen,Point(12.12365 47.92959),47.92959,12.12365  
+http://www.wikidata.org/entity/Q27478707,Rathaus Schierke,Point(10.661394 51.764676),51.764676,10.661394  
+http://www.wikidata.org/entity/Q1269224,Rathaus Schmargendorf,Point(13.2879 52.4777),52.4777,13.2879  
+http://www.wikidata.org/entity/Q1602423,Rathaus Schneeberg,Point(12.641 50.5954),50.5954,12.641 
+http://www.wikidata.org/entity/Q58808643,Rathaus Schraplau,Point(11.667069 51.43848),51.43848,11.667069 
+http://www.wikidata.org/entity/Q2132608,Rathaus Schwalenberg,Point(9.19778 51.8779),51.8779,9.19778 
+http://www.wikidata.org/entity/Q88846729,Rathaus Schwarzenbruck,Point(11.25591 49.35806),49.35806,11.25591  
+http://www.wikidata.org/entity/Q15362885,Rathaus Schwelm,Point(7.288644444 51.282488888),51.282488888889,7.2886444444444  
+http://www.wikidata.org/entity/Q2132609,Rathaus SchÃ¶nebeck,Point(11.7383 52.0203),52.0203,11.7383  
+http://www.wikidata.org/entity/Q695194,Rathaus SchÃ¶neberg,Point(13.343055555 52.485555555),52.485555555556,13.343055555556 
+http://www.wikidata.org/entity/Q49346929,Rathaus Seifhennersdorf,Point(14.609258 50.934781),50.934781,14.609258 
+http://www.wikidata.org/entity/Q104816255,Rathaus Senftenberg,Point(14.00451 51.51885),51.51885,14.00451  
+http://www.wikidata.org/entity/Q61776481,Rathaus Siegen,Point(8.02582 50.87448),50.87448,8.02582  
+http://www.wikidata.org/entity/Q1481847,Rathaus Soest,Point(8.10772 51.572),51.572,8.10772  
+http://www.wikidata.org/entity/Q21517801,Rathaus Spalt,Point(10.92642 49.17567),49.17567,10.92642 
+http://www.wikidata.org/entity/Q7152946,Rathaus Spandau,Point(13.200833 52.535),52.535,13.200833  
+http://www.wikidata.org/entity/Q320374,Rathaus Steglitz,Point(13.320555555 52.457222222),52.457222222222,13.320555555556  
+http://www.wikidata.org/entity/Q93623550,Rathaus Steinheim an der Murr,Point(9.27913 48.96515),48.96515,9.27913 
+http://www.wikidata.org/entity/Q1474954,Rathaus Sternberg,Point(11.8289 53.712),53.712,11.8289  
+http://www.wikidata.org/entity/Q58870107,Rathaus Stolberg (Harz),Point(10.954602 51.573442),51.573442,10.954602 
+http://www.wikidata.org/entity/Q2132618,Rathaus Straubing,Point(12.5663 48.8816),48.8816,12.5663  
+http://www.wikidata.org/entity/Q1360830,Rathaus Stuttgart,Point(9.17806 48.775),48.775,9.17806  
+http://www.wikidata.org/entity/Q2132619,Rathaus TangermÃ¼nde,Point(11.9707 52.5408),52.5408,11.9707 
+http://www.wikidata.org/entity/Q2406625,Rathaus Teterow,Point(12.5752 53.7734),53.7734,12.5752  
+http://www.wikidata.org/entity/Q15841783,Rathaus Thedinghausen,Point(9.026663 52.962315),52.962315,9.026663 
+http://www.wikidata.org/entity/Q2132624,Rathaus Torgau,Point(13.003716 51.558441),51.558441,13.003716 
+http://www.wikidata.org/entity/Q28656477,Rathaus Trebbin,Point(13.21246 52.214201),52.214201,13.21246 
+http://www.wikidata.org/entity/Q106915645,Rathaus Tribsees,Point(12.757102 54.094479),54.094479,12.757102 
+http://www.wikidata.org/entity/Q1524886,Rathaus Untergruppenbach,Point(9.27475 49.0891),49.0891,9.27475 
+http://www.wikidata.org/entity/Q96657836,Rathaus Urbach (Baden-WÃ¼rttemberg),Point(9.57813 48.80883),48.80883,9.57813 
+http://www.wikidata.org/entity/Q2132628,Rathaus Usingen,Point(8.53662 50.3339),50.3339,8.53662  
+http://www.wikidata.org/entity/Q1640887,Rathaus Velten,Point(13.1764 52.6898),52.6898,13.1764 
+http://www.wikidata.org/entity/Q1112882,Rathaus Vohwinkel,Point(7.06793 51.2295),51.2295,7.06793  
+http://www.wikidata.org/entity/Q21680857,Rathaus Wald,Point(7.046724 51.18483),51.18483,7.046724  
+http://www.wikidata.org/entity/Q97667219,Rathaus Waltershausen,Point(10.55649 50.897835),50.897835,10.55649 
+http://www.wikidata.org/entity/Q2132630,Rathaus Wanfried,Point(10.1701 51.1823),51.1823,10.1701 
+http://www.wikidata.org/entity/Q15125898,Rathaus Wanne-Eickel,Point(7.161583 51.532611),51.532611,7.161583  
+http://www.wikidata.org/entity/Q2549149,Rathaus Waren,Point(12.6894 53.514),53.514,12.6894  
+http://www.wikidata.org/entity/Q18455024,Rathaus Wedding,Point(13.356388888 52.5475),52.5475,13.356388888889  
+http://www.wikidata.org/entity/Q1674066,Rathaus Weimar,Point(11.3292 50.9793),50.9793,11.3292 
+http://www.wikidata.org/entity/Q1395613,Rathaus Weingarten,Point(8.28749 49.259),49.259,8.28749 
+http://www.wikidata.org/entity/Q49405456,Rathaus WeiÃŸenberg,Point(14.658538 51.196982),51.196982,14.658538 
+http://www.wikidata.org/entity/Q41792228,Rathaus WeiÃŸenfels,Point(11.972091 51.200555),51.200555,11.972091 
+http://www.wikidata.org/entity/Q1314166,Rathaus Werne,Point(7.63531 51.6629),51.6629,7.63531  
+http://www.wikidata.org/entity/Q25388869,Rathaus Wernigerode,Point(10.784333333 51.833186111),51.833186111111,10.784333333333 
+http://www.wikidata.org/entity/Q2132632,Rathaus West (Karlsruhe),Point(8.38546 49.0108),49.0108,8.38546 
+http://www.wikidata.org/entity/Q2132640,Rathaus Wetter (Ruhr),Point(7.398888888 51.386944444),51.386944444444,7.3988888888889 
+http://www.wikidata.org/entity/Q57449839,Rathaus Wettin,Point(11.80661 51.584968),51.584968,11.80661  
+http://www.wikidata.org/entity/Q21037076,Rathaus Wilhelmshaven,Point(8.10975 53.52675),53.52675,8.10975 
+http://www.wikidata.org/entity/Q18706493,Rathaus Wilmersdorf,Point(13.31347222 52.48969444),52.48969444,13.31347222 
+http://www.wikidata.org/entity/Q61413214,Rathaus Winkelhaid,Point(11.302805555 49.387916666),49.387916666667,11.302805555556  
+http://www.wikidata.org/entity/Q2132634,Rathaus Wismar,Point(11.466 53.8919),53.8919,11.466 
+http://www.wikidata.org/entity/Q2132635,Rathaus Witten,Point(7.33544 51.44021),51.44021,7.33544 
+http://www.wikidata.org/entity/Q2132637,Rathaus Wittenberge,Point(11.7503 52.9978),52.9978,11.7503  
+http://www.wikidata.org/entity/Q15841784,Rathaus Wittislingen,Point(10.4158774 48.6185388),48.6185388,10.4158774  
+http://www.wikidata.org/entity/Q1776016,Rathaus Wurgwitz,Point(13.628 51.0256),51.0256,13.628 
+http://www.wikidata.org/entity/Q27042050,Rathaus WÃ¼rzburg,Point(9.928055555 49.793611111),49.793611111111,9.9280555555556  
+http://www.wikidata.org/entity/Q36692531,Rathaus Zehlendorf,Point(13.259166666 52.433055555),52.433055555556,13.259166666667  
+http://www.wikidata.org/entity/Q26268261,Rathaus Zittau,Point(14.8077 50.8962),50.8962,14.8077  
+http://www.wikidata.org/entity/Q104352344,Rathaus Zschortau,Point(12.36036 51.48057),51.48057,12.36036  
+http://www.wikidata.org/entity/Q88952550,Rathaus am Burgplatz,Point(6.76094 51.43536),51.43536,6.76094  
+http://www.wikidata.org/entity/Q2132641,Rathaus an der TrostbrÃ¼cke,Point(9.992491 53.548571),53.548571,9.992491  
+http://www.wikidata.org/entity/Q1473726,Rathaus der Neustadt,Point(11.539 51.5278),51.5278,11.539 
+http://www.wikidata.org/entity/Q26821681,Rathaus der Verbandsgemeinde Offenbach an der Queich,Point(8.193107 49.200184),49.200184,8.193107  
+http://www.wikidata.org/entity/Q41390281,Rathaus in Altdorf bei NÃ¼rnberg,Point(11.35586 49.38576),49.38576,11.35586  
+http://www.wikidata.org/entity/Q41390540,Rathaus in Feucht,Point(11.2138 49.37558),49.37558,11.2138 
+http://www.wikidata.org/entity/Q41385408,Rathaus in Hersbruck,Point(11.429 49.50864),49.50864,11.429  
+http://www.wikidata.org/entity/Q41391159,Rathaus in Lauf an der Pegnitz,Point(11.28105 49.5117),49.5117,11.28105  
+http://www.wikidata.org/entity/Q41390951,Rathaus in RÃ¶thenbach an der Pegnitz,Point(11.2360961 49.4816405),49.4816405,11.2360961 
+http://www.wikidata.org/entity/Q41392401,Rathaus in Schnaittach,Point(11.3396396 49.5595305),49.5595305,11.3396396  
+http://www.wikidata.org/entity/Q49320626,Rathaus mit Vorgarten und Einfriedung Annaberger StraÃŸe 336,Point(12.924954 50.781941),50.781941,12.924954  
+http://www.wikidata.org/entity/Q49329657,Rathaus und Anbau Hohensteiner StraÃŸe 4,Point(12.82719 50.81229),50.81229,12.82719  
+http://www.wikidata.org/entity/Q61742598,Rathaus von Sankt Andreasberg,Point(10.51867 51.71013),51.71013,10.51867 
+http://www.wikidata.org/entity/Q61742667,Rathaus von Sankt Andreasberg (altes Rathaus),Point(10.51524 51.70918),51.70918,10.51524 
+http://www.wikidata.org/entity/Q1514829,Rathaus zwischen den StÃ¤dten,Point(9.14721 51.4874),51.4874,9.14721  
+http://www.wikidata.org/entity/Q97312683,Rathaus Ã–tisheim,Point(8.80313 48.96019),48.96019,8.80313 
+http://www.wikidata.org/entity/Q20191819,"Rathaus, ehemaliges FÃ¼rstbischÃ¶fliches OberamtsgebÃ¤ude",Point(11.47421 49.03518),49.03518,11.47421 
+http://www.wikidata.org/entity/Q1419943,Rathausturm Kornwestheim,Point(9.18529 48.86),48.86,9.18529 
+http://www.wikidata.org/entity/Q49583738,ReichsstraÃŸe 1,Point(14.580908 51.00716),51.00716,14.580908 
+http://www.wikidata.org/entity/Q16320754,Rotes Rathaus,Point(8.571111 50.303414),50.303414,8.571111 
+http://www.wikidata.org/entity/Q155210,Rotes Rathaus,Point(13.408333333 52.518611111),52.518611111111,13.408333333333 
+http://www.wikidata.org/entity/Q195146,RÃ¶mer,Point(8.681667 50.110278),50.110278,8.681667  
+http://www.wikidata.org/entity/Q15689032,Schloss GroÃŸsachsenheim,Point(9.06644 48.96036),48.96036,9.06644  
+http://www.wikidata.org/entity/Q1669305,Schloss Ismaning,Point(11.6741 48.2281),48.2281,11.6741 
+http://www.wikidata.org/entity/Q19308694,Schloss Ober-MÃ¶rlen,Point(8.693281 50.375539),50.375539,8.693281  
+http://www.wikidata.org/entity/Q2243784,Schloss UeckermÃ¼nde,Point(14.0485 53.7359),53.7359,14.0485 
+http://www.wikidata.org/entity/Q2249055,Schorndorfer Rathaus,Point(9.5273 48.8057),48.8057,9.5273 
+http://www.wikidata.org/entity/Q21115883,Schranne (Ichenhausen),Point(10.30515003 48.37047958),48.37047958,10.30515003  
+http://www.wikidata.org/entity/Q96029034,Sendsche Kurie,Point(7.35277 51.929294),51.929294,7.35277  
+http://www.wikidata.org/entity/Q71996464,Spanischer Bau,Point(6.95879 50.93871),50.93871,6.95879  
+http://www.wikidata.org/entity/Q2327272,Stadthaus (Bonn),Point(7.09436 50.737),50.737,7.09436 
+http://www.wikidata.org/entity/Q49605273,Stadthaus (Potsdam),Point(13.057079 52.405456),52.405456,13.057079 
+http://www.wikidata.org/entity/Q89662307,Stadthaus 1 (MÃ¼nster),Point(7.6293375 51.9613727),51.9613727,7.6293375  
+http://www.wikidata.org/entity/Q89662370,Stadthaus 3 (MÃ¼nster),Point(7.6398255 51.9491822),51.9491822,7.6398255  
+http://www.wikidata.org/entity/Q315605,Stralsunder Rathaus,Point(13.090163888 54.315586111),54.315586111111,13.090163888889 
+http://www.wikidata.org/entity/Q2359317,Sturmfedersches Schloss,Point(8.2475 49.5633),49.5633,8.2475  
+http://www.wikidata.org/entity/Q2399457,Technisches Rathaus (Frankfurt am Main),Point(8.68389 50.1108),50.1108,8.68389  
+http://www.wikidata.org/entity/Q2399463,Technisches Rathaus Hamm,Point(7.80944 51.6803),51.6803,7.80944 
+http://www.wikidata.org/entity/Q98752843,Teil #1 von Baudenkmal D-1-90-158-54 in Wessobrunn im Ortsteil Wessobrunn,Point(11.024675088 47.876225622),47.876225622207,11.024675088098 
+http://www.wikidata.org/entity/Q98677082,Teil #1 von Baudenkmal D-3-73-115-77 in Breitenbrunn (Oberpfalz) im Ortsteil Breitenbrunn,Point(11.622316645 49.083700161),49.08370016109,11.622316645921  
+http://www.wikidata.org/entity/Q98624472,Teil #1 von Baudenkmal D-5-63-000-637 in FÃ¼rth im Ortsteil FÃ¼rth,Point(10.988796012 49.477576875),49.477576875083,10.98879601217 
+http://www.wikidata.org/entity/Q98630341,Teil #1 von Baudenkmal D-5-64-000-2098 in NÃ¼rnberg im Ortsteil NÃ¼rnberg-Sebald,Point(11.074999495 49.455174964),49.455174964574,11.074999495183  
+http://www.wikidata.org/entity/Q98623826,Teil #1 von Baudenkmal D-5-64-000-2423 in NÃ¼rnberg im Ortsteil Fischbach b.NÃ¼rnberg,Point(11.186466445 49.419163599),49.419163599572,11.186466445269 
+http://www.wikidata.org/entity/Q98682571,Teil #10 von Baudenkmal D-3-62-000-956 in Regensburg im Ortsteil Regensburg,Point(12.094781089 49.020465311),49.02046531174,12.094781089785  
+http://www.wikidata.org/entity/Q98682576,Teil #2 von Baudenkmal D-3-62-000-956 in Regensburg im Ortsteil Regensburg,Point(12.09419246 49.020304051),49.020304051024,12.094192460356 
+http://www.wikidata.org/entity/Q98677362,Teil #2 von Baudenkmal D-3-72-116-31 in Cham (Oberpfalz) im Ortsteil Cham,Point(12.665265596 49.218137988),49.218137988214,12.665265596639 
+http://www.wikidata.org/entity/Q98682984,Teil #2 von Baudenkmal D-3-72-153-25 in Roding im Ortsteil Roding,Point(12.516992691 49.196480518),49.196480518557,12.516992691842 
+http://www.wikidata.org/entity/Q98494907,Teil #2 von Baudenkmal D-6-63-000-37 in WÃ¼rzburg im Ortsteil WÃ¼rzburg,Point(9.928243618 49.793521194),49.793521194365,9.9282436189667  
+http://www.wikidata.org/entity/Q98677329,Teil #3 von Baudenkmal D-3-72-116-31 in Cham (Oberpfalz) im Ortsteil Cham,Point(12.665690211 49.217986149),49.217986149196,12.665690211998 
+http://www.wikidata.org/entity/Q98624476,Teil #3 von Baudenkmal D-5-63-000-637 in FÃ¼rth im Ortsteil FÃ¼rth,Point(10.988727796 49.47734077),49.477340770535,10.988727796404 
+http://www.wikidata.org/entity/Q98682578,Teil #4 von Baudenkmal D-3-62-000-956 in Regensburg im Ortsteil Regensburg,Point(12.094985227 49.020359402),49.020359402667,12.094985227599  
+http://www.wikidata.org/entity/Q98677334,Teil #4 von Baudenkmal D-3-72-116-31 in Cham (Oberpfalz) im Ortsteil Cham,Point(12.665783748 49.218115555),49.218115555232,12.665783748487 
+http://www.wikidata.org/entity/Q98494906,Teil #4 von Baudenkmal D-6-63-000-37 in WÃ¼rzburg im Ortsteil WÃ¼rzburg,Point(9.927776232 49.793534717),49.793534717681,9.9277762320373  
+http://www.wikidata.org/entity/Q98494905,Teil #4 von Baudenkmal D-6-73-136-2 in Hollstadt im Ortsteil Hollstadt,Point(10.288977908 50.353165486),50.353165486743,10.288977908455  
+http://www.wikidata.org/entity/Q98682575,Teil #6 von Baudenkmal D-3-62-000-956 in Regensburg im Ortsteil Regensburg,Point(12.094653176 49.020449529),49.020449529349,12.094653176603  
+http://www.wikidata.org/entity/Q98585409,Teil #6 von Baudenkmal D-4-61-000-694 in Bamberg im Ortsteil Bamberg,Point(10.877996967 49.895888392),49.895888392102,10.87799696713 
+http://www.wikidata.org/entity/Q98682563,Teil #7 von Baudenkmal D-3-62-000-956 in Regensburg im Ortsteil Regensburg,Point(12.09467857 49.020476636),49.020476636435,12.094678570972 
+http://www.wikidata.org/entity/Q98682573,Teil #8 von Baudenkmal D-3-62-000-956 in Regensburg im Ortsteil Regensburg,Point(12.09469235 49.020532824),49.020532824912,12.094692350341 
+http://www.wikidata.org/entity/Q98682585,Teil #9 von Baudenkmal D-3-62-000-956 in Regensburg im Ortsteil Regensburg,Point(12.094789742 49.020522629),49.02052262981,12.094789742317 
+http://www.wikidata.org/entity/Q184472,Zehdenicker Rathaus,Point(13.3319 52.9794),52.9794,13.3319 
+http://www.wikidata.org/entity/Q184694,Zehntscheune,Point(10.7012 49.2043),49.2043,10.7012  
+</textarea>
+</html>

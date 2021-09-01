@@ -19,49 +19,49 @@ MA 02110-1301  USA
 -->
 <html>
 
-    <head th:replace="fragments/head :: head"></head>
+<head th:replace="fragments/head :: head"></head>
 
-    <body>
-        <script  type='text/javascript'>
-            var elements = [
-                {link: "/home", value: "Home", active: "false"},
-                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "true"},
-                {link: "/metadata", value: "Metadata", active: "false"},
-                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
-                {link: "/md2data", value: "Metadata to Data", active: "false"},
-                {link: "/schema/upload", value: "Schema upload", active: "false"},
-                {link: "/schema/validation", value: "Schema validation", active: "false"}];
-        </script>
-        <header id="header">
-            <div th:insert="fragments/nav :: navbar"></div>
-            <h1  style="text-align: right;" th:text="${title+' Queryables'}"></h1>
-        </header>
+<body>
+    <script  type='text/javascript'>
+        var elements = [
+        {link: "/home", value: "Home", active: "false"},
+        {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "true"},
+        {link: "/metadata", value: "Metadata", active: "false"},
+        {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+        {link: "/md2data", value: "Metadata to Data", active: "false"},
+        {link: "/schema/upload", value: "Schema upload", active: "false"},
+        {link: "/schema/validation", value: "Schema validation", active: "false"}];
+    </script>
+    <header id="header">
+        <div th:insert="fragments/nav :: navbar"></div>
+        <h1  style="text-align: right;" th:text="${title+' Queryables'}"></h1>
+    </header>
 
 
 
-        <div class="sticky row crumbs">
-            <div class="col-sm-12 col-md-10 col-md-offset-1">
-                <p>
-                    <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
-                    <a th:href="@{/geotimeWFS/}">> GeoTime WFS Service landingpage </a>
-                    <a th:href="@{|/geotimeWFS/${id}/conformance|}" th:text="${'> '+title+' Queryables'}"> </a>
-                </p>
-            </div>
-            </div>
-        <div class="container-fluid" role="main">
-            <div class="row">
-                <div class="col-sm-12">
-                    <p>List of queryables:</p>
-                    <p th:if="${queryables.empty}"> No queryables Available </p>
+    <div class="sticky row crumbs">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <p>
+                <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
+                <a th:href="@{/geotimeWFS/}">> GeoTime WFS Service landingpage </a>
+                <a th:href="@{|/geotimeWFS/${id}/conformance|}" th:text="${'> '+title+' Queryables'}"> </a>
+            </p>
+        </div>
+    </div>
+    <div class="container-fluid" role="main">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>List of queryables:</p>
+                <p th:if="${queryables.empty}"> No queryables Available </p>
 
-                    <ul th:each="q:${queryables}">
-                        <li th:text="${q[0]+': '+q[1]}"> </li>
-                    </ul>
-                </div>
+                <ul th:each="q:${queryables}">
+                    <li th:text="${q[0]+': '+q[1]}"> </li>
+                </ul>
             </div>
         </div>
+    </div>
 
 
-        <!--<div th:insert="fragments/footer :: footer"></div>-->
-    </body>
+    <!--<div th:insert="fragments/footer :: footer"></div>-->
+</body>
 </html>

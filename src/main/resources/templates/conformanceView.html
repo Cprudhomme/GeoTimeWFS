@@ -19,54 +19,54 @@ MA 02110-1301  USA
 -->
 <html>
 
-    <head th:replace="fragments/head :: head"></head>
+<head th:replace="fragments/head :: head"></head>
 
-    <body>
-        <script  type='text/javascript'>
-            var elements = [
-                {link: "/home", value: "Home", active: "false"},
-                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "true"},
-                {link: "/metadata", value: "Metadata", active: "false"},
-                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
-                {link: "/md2data", value: "Metadata to Data", active: "false"},
-                {link: "/schema/upload", value: "Schema upload", active: "false"},
-                {link: "/schema/validation", value: "Schema validation", active: "false"}];
-        </script>
-        <header id="header">
-            <div th:insert="fragments/nav :: navbar"></div>
-            <h1  style="text-align: right;">OGC API Records Conformance</h1>
-        </header>
+<body>
+    <script  type='text/javascript'>
+        var elements = [
+        {link: "/home", value: "Home", active: "false"},
+        {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "true"},
+        {link: "/metadata", value: "Metadata", active: "false"},
+        {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+        {link: "/md2data", value: "Metadata to Data", active: "false"},
+        {link: "/schema/upload", value: "Schema upload", active: "false"},
+        {link: "/schema/validation", value: "Schema validation", active: "false"}];
+    </script>
+    <header id="header">
+        <div th:insert="fragments/nav :: navbar"></div>
+        <h1  style="text-align: right;">OGC API Records Conformance</h1>
+    </header>
 
 
 
-        <div class="sticky row crumbs">
-            <div class="col-sm-12 col-md-10 col-md-offset-1">
-                <p>
-                    <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
-                    <a th:href="@{/geotimeWFS/}">> GeoTime WFS Service landingpage </a>
-                    <a th:href="@{/geotimeWFS/conformance}">> Conformance </a>
-                </p>
-            </div>
-            </div>
-        <div class="container-fluid" role="main">
-            <div class="row">
-                <div class="col-sm-12">
-                    <p>The GeoTime WFS Service is conformed to:</p>
+    <div class="sticky row crumbs">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <p>
+                <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
+                <a th:href="@{/geotimeWFS/}">> GeoTime WFS Service landingpage </a>
+                <a th:href="@{/geotimeWFS/conformance}">> Conformance </a>
+            </p>
+        </div>
+    </div>
+    <div class="container-fluid" role="main">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>The GeoTime WFS Service is conformed to:</p>
 
-                    <ul>
-                        <li><a href="http://www.opengis.net/spec/ogcapi-common-1/1.0/conf/core">Core of OGC API Common 1.0</a> </li>
-                        <li><a href="http://www.opengis.net/spec/ogcapi-common-1/1.0/conf/collections">Collections of OGC API Common 1.0</a> </li>
-                        <li><a href="http://www.opengis.net/spec/ogcapi-common-1/1.0/conf/oas3">OAS3 of OGC API Common 1.0</a> </li>
-                        <li><a href="http://www.opengis.net/spec/ogcapi-records-1/1.0/conf/core">Core of OGC API Records 1.0</a> </li>
-                        <li><a href="http://www.opengis.net/spec/ogcapi-records-1/1.0/req/oas30">OAS30 of OGC API Records 1.0</a> </li>
-                        <li><a href="http://www.opengis.net/spec/ogcapi-records-1/1.0/req/html">HTML of OGC API Records 1.0</a> </li>
-                        <li><a href="http://www.opengis.net/spec/ogcapi-records-1/1.0/req/json">JSON of OGC API Records 1.0</a> </li>
-                    </ul>
-                </div>
+                <ul>
+                    <li><a href="http://www.opengis.net/spec/ogcapi-common-1/1.0/conf/core">Core of OGC API Common 1.0</a> </li>
+                    <li><a href="http://www.opengis.net/spec/ogcapi-common-1/1.0/conf/collections">Collections of OGC API Common 1.0</a> </li>
+                    <li><a href="http://www.opengis.net/spec/ogcapi-common-1/1.0/conf/oas3">OAS3 of OGC API Common 1.0</a> </li>
+                    <li><a href="http://www.opengis.net/spec/ogcapi-records-1/1.0/conf/core">Core of OGC API Records 1.0</a> </li>
+                    <li><a href="http://www.opengis.net/spec/ogcapi-records-1/1.0/req/oas30">OAS30 of OGC API Records 1.0</a> </li>
+                    <li><a href="http://www.opengis.net/spec/ogcapi-records-1/1.0/req/html">HTML of OGC API Records 1.0</a> </li>
+                    <li><a href="http://www.opengis.net/spec/ogcapi-records-1/1.0/req/json">JSON of OGC API Records 1.0</a> </li>
+                </ul>
             </div>
         </div>
+    </div>
 
 
-        <!--<div th:insert="fragments/footer :: footer"></div>-->
-    </body>
+    <!--<div th:insert="fragments/footer :: footer"></div>-->
+</body>
 </html>

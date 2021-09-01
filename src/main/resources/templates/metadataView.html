@@ -4,113 +4,113 @@
     <title>Getting Started: Serving Web Content</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-    <body>
-         <script  type='text/javascript'>
-            var elements = [
-                {link: "/home", value: "Home", active: "false"},
-                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
-                {link: "/metadata", value: "Metadata", active: "true"},
-                {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
-                {link: "/md2data", value: "Metadata to Data", active: "false"},
-                {link: "/schema/upload", value: "Schema upload", active: "false"},
-                {link: "/schema/validation", value: "Schema validation", active: "false"}];
-        </script>
-        <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-        <!-- script to retrieve thymeleaf variables as javascript variables-->
-        <script th:inline="javascript">
-            /*<![CDATA[*/
-            var md = /*[[${md}]]*/ 'md';
-            var ind = /*[[${indSon}]]*/ 'indSon';
-             /*]]>*/
-         </script>
-         
-        <header id="header">
-            <div th:insert="fragments/nav :: navbar"></div>
-            <h1>Metadata View</h1>
-        </header>
-        <div class="sticky row crumbs">
-            <div class="col-sm-12 col-md-10 col-md-offset-1">
-                <p>
-                    <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
-                    <a th:href="@{/geotimeWFS/}">> GeoTime WFS Service landingpage </a>
-                    <a th:href="@{/geotimeWFS/collections}">> Collections </a>
-                    <a th:href="@{/geotimeWFS/collections/gdi_catalog}">> GDI Catalog </a>
-                    <a th:href="@{/geotimeWFS/collections/gdi_catalog/items}">> Records </a>
-                    <a th:href="@{|/geotimeWFS/collections/gdi_catalog/items/${md}|}" th:text="${'> '+md}"> </a>
-                </p>
-            </div>
-        </div>
-        <div class="container-fluid" role="main">
-            <div class="row">
-                <div class="col-sm-12">
-        <h2 th:unless="${indSon=='noIndSON'}" th:text="${indSon}"> View</h2>
-        
-        
+<body>
+   <script  type='text/javascript'>
+    var elements = [
+    {link: "/home", value: "Home", active: "false"},
+    {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
+    {link: "/metadata", value: "Metadata", active: "true"},
+    {link: "/metadata/uplift", value: "Metadata uplift", active: "false"},
+    {link: "/md2data", value: "Metadata to Data", active: "false"},
+    {link: "/schema/upload", value: "Schema upload", active: "false"},
+    {link: "/schema/validation", value: "Schema validation", active: "false"}];
+</script>
+<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+<!-- script to retrieve thymeleaf variables as javascript variables-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var md = /*[[${md}]]*/ 'md';
+    var ind = /*[[${indSon}]]*/ 'indSon';
+    /*]]>*/
+</script>
+
+<header id="header">
+    <div th:insert="fragments/nav :: navbar"></div>
+    <h1>Metadata View</h1>
+</header>
+<div class="sticky row crumbs">
+    <div class="col-sm-12 col-md-10 col-md-offset-1">
+        <p>
+            <a href="https://www.i3mainz.de/projekte/bkg/semanticwfs">Landingpage </a>
+            <a th:href="@{/geotimeWFS/}">> GeoTime WFS Service landingpage </a>
+            <a th:href="@{/geotimeWFS/collections}">> Collections </a>
+            <a th:href="@{/geotimeWFS/collections/gdi_catalog}">> GDI Catalog </a>
+            <a th:href="@{/geotimeWFS/collections/gdi_catalog/items}">> Records </a>
+            <a th:href="@{|/geotimeWFS/collections/gdi_catalog/items/${md}|}" th:text="${'> '+md}"> </a>
+        </p>
+    </div>
+</div>
+<div class="container-fluid" role="main">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 th:unless="${indSon=='noIndSON'}" th:text="${indSon}"> View</h2>
+            
+            
            <!-- <script  type='text/javascript'>
                 for (let step = 0; step < ; step++) {
                     // Runs 5 times, with values of step 0 through 4.
                     console.log('Walking east one step');
                   }
-            </script>-->
-           
+              </script>-->
+              
         <!-- script defining the function change that retrieve the new value of a text field 
-        and call the controller to update the value into the knowledge base -->
-        <script>
-            function change(p,v) {
-            var val=document.getElementById(v).value;
-            var url= "/metadata/update?md="+md+"&ind="+ind+"&property="+p+"&value="+val;
+            and call the controller to update the value into the knowledge base -->
+            <script>
+                function change(p,v) {
+                    var val=document.getElementById(v).value;
+                    var url= "/metadata/update?md="+md+"&ind="+ind+"&property="+p+"&value="+val;
                     $.get(url);
                 };
-               
-        </script>
-           <table>
-            <tbody>
-                <tr th:if="${OPlist.empty and DPlist.empty}">
-                    <td colspan="2"> No Information Available </td>
-                </tr>
-                <!-- retrieve each object "dp" of the list "DPlist" and define the "DPlist" as the object "list"-->
-                <tr th:each="dp, list : ${DPlist}">
-                    <!-- create a label, whose text corresponds to the first element of the string list "dp"-->
-                    <td><label th:text="${dp[0]+':   '}">  </label></td>
+                
+            </script>
+            <table>
+                <tbody>
+                    <tr th:if="${OPlist.empty and DPlist.empty}">
+                        <td colspan="2"> No Information Available </td>
+                    </tr>
+                    <!-- retrieve each object "dp" of the list "DPlist" and define the "DPlist" as the object "list"-->
+                    <tr th:each="dp, list : ${DPlist}">
+                        <!-- create a label, whose text corresponds to the first element of the string list "dp"-->
+                        <td><label th:text="${dp[0]+':   '}">  </label></td>
                      <!-- create a text field, whose text corresponds to the second element of the string list "dp" 
-                     and whose id corresponds to the index of the "list"="DPlist"-->
-                    <td><input type="text" th:value="${dp[1]}" th:id="${list.index}"/></td>
-                    <td> 
+                       and whose id corresponds to the index of the "list"="DPlist"-->
+                       <td><input type="text" th:value="${dp[1]}" th:id="${list.index}"/></td>
+                       <td> 
                         <!--<button type="button" th:onclick="'javascript:change('\' + ${dp[0]}+ '\',\'val'+${list.index}+'\')'">Change</button>-->
                         <!-- create a button that call the javascript function change on click with:
                         - dp[0]: the first element of the string list "dp", corresponding to a datatype property of the knowledge base, and
                         - list.index: that is the index of the DPlist and the id of the text field containing the new value.
-                        -->
-                        <button type="button" th:onclick="javascript:change([[${dp[0]}]],[[${list.index}]])">Change</button>
-                    </td>
-                </tr>
-                <tr th:each="op : ${OPlist}">
-                    <td><span th:text="${op[0]+':   '}">  </span></td>
-                    <td><span th:text="${op[1]+'#'+op[2]}"></span></td>
-                    <td>    <form th:action="@{|/metadata/selected?md=${md}&prefixindSon=${op[1]}&indSon=${op[2]}|}" method="post">
-                            <input type="submit" value="See"/>
-                            </form>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <form th:action="@{/metadata/update}" method="post">
-                            <input type="submit" value="JSON Downlift"/>
-                            <!--<input type="submit" value="Metadata change"/>-->
-                        </form>
-                    </td>
-                    <td>
-                        <form th:action="@{|/metadata/downlift?md=${md}|}" method="post">
-                                <input type="submit" value="XML Downlift"/>
-                        </form>
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-         </div>
-         </div>
-        </div>  
-        <!--<div th:insert="fragments/footer :: footer"></div>-->
-    </body>
+                    -->
+                    <button type="button" th:onclick="javascript:change([[${dp[0]}]],[[${list.index}]])">Change</button>
+                </td>
+            </tr>
+            <tr th:each="op : ${OPlist}">
+                <td><span th:text="${op[0]+':   '}">  </span></td>
+                <td><span th:text="${op[1]+'#'+op[2]}"></span></td>
+                <td>    <form th:action="@{|/metadata/selected?md=${md}&prefixindSon=${op[1]}&indSon=${op[2]}|}" method="post">
+                    <input type="submit" value="See"/>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form th:action="@{/metadata/update}" method="post">
+                    <input type="submit" value="JSON Downlift"/>
+                    <!--<input type="submit" value="Metadata change"/>-->
+                </form>
+            </td>
+            <td>
+                <form th:action="@{|/metadata/downlift?md=${md}|}" method="post">
+                    <input type="submit" value="XML Downlift"/>
+                </form>
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+</div>
+</div>  
+<!--<div th:insert="fragments/footer :: footer"></div>-->
+</body>
 </html>

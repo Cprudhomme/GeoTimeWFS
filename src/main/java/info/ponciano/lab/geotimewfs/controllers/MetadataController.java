@@ -71,16 +71,19 @@ public class MetadataController {
      */
     
     @PostMapping("/metadata/uplift")
+    //The input is now "List<MultipartFile>" instead of "MultipartFile" 
     public String postUpliftAction(@RequestParam("file") List<MultipartFile> files,
             RedirectAttributes redirectAttributes) {
     	String rtn = "";
+        //the for loop was aded to apply the method to all selected files
     	for (int i=0; i<files.size(); i++) {
             try {
                 // store file
             	storageService.store(files.get(i));
                 redirectAttributes.addFlashAttribute("message",
+                    //file is replaced by files.get(i) to indicate that the method is apply to each element of the list
                         "You successfully uplift " + files.get(i) + "!");
-
+                
                 boolean upliftOk = KB.get().uplift("upload-dir/" + files.get(i).getOriginalFilename());
                 if (upliftOk) {
                     int index = files.get(i).getOriginalFilename().indexOf(".");
