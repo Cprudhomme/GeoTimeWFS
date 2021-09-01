@@ -47,7 +47,7 @@ public class Catalogs_Test {
     }
     
     @BeforeEach
-    public void setUp() {
+    public void setUcp() {
     }
     
     @AfterEach
@@ -64,7 +64,7 @@ public class Catalogs_Test {
             Catalogs instance = new Catalogs();
             JSONObject expResult = null;
             JSONObject result = instance.getJo();
-            assertEquals(expResult, result);
+            assertEquals(expResult, result); //Error, line needs to be fixed
             // TODO review the generated test code and remove the default call to fail.
             fail("The test case is a prototype.");
         } catch (OntoManagementException ex) {
