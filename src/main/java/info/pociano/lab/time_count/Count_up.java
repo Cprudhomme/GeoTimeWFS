@@ -65,7 +65,7 @@ public class Count_up extends Adate {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     public static void main(String[] args) {
-        countup cd = new countup("30/08/2023");
+         Count_up cd = new  Count_up("30/08/2023");
         cd.inwork();
      
  }
