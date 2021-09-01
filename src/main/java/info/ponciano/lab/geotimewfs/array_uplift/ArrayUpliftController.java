@@ -168,7 +168,13 @@ public class ArrayUpliftController {
 		public PropertyMapping propmap() {
 			return new PropertyMapping();
 		}
-
+/**
+ * 
+ * @param propmap
+ * @param model
+ * @return 
+ * @author A.H
+ */
 	@PostMapping("/uplift_validation")
     public String ontologyPopulation(@ModelAttribute("propmap") PropertyMapping propmap, Model model) {
 		String m="";
