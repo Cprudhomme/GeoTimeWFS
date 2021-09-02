@@ -18,6 +18,8 @@
  */
 package info.pociano.lab.time_count;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -45,31 +47,13 @@ public abstract class Adate {
         months = 4 * weeks;
         years = 12 * months;
 
-        Date d1 = new Date();
-        Date d2 = new Date(); // Current date 
-        Date d3 = new Date();
-
-        boolean a = d3.after(d1);
-
-        System.out.println(
-                "Date d3 comes after" + "Date d2: " + a);
-
-        boolean b = d3.before(d2);
-
-        System.out.println(
-                "Date d3 comes before" + "Date d2: " + b);
-
-        int c = d1.compareTo(d2);
-
-        System.out.println(c);
-
-        System.out.println("Miliseconds from jan1" + "1970 tp date d1 is" + d1.getTime());
-
-        System.out.println("Before settings" + d2);
-        d2.setTime(
-                204587433443L);
-        System.out.println(
-                "After setting" + d2);
+       DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        
+        String firstDate = "31/08/2021";
+        String secondDate = "01/10/2023";
+        
+        LocalDate date1 = LocalDate.parse(firstDate, Formatter);
+         LocalDate date2 = LocalDate.parse(secondDate, Formatter);
     }
     final String input;
 
