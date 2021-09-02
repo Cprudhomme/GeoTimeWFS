@@ -20,7 +20,6 @@ package info.pociano.lab.time_count;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 
 /**
  *
@@ -50,10 +49,16 @@ public abstract class Adate {
        DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         
         String firstDate = "31/08/2021";
+        
         String secondDate = "01/10/2023";
         
+        System.out.println(Integer.parseInt(firstDate));
+        
+        System.out.println(Integer.parseInt(secondDate));
+       
         LocalDate date1 = LocalDate.parse(firstDate, Formatter);
-         LocalDate date2 = LocalDate.parse(secondDate, Formatter);
+         
+        LocalDate date2 = LocalDate.parse(secondDate, Formatter);
     }
     final String input;
 
