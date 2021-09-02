@@ -16,8 +16,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package info.pociano.lab.time_count;
+package info.ponciano.lab.geotimewfs.models;
 
+import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,9 +33,9 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author pc-asus
  */
-public class CountupTest {
+public class Catalogs_Test {
     
-    public CountupTest() {
+    public Catalogs_Test() {
     }
     
     @BeforeAll
@@ -43,17 +47,28 @@ public class CountupTest {
     }
     
     @BeforeEach
-    public void setUp() {
+    public void setUcp() {
     }
     
     @AfterEach
     public void tearDown() {
     }
 
+    /**
+     * Test of getJo method, of class Catalogs.
+     */
     @Test
-    public void testSomeMethod() {
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype."); //Line Error
+    public void testGetJo() {
+        try {
+            System.out.println("getJo");
+            Catalogs instance = new Catalogs();
+            JSONObject expResult = null;
+            JSONObject result = instance.getJo();
+          //  assertEquals(expResult, result); //Error, line needs to be fixed
+           
+        } catch (OntoManagementException ex) {
+            Logger.getLogger(Catalogs_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
