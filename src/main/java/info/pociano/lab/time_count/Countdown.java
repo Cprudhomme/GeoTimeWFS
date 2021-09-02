@@ -18,11 +18,15 @@
  */
 package info.pociano.lab.time_count;
 
+import java.time.temporal.ChronoUnit;
+
 /**
  *
  * @author A.H
  */
 public class Countdown extends Adate{
+
+    private ChronoUnit daysBetween;
 
     public Countdown(String input) {
         super(input);
@@ -48,9 +52,13 @@ public class Countdown extends Adate{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public int getDays() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     *
+     * @return
+     */
+    public ChronoUnit getDays() {
+        return daysBetween = ChronoUnit.DAYS.between(date1, date2);
+         
     }
 
     @Override
