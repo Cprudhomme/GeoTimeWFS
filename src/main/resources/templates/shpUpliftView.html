@@ -44,7 +44,7 @@ This view represents the submenu "Shapefile importer" of the menu "Data manageme
 			<div>
 				<form th:action="@{/data/ShpUplift}" method="post" enctype="multipart/form-data">
 					<table>
-						<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+						<tr><td>Shape file to upload:</td><td><input type="file" name="file" /></td></tr>
 						<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
 					</table>
 				</form>
@@ -74,7 +74,7 @@ This view represents the submenu "Shapefile importer" of the menu "Data manageme
 								<input type="text" th:field="*{title}">
 							</td>
 						</tr>
-						<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+						<tr><td>Metadata to upload:</td><td><input type="file" name="file" /></td></tr>
 						<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
 					</table>
 				</form>
