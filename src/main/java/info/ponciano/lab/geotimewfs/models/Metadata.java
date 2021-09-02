@@ -51,8 +51,6 @@ public class Metadata {
                     + "?i iso115:citation ?ci. "
                     + "?ci iso115:title ?t. "
                     + "}";
-            System.out.println(query);
-            System.out.println(KB.get().getSPARQL(query));
             //create the table of variables
             String[] var = {"m", "o", "t", "dt"};
             //query the ontology
