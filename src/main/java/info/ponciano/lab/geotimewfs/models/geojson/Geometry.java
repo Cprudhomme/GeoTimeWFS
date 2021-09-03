@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author jean-jacquesponciano
  */
-public class Geometry {
+ class Geometry {
 
     private final String type;
     private final List<Double> coordinates;
