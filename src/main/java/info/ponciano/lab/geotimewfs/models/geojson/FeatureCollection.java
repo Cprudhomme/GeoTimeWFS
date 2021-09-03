@@ -18,10 +18,28 @@
  */
 package info.ponciano.lab.geotimewfs.models.geojson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author jean-jacquesponciano
  */
 public class FeatureCollection {
      private final String name;
+     private final List<Feature> features;
+
+    public FeatureCollection(String name) {
+        this.name = name;
+        this.features=new ArrayList<>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Feature> getFeatures() {
+        return features;
+    }
+     
 }
