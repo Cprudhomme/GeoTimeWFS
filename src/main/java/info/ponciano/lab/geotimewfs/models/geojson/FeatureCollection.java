@@ -26,12 +26,13 @@ import java.util.List;
  * @author jean-jacquesponciano
  */
 public class FeatureCollection {
-     private final String name;
-     private final List<Feature> features;
+
+    private final String name;
+    private final List<Feature> features;
 
     public FeatureCollection(String name) {
         this.name = name;
-        this.features=new ArrayList<>();
+        this.features = new ArrayList<>();
     }
 
     public String getName() {
@@ -41,5 +42,8 @@ public class FeatureCollection {
     public List<Feature> getFeatures() {
         return features;
     }
-     
+
+    public boolean add(Feature feature) {
+        return this.features.add(feature);
+    }
 }
