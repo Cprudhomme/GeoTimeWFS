@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 jean-jacquesponciano.
+ * Copyright (C) 2021 jean-jacques Ponciano.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -79,9 +79,6 @@ public class GeoJsonRDF {
         String name = featureCollection.getName();
         //create an individual
         OntClass dataset = ont.createClass(DCAT_DATASET);
-//        if (dataset == null) {
-//            throw new PiOntologyException("the class \"http://www.w3.org/ns/dcat#Dataset\" does not exists but is requiered");
-//        }
 
         //create the individual data
         String nameFC = ont.getNs() + name;
@@ -188,7 +185,18 @@ public class GeoJsonRDF {
         return geo;
     }
 
-    public static String downlift(String outputOut, PiOnt ont, String datasetURI) throws PiOntologyException {
+    /**
+     * Dowlift in geoJSOn all information about a dataset
+     *
+     * @param ont ontology under working
+     * @param datasetURI URI of the dataset individual targeted (individual of
+     * dcat#Dataset)
+     * @return the GeoJSON String containing all information about the
+     * individuals
+     * @throws PiOntologyException is the downlift is impossible with the
+     * individual targeted.
+     */
+    public static String downlift(PiOnt ont, String datasetURI) throws PiOntologyException {
         JSONObject data = new JSONObject();
         JSONArray features = new JSONArray();
         Individual individual = ont.getIndividual(datasetURI);
