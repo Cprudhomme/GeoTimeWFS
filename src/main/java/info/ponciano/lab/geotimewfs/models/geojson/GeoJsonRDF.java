@@ -32,7 +32,6 @@ import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
