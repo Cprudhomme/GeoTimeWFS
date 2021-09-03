@@ -25,7 +25,7 @@ import java.util.Map;
  *
  * @author jean-jacquesponciano
  */
-public class Feature {
+ class Feature {
 
     public final static String TYPE = "Feature";
     private final Geometry geometry;
