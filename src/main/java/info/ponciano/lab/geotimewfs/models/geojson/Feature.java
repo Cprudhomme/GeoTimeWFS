@@ -29,14 +29,14 @@ public class Feature {
 
     public final static String TYPE = "Feature";
     private final Geometry geometry;
-    private final Map<String, String> properties;
+    private final Map<String, Object> properties;
 
     public Feature(Geometry geometry) {
         this.geometry = geometry;
         this.properties = new HashMap<>();
     }
 
-    public String addProperty(String name, String value) {
+    public Object addProperty(String name, Object value) {
       return  this.properties.put(name, value);
     }
 
@@ -44,7 +44,7 @@ public class Feature {
         return geometry;
     }
 
-    public Map<String, String> getProperties() {
+    public Map<String, Object> getProperties() {
         return properties;
     }
 
