@@ -98,6 +98,14 @@ public class Time {
     }
 
     public static int weeksBetween(String d1, String d2) {
+        DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         
+        LocalDate ld1 = LocalDate.parse(d1, Formatter);
+          LocalDate ld2 = LocalDate.parse(d2, Formatter);
+          
+          long weeksBetween = ChronoUnit.WEEKS.between(ld1,ld2);
+          
+          System.out.println(weeksBetween);
+        return (int) weeksBetween ;
     }
 }
