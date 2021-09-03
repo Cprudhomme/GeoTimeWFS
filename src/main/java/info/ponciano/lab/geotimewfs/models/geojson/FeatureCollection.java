@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author jean-jacquesponciano
  */
-public class FeatureCollection {
+ class FeatureCollection {
 
     private final String name;
     private final List<Feature> features;
