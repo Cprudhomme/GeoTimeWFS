@@ -36,4 +36,16 @@ public class Feature {
         this.properties = new HashMap<>();
     }
 
+    public String addProperty(String name, String value) {
+      return  this.properties.put(name, value);
+    }
+
+    public Geometry getGeometry() {
+        return geometry;
+    }
+
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
 }
