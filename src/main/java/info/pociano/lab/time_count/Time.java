@@ -19,9 +19,9 @@
 package info.pociano.lab.time_count;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Formatter;
 
 /**
  *
@@ -36,7 +36,7 @@ public class Time {
     
 
     public static void main(String[] args) {
-        String now = Time.now();
+        LocalDateTime now = Time.now();
         System.out.println(now);
         int days = Time.daysBetween("31-12-2021", "12-12-2012");
         System.out.println(days);
@@ -93,8 +93,14 @@ public class Time {
                 
     }
 
-    public static String now() {
+    public static LocalDateTime now() {
      
+        LocalDateTime now = LocalDateTime.now();
+       
+         
+         
+         System.out.println(now);
+         return now;    
     }
 
     public static int weeksBetween(String d1, String d2) {
