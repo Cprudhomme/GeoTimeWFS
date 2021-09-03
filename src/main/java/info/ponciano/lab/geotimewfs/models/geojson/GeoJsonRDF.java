@@ -170,7 +170,7 @@ public class GeoJsonRDF {
         //get the geometry
         JSONObject geometry = (JSONObject) feature.get("geometry");
         String geotype = (String) geometry.get("type");
-        JSONArray coords = (JSONArray) feature.get("coordinates");//get all coordinates
+        JSONArray coords = (JSONArray) geometry.get("coordinates");//get all coordinates
         double[] coordinates = new double[coords.size()];
         for (int i = 0; i < coordinates.length; i++) {
             coordinates[i] = Double.parseDouble((String) coords.get(i));
