@@ -116,7 +116,7 @@ public class GeoJsonRDF {
             indF.addProperty(hasGeometry, indGeo);
 
             //asigne properties
-            Map<String, String> properties = f.getProperties();
+            Map<String, Object> properties = f.getProperties();
             properties.forEach((k, v) -> {
                 DatatypeProperty p = ont.createDatatypeProperty(k);
                 indF.addLiteral(p, v);
@@ -152,7 +152,8 @@ public class GeoJsonRDF {
                     JSONObject properties = (JSONObject) feature.get("properties");
                     final Feature f = new Feature(geo);
                     properties.keySet().forEach(k -> {
-                        f.addProperty((String) k, (String) properties.get(k));
+                        Object get = properties.get(k);
+                        f.addProperty((String) k,get);
                     });
                     featureCollection.add(f);
 
@@ -173,7 +174,7 @@ public class GeoJsonRDF {
         JSONArray coords = (JSONArray) geometry.get("coordinates");//get all coordinates
         double[] coordinates = new double[coords.size()];
         for (int i = 0; i < coordinates.length; i++) {
-            coordinates[i] = Double.parseDouble((String) coords.get(i));
+            coordinates[i] = (double) coords.get(i);
         }
         Geometry geo = new Geometry(geotype, coordinates);
         return geo;
