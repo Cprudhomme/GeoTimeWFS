@@ -71,10 +71,10 @@ public class GeoJsonRDF {
         List<Feature> allfeatures = featureCollection.getFeatures();
         String name = featureCollection.getName();
         //create an individual
-        OntClass dataset = ont.getOntClass(DCAT_DATASET);
-        if (dataset == null) {
-            throw new PiOntologyException("the class \"http://www.w3.org/ns/dcat#Dataset\" does not exists but is requiered");
-        }
+        OntClass dataset = ont.createClass(DCAT_DATASET);
+//        if (dataset == null) {
+//            throw new PiOntologyException("the class \"http://www.w3.org/ns/dcat#Dataset\" does not exists but is requiered");
+//        }
 
         //create the individual data
         String nameFC = ont.getNs() + name;
@@ -89,9 +89,10 @@ public class GeoJsonRDF {
             //create geometry
             Geometry geometry = f.getGeometry();
             String type = geometry.getType();
-            OntClass ontClassGeo = ont.getOntClass("http://www.opengis.net/ont/geosparql#" + type);
+            String name1 = "http://www.opengis.net/ont/sf#" + type;
+            OntClass ontClassGeo = ont.getOntClass(name1);
             if (ontClassGeo == null) {
-                throw new PiOntologyException("the class \"http://www.opengis.net/ont/geosparql#" + type + "\" does not exists but is requiered");
+                throw new PiOntologyException(name1 + "\" does not exists but is requiered");
             }
             Individual indGeo = ontClassGeo.createIndividual(ont.getNs() + "_" + UUID.randomUUID().toString());
             var asWKT = ont.getDataProperty(GEOSPARQLAS_WKT);
