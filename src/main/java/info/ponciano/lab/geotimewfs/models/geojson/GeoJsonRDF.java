@@ -147,7 +147,7 @@ public class GeoJsonRDF {
                 JSONObject feature = (JSONObject) it.next();
                 String type = (String) feature.get("type");
                 if (type.equals("Feature")) {
-                    Geometry geo = extractGeo(feature, jsonObject);
+                    Geometry geo = extractGeo(feature);
                     //get the properties
                     JSONObject properties = (JSONObject) feature.get("properties");
                     final Feature f = new Feature(geo);
@@ -166,11 +166,11 @@ public class GeoJsonRDF {
         }
     }
 
-    private static Geometry extractGeo(JSONObject feature, JSONObject jsonObject) throws NumberFormatException {
+    private static Geometry extractGeo(JSONObject feature) throws NumberFormatException {
         //get the geometry
         JSONObject geometry = (JSONObject) feature.get("geometry");
         String geotype = (String) geometry.get("type");
-        JSONArray coords = (JSONArray) jsonObject.get("coordinates");//get all coordinates
+        JSONArray coords = (JSONArray) feature.get("coordinates");//get all coordinates
         double[] coordinates = new double[coords.size()];
         for (int i = 0; i < coordinates.length; i++) {
             coordinates[i] = Double.parseDouble((String) coords.get(i));
