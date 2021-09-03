@@ -67,15 +67,14 @@ public class Time {
     public static int yearsBetween(String d1, String d2) {
         DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
     
-        String date1 = "31-12-2021";
-        String date2 = "12-12-2012";
         
-        LocalDate date1 = LocalDate.parse(date1, Formatter);
-         LocalDate date2 = LocalDate.parse(date2, Formatter);
+        LocalDate ld1 = LocalDate.parse(d1, Formatter);
+         LocalDate ld2 = LocalDate.parse(d2, Formatter);
          
-         long monthsBetween = ChronoUnit.YEARS.between(date1,date2);
+         long yearsBetween = ChronoUnit.YEARS.between(ld1,ld2);
          
-         System.out.println(Integer.parseInt(monthsBetween);
+         System.out.println(yearsBetween);
+        return  (int) yearsBetween;
                 
      
     }
@@ -83,16 +82,14 @@ public class Time {
     public static int monthsBetween(String d1, String d2) {
          DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
     
-
-        String date1 = "31-12-2021";
-        String date2 = "12-12-2012";
-        
-        LocalDate date1 = LocalDate.parse(date1, Formatter);
-         LocalDate date2 = LocalDate.parse(date2, Formatter);
+       
+        LocalDate ld1 = LocalDate.parse(d1, Formatter);
+         LocalDate ld2 = LocalDate.parse(d2, Formatter);
          
-         long monthsBetween = ChronoUnit.MONTHS.between(date1,date2);
+         long monthsBetween = ChronoUnit.MONTHS.between(ld1,ld2);
          
-         System.out.println(Integer.parseInt(monthsBetween);
+         System.out.println(monthsBetween);
+        return (int) monthsBetween;
                 
     }
 
