@@ -18,12 +18,32 @@
  */
 package info.ponciano.lab.geotimewfs.models.geojson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author jean-jacquesponciano
  */
 public class Geometry {
-      private final   String type;
-      private final List<Double>coordinates;
+
+    private final String type;
+    private final List<Double> coordinates;
+
+    public Geometry(String type, double... coordinates) {
+        this.type = type;
+        this.coordinates = new ArrayList<>();
+        for (double coordinate : coordinates) {
+            this.coordinates.add(coordinate);
+        }
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public List<Double> getCoordinates() {
+        return coordinates;
+    }
 
 }
