@@ -20,6 +20,8 @@ package info.ponciano.lab.geotimewfs.models.geojson;
 
 import info.ponciano.lab.pisemantic.PiOnt;
 import info.ponciano.lab.pitools.files.PiFile;
+import java.util.List;
+import org.apache.jena.ontology.Individual;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -111,7 +113,9 @@ public class GeoJsonRDFTest {
         new PiFile(pathGeoJson).writeTextFile(geoExample);
         PiOnt ont = new PiOnt("src/main/resources/ontologies/geosparql.owl");
         GeoJsonRDF.upliftGeoJSON(pathGeoJson, ont);
-       ont.getIndividuals(ontclass)
+        List<Individual> individuals = ont.getIndividuals(ont.getOntClass(GeoJsonRDF.DCAT_DATASET));
+        assertFalse(individuals.isEmpty());
+        assertEquals(1, individuals.size());
     }
 
     /**
