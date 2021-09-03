@@ -20,6 +20,7 @@ package info.ponciano.lab.geotimewfs.models.geojson;
 
 import info.ponciano.lab.pisemantic.PiOnt;
 import info.ponciano.lab.pisemantic.PiOntologyException;
+import info.ponciano.lab.pitools.utility.PiRegex;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -31,6 +32,12 @@ import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -50,7 +57,8 @@ public class GeoJsonRDF {
      * @throws java.io.FileNotFoundException If the file is not found
      * @throws org.json.simple.parser.ParseException if the file cannot be
      * parsed.
-     * @throws info.ponciano.lab.pisemantic.PiOntologyException if something wrong or is not yet supported 
+     * @throws info.ponciano.lab.pisemantic.PiOntologyException if something
+     * wrong or is not yet supported
      */
     public static void upliftGeoJSON(String pathGeoJson, PiOnt ont) throws FileNotFoundException, IOException, ParseException, PiOntologyException {
 
@@ -154,7 +162,7 @@ public class GeoJsonRDF {
                     final Feature f = new Feature(geo);
                     properties.keySet().forEach(k -> {
                         Object get = properties.get(k);
-                        f.addProperty((String) k,get);
+                        f.addProperty((String) k, get);
                     });
                     featureCollection.add(f);
 
@@ -181,7 +189,84 @@ public class GeoJsonRDF {
         return geo;
     }
 
-    public static void downlift(String outputOut, PiOnt ont) {
+    public static String downlift(String outputOut, PiOnt ont, String datasetURI) throws PiOntologyException {
+        JSONObject data = new JSONObject();
+        JSONArray features = new JSONArray();
+        Individual individual = ont.getIndividual(datasetURI);
+        data.put("name", individual.getLocalName());
 
+        StmtIterator properties = individual.listProperties();
+        while (properties.hasNext()) {
+            Statement next = properties.next();
+            Property predicate = next.getPredicate();
+            RDFNode object = next.getObject();
+
+            switch (predicate.getLocalName()) {
+                case "hasFeature" -> {
+                    //object should be a feature
+
+                    Resource f = object.asResource();
+                    StmtIterator fproperties = f.listProperties();
+
+                    JSONObject feature = new JSONObject();
+                    feature.put("type", "Feature");
+                    JSONObject propertiesJson = new JSONObject();
+                    JSONObject jsonGEO = new JSONObject();
+                    while (fproperties.hasNext()) {
+                        Statement n = fproperties.next();
+                        Property fpredicate = n.getPredicate();
+                        RDFNode fobject = n.getObject();
+                        if (fpredicate.getURI().equals(GeoJsonRDF.GEOSPARQLHAS_GEOMETRY)) {
+                            createGeometryJson(fobject, jsonGEO);
+                        } else if (!fpredicate.getLocalName().equals("type")) {
+
+                            propertiesJson.put(fpredicate.getLocalName(), fobject.asLiteral().getValue());
+
+                        }
+                    }
+                    feature.put("geometry", jsonGEO);
+                    feature.put("properties", propertiesJson);
+                    features.add(feature);
+                }
+                case "type" ->
+                    data.put("type", "FeatureCollection");//should be FeatureCollection
+
+                default ->
+                    throw new PiOntologyException(predicate.getLocalName() + " not yet supported");
+            }
+        }
+        data.put("features", features);
+        return data.toJSONString();
+    }
+
+    public static void createGeometryJson(RDFNode object, JSONObject jsonGEO) throws PiOntologyException, NumberFormatException {
+        //fobject is a geometry
+        StmtIterator geoPrpt = object.asResource().listProperties();
+        String geotype = null;
+        String coords = null;
+        while (geoPrpt.hasNext()) {
+            Statement geop = geoPrpt.next();
+            if (geop.getPredicate().getURI().equals(GEOSPARQLAS_WKT)) {
+                coords = geop.getObject().asLiteral().getString();
+            } else if (geop.getPredicate().getLocalName().equals("type")) {
+                geotype = geop.getObject().asResource().getLocalName();
+            }
+        }
+        if (geotype == null || coords == null) {
+            throw new PiOntologyException(" geotype or coords are null");
+        }
+
+        jsonGEO.put("type", geotype);
+        if (geotype.equals("Point")) {
+            JSONArray array = new JSONArray();
+            String[] split = coords.substring(coords.indexOf("(") + 1, coords.lastIndexOf(")")).split(PiRegex.whiteCharacter);
+            for (String c : split) {
+                array.add(Double.parseDouble(c));
+            }
+            jsonGEO.put("coordinates", array);
+
+        } else {
+            throw new PiOntologyException(geotype + " not yet supported");
+        }
     }
 }
