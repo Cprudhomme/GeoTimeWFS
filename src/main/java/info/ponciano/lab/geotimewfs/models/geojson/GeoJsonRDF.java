@@ -19,10 +19,18 @@
 package info.ponciano.lab.geotimewfs.models.geojson;
 
 import info.ponciano.lab.pisemantic.PiOnt;
+import info.ponciano.lab.pisemantic.PiOntologyException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import org.apache.jena.ontology.DatatypeProperty;
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.ObjectProperty;
+import org.apache.jena.ontology.OntClass;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -42,49 +50,10 @@ public class GeoJsonRDF {
      * @throws java.io.FileNotFoundException If the file is not found
      * @throws org.json.simple.parser.ParseException if the file cannot be
      * parsed.
+     * @throws info.ponciano.lab.pisemantic.PiOntologyException if something wrong or is not yet supported 
      */
-    public static void upliftGeoJSON(String pathGeoJson, PiOnt ont) throws FileNotFoundException, IOException, ParseException {
-        /*
-        {
-	"type" : "FeatureCollection",
-	"name" : "HS",
-	"features" : [
-		{
-			"type" : "Feature",
-			"geometry" : {
-				"type" : "Point",
-				"coordinates" : [ 6.0779364934, 50.7776408005 ]
-			},
-			"properties" : {
-				"HS_Nr" : "1",
-				"Name" : "Rheinisch-Westfälische Technische Hochschule Aachen",
-				"Kurzname" : "Aachen TH",
-				"Strasse" : "Templergraben",
-				"Hn" : "55",
-				"PLZ" : "52062",
-				"Ort" : "Aachen",
-				"Telefon" : "0241/80-1",
-				"Telefax" : "0241/80-92312",
-				"Homepage" : "www.rwth-aachen.de",
-				"HS_Typ" : "Universitäten",
-				"Traegersch" : "öffentlich-rechtlich",
-				"Anzahl_Stu" : 45945,
-				"Gruendungs" : 1870,
-				"Promotion" : "Ja",
-				"Habilitati" : "Ja",
-				"PLZ_Postfa" : "52056",
-				"Ort_Postfa" : "Aachen",
-				"Mitglied_H" : 1,
-				"Quelle" : "HRK",
-				"RS" : "053340002002",
-				"Bundesland" : "Nordrhein-Westfalen",
-				"Regierungs" : "Köln",
-				"Kreis" : "Städteregion Aachen",
-				"Verwaltung" : "Aachen",
-				"Gemeinde" : "Aachen"
-			}
-		},
-         */
+    public static void upliftGeoJSON(String pathGeoJson, PiOnt ont) throws FileNotFoundException, IOException, ParseException, PiOntologyException {
+
         JSONParser parser = new JSONParser();//creates an instance  of  JSONParser object
         Object object = parser
                 .parse(new FileReader(pathGeoJson));
@@ -94,32 +63,120 @@ public class GeoJsonRDF {
 
         //Reading the collection
         String nameCollection = (String) jsonObject.get("name");
+        FeatureCollection featureCollection = new FeatureCollection(nameCollection);
+
+        extractFeatures(jsonObject, featureCollection);
+
+        // uplift
+        List<Feature> allfeatures = featureCollection.getFeatures();
+        String name = featureCollection.getName();
+        //create an individual
+        OntClass dataset = ont.getOntClass(DCAT_DATASET);
+        if (dataset == null) {
+            throw new PiOntologyException("the class \"http://www.w3.org/ns/dcat#Dataset\" does not exists but is requiered");
+        }
+
+        //create the individual data
+        String nameFC = ont.getNs() + name;
+        //generate a new name if the name is already known
+        if (ont.getIndividual(nameFC) != null) {
+            nameFC += "_" + UUID.randomUUID().toString();
+        }
+        Individual data = dataset.createIndividual(nameFC);
+
+        for (Feature f : allfeatures) {
+
+            //create geometry
+            Geometry geometry = f.getGeometry();
+            String type = geometry.getType();
+            OntClass ontClassGeo = ont.getOntClass("http://www.opengis.net/ont/geosparql#" + type);
+            if (ontClassGeo == null) {
+                throw new PiOntologyException("the class \"http://www.opengis.net/ont/geosparql#" + type + "\" does not exists but is requiered");
+            }
+            Individual indGeo = ontClassGeo.createIndividual(ont.getNs() + "_" + UUID.randomUUID().toString());
+            var asWKT = ont.getDataProperty(GEOSPARQLAS_WKT);
+            if (asWKT == null) {
+                throw new PiOntologyException("the property \"http://www.opengis.net/ont/geosparql#asWKT\" does not exists but is requiered");
+            }
+            String value = geometry.toString();
+            indGeo.addLiteral(asWKT, value);
+
+            //creates feature
+            OntClass ontClassFeature = ont.getOntClass(GEOSPARQL_FEATURE);
+            if (ontClassFeature == null) {
+                throw new PiOntologyException("the class \"http://www.opengis.net/ont/geosparql#Feature\" does not exists but is requiered");
+            }
+            Individual indF = ontClassFeature.createIndividual(ont.getNs() + "_" + UUID.randomUUID().toString());
+
+            //asign a geometry to the feature
+            var hasGeometry = ont.getObjectProperty(GEOSPARQLHAS_GEOMETRY);
+            if (hasGeometry == null) {
+                throw new PiOntologyException("the property \"http://www.opengis.net/ont/geosparql#hasGeometry\" does not exists but is requiered");
+            }
+            indF.addProperty(hasGeometry, indGeo);
+
+            //asigne properties
+            Map<String, String> properties = f.getProperties();
+            properties.forEach((k, v) -> {
+                DatatypeProperty p = ont.createDatatypeProperty(k);
+                indF.addLiteral(p, v);
+            });
+            //asign the feature to the datasets
+            ObjectProperty hasFeature = ont.createObjectProperty("hasFeature");
+            data.addProperty(hasFeature, indF);
+
+        }
+
+    }
+    public static final String GEOSPARQLHAS_GEOMETRY = "http://www.opengis.net/ont/geosparql#hasGeometry";
+    public static final String GEOSPARQLAS_WKT = "http://www.opengis.net/ont/geosparql#asWKT";
+    public static final String GEOSPARQL_FEATURE = "http://www.opengis.net/ont/geosparql#Feature";
+    public static final String DCAT_DATASET = "http://www.w3.org/ns/dcat#Dataset";
+
+    private static void extractFeatures(JSONObject jsonObject, FeatureCollection featureCollection) throws NumberFormatException, PiOntologyException {
         String typeCollection = (String) jsonObject.get("type");
-        
+        //create the object
 
         //if the type is "FeatureCollection"
         if (typeCollection.equals("FeatureCollection")) {
 
-            JSONArray features = (JSONArray) jsonObject.get("features");
+            JSONArray features = (JSONArray) jsonObject.get("features");//get all feature
 
-            for (Iterator it = features.iterator(); it.hasNext();) {
+            for (Iterator it = features.iterator(); it.hasNext();) {//for each feature
+                //extract information
                 JSONObject feature = (JSONObject) it.next();
                 String type = (String) feature.get("type");
-                JSONObject geometry = (JSONObject) feature.get("geometry");
-                JSONObject properties = (JSONObject) feature.get("properties");
+                if (type.equals("Feature")) {
+                    Geometry geo = extractGeo(feature, jsonObject);
+                    //get the properties
+                    JSONObject properties = (JSONObject) feature.get("properties");
+                    final Feature f = new Feature(geo);
+                    properties.keySet().forEach(k -> {
+                        f.addProperty((String) k, (String) properties.get(k));
+                    });
+                    featureCollection.add(f);
 
+                } else {
+                    throw new PiOntologyException("parsing for " + type + " is not yet supported");
+                }
             }
-        }
-        //Reading the array
 
-        //Printing all the values
-        System.out.println("Name: " + name);
-        System.out.println("Age: " + age);
-        System.out.println("Countries:");
-        for (Object country : countries) {
-            System.out.println("\t" + country.toString());
+        } else {
+            throw new PiOntologyException("parsing for " + typeCollection + " is not yet supported");
         }
+    }
 
+    private static Geometry extractGeo(JSONObject feature, JSONObject jsonObject) throws NumberFormatException {
+        //get the geometry
+        JSONObject geometry = (JSONObject) feature.get("geometry");
+        String geotype = (String) geometry.get("type");
+        JSONArray coords = (JSONArray) jsonObject.get("coordinates");//get all coordinates
+        double[] coordinates = new double[coords.size()];
+        for (int i = 0; i < coordinates.length; i++) {
+            coordinates[i] = Double.parseDouble((String) coords.get(i));
+        }
+        Geometry geo = new Geometry(geotype, coordinates);
+        return geo;
     }
 
     public static void downlift(String outputOut, PiOnt ont) {
