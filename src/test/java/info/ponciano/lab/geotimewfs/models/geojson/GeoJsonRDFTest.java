@@ -19,9 +19,22 @@
 package info.ponciano.lab.geotimewfs.models.geojson;
 
 import info.ponciano.lab.pisemantic.PiOnt;
+import info.ponciano.lab.pisemantic.PiOntologyException;
 import info.ponciano.lab.pitools.files.PiFile;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.ontology.Individual;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -107,15 +120,63 @@ public class GeoJsonRDFTest {
      * Test of upliftGeoJSON method, of class GeoJsonRDF.
      */
     @Test
-    public void testUpliftGeoJSON() throws Exception {
-        System.out.println("upliftGeoJSON");
-     String pathGeoJson = "geotest.json";
-        new PiFile(pathGeoJson).writeTextFile(geoExample);
-        PiOnt ont = new PiOnt("src/main/resources/ontologies/geosparql.owl");
-        GeoJsonRDF.upliftGeoJSON(pathGeoJson, ont);
-        List<Individual> individuals = ont.getIndividuals(ont.getOntClass(GeoJsonRDF.DCAT_DATASET));
-        assertFalse(individuals.isEmpty());
-        assertEquals(1, individuals.size());
+    public void testUpliftGeoJSON() {
+        try {
+            System.out.println("upliftGeoJSON");
+            String pathGeoJson = "geotest.json";
+            new PiFile(pathGeoJson).writeTextFile(geoExample);
+            PiOnt ont = new PiOnt("src/main/resources/ontologies/geosparql.owl");
+            GeoJsonRDF.upliftGeoJSON(pathGeoJson, ont);
+            List<Individual> individuals = ont.getIndividuals(ont.getOntClass(GeoJsonRDF.DCAT_DATASET));
+            assertFalse(individuals.isEmpty());
+            assertEquals(1, individuals.size());
+
+            StmtIterator properties = individuals.get(0).listProperties();
+            while (properties.hasNext()) {
+                Statement next = properties.next();
+                Property predicate = next.getPredicate();
+                RDFNode object = next.getObject();
+                if (predicate.getLocalName().equals("hasFeature")) {
+                    //object should be a feature
+                    assertTrue(object.isResource());
+                    Resource f = object.asResource();
+                    StmtIterator fproperties = f.listProperties();
+
+                    while (fproperties.hasNext()) {
+                        Statement n = fproperties.next();
+                        Property fpredicate = n.getPredicate();
+                        RDFNode fobject = n.getObject();
+                        if (fpredicate.getURI().equals(GeoJsonRDF.GEOSPARQLHAS_GEOMETRY)) {
+                            //fobject is a geometry
+                        } else if (fpredicate.getLocalName().equals("type")) {
+                            //fobject is a Feature class
+                            assertEquals(fobject.asResource().getURI(), GeoJsonRDF.GEOSPARQL_FEATURE);
+                        } else {
+                            System.out.println(fpredicate.getLocalName() + " ----> " + fobject);
+                            Literal lit = fobject.asLiteral();
+                            String datatypeURI = lit.getDatatypeURI();
+                            String v;
+                            if (datatypeURI.contains("string")) {
+                                v = "\"" + fobject.asLiteral().getValue().toString() + "\"";
+                            } else {
+                                v = fobject.asLiteral().getValue().toString();
+                            }
+                            String name = "\"" + fpredicate.getLocalName() + "\" : " + v;
+                            //should be a property 
+                            System.out.println(name);
+                            assertTrue(geoExample.contains(name));
+                        }
+                    }
+                } else if (predicate.getLocalName().equals("type")) {
+                     assertEquals(object.asResource().getURI(), GeoJsonRDF.DCAT_DATASET);
+                } else {
+                    fail(predicate + " unknown");
+                }
+            }
+        } catch (IOException | ParseException | PiOntologyException ex) {
+            Logger.getLogger(GeoJsonRDFTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail(ex.getMessage());
+        }
     }
 
     /**
