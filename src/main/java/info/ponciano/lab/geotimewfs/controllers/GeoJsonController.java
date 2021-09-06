@@ -20,6 +20,7 @@ package info.ponciano.lab.geotimewfs.controllers;
 
 import info.ponciano.lab.geotimewfs.array_uplift.PropertyForm;
 import info.ponciano.lab.geotimewfs.array_uplift.PropertyMapping;
+import info.ponciano.lab.geotimewfs.controllers.storage.StorageProperties;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.models.geojson.GeoJsonRDF;
 import info.ponciano.lab.geotimewfs.models.semantic.KB;
@@ -27,6 +28,7 @@ import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import info.ponciano.lab.pisemantic.PiOnt;
 import info.ponciano.lab.pisemantic.PiOntologyException;
 import info.ponciano.lab.pitools.files.PiFile;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -123,16 +125,18 @@ public class GeoJsonController {
             return "geoJSON";
         }
         String uri = di.getName();
-        System.out.println(uri);
         try {
             //downlift
             String downlift = GeoJsonRDF.downlift(KB.get().getOnt(), uri);
             //save the file
-            String out = uri.substring(uri.lastIndexOf('#') + 1, uri.length());
-            new PiFile(out).writeTextFile(downlift);
-
-            model.addAttribute("file", "/download/" + out);
-            return "view";
+            String out = uri.substring(uri.lastIndexOf('#') + 1, uri.length())+".geojson";
+            String res = new StorageProperties().getLocation()+"/"+out;
+            System.out.println(res);
+            new PiFile(res).writeTextFile(downlift);
+           
+            model.addAttribute("message", "Downlifting of "+out+" successfully completed !");
+            model.addAttribute("file", "/files/" + out);
+            return "success";
         } catch (Exception ex) {
             Logger.getLogger(GeoJsonController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("message", ex.getMessage());
@@ -141,14 +145,6 @@ public class GeoJsonController {
 
     }
 
-//    @GetMapping("/files/{filename:.+}")
-//    @ResponseBody
-//    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-//
-//        Resource file = storageService.loadAsResource(filename);
-//        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-//                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-//    }
     // initialize the model attribute "dataindiv"
     @ModelAttribute(name = "dataindiv")
     public GeoJsonForm dataindiv() {
