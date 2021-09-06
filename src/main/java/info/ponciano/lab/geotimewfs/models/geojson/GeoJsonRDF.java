@@ -84,7 +84,7 @@ public class GeoJsonRDF {
         String nameFC = ont.getNs() + name;
         //generate a new name if the name is already known
         if (ont.getIndividual(nameFC) != null) {
-            nameFC += dataset.getLocalName().toLowerCase()+"_" + UUID.randomUUID().toString();
+            nameFC = ont.getNs() +dataset.getLocalName().toLowerCase()+"_" + UUID.randomUUID().toString();
         }
         Individual data = dataset.createIndividual(nameFC);
 
