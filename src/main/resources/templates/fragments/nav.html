@@ -41,11 +41,34 @@ MA 02110-1301  USA
                                 <!--<a href="/schema/validation">Schema verification</a>-->
                             </div>
                         </div>
+                          <!--SPARQL endpoint-->
+                        <div class="dropdown">
+                            <button class="dropbtn" onclick="window.location.href = '/sparqlend';">SPARQL endpoint</button>
+                        </div>
+                        
+                            <!--Thematic maps menu with 3 submenus-->
+                        <div class="dropdown">
+                            <button class="dropbtn" onclick="window.location.href = '/thematicMaps';">Thematic maps</button>
+                            <div class="dropdown-content">
+                                <a href="/mapCreation">Create a thematic map</a>
+                                <a href="/mapExample">Spatio-temporal data example</a>
+                                <a href="/mapList">Thematic maps</a>
+                            </div>
+                        </div><!-- comment -->
                         <!--SPARQL endpoint menu (external link)-->
                         <div class="dropdown">
                             <!--The button for a menu without subemnus
                               the button have a function in JavaScript that gives to it a url that is reached when the button is clicked-->
 
+                        </div>
+                          <!--Metadata catalogue with 3 submenus-->
+                        <div class="dropdown">
+                            <button class="dropbtn">Metadata catalogue</button>
+                            <div class="dropdown-content">
+                                <a href="/geotimeWFS/">Semantic OGC API Records landing page</a>
+                                <a href="/metadata/uplift">Metadata importer</a>
+                                <a href="/md2data">Link Metadata to Data</a>
+                            </div>
                         </div>
                         <!--Semantic WFS menu with 3 submenus-->
                         <div class="dropdown">
@@ -59,24 +82,8 @@ MA 02110-1301  USA
                             </div>
                         </div>
 
-                        <!--Metadata catalogue with 3 submenus-->
-                        <div class="dropdown">
-                            <button class="dropbtn">Metadata catalogue</button>
-                            <div class="dropdown-content">
-                                <a href="/geotimeWFS/">Semantic OGC API Records landing page</a>
-                                <a href="/metadata/uplift">Metadata importer</a>
-                                <a href="/md2data">Link Metadata to Data</a>
-                            </div>
-                        </div>
-                        <!--Thematic maps menu with 3 submenus-->
-                        <div class="dropdown">
-                            <button class="dropbtn" onclick="window.location.href = '/thematicMaps';">Thematic maps</button>
-                            <div class="dropdown-content">
-                                <a href="/mapCreation">Create a thematic map</a>
-                                <a href="/mapExample">Spatio-temporal data example</a>
-                                <a href="/mapList">Thematic maps</a>
-                            </div>
-                        </div>
+                      
+                    
                         <!--Documentation menu-->
                         <div class="dropdown">
                             <button class="dropbtn" onclick="window.location.href = '/documentation';">Documentation</button>
