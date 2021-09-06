@@ -34,11 +34,13 @@ import org.apache.jena.query.ResultSet;
  */
 public class KB implements KnowledgeBaseInterface {
 
+    public static final String STORAGE_DIR="dynamic_storage";
+    public static final String URI="http://lab.ponciano.info/ont/spalod";
     private static KB kb = null;
-    private static final String NS="http://lab.ponciano.info/ont/spalod#";
+    public static final String NS="http://lab.ponciano.info/ont/spalod#";
     private static final String DEFAULT_ONTO_ISO = "src/main/resources/ontologies/iso-19115.owl";
     private static final String DEFAULT_ONTO = "src/main/resources/ontologies/spalod.owl";
-    private static final String OUT_ONTO = "geotimeOutput.owl";
+    public static final String OUT_ONTO = "geotimeOutput.owl";
     private final OwlManagement model;
 
     public static KB get() throws OntoManagementException {
