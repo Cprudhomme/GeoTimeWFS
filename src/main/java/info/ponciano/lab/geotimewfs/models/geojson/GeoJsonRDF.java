@@ -193,7 +193,7 @@ public class GeoJsonRDF {
      * dcat#Dataset)
      * @return the GeoJSON String containing all information about the
      * individuals
-     * @throws PiOntologyException is the downlift is impossible with the
+     * @throws PiOntologyException if the downlift is impossible with the
      * individual targeted.
      */
     public static String downlift(PiOnt ont, String datasetURI) throws PiOntologyException {
@@ -236,7 +236,7 @@ public class GeoJsonRDF {
                     features.add(feature);
                 }
                 case "type" ->
-                    data.put("type", "FeatureCollection");//should be FeatureCollection
+                    data.put("type", "FeatureCollection");//should be a FeatureCollection
 
                 default ->
                     throw new PiOntologyException(predicate.getLocalName() + " not yet supported");
