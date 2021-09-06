@@ -188,7 +188,7 @@ public class SchemaController {
       	
                     }
                     //adding to the knowledge base
-                    KB.get().getOnt().add(ont);
+                    KB.get().getOnt().getOnt().add(ont);
                     KB.get().save();
                 } catch (IOException | OntoManagementException ex) {
                     Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
