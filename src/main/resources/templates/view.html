@@ -16,7 +16,9 @@
         <h2>Message</h2>
         <p th:text="${message}">
             
-            <a  th:if="${not #lists.isEmpty(file)}" class="button" th:href="${file}">Download file</a>
+        <div th:if="${file}">
+            <a  class="button" th:href="${file}">Download file</a>
+            </div>
         </p>
     </body>
 </html>
