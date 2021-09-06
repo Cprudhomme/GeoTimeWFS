@@ -41,9 +41,6 @@ This view represents the submenu "Metadata importer" of the menu "Metadata catal
                             </table>
                         </form>
                     </div>
-                    <div th:if="${message}">
-                        <h2 th:text="${message}"/>
-                    </div>
                     <div>
                         <ul>
                             <li th:each="file : ${files}">
