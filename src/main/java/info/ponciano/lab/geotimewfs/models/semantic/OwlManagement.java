@@ -139,8 +139,8 @@ class OwlManagement extends OntoManagement {
                 String nodeName = elemNode.getNodeName();
                 //class not found excepted for west/east/north/south/BoundLongitude parentProperty.getLocalName().contains("BoundLongitude)"
                 if (nodeName.contains("Decimal")) {
-                    Individual angle = this.ont.createIndividual(OwlManagement.generateURI(), this.ont.getOntClass("http://lab.ponciano.info/ontology/2020/geotime/iso-19103#Angle"));
-                    angle.addLiteral(this.ont.getDatatypeProperty(NS + "decimalValue"), textContent);
+                    Individual angle = this.ont.createIndividual(OwlManagement.generateURI(), this.ont.createClass("http://lab.ponciano.info/ontology/2020/geotime/iso-19103#Angle"));
+                    angle.addLiteral(this.ont.createDatatypeProperty(NS + "decimalValue"), textContent);
                     indiv.addProperty(parentProperty, angle);
                 } else {
                     throw new OntoManagementException("Class not found: " + elemNode);
@@ -173,7 +173,7 @@ class OwlManagement extends OntoManagement {
                 if (attrName1.toLowerCase().equals("uuid")) {
                     n = this.ont.createIndividual(generateURI(), nodeClass);
                     //(NS + attrValue, nodeClass);
-                    n.addLiteral(this.ont.getDatatypeProperty(NS + "characterString"), attrValue);
+                    n.addLiteral(this.ont.createDatatypeProperty(NS + "characterString"), attrValue);
                     notCreate = false;
                 } else if (attrName1.equals("codeListValue") || attrName1.equals("codeListElementValue")) {
                     String name = NS + "_" + attrValue;
@@ -268,7 +268,7 @@ class OwlManagement extends OntoManagement {
             while (listProperties.hasNext()) {
                 Statement next = listProperties.next();
                 String nameP = next.getPredicate().getURI();
-                OntProperty predicate = this.ont.getOntProperty(nameP);
+                OntProperty predicate = this.ont.createOntProperty(nameP);
                 RDFNode object = next.getObject();
                 //System.out.println("Object: " + object);
                 //System.out.println("Prp: " + predicate);
@@ -306,7 +306,7 @@ class OwlManagement extends OntoManagement {
         //Creation of an individual of the MD_dataset class into the local ontmodel
         //and retrieve its URI into a variable
         String dsuri= NS +"dataset_"+ UUID.randomUUID().toString();
-        Individual ds = om.createIndividual(dsuri, this.ont.getOntClass("http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_Dataset"));
+        Individual ds = om.createIndividual(dsuri, this.ont.createClass("http://lab.ponciano.info/ontology/2020/geotime/iso-19115#MD_Dataset"));
         System.out.println(ds);
         //Add a link between the dataset individual and each individual of the ontmodel
         //having a geometry
