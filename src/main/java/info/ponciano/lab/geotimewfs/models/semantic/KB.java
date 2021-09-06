@@ -22,6 +22,8 @@ import info.ponciano.lab.pisemantic.PiOnt;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.ResultSet;
 
@@ -124,5 +126,12 @@ public class KB implements KnowledgeBaseInterface {
 
     public void add(OntModel ont) {
         this.model.ont.getOnt().add(ont);
+    }
+    public static void main(String[] args) {
+        try {
+            KB.get();
+        } catch (OntoManagementException ex) {
+            Logger.getLogger(KB.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
