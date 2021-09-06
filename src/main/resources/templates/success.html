@@ -12,6 +12,10 @@
         <div class="containerfull">
             <div class="containercontent">
                 <p th:text="${message}"/>
+                
+                  <p th:if="${file}">
+                    <a  class="button" th:href="${file}">Download file</a>
+                </p>
             </div
             ></div>
         <div th:insert="fragments/footer :: footer"></div>
