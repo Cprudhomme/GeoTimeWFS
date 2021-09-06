@@ -60,10 +60,10 @@ import org.apache.jena.util.iterator.ExtendedIterator;
          } catch (FileNotFoundException ex) {
              Logger.getLogger(OntoManagement.class.getName()).log(Level.SEVERE, null, ex);
          }
-        String checkOntology = this.checkOntology();
-        if (!checkOntology.isEmpty()) {
-            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
-        }
+//        String checkOntology = this.checkOntology();
+//        if (!checkOntology.isEmpty()) {
+//            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
+//        }
         prefix = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n";
         prefix += "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n";
         prefix += "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n";
@@ -98,10 +98,10 @@ import org.apache.jena.util.iterator.ExtendedIterator;
              Logger.getLogger(OntoManagement.class.getName()).log(Level.SEVERE, null, ex);
          }
        
-        String checkOntology = this.checkOntology();
-        if (!checkOntology.isEmpty()) {
-            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
-        }
+//        String checkOntology = this.checkOntology();
+//        if (!checkOntology.isEmpty()) {
+//            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
+//        }
         prefix = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n";
         prefix += "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n";
         prefix += "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n";
