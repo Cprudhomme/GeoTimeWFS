@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import info.ponciano.lab.pisemantic.PiSparql;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.models.SparqlQuery;
+import info.ponciano.lab.geotimewfs.models.semantic.KB;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -133,7 +134,7 @@ public class EnrichmentController {
         storageService.store(file);
         //file reading
         String filename = file.getOriginalFilename();
-        String fileOnt = "upload-dir/" + filename;
+        String fileOnt = KB.STORAGE_DIR +"/"+ filename;
         this.ont.read(fileOnt);
         return enrichmentHome(model);
     }
