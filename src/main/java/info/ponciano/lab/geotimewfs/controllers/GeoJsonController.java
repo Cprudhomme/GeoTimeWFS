@@ -22,8 +22,17 @@ import info.ponciano.lab.geotimewfs.array_uplift.PropertyForm;
 import info.ponciano.lab.geotimewfs.array_uplift.PropertyMapping;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.models.geojson.GeoJsonRDF;
+import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
+import info.ponciano.lab.pisemantic.PiOnt;
+import info.ponciano.lab.pisemantic.PiOntologyException;
+import info.ponciano.lab.pitools.files.PiFile;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.Valid;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +52,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/geoJSON")
 public class GeoJsonController {
 
-    private GeoJsonRDF model;
     private final StorageService storageService;
 
     @Autowired
@@ -52,13 +60,28 @@ public class GeoJsonController {
     }
 
     @PostMapping("/uplift")
-    public String uplift(@RequestParam("file") MultipartFile file, PropertyForm perPropertyForm, Model model) {//RedirectAttributes redirectAttributes) {
-        // store file
-        storageService.store(file);
+    public String uplift(@RequestParam("file") MultipartFile file, PropertyForm perPropertyForm, Model model) {
+        try {
+            //RedirectAttributes redirectAttributes) {
+            // store file
+            storageService.store(file);
 
-        //TODO 
-        model.addAttribute("message", "File uplifted");
-        return "success";
+            //File reading
+            String filename = file.getOriginalFilename();
+            String geojsonfilepath = "upload-dir/" + filename;
+            
+            //execute the uplift
+            GeoJsonRDF.upliftGeoJSON(geojsonfilepath, KB.get().getOnt());
+
+
+            model.addAttribute("message", "File uplifted");
+            return "success";
+        } catch (OntoManagementException | IOException | ParseException | PiOntologyException ex) {
+            Logger.getLogger(GeoJsonController.class.getName()).log(Level.SEVERE, null, ex);
+              model.addAttribute("message", ex.getMessage());
+            return "error";
+        }
+        
     }
 
     @PostMapping("/downlift")
@@ -88,11 +111,11 @@ public class GeoJsonController {
         model.addAttribute("message", message);
         return "success";
     }
-    
-    	// initialize the model attribute "dataindiv"
-		@ModelAttribute(name = "dataindiv")
-		public PropertyMapping propmap() {
-			return new PropertyMapping();
-		}
+
+    // initialize the model attribute "dataindiv"
+    @ModelAttribute(name = "dataindiv")
+    public PropertyMapping propmap() {
+        return new PropertyMapping();
+    }
 
 }
