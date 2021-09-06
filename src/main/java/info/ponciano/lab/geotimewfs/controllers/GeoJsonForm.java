@@ -29,10 +29,10 @@ public class GeoJsonForm {
 
     @NotNull
     @Size(min = 2)
-    private String name;
+    String name;
 
     public GeoJsonForm() {
-        this.name = "";
+        this.name = "default";
     }
 
     @Override
