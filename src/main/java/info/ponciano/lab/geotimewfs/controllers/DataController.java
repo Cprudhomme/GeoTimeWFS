@@ -293,7 +293,7 @@ public class DataController {
                              */
                         }
                     }
-                    KB.get().getOnt().add(ont);
+                    KB.get().getOnt().getOnt().add(ont);
                     KB.get().save();
                     foundc = true;
                 }
@@ -397,7 +397,7 @@ public class DataController {
                 try {
                     // retrieve the RDF representation of the data associated to its metadata
                     OntModel ont = data.representationRDF(rdfdata[0], file.getOriginalFilename());
-                    KB.get().getOnt().add(ont);
+                    KB.get().add(ont);
                     KB.get().save();
 
                 } catch (Exception ex) {
@@ -501,7 +501,7 @@ public class DataController {
                 try {
                     // retrieve the RDF representation of the data associated to its metadata
                     OntModel ont = updatedData.representationRDF(rdfdata[0], file.getOriginalFilename());
-                    KB.get().getOnt().add(ont);
+                   KB.get().add(ont);
 
                     // retrieve the previous assets of the new asset version
                     List<String[]> previous = updatedData.getpreviousVersion();
