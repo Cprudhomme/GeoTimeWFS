@@ -10,7 +10,7 @@ public class StorageProperties {
     /**
      * Folder location for storing files
      */
-    private String location = "upload-dir";
+    private  String location = "dynamic_storage";
 
     public String getLocation() {
         return location;
@@ -25,6 +25,5 @@ public class StorageProperties {
     public StorageProperties() {
         new PiFile(this.location).mkdir();
     }
-
 
 }
