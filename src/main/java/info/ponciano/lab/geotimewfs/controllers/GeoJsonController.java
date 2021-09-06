@@ -54,7 +54,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author jean-jacquesponciano
  */
 @Controller
-@RequestMapping("/geoJSON")
+@RequestMapping("/geojson")
 public class GeoJsonController {
 
     private final StorageService storageService;
