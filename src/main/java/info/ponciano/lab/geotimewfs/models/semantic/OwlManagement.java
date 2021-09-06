@@ -157,7 +157,7 @@ class OwlManagement extends OntoManagement {
      * @throws IOException If the file cannot be written.
      */
     public void saveOntology(String path) throws IOException {
-        this.ont.write(new FileWriter(path));
+        this.ont.getOnt().write(new FileWriter(path));
     }
 
     private Individual getIndividual(Node elemNode, OntClass nodeClass) throws DOMException, OntoManagementException {
@@ -268,7 +268,7 @@ class OwlManagement extends OntoManagement {
             while (listProperties.hasNext()) {
                 Statement next = listProperties.next();
                 String nameP = next.getPredicate().getURI();
-                OntProperty predicate = this.ont.createOntProperty(nameP);
+                OntProperty predicate = this.ont.getOnt().createOntProperty(nameP);
                 RDFNode object = next.getObject();
                 //System.out.println("Object: " + object);
                 //System.out.println("Prp: " + predicate);
@@ -300,6 +300,7 @@ class OwlManagement extends OntoManagement {
         }
     }
 
+    @Override
     public void dataImport(String mduri, String ttlpath) {
         //local ontmodel creation from the path file in parameter
         OntModel om = (OntModel) RDFDataMgr.loadModel(ttlpath);
