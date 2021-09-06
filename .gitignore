@@ -55,3 +55,4 @@ testdata/
 geotest.json
 geotest2.json
 HS
+dynamic_storage/HS.geojson
