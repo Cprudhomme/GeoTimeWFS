@@ -34,14 +34,19 @@ import java.util.logging.Logger;
 import javax.validation.Valid;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -60,7 +65,7 @@ public class GeoJsonController {
     }
 
     @PostMapping("/uplift")
-    public String uplift(@RequestParam("file") MultipartFile file, PropertyForm perPropertyForm, Model model) {
+    public String uplift(@RequestParam("file") MultipartFile file, Model model) {
         try {
             //RedirectAttributes redirectAttributes) {
             // store file
@@ -69,52 +74,58 @@ public class GeoJsonController {
             //File reading
             String filename = file.getOriginalFilename();
             String geojsonfilepath = "upload-dir/" + filename;
-            
+
             //execute the uplift
             GeoJsonRDF.upliftGeoJSON(geojsonfilepath, KB.get().getOnt());
 
             model.addAttribute("message", "File uplifted");
-            return "success";
+            return "geoJSON";
         } catch (OntoManagementException | IOException | ParseException | PiOntologyException ex) {
             Logger.getLogger(GeoJsonController.class.getName()).log(Level.SEVERE, null, ex);
-              model.addAttribute("message", ex.getMessage());
+            model.addAttribute("message", ex.getMessage());
             return "error";
         }
-        
+
     }
 
     @PostMapping("/downlift")
-    public String downlift(@Valid PropertyForm perPropertyForm, BindingResult bindingResult, Model model) {
-
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(perPropertyForm);
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
-        String localname = perPropertyForm.getName();
-        String range = perPropertyForm.getRange();
+    public String downlift(@Valid GeoJsonForm dataindiv, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "form";
+            model.addAttribute("message", bindingResult.getAllErrors().toString());
+            return "geoJSON";
         }
-        String message = "";
-        boolean adding = false;
-        if (model != null) {
-            adding = this.am.addProperty(localname, range);
-            if (adding) {
-                message = "The property " + localname + " has been successfully added.";
-            } else {
-                message = "The adding of the property " + localname + " has failed.";
-            }
-        } else {
-            message = "The model has not been initialized";
+        String uri = dataindiv.getName();
+
+        try {
+            //downlift
+            String downlift = GeoJsonRDF.downlift(KB.get().getOnt(), uri);
+            //save the file
+            String out = uri.substring(uri.lastIndexOf('#') + 1, uri.length());
+            new PiFile(out).writeTextFile(downlift);
+
+            model.addAttribute("file", "/download/" + out);
+            return "geoJSONDownlift";
+        } catch (PiOntologyException | OntoManagementException ex) {
+            Logger.getLogger(GeoJsonController.class.getName()).log(Level.SEVERE, null, ex);
+            model.addAttribute("message", ex.getMessage());
+            return "error";
         }
-        model.addAttribute("message", message);
-        return "success";
+
     }
+
+//    @GetMapping("/files/{filename:.+}")
+//    @ResponseBody
+//    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+//
+//        Resource file = storageService.loadAsResource(filename);
+//        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+//                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+//    }
 
     // initialize the model attribute "dataindiv"
     @ModelAttribute(name = "dataindiv")
-    public PropertyMapping propmap() {
-        return new PropertyMapping();
+    public GeoJsonForm propmap() {
+        return new GeoJsonForm();
     }
 
 }
