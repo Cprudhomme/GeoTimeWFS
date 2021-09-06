@@ -104,13 +104,19 @@ public class GeoJsonController {
 
             //File reading
             String filename = file.getOriginalFilename();
-            String geojsonfilepath = "upload-dir/" + filename;
+            String geojsonfilepath = KB.STORAGE_DIR +"/"+ filename;
 
             //execute the uplift
             GeoJsonRDF.upliftGeoJSON(geojsonfilepath, KB.get().getOnt());
             KB.get().save();
-            model.addAttribute("message", "File uplifted");
-            return "view";
+            String out = "geotime.owl";
+            String res = new StorageProperties().getLocation() + "/" + out;
+            System.out.println(res);
+            new PiFile(KB.OUT_ONTO).copy(res);
+            model.addAttribute("message", "File uplifted, you can now download the complet ontology");
+            model.addAttribute("message", "Uplifting of " + out + " successfully completed !");
+            model.addAttribute("file", "/files/" + out);
+            return "success";
         } catch (Exception ex) {
             Logger.getLogger(GeoJsonController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("message", ex.getMessage());
@@ -129,12 +135,12 @@ public class GeoJsonController {
             //downlift
             String downlift = GeoJsonRDF.downlift(KB.get().getOnt(), uri);
             //save the file
-            String out = uri.substring(uri.lastIndexOf('#') + 1, uri.length())+".geojson";
-            String res = new StorageProperties().getLocation()+"/"+out;
+            String out = uri.substring(uri.lastIndexOf('#') + 1, uri.length()) + ".geojson";
+            String res = new StorageProperties().getLocation() + "/" + out;
             System.out.println(res);
             new PiFile(res).writeTextFile(downlift);
-           
-            model.addAttribute("message", "Downlifting of "+out+" successfully completed !");
+
+            model.addAttribute("message", "Downlifting of " + out + " successfully completed !");
             model.addAttribute("file", "/files/" + out);
             return "success";
         } catch (Exception ex) {
