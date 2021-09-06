@@ -204,7 +204,7 @@ public class GeoJsonRDFTest {
             PiOnt ont = new PiOnt("src/main/resources/ontologies/geosparql.owl");
             GeoJsonRDF.upliftGeoJSON(pathGeoJson, ont);
             String geotest2json = "geotest2.json";
-            String downlift = GeoJsonRDF.downlift(geotest2json, ont,  ont.getIndividuals(ont.getOntClass(GeoJsonRDF.DCAT_DATASET)).get(0).getURI());
+            String downlift = GeoJsonRDF.downlift( ont,  ont.getIndividuals(ont.getOntClass(GeoJsonRDF.DCAT_DATASET)).get(0).getURI());
             
               new PiFile(geotest2json).writeTextFile(downlift);
             test(geotest2json);
