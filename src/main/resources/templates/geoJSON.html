@@ -23,34 +23,34 @@ This view represents the submenu "Metadata importer" of the menu "Metadata catal
             <div th:insert="fragments/nav :: navbar"></div>
             <h1>GeoJSON management</h1>
         </header>
-        
+
         <div class="containerfull">
             <div class="containercontent">
-                
+
                 <section>
-        <h2>Uplift</h2>
-                <div th:if="${message}">
-                    <h2 th:text="${message}"/>
-                </div>
-                <div>
-                    <form th:action="@{/geojson/uplift}" method="post" enctype="multipart/form-data">
-                        <table>
-                            <!--The field multiple="multiple" was aded to permits to chose several files-->
-                            <tr><td>Files to upload:</td><td><input type="file" name="file" multiple="multiple" /></td></tr>
-                            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-                        </table>
-                    </form>
-                </div>
-                <div th:if="${message}">
-                    <h2 th:text="${message}"/>
-                </div>
-                <div>
-                    <ul>
-                        <li th:each="file : ${files}">
-                            <a th:href="${file}" th:text="${file}" />
-                        </li>
-                    </ul>
-                </div>
+                    <h2>Uplift</h2>
+                    <div th:if="${message}">
+                        <h2 th:text="${message}"/>
+                    </div>
+                    <div>
+                        <form th:action="@{/geojson/uplift}" method="post" enctype="multipart/form-data">
+                            <table>
+                                <!--The field multiple="multiple" was aded to permits to chose several files-->
+                                <tr><td>Files to upload:</td><td><input type="file" name="file" multiple="multiple" /></td></tr>
+                                <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div th:if="${message}">
+                        <h2 th:text="${message}"/>
+                    </div>
+                    <div>
+                        <ul>
+                            <li th:each="file : ${files}">
+                                <a th:href="${file}" th:text="${file}" />
+                            </li>
+                        </ul>
+                    </div>
                 </section><!-- end Uplift -->
             </div>
 
@@ -86,10 +86,9 @@ This view represents the submenu "Metadata importer" of the menu "Metadata catal
                 </div>  
             </div>
         </div>
+
+        <!--The footer of the application-->
+        <footer th:replace="fragments/footer :: footer">
     </body>
-
-    <!--The footer of the application-->
- <div th:insert="fragments/footer :: footer"></div>
-
 
 </html>
