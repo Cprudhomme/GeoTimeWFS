@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping(value = "/enrichment")
+@RequestMapping(value = "/sparqlend")
 public class SPARQLendpointController {
     
     private PiSparql ont = new PiSparql();
