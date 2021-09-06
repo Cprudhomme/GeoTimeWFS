@@ -121,4 +121,8 @@ public class KB implements KnowledgeBaseInterface {
     public PiOnt getOnt() {
         return this.model.ont;
     }
+
+    public void add(OntModel ont) {
+        this.model.ont.getOnt().add(ont);
+    }
 }
