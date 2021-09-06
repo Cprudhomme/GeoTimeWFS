@@ -73,7 +73,6 @@ public class GeoJsonController {
             //execute the uplift
             GeoJsonRDF.upliftGeoJSON(geojsonfilepath, KB.get().getOnt());
 
-
             model.addAttribute("message", "File uplifted");
             return "success";
         } catch (OntoManagementException | IOException | ParseException | PiOntologyException ex) {
