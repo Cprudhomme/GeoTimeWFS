@@ -29,9 +29,12 @@ import info.ponciano.lab.pisemantic.PiOntologyException;
 import info.ponciano.lab.pitools.files.PiFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
+import org.apache.jena.ontology.Individual;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -48,6 +51,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 /**
  *
@@ -62,6 +66,30 @@ public class GeoJsonController {
     @Autowired
     public GeoJsonController(StorageService storageService) {
         this.storageService = storageService;
+    }
+
+    @GetMapping("/uplift")
+    public String upliftView(Model model) {
+        return "geoJSON";
+    }
+
+    @GetMapping("/downlift")
+    public String downliftView(Model model) {
+
+        try {
+            PiOnt ont = KB.get().getOnt();
+            //get lists of Dataset URI
+            List<Individual> individuals = ont.getIndividuals(ont.getOntClass(GeoJsonRDF.DCAT_DATASET));
+            
+            
+            model.addAttribute("individuals", individuals.toArray());
+            return "geoJSONdownlift";
+        } catch (OntoManagementException ex) {
+            Logger.getLogger(GeoJsonController.class.getName()).log(Level.SEVERE, null, ex);
+            model.addAttribute("message", ex.getMessage());
+            return "error";
+        }
+
     }
 
     @PostMapping("/uplift")
@@ -121,7 +149,6 @@ public class GeoJsonController {
 //        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
 //                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 //    }
-
     // initialize the model attribute "dataindiv"
     @ModelAttribute(name = "dataindiv")
     public GeoJsonForm propmap() {
