@@ -117,13 +117,13 @@ public class GeoJsonController {
     }
 
     @PostMapping("/downlift")
-    public String downlift(@Valid GeoJsonForm dataindiv, BindingResult bindingResult, Model model) {
+    public String downlift(@ModelAttribute("dataindiv") GeoJsonForm di, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", bindingResult.getAllErrors().toString());
             return "geoJSON";
         }
-        String uri = dataindiv.getName();
-
+        String uri = di.getName();
+        System.out.println(uri);
         try {
             //downlift
             String downlift = GeoJsonRDF.downlift(KB.get().getOnt(), uri);
@@ -133,7 +133,7 @@ public class GeoJsonController {
 
             model.addAttribute("file", "/download/" + out);
             return "view";
-        } catch (PiOntologyException | OntoManagementException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(GeoJsonController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("message", ex.getMessage());
             return "error";
@@ -151,7 +151,7 @@ public class GeoJsonController {
 //    }
     // initialize the model attribute "dataindiv"
     @ModelAttribute(name = "dataindiv")
-    public GeoJsonForm propmap() {
+    public GeoJsonForm dataindiv() {
         return new GeoJsonForm();
     }
 
