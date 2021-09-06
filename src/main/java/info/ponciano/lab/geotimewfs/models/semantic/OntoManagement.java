@@ -1,9 +1,13 @@
 package info.ponciano.lab.geotimewfs.models.semantic;
 
+import info.ponciano.lab.pisemantic.PiOnt;
 import info.ponciano.lab.pisemantic.PiSparql;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
@@ -28,7 +32,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 
  public abstract class OntoManagement implements KnowledgeBaseInterface{
      private PiSparql pisparql=new PiSparql();
-    protected OntModel ont;
+    protected PiOnt ont;
     protected String prefix;
 
     public static final String NS = "http://lab.ponciano.info/ontology/2020/geotime/iso-19115#";
@@ -50,8 +54,12 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @throws OntoManagementException if the model is wrong.
      */
     public OntoManagement(String ontologyPath) throws OntoManagementException {
-        this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-        this.ont.read(ontologyPath);
+        this.ont = new PiOnt();//ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+         try {
+             this.ont.read(ontologyPath);
+         } catch (FileNotFoundException ex) {
+             Logger.getLogger(OntoManagement.class.getName()).log(Level.SEVERE, null, ex);
+         }
         String checkOntology = this.checkOntology();
         if (!checkOntology.isEmpty()) {
             throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
@@ -83,8 +91,13 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @throws OntoManagementException If the model is wrong
      */
     public OntoManagement() throws OntoManagementException {
-        this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-        this.ont.read("src/main/resources/ontologies/iso-19115.owl");
+         this.ont = new PiOnt();//ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+         try {
+             this.ont.read("src/main/resources/ontologies/iso-19115.owl");
+         } catch (FileNotFoundException ex) {
+             Logger.getLogger(OntoManagement.class.getName()).log(Level.SEVERE, null, ex);
+         }
+       
         String checkOntology = this.checkOntology();
         if (!checkOntology.isEmpty()) {
             throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
@@ -137,7 +150,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      */
     @Override
     public String getSPARQL(String query) {
-        return ResultSetFormatter.asText(this.select(query), new Prologue(ont));
+        return ResultSetFormatter.asText(this.select(query), new Prologue(ont.getOnt()));
 
     }
 
@@ -151,10 +164,10 @@ import org.apache.jena.util.iterator.ExtendedIterator;
     @Override
     public boolean construct(String queryString) throws OntoManagementException {
         Model execConstruct = this.execConstruct(queryString);
-        if (execConstruct == null || execConstruct.isEmpty() || this.ont.containsAll(execConstruct)) {
+        if (execConstruct == null || execConstruct.isEmpty() || this.ont.getOnt().containsAll(execConstruct)) {
             return false;
         }
-        this.ont.add(execConstruct);
+        this.ont.getOnt().add(execConstruct);
         return true;
     }
 
@@ -168,7 +181,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
     protected Model execConstruct(String queryString) throws OntoManagementException {
         queryString = prefix + queryString;
         Query query = QueryFactory.create(removeGraph(queryString));
-        QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont);
+        QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont.getOnt());
         return queryExecution.execConstruct();
     }
 
@@ -181,9 +194,9 @@ import org.apache.jena.util.iterator.ExtendedIterator;
     private String checkOntology() {
         List<String> localname = new ArrayList<>();
         //get all resources of the ontology
-        ExtendedIterator<OntProperty> listOntProperties = this.ont.listOntProperties();
-        ExtendedIterator<Individual> listIndividuals = this.ont.listIndividuals();
-        ExtendedIterator<OntClass> listClasses = this.ont.listClasses();
+        ExtendedIterator<OntProperty> listOntProperties = this.ont.getOnt().listOntProperties();
+        ExtendedIterator<Individual> listIndividuals = this.ont.getOnt().listIndividuals();
+        ExtendedIterator<OntClass> listClasses = this.ont.getOnt().listClasses();
         String error = "";
         while (listClasses.hasNext()) {
             OntClass next = listClasses.next();
@@ -236,8 +249,8 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 
         for (String ns : possibleNS) {
             Resource resource = this.ont.getResource(ns + nodeName);
-            if (this.ont.containsResource(resource)) {
-                return this.ont.getOntResource(ns + nodeName);
+            if (this.ont.getOnt().containsResource(resource)) {
+                return this.ont.getOnt().getOntResource(ns + nodeName);
             }
         }
         return null;
@@ -248,7 +261,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      *
      * @return this ontModel.
      */
-    public OntModel getOnt() {
+    public PiOnt getOnt() {
         return ont;
     }
 
@@ -260,7 +273,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      */
     public ExtendedIterator<Individual> listsMetadataIndividuals() {
         //Lists the Metadata individuals
-        return this.ont.listIndividuals(this.ont.getOntClass(OntoManagement.NS + "MD_Metadata"));
+        return this.ont.getOnt().listIndividuals(this.ont.getOntClass(OntoManagement.NS + "MD_Metadata"));
     }
 
     /**
@@ -284,7 +297,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      */
     @Override
     public void addPrefix(String key, String namespace) {
-        this.ont.setNsPrefix(key, namespace);
+        this.ont.getOnt().setNsPrefix(key, namespace);
         prefix += "PREFIX " + key + ": <" + namespace + ">\n";
     }
     //**************************************************************************
@@ -314,7 +327,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         }
         queryString = prefix + queryString;
         Query query = QueryFactory.create(queryString);
-        QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont);
+        QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont.getOnt());
         return queryExecution.execSelect();
     }
 
@@ -342,7 +355,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         if (query != null && !query.isEmpty()) {
             query = prefix + query;
             String res = removeGraph(query);
-            UpdateAction.parseExecute(res, this.ont);
+            UpdateAction.parseExecute(res, this.ont.getOnt());
         }
     }
 
