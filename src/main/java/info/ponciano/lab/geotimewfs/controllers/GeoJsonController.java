@@ -114,7 +114,6 @@ public class GeoJsonController {
             model.addAttribute("message", ex.getMessage());
             return "error";
         }
-
     }
 
     @PostMapping("/downlift")
