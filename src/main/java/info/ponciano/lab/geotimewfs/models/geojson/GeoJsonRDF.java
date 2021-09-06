@@ -84,7 +84,7 @@ public class GeoJsonRDF {
         String nameFC = ont.getNs() + name;
         //generate a new name if the name is already known
         if (ont.getIndividual(nameFC) != null) {
-            nameFC += "_" + UUID.randomUUID().toString();
+            nameFC += dataset.getLocalName().toLowerCase()+"_" + UUID.randomUUID().toString();
         }
         Individual data = dataset.createIndividual(nameFC);
 
@@ -98,7 +98,7 @@ public class GeoJsonRDF {
             if (ontClassGeo == null) {
                 throw new Exception(name1 + "\" does not exists but is requiered");
             }
-            Individual indGeo = ontClassGeo.createIndividual(ont.getNs() + "_" + UUID.randomUUID().toString());
+            Individual indGeo = ontClassGeo.createIndividual(ont.getNs() +ontClassGeo.getLocalName().toLowerCase()+ "_" + UUID.randomUUID().toString());
             var asWKT = ont.getDataProperty(GEOSPARQLAS_WKT);
             if (asWKT == null) {
                 throw new PiOntologyException("the property \"http://www.opengis.net/ont/geosparql#asWKT\" does not exists but is requiered");
@@ -111,7 +111,7 @@ public class GeoJsonRDF {
             if (ontClassFeature == null) {
                 throw new PiOntologyException("the class \"http://www.opengis.net/ont/geosparql#Feature\" does not exists but is requiered");
             }
-            Individual indF = ontClassFeature.createIndividual(ont.getNs() + "_" + UUID.randomUUID().toString());
+            Individual indF = ontClassFeature.createIndividual(ont.getNs() +ontClassFeature.getLocalName().toLowerCase()+ "_" + UUID.randomUUID().toString());
 
             //asign a geometry to the feature
             var hasGeometry = ont.getObjectProperty(GEOSPARQLHAS_GEOMETRY);
