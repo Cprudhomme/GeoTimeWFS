@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntClass;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -78,13 +79,13 @@ public class GeoJsonController {
 
         try {
             PiOnt ont = KB.get().getOnt();
+            OntClass ontClass = ont.createClass(GeoJsonRDF.DCAT_DATASET);
             //get lists of Dataset URI
-            List<Individual> individuals = ont.getIndividuals(ont.getOntClass(GeoJsonRDF.DCAT_DATASET));
-            
-            
+            List<Individual> individuals = ont.getIndividuals(ontClass);
+
             model.addAttribute("individuals", individuals.toArray());
             return "geoJSONdownlift";
-        } catch (OntoManagementException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(GeoJsonController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("message", ex.getMessage());
             return "error";
@@ -105,14 +106,14 @@ public class GeoJsonController {
 
             //execute the uplift
             GeoJsonRDF.upliftGeoJSON(geojsonfilepath, KB.get().getOnt());
-
+            KB.get().save();
             model.addAttribute("message", "File uplifted");
-            return "geoJSON";
+            return "view";
         } catch (Exception ex) {
             Logger.getLogger(GeoJsonController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("message", ex.getMessage());
             return "error";
-        } 
+        }
 
     }
 
