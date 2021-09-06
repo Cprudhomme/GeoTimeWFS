@@ -159,7 +159,7 @@ public class ArrayUpliftController {
 				else
 					message="The model has not been initialized";
 					model.addAttribute("message", message);
-				return "sucess";
+				return "success";
 		}
 
 
