@@ -59,7 +59,7 @@ public class GeoJsonRDF {
      * @throws info.ponciano.lab.pisemantic.PiOntologyException if something
      * wrong or is not yet supported
      */
-    public static void upliftGeoJSON(String pathGeoJson, PiOnt ont) throws FileNotFoundException, IOException, ParseException, PiOntologyException {
+    public static void upliftGeoJSON(String pathGeoJson, PiOnt ont) throws FileNotFoundException, IOException, ParseException, PiOntologyException, Exception {
 
         JSONParser parser = new JSONParser();//creates an instance  of  JSONParser object
         Object object = parser
@@ -96,7 +96,7 @@ public class GeoJsonRDF {
             String name1 = "http://www.opengis.net/ont/sf#" + type;
             OntClass ontClassGeo = ont.getOntClass(name1);
             if (ontClassGeo == null) {
-                throw new PiOntologyException(name1 + "\" does not exists but is requiered");
+                throw new Exception(name1 + "\" does not exists but is requiered");
             }
             Individual indGeo = ontClassGeo.createIndividual(ont.getNs() + "_" + UUID.randomUUID().toString());
             var asWKT = ont.getDataProperty(GEOSPARQLAS_WKT);
