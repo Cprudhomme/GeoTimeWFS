@@ -104,7 +104,7 @@ public class GeoJsonController {
             new PiFile(out).writeTextFile(downlift);
 
             model.addAttribute("file", "/download/" + out);
-            return "geoJSONDownlift";
+            return "view";
         } catch (PiOntologyException | OntoManagementException ex) {
             Logger.getLogger(GeoJsonController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("message", ex.getMessage());
