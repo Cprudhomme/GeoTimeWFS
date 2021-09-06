@@ -134,7 +134,7 @@ public class SchemaController {
             else{
             	dirInRepo="MappingSchema/";
             }
-            File f = new File("./upload-dir/"+file.getOriginalFilename());
+            File f = new File("./"+KB.STORAGE_DIR+"/"+file.getOriginalFilename());
             System.out.println(f);
             String uri="https://git.gdi-de.org/claire.prudhomme/schema-storage.git";
             //add the uploaded file to git
