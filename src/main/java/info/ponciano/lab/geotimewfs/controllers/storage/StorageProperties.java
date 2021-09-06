@@ -1,5 +1,6 @@
 package info.ponciano.lab.geotimewfs.controllers.storage;
 
+import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.pitools.files.PiFile;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -10,7 +11,7 @@ public class StorageProperties {
     /**
      * Folder location for storing files
      */
-    private  String location = "dynamic_storage";
+    private  String location = KB.STORAGE_DIR;
 
     public String getLocation() {
         return location;
