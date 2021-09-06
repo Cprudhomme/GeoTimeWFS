@@ -32,9 +32,10 @@ import org.apache.jena.query.ResultSet;
 public class KB implements KnowledgeBaseInterface {
 
     private static KB kb = null;
-    private static final String DEFAULT_ONTO = "src/main/resources/ontologies/iso-19115.owl";
+    private static final String DEFAULT_ONTO_ISO = "src/main/resources/ontologies/iso-19115.owl";
+     private static final String DEFAULT_ONTO = "src/main/resources/ontologies/spalod.owl";
     private static final String OUT_ONTO = "geotimeOutput.owl";
-    private OwlManagement model;
+    private final OwlManagement model;
 
     public static KB get() throws OntoManagementException {
         if (kb == null) {
@@ -64,8 +65,8 @@ public class KB implements KnowledgeBaseInterface {
     }
 
     @Override
-    public boolean uplift(String xml) {
-        return this.model.uplift(xml);
+    public boolean uplift(String xmlPathfile) {
+        return this.model.uplift(xmlPathfile);
     }
 
     @Override
