@@ -25,7 +25,7 @@ MA 02110-1301  USA
                         <link rel="stylesheet" type="text/css" href="/css/navbar.css">
                         <!--Home menu-->
                         <div class="dropdown">
-                            <button class="dropbtn" onclick="window.location.href = '/home';">Home</button>
+                            <button class="dropbtn" onclick="window.location.href = '/thematicMaps';">Home</button>
                         </div>
                         <!--Data management menu with 5 submenus-->
                         <div class="dropdown">
@@ -34,9 +34,10 @@ MA 02110-1301  USA
                             <button class="dropbtn">Data management</button>
                             <div class="dropdown-content">
                                 <!--The Submenus with their url-->
+                                 <a href="/geoJSON/uplift">GeoJSON Uplift</a>
+                                  <a href="/geoJSON/downlift">GeoJSON Downlift</a>
                                 <a href="/data/ShpUplift">Shapefile importer</a>
                                 <a href="/enrichment/">Linked Data enrichment</a>
-                                <a href="/schema/upload">Schema upload</a>
                                 <!--<a href="/schema/validation">Schema verification</a>-->
                             </div>
                         </div>
