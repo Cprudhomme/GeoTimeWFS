@@ -20,8 +20,10 @@ MA 02110-1301  USA
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <body>
         <footer th:fragment="footer" id="footer">
+            <hr style="height: 1px; background-color: #FF0000">
             <table width=100%>
                 <tbody>
+
                     <tr>
                         <td><a href="/home">Back to LandingPage</a></td>
                         <td style="text-align: right;">This page in <a
@@ -34,21 +36,23 @@ MA 02110-1301  USA
 
             <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
             <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-            <div class="container">
-                <div class="container text-danger error"></div>
+
+            <div>
 
 
-                <div class="container unauthenticated">
+
+                <div class=" text-danger error"></div>
+
+                <div class=" unauthenticated">
                     <a href="/oauth2/authorization/github">
                         Log In: <img src="/pictures/github.png" alt="github Logo">
                     </a>
                 </div>
-                <div class="container authenticated" style="display:none">
+                <div class=" authenticated" style="display:none">
                     <span id="user"></span>
                     <button onClick="logout()" class="btn btn-primary">Logout</button>
                 </div>
             </div>
-
             <script type="text/javascript">
                 $.get("/user", function (data) {
                     if (data && data.name && data.name.length > 0) {
@@ -93,11 +97,6 @@ MA 02110-1301  USA
             </script>
             <!--END OAUTH2 managment-->
             <hr style="height: 1px; background-color: #FF0000">
-    <div style="float: right;">
-        <span class="footerpage">This page in [ <span style="color: #007F7F">XML</span>  ]  [<span style="color: #007F7F"> JSON </span>] </span><br><br>
-        <span class="footertext">© 2019 - Bundesamt für Kartographie und Geodäsie, Richard-Strauss-Allee 11, 60598 Frankfurt am Main<span class="picturefooter"><img style="width: 25px;" src="https://lh3.googleusercontent.com/proxy/FtTXJW5cgTzLOBNerZ4JJo_iQBgLfp8C9CQEXle2LV-ic_-ijMJ9YZmzp4We1c2-LY8Hm9ODjEXX4BG2uQ6juO53zUpturZwD0tDAZR-Ii0e5b9juunj"></span>     
-        </span>
-    </div>
         </footer>
     </body>
 </html>
