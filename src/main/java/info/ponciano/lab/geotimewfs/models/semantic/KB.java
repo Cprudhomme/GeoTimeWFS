@@ -35,6 +35,7 @@ import org.apache.jena.query.ResultSet;
 public class KB implements KnowledgeBaseInterface {
 
     private static KB kb = null;
+    private static final String NS="http://lab.ponciano.info/ont/spalod#";
     private static final String DEFAULT_ONTO_ISO = "src/main/resources/ontologies/iso-19115.owl";
     private static final String DEFAULT_ONTO = "src/main/resources/ontologies/spalod.owl";
     private static final String OUT_ONTO = "geotimeOutput.owl";
@@ -52,6 +53,7 @@ public class KB implements KnowledgeBaseInterface {
             this.model = new OwlManagement(OUT_ONTO);
         } else {
             this.model = new OwlManagement(DEFAULT_ONTO);
+              this.model.ont.setNs(NS);
         }
     }
 
