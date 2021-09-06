@@ -108,11 +108,11 @@ public class GeoJsonController {
 
             model.addAttribute("message", "File uplifted");
             return "geoJSON";
-        } catch (OntoManagementException | IOException | ParseException | PiOntologyException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(GeoJsonController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("message", ex.getMessage());
             return "error";
-        }
+        } 
 
     }
 
