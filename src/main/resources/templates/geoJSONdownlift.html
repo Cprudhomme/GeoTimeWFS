@@ -34,9 +34,8 @@ This view represents the submenu "Metadata importer" of the menu "Metadata catal
                     </div>
 
                     <div  th:if="${not #lists.isEmpty(individuals)}">
-                        <form th:action="@{/geojson/downlift}" method="post" enctype="multipart/form-data">
-
-                            <select th:field="*{dataindiv}" th:each="md: ${individuals}">
+                        <form th:action="@{/geojson/downlift}"th:object="${dataindiv}" method="post" enctype="multipart/form-data">
+                            <select th:field="*{name}" th:each="md: ${individuals}">
 
                                 <option th:value="${md}" th:text="${md}"></option>
 
