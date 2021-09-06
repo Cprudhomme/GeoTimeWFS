@@ -18,6 +18,7 @@
  */
 package info.ponciano.lab.geotimewfs.models.semantic;
 
+import info.ponciano.lab.pisemantic.PiOnt;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -52,6 +53,11 @@ public class KB implements KnowledgeBaseInterface {
         }
     }
 
+    public  String getOutputPath() {
+        return OUT_ONTO;
+    }
+
+    
     /**
      * Save the current ontology in an OWL file.
      *
@@ -112,7 +118,7 @@ public class KB implements KnowledgeBaseInterface {
     }
 
     @Override
-    public OntModel getOnt() {
+    public PiOnt getOnt() {
         return this.model.ont;
     }
 }
