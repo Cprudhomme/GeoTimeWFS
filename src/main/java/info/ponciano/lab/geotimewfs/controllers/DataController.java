@@ -383,7 +383,7 @@ public class DataController {
                 "You successfully uplift the shapefile: " + file.getOriginalFilename() + ", if you want to uplift shapefile attributes, "
                 + "please convert the DBF file into CSV file and load it.");
 
-        String pathSHP = "upload-dir/" + file.getOriginalFilename();
+        String pathSHP = KB.STORAGE_DIR +"/"+ file.getOriginalFilename();
         String uri = "http://lab.ponciano.info/ontology/2020/geotime/data#";
         try {
             // transform Shapefile into RDF data
@@ -490,7 +490,7 @@ public class DataController {
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uplift the shapefile: " + file.getOriginalFilename() + "!");
 
-        String pathSHP = "upload-dir/" + file.getOriginalFilename();
+        String pathSHP = KB.STORAGE_DIR +"/"+ file.getOriginalFilename();
         String uri = "http://lab.ponciano.info/ontology/2020/geotime/data#";
         try {
             // transform Shapefile into RDF data
