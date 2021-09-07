@@ -103,7 +103,7 @@ public class GeoJsonRDF {
             if (asWKT == null) {
                 throw new PiOntologyException("the property \"http://www.opengis.net/ont/geosparql#asWKT\" does not exists but is requiered");
             }
-            String value = geometry.toString();
+            var value = geometry.getWKTPoint();
             indGeo.addLiteral(asWKT, value);
 
             //creates feature
