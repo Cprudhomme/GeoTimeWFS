@@ -56,31 +56,31 @@ public class GeoJsonRDF {
      * @throws java.io.FileNotFoundException If the file is not found
      * @throws org.json.simple.parser.ParseException if the file cannot be
      * parsed.
-     * @throws info.ponciano.lab.pisemantic.PiOntologyException if something
-     * wrong or is not yet supported
+     * @throws info.ponciano.lab.pisemantic.PiOntologyException if something is
+     * wrong or not yet supported
      */
     public static void upliftGeoJSON(String pathGeoJson, PiOnt ont) throws FileNotFoundException, IOException, ParseException, PiOntologyException, Exception {
 
-        JSONParser parser = new JSONParser();//creates an instance  of  JSONParser object
+        JSONParser parser = new JSONParser();//creates an instance of a JSONParser object
         Object object = parser
                 .parse(new FileReader(pathGeoJson));
 
-        //convert Object to JSONObject
+        //converts Objects to JSONObject
         JSONObject jsonObject = (JSONObject) object;
 
-        //Reading the collection
+        //Reads the collection
         String nameCollection = (String) jsonObject.get("name");
         FeatureCollection featureCollection = new FeatureCollection(nameCollection);
 
         extractFeatures(jsonObject, featureCollection);
 
-        // uplift
+        // uplifts
         List<Feature> allfeatures = featureCollection.getFeatures();
         String name = featureCollection.getName();
         //create an individual
         OntClass dataset = ont.createClass(DCAT_DATASET);
 
-        //create the individual data
+        //creates the individual data
         String nameFC = ont.getNs() + name;
         //generate a new name if the name is already known
         if (ont.getIndividual(nameFC) != null) {
@@ -90,7 +90,7 @@ public class GeoJsonRDF {
 
         for (Feature f : allfeatures) {
 
-            //create geometry
+            //creates the geometry
             Geometry geometry = f.getGeometry();
             String type = geometry.getType();
             String name1 = "http://www.opengis.net/ont/sf#" + type;
@@ -106,27 +106,27 @@ public class GeoJsonRDF {
             var value = geometry.getWKTPoint();
             indGeo.addLiteral(asWKT, value);
 
-            //creates feature
+            //creates a feature
             OntClass ontClassFeature = ont.getOntClass(GEOSPARQL_FEATURE);
             if (ontClassFeature == null) {
                 throw new PiOntologyException("the class \"http://www.opengis.net/ont/geosparql#Feature\" does not exists but is requiered");
             }
             Individual indF = ontClassFeature.createIndividual(ont.getNs() +ontClassFeature.getLocalName().toLowerCase()+ "_" + UUID.randomUUID().toString());
 
-            //asign a geometry to the feature
+            //asigns a geometry to the feature
             var hasGeometry = ont.getObjectProperty(GEOSPARQLHAS_GEOMETRY);
             if (hasGeometry == null) {
                 throw new PiOntologyException("the property \"http://www.opengis.net/ont/geosparql#hasGeometry\" does not exists but is requiered");
             }
             indF.addProperty(hasGeometry, indGeo);
 
-            //asigne properties
+            //asigns properties
             Map<String, Object> properties = f.getProperties();
             properties.forEach((k, v) -> {
                 DatatypeProperty p = ont.createDatatypeProperty(k);
                 indF.addLiteral(p, v);
             });
-            //asign the feature to the datasets
+            //asigns the feature to the datasets
             ObjectProperty hasFeature = ont.createObjectProperty("hasFeature");
             data.addProperty(hasFeature, indF);
 
@@ -140,7 +140,7 @@ public class GeoJsonRDF {
 
     private static void extractFeatures(JSONObject jsonObject, FeatureCollection featureCollection) throws NumberFormatException, PiOntologyException {
         String typeCollection = (String) jsonObject.get("type");
-        //create the object
+        //creates the object
 
         //if the type is "FeatureCollection"
         if (typeCollection.equals("FeatureCollection")) {
@@ -148,12 +148,12 @@ public class GeoJsonRDF {
             JSONArray features = (JSONArray) jsonObject.get("features");//get all feature
 
             for (Iterator it = features.iterator(); it.hasNext();) {//for each feature
-                //extract information
+                //extracts information
                 JSONObject feature = (JSONObject) it.next();
                 String type = (String) feature.get("type");
                 if (type.equals("Feature")) {
                     Geometry geo = extractGeo(feature);
-                    //get the properties
+                    //gets the properties
                     JSONObject properties = (JSONObject) feature.get("properties");
                     final Feature f = new Feature(geo);
                     properties.keySet().forEach(k -> {
@@ -173,7 +173,7 @@ public class GeoJsonRDF {
     }
 
     private static Geometry extractGeo(JSONObject feature) throws NumberFormatException {
-        //get the geometry
+        //gets the geometry
         JSONObject geometry = (JSONObject) feature.get("geometry");
         String geotype = (String) geometry.get("type");
         JSONArray coords = (JSONArray) geometry.get("coordinates");//get all coordinates
@@ -186,14 +186,14 @@ public class GeoJsonRDF {
     }
 
     /**
-     * Dowlift in geoJSOn all information about a dataset
+     * Downlift in geoJSOn all information about a dataset
      *
      * @param ont ontology under working
      * @param datasetURI URI of the dataset individual targeted (individual of
      * dcat#Dataset)
      * @return the GeoJSON String containing all information about the
      * individuals
-     * @throws PiOntologyException is the downlift is impossible with the
+     * @throws PiOntologyException if the downlift is impossible with the
      * individual targeted.
      */
     public static String downlift(PiOnt ont, String datasetURI) throws PiOntologyException {
@@ -236,7 +236,7 @@ public class GeoJsonRDF {
                     features.add(feature);
                 }
                 case "type" ->
-                    data.put("type", "FeatureCollection");//should be FeatureCollection
+                    data.put("type", "FeatureCollection");//should be a FeatureCollection
 
                 default ->
                     throw new PiOntologyException(predicate.getLocalName() + " not yet supported");
