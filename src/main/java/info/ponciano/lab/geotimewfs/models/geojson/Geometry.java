@@ -20,6 +20,8 @@ package info.ponciano.lab.geotimewfs.models.geojson;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.jena.geosparql.implementation.WKTLiteralFactory;
+import org.apache.jena.rdf.model.Literal;
 
 /**
  *
@@ -49,6 +51,9 @@ import java.util.List;
         return coordinates;
     }
 
+    public Literal getWKTPoint(){
+       return WKTLiteralFactory.createPoint(coordinates.get(0), coordinates.get(1));
+    }
     @Override
     public String toString() {
         String value = "POINT (";
