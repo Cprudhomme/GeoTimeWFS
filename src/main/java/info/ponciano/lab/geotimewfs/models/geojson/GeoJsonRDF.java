@@ -88,12 +88,17 @@ public class GeoJsonRDF {
         }
         Individual data = dataset.createIndividual(nameFC);
 
-        for (Feature f : allfeatures) {
+        featureUplift(allfeatures, ont, data);
 
+    }
+
+    public static void featureUplift(List<Feature> allfeatures, PiOnt ont, Individual data) throws Exception {
+        for (Feature f : allfeatures) {
+            
             //creates the geometry
             Geometry geometry = f.getGeometry();
             String type = geometry.getType();
-            String name1 = "http://www.opengis.net/ont/sf#" + type;
+            String name1 = SF + type;
             OntClass ontClassGeo = ont.getOntClass(name1);
             if (ontClassGeo == null) {
                 throw new Exception(name1 + "\" does not exists but is requiered");
@@ -131,8 +136,8 @@ public class GeoJsonRDF {
             data.addProperty(hasFeature, indF);
 
         }
-
     }
+    public static final String SF = "http://www.opengis.net/ont/sf#";
     public static final String GEOSPARQLHAS_GEOMETRY = "http://www.opengis.net/ont/geosparql#hasGeometry";
     public static final String GEOSPARQLAS_WKT = "http://www.opengis.net/ont/geosparql#asWKT";
     public static final String GEOSPARQL_FEATURE = "http://www.opengis.net/ont/geosparql#Feature";
