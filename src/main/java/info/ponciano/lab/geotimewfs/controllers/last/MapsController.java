@@ -77,7 +77,7 @@ public class MapsController {
     }
 
     @GetMapping("/")
-    public String downliftView(Model model) {
+    public String maps(Model model) {
 
         try {
             PiOnt ont = KB.get().getOnt();
