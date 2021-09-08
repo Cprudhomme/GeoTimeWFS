@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1604251488428" name="http://lab.ponciano.info/geotime" uri="src/main/resources/ontologies/geotime.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1604251488428" name="http://lab.ponciano.info/ontology/2020/geotime/dcat#" uri="src/main/resources/ontologies/geotime2.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1604251488428" name="duplicate:http://lab.ponciano.info/ontology/2020/geotime/iso-19115" uri="geotimeOutput.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1604251488428" name="duplicate:http://lab.ponciano.info/ontology/2020/geotime/iso-19115" uri="geotimeOutput-mapped2dcat.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1604251488428" name="http://www.w3.org/2002/07/owl" uri="src/main/resources/ontologies/iso19110.rdf"/>
-        <uri id="Automatically generated entry, Timestamp=1604251488428" name="shadowed:http://lab.ponciano.info/geotime" uri="target/classes/ontologies/geotime.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1604251488428" name="shadowed:http://lab.ponciano.info/ontology/2020/geotime/dcat#" uri="target/classes/ontologies/geotime2.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1604251488428" name="shadowed:http://lab.ponciano.info/ontology/2020/geotime/iso-19115" uri="src/main/resources/ontologies/iso-19115.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1604251488428" name="shadowed:http://lab.ponciano.info/ontology/2020/geotime/iso-19115" uri="target/classes/ontologies/iso-19115.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1604251488428" name="shadowed:http://www.w3.org/2002/07/owl" uri="target/classes/ontologies/iso19110.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="duplicate:http://dcat-ap.de/def/licenses" uri="src/main/resources/ontologies/licenseDocument.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="duplicate:http://dcat-ap.de/def/licenses" uri="src/main/resources/ontologies/licenses-dcat.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="http://lab.ponciano.info/geotime" uri="src/main/resources/ontologies/geotime.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="http://lab.ponciano.info/ont/spalod" uri="src/main/resources/ontologies/spalod.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="http://lab.ponciano.info/ontology/2020/geotime/data" uri="testdata/vocabtest.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="http://lab.ponciano.info/ontology/2020/geotime/dcat#" uri="src/main/resources/ontologies/geotime2.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="http://lab.ponciano.info/ontology/2020/geotime/iso-19115" uri="geotimeOutput-model.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="http://www.opengis.net/ont/geosparql" uri="src/main/resources/ontologies/geosparql.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="http://www.semanticweb.org/pc-asus/ontologies/2021/flattoppedbreadbase" uri="documentation/Ontology%20example.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="http://www.w3.org/2002/07/owl" uri="src/main/resources/ontologies/iso19110.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="shadowed:http://dcat-ap.de/def/licenses" uri="target/classes/ontologies/licenseDocument.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="shadowed:http://dcat-ap.de/def/licenses" uri="target/classes/ontologies/licenses-dcat.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="shadowed:http://lab.ponciano.info/geotime" uri="target/classes/ontologies/geotime.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="shadowed:http://lab.ponciano.info/ont/spalod" uri="target/classes/ontologies/spalod.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="shadowed:http://lab.ponciano.info/ontology/2020/geotime/data" uri="src/main/resources/ontologies/vocab.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="shadowed:http://lab.ponciano.info/ontology/2020/geotime/data" uri="target/classes/ontologies/vocab.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="shadowed:http://lab.ponciano.info/ontology/2020/geotime/dcat#" uri="target/classes/ontologies/geotime2.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="shadowed:http://lab.ponciano.info/ontology/2020/geotime/iso-19115" uri="src/main/resources/ontologies/iso-19115.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="shadowed:http://lab.ponciano.info/ontology/2020/geotime/iso-19115" uri="target/classes/ontologies/iso-19115.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="shadowed:http://www.opengis.net/ont/geosparql" uri="target/classes/ontologies/geosparql.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1631015617663" name="shadowed:http://www.w3.org/2002/07/owl" uri="target/classes/ontologies/iso19110.rdf"/>
     </group>
 </catalog>

@@ -40,7 +40,7 @@ public class Metadata {
         List<String[]> info = new ArrayList<String[]>();
 
             //initialize the query to retrieve all instances of metadata and their associated organization, title, and dataset title
-            String query = "SELECT ?m ?o ?t ?dt "
+            String query = "SELECT DISTINCT ?m ?o ?t ?dt "
                     + "WHERE{"
                     + "?m rdf:type iso115:MD_Metadata. "
                     + "?m <http://xmlns.com/foaf/0.1/primaryTopic> ?d. "
@@ -51,8 +51,6 @@ public class Metadata {
                     + "?i iso115:citation ?ci. "
                     + "?ci iso115:title ?t. "
                     + "}";
-            System.out.println(query);
-            System.out.println(KB.get().getSPARQL(query));
             //create the table of variables
             String[] var = {"m", "o", "t", "dt"};
             //query the ontology

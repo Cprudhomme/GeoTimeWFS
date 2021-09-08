@@ -83,18 +83,18 @@ public class OwlManagementTest {
         try {
             OwlManagement instance = new OwlManagement();
             Statement s=new StatementImpl(new ResourceImpl(OntoManagement.NS+ind), new PropertyImpl(OntoManagement.NS+p), new ResourceImpl("test"));
-            instance.getOnt().add(s);
-            System.out.println("contain the test statement: "+instance.getOnt().contains(s));
+            instance.getOnt().getOnt().add(s);
+            System.out.println("contain the test statement: "+instance.getOnt().getOnt().contains(s));
             boolean expResult = true;
             boolean result = instance.change(OntoManagement.NS+ind,OntoManagement.NS+p,v);
             assertEquals(expResult, result);
             //test that the previous statement has been removed
-            boolean previousstate=instance.getOnt().contains(s);
+            boolean previousstate=instance.getOnt().getOnt().contains(s);
             assertEquals(false, previousstate);
             //test that the new statement has been added
             //Statement s2=new StatementImpl(new ResourceImpl(OntoManagement.NS+ind), new PropertyImpl(OntoManagement.NS+p), new ResourceImpl("\""+v+"\""));
             //boolean addedstate=instance.getOnt().contains(s2);
-            boolean addedstate=instance.getOnt().contains(new ResourceImpl(OntoManagement.NS+ind), new PropertyImpl(OntoManagement.NS+p));
+            boolean addedstate=instance.getOnt().getOnt().contains(new ResourceImpl(OntoManagement.NS+ind), new PropertyImpl(OntoManagement.NS+p));
             assertEquals(true, addedstate);
 //        // TODO review the generated test code and remove the default call to fail.
 //        System.out.println("The test case is a prototype.");

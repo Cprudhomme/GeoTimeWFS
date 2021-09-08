@@ -3,105 +3,104 @@
 This view represents the submenu "Metadata importer" of the menu "Metadata catalogue"
 -->
 <html xmlns:th="https://www.thymeleaf.org">
-<head th:replace="fragments/head :: head">
-    <title>Getting Started: Serving Web Content</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<body>
-    <script  type='text/javascript'>
-        var elements = [
-        {link: "/home", value: "Home", active: "false"},
-        {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
-        {link: "/metadata", value: "Metadata", active: "false"},
-        {link: "/metadata/uplift", value: "Metadata uplift", active: "true"},
-        {link: "/md2data", value: "Metadata to Data", active: "false"},
-        {link: "/schema/upload", value: "Schema upload", active: "false"},
-        {link: "/schema/validation", value: "Schema validation", active: "false"}];
-    </script>
+    <head th:replace="fragments/head :: head">
+        <title>Getting Started: Serving Web Content</title> 
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <script  type='text/javascript'>
+            var elements = [
+                {link: "/home", value: "Home", active: "false"},
+                {link: "/geotimeWFS/", value: "GeoTimeWFS API", active: "false"},
+                {link: "/metadata", value: "Metadata", active: "false"},
+                {link: "/metadata/uplift", value: "Metadata uplift", active: "true"},
+                {link: "/md2data", value: "Metadata to Data", active: "false"},
+                {link: "/schema/upload", value: "Schema upload", active: "false"},
+                {link: "/schema/validation", value: "Schema validation", active: "false"}];
+        </script>
 
-    <!--Header with the picture, title and Contact-->
-    <div class="containerfull">
-        <a href="http://localhost:8080/home"><img class="pictureOfHeader" src="https://www.verwaltung-innovativ.de/SharedDocs/Bilder/DE/Artikel/GDI_DE_Logo.jpg?__blob=poster&v=2"></a> 
-        <span class="titleOfHeader">Linked Data</span>
-        <span class="textOfHeader">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_the_United_Kingdom_%282-3%29.svg/1024px-Flag_of_the_United_Kingdom_%282-3%29.svg.png" style="width: 32px; margin-right: 13px;">English | <a href="http://localhost:8080/login" style="text-decoration: none; color: #333333;">Login</a> | <a href="http://localhost:8080/contact" style="text-decoration: none; color: #333333">Contact</a><br><br>
-            <a href="https://www.gdi-de.org" target="_blank"><img src="/pictures/GDI-DE.jpg" style="width: 250px; float: right;"></a>
-        </span>
-    </div>
-
-    <header id="header">
-        <div th:insert="fragments/nav :: navbar"></div>
-        <h1>Metadata importer</h1>
-    </header>
-
-    <div class="containerfull">
-        <div class="containercontent">
-            <div th:if="${message}">
-              <h2 th:text="${message}"/>
-            </div>
-            <div>
-                <form th:action="@{/metadata/uplift}" method="post" enctype="multipart/form-data">
-                    <table>
-                        <!--The field multiple="multiple" was aded to permits to chose several files-->
-                        <tr><td>Files to upload:</td><td><input type="file" name="file" multiple="multiple" /></td></tr>
-                        <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-                    </table>
-                </form>
-            </div>
-            <div th:if="${message}">
-                <h2 th:text="${message}"/>
-            </div>
-            <div>
-                <ul>
-                    <li th:each="file : ${files}">
-                        <a th:href="${file}" th:text="${file}" />
-                    </li>
-                </ul>
-            </div>
+        <!--Header with the picture, title and Contact-->
+        <div class="containerfull">
+            <a href="/home"><img class="pictureOfHeader" src="https://www.verwaltung-innovativ.de/SharedDocs/Bilder/DE/Artikel/GDI_DE_Logo.jpg?__blob=poster&v=2"></a> 
+            <span class="titleOfHeader">Linked Data</span>
+            <span class="textOfHeader">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_the_United_Kingdom_%282-3%29.svg/1024px-Flag_of_the_United_Kingdom_%282-3%29.svg.png" style="width: 32px; margin-right: 13px;">English | <a href="/login" style="text-decoration: none; color: #333333;">Login</a> | <a href="/contact" style="text-decoration: none; color: #333333">Contact</a><br><br>
+                <a href="https://www.gdi-de.org" target="_blank"><img src="/pictures/GDI-DE.jpg" style="width: 250px; float: right;"></a>
+            </span>
         </div>
 
-        <!--The boxes "Provider" and "Contact"-->
-        <div class="containerbox">
-            <div class="box">
-                <div class="titlebox">
-                    <span> Provider</span>
+        <header id="header">
+            <div th:insert="fragments/nav :: navbar"></div>
+            <h1>Metadata importer</h1>
+        </header>
+
+        <div class="containerfull">
+            <div class="containercontent">
+                <div th:if="${message}">
+                    <h2 th:text="${message}"/>
                 </div>
-                <div class="normalfont">
-                    <br><span class="boldfont"> GDI-DE Geodateninfrastruktur Deutschland</span>
-                    <span><a href="https://www.gdi-de.org/" target="_blank" style="color: #007F7F;text-decoration: none;"> https://www.gdi-de.org</a></span><br><br>
+                <div>
+                    <form th:action="@{/metadata/uplift}" method="post" enctype="multipart/form-data">
+                        <table>
+                            <!--The field multiple="multiple" was aded to permits to chose several files-->
+                            <tr><td>Files to upload:</td><td><input type="file" name="file" multiple="multiple" /></td></tr>
+                            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+                        </table>
+                    </form>
+                </div>
+                <div th:if="${message}">
+                    <h2 th:text="${message}"/>
+                </div>
+                <div>
+                    <ul>
+                        <li th:each="file : ${files}">
+                            <a th:href="${file}" th:text="${file}" />
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="box">
-                <div class="titlebox">
-                    <span>Contact</span>
+            <!--The boxes "Provider" and "Contact"-->
+            <div class="containerbox">
+                <div class="box">
+                    <div class="titlebox">
+                        <span> Provider</span>
+                    </div>
+                    <div class="normalfont">
+                        <br><span class="boldfont"> GDI-DE Geodateninfrastruktur Deutschland</span>
+                        <span><a href="https://www.gdi-de.org/" target="_blank" style="color: #007F7F;text-decoration: none;"> https://www.gdi-de.org</a></span><br><br>
+                    </div>
                 </div>
-                <div class="normalfont">
-                    <br><span class="boldfont"> Coordination Office SDI Germany:</span><br>
-                    Telefon: 069 6333-258<br>
-                    Telefax: 069 6333-446<br>
-                    <a href="mailto:mail@gdi-de.org" style="color: #000000; text-decoration: none;"> mail@gdi-de.org</a><br>
-                    <a href="https://www.gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;"> www.gdi-de.org</a><br><br>
-                    <span class="boldfont"> Postal address:</span><br>
-                    Coordination Office SDI Germany<br>
-                    Federal Office for Cartography and Geodesy<br>
-                    Richard-Strauss-Avenue 11<br>
-                    60598 Frankfurt am Main, Germany<br><br>
-                    <span class="boldfont"> Press contact:</span> <a href="mailto:pressekontakt@gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;" >pressekontakt@gdi-de.org</a> <br><br>
-                    <span class="boldfont"> Twitter:</span> <a href="https://twitter.com/gdi_de" target="_blank" style="color: #000000; text-decoration: none;">www.twitter.com/gdi_de</a> <br><br>
-                </div>
-            </div>  
+                <div class="box">
+                    <div class="titlebox">
+                        <span>Contact</span>
+                    </div>
+                    <div class="normalfont">
+                        <br><span class="boldfont"> Coordination Office SDI Germany:</span><br>
+                        Telefon: 069 6333-258<br>
+                        Telefax: 069 6333-446<br>
+                        <a href="mailto:mail@gdi-de.org" style="color: #000000; text-decoration: none;"> mail@gdi-de.org</a><br>
+                        <a href="https://www.gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;"> www.gdi-de.org</a><br><br>
+                        <span class="boldfont"> Postal address:</span><br>
+                        Coordination Office SDI Germany<br>
+                        Federal Office for Cartography and Geodesy<br>
+                        Richard-Strauss-Avenue 11<br>
+                        60598 Frankfurt am Main, Germany<br><br>
+                        <span class="boldfont"> Press contact:</span> <a href="mailto:pressekontakt@gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;" >pressekontakt@gdi-de.org</a> <br><br>
+                        <span class="boldfont"> Twitter:</span> <a href="https://twitter.com/gdi_de" target="_blank" style="color: #000000; text-decoration: none;">www.twitter.com/gdi_de</a> <br><br>
+                    </div>
+                </div>  
+            </div>
         </div>
-    </div>
-</body>
+    </body>
 
-<!--The footer of the application-->
-<footer>
-    <hr style="height: 1px; background-color: #FF0000">
-    <div style="float: right;">
-        <span class="footerpage">This page in [ <span style="color: #007F7F">XML</span>  ]  [<span style="color: #007F7F"> JSON </span>] </span><br>
-        <span class="footertext">© 2019 - Bundesamt für Kartographie und Geodäsie, Richard-Strauss-Allee 11, 60598 Frankfurt am Main<img style="width: 25px; margin-left: 10px;" src="https://logodix.com/logo/1010052.png"></span>
-    </div>
-</footer>
+    <!--The footer of the application-->
+    <footer>
+        <hr style="height: 1px; background-color: #FF0000">
+        <div style="float: right;">
+            <span class="footerpage">This page in [ <span style="color: #007F7F">XML</span>  ]  [<span style="color: #007F7F"> JSON </span>] </span><br>
+            <span class="footertext">© 2019 - Bundesamt für Kartographie und Geodäsie, Richard-Strauss-Allee 11, 60598 Frankfurt am Main<img style="width: 25px; margin-left: 10px;" src="https://logodix.com/logo/1010052.png"></span>
+        </div>
+    </footer>
 
 
 </html>

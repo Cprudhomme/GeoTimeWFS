@@ -27,6 +27,7 @@ import org.springframework.validation.BindingResult;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.models.Metadata;
 import info.ponciano.lab.geotimewfs.models.SHPdata;
+import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.pitools.files.PiFile;
 
 @Controller
@@ -96,7 +97,7 @@ public class ArrayUpliftController {
 			//File reading
 			String filename=file.getOriginalFilename();
 			if(filename.substring(filename.length()-4).equals("csv"));
-			PiFile pf= new PiFile("upload-dir/"+filename);
+			PiFile pf= new PiFile(KB.STORAGE_DIR+"/"+filename);
 			String [][] attribute=pf.readCSV(";");
 			//init the array uplift model with attribute
 			this.am=new ArrayUpliftModelImp(attribute, "rdf-data/"+filename.substring(0, filename.length()-4)+".owl");
@@ -159,7 +160,7 @@ public class ArrayUpliftController {
 				else
 					message="The model has not been initialized";
 					model.addAttribute("message", message);
-				return "sucess";
+				return "success";
 		}
 
 

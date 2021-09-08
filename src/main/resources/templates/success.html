@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html >
+    <head>
+        <title>Congratulations</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+          
+        <header id="header">
+            <div th:insert="fragments/nav :: navbar"></div>
+            <h1>Congratulations !</h1>
+        </header>
+        <div class="containercontent">
+            <p th:text="${message}"/>
+
+            <p th:if="${file}">
+                <a  class="button" th:href="${file}">Download file</a>
+            </p>
+        </div
+        ></div>
+    <div th:insert="fragments/footer :: footer"></div>
+
+</body>
+</html>

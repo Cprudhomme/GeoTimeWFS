@@ -3,43 +3,33 @@
 This view represents the submenu "Linked Data enrichment" of the menu "Data management"
 -->
 <html>
-<head th:replace="fragments/head :: head">
-    <title>Getting Started: Serving Web Content</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<body>
-
-    <script type="text/javascript">
-       var elements = [
-       {link: "/home", value: "Home", active:"true"},
-       {link: "/data_management", value: "Data management", active: "false"},
-       {link: "/SPARQL_endpoint", value: "SPARQL endpoint", active: "false"},
-       {link: "/semantic_WFS", value: "Semantic WFS", active: "false"},
-       {link: "/metadata_catalogue", value: "Metadata catalogue", active: "false"},
-       {link: "/thematic_map", value: "Thematic map", active: "false"},
-       {link: "/documentation", value: "Documentation", active: "false"}];
-   </script>
-
-   <!--Header with the picture, title and Contact-->
-
-   <div class="containerfull">
-    <a href="http://localhost:8080/home"><img class="pictureOfHeader" src="https://www.verwaltung-innovativ.de/SharedDocs/Bilder/DE/Artikel/GDI_DE_Logo.jpg?__blob=poster&v=2"></a> 
-    <span class="titleOfHeader">Linked Data</span>
-    <span class="textOfHeader">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_the_United_Kingdom_%282-3%29.svg/1024px-Flag_of_the_United_Kingdom_%282-3%29.svg.png" style="width: 32px; margin-right: 13px;">English | <a href="http://localhost:8080/login" style="text-decoration: none; color: #333333;">Login</a> | <a href="http://localhost:8080/contact" style="text-decoration: none; color: #333333">Contact</a><br><br>
-        <a href="https://www.gdi-de.org" target="_blank"><img src="/pictures/GDI-DE.jpg" style="width: 250px; float: right;"></a></span>
-    </div>
-
-    <!-- Navigation bar and page title -->
-
-    <header id="header">
-        <div th:insert="fragments/nav :: navbar"></div>
-        <h1>Linked Data enrichment</h1>
-    </header>
+    <head th:replace="fragments/head :: head">
+        <title>Geotime</title> 
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
 
 
-    <!-- Body -->
-    <!-- The onLoad() function fill the query space with an example -->
+        <!--Header with the picture, title and Contact-->
+
+        <div class="containerfull">
+            <a href="/home"><img class="pictureOfHeader" src="https://www.verwaltung-innovativ.de/SharedDocs/Bilder/DE/Artikel/GDI_DE_Logo.jpg?__blob=poster&v=2"></a> 
+            <span class="titleOfHeader">Linked Data</span>
+            <span class="textOfHeader">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_the_United_Kingdom_%282-3%29.svg/1024px-Flag_of_the_United_Kingdom_%282-3%29.svg.png" style="width: 32px; margin-right: 13px;">English | <a href="/login" style="text-decoration: none; color: #333333;">Login</a> | <a href="/contact" style="text-decoration: none; color: #333333">Contact</a><br><br>
+                <a href="https://www.gdi-de.org" target="_blank"><img src="/pictures/GDI-DE.jpg" style="width: 250px; float: right;"></a></span>
+        </div>
+
+        <!-- Navigation bar and page title -->
+
+        <header id="header">
+            <div th:insert="fragments/nav :: navbar"></div>
+            <h1>Linked Data enrichment</h1>
+        </header>
+
+
+        <!-- Body -->
+        <!-- The onLoad() function fill the query space with an example -->
     <body onload="onLoad()">
 
         <script type="text/javascript">
@@ -72,31 +62,31 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
             };
 
             // Displaying the new value of the cursor 
-            function showVal(newNbOfPoints){
-                document.getElementById("nbOfPoints").innerHTML=newNbOfPoints;
+            function showVal(newNbOfPoints) {
+                document.getElementById("nbOfPoints").innerHTML = newNbOfPoints;
             }
 
             // Updating the request if the cursor moves or if another example is selected
             function updateRequest() {
-                document.getElementById('requestChoice').addEventListener('click',() => checkRequest());
-                document.getElementById('pointsCursor').addEventListener('click', () => checkRequest());
+                checkRequest();
+//                document.getElementById('requestChoice').addEventListener('click', () => checkRequest());
+//                document.getElementById('pointsCursor').addEventListener('click', () => checkRequest());
             }
 
             // On page loading, displays the value of the cursor and shows a request
             function onLoad() {
-                document.getElementById("nbOfPoints").innerHTML= document.getElementById("pointsCursor").value;
+                document.getElementById("nbOfPoints").innerHTML = document.getElementById("pointsCursor").value;
                 document.getElementById("sparqlText").value = queries[document.getElementById('requestChoice').value].concat(document.getElementById('pointsCursor').value);
             }
 
 
             // Checks if the request should be updated or not
-            function checkRequest(){
-                if(document.getElementById('requestChoice').value!="twentyBiggestCities" 
-                    && document.getElementById('requestChoice').value!="tenBiggestStadiums"){
-                    document.getElementById("sparqlText").value = 
-                queries[document.getElementById('requestChoice').value].concat(document.getElementById('pointsCursor').value);
-                }
-                else {
+            function checkRequest() {
+                if (document.getElementById('requestChoice').value !== "twentyBiggestCities"
+                        && document.getElementById('requestChoice').value !== "tenBiggestStadiums") {
+                    document.getElementById("sparqlText").value =
+                            queries[document.getElementById('requestChoice').value].concat(document.getElementById('pointsCursor').value);
+                } else {
                     document.getElementById("sparqlText").value = queries[document.getElementById('requestChoice').value];
                 }
             }
@@ -104,65 +94,69 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
 
         <div class="containerfull">
             <div class="containercontent">
-                <div class="containerfull">
 
-                    <!-- Calls the onLoad() function -->
-                    <div style="width: 60%" onload="onLoad()">
-
-                        <!-- List of example requests -->
-                        <span style="font-weight: bold; font-size: 1.5em;">Class to enrich:</span><br>
-                        <select name="classToEnrich" id="requestChoice" value="schools" onclick="updateRequest()">
-                            <option value="schools">Schule (Q3914)</option>
-                            <option value="twentyBiggestCities">20 biggest cities in Germany</option>
-                            <option value="tenBiggestStadiums">10 biggest football stadiums in Germany</option>
-                            <option value="hospitals">Krankenhaus (Q16917)</option>
-                            <option value="policeStations">Polizeistation (Q861951)</option>
-                            <option value="fireStations">Feuerwache (Q1195942)</option>
-                            <option value="supermarkets">Supermarkt (Q180846)</option>
-                            <option value="museums">Museen (Q33506)</option>
-                            <option value="libraries">Bibliotheken (Q7075)</option>
-                            <option value="trainStations">Bahnhöfe (Q55488)</option>
-                            <option value="banks">Banken (Q22687)</option>
-                            <option value="restaurants">Restaurants (Q11707)</option>
-                            <option value="cinemas">Kinos (Q41253)</option>
-                            <option value="monuments">Denkmäler(Q4989906)</option>
-                            <option value="hotels">Hotels (Q27686)</option>
-                            <option value="airports">Flughäfen (Q1248784)</option>
-                            <option value="stadiums">Stadien (Q483110)</option>
-                            <option value="swimmingPools">Schwimmbäder (Q200023)</option>
-                            <option value="serviceStation">Tankstellen (Q205495)</option>
-                            <option value="weatherStation">Wetterstationen (Q19010)</option>
-                            <option value="researchLaboratory">Forschungslaboratorien (Q483242)</option>
-                            <option value="port">Häfen (Q44782)</option>
-                            <option value="cities">Städte (Q515)</option>
-                        </select>
-                        <br><br>
-
-                        <!-- Cursor - It is possible to change the value range and the step of change on the input line -->
-                        <span style="font-weight: bold; font-size: 1.5em;">Items number :</span><br>
-                        <span id="nbOfPoints"> </span>
-                        <input type="range" id="pointsCursor" min="100" max="1000" value="500" step="50" class="inputRange" oninput="showVal(this.value)" onclick="updateRequest()">
-                        <br><br>
-
-                        <!-- Text box showing the error, if the request does not work -->
-                        <span style="font-weight: bold; font-size: 1.5em;">Potential error</span>
-                        <pre style="margin-right: 30px; max-height: 400px;">
+                <!-- Calls the onLoad() function -->
+                <div  onload="onLoad()">
+                    <section class='inline cent'>
+                        <div class='inline w30'>
+                            <!-- List of example requests -->
+                            <span style="font-weight: bold; font-size: 1.5em;">Class to enrich:</span>
+                            <select name="classToEnrich" id="requestChoice" value="schools" onChange="updateRequest()">
+                                <option value="schools">Schule (Q3914)</option>
+                                <option value="twentyBiggestCities">20 biggest cities in Germany</option>
+                                <option value="tenBiggestStadiums">10 biggest football stadiums in Germany</option>
+                                <option value="hospitals">Krankenhaus (Q16917)</option>
+                                <option value="policeStations">Polizeistation (Q861951)</option>
+                                <option value="fireStations">Feuerwache (Q1195942)</option>
+                                <option value="supermarkets">Supermarkt (Q180846)</option>
+                                <option value="museums">Museen (Q33506)</option>
+                                <option value="libraries">Bibliotheken (Q7075)</option>
+                                <option value="trainStations">Bahnhöfe (Q55488)</option>
+                                <option value="banks">Banken (Q22687)</option>
+                                <option value="restaurants">Restaurants (Q11707)</option>
+                                <option value="cinemas">Kinos (Q41253)</option>
+                                <option value="monuments">Denkmäler(Q4989906)</option>
+                                <option value="hotels">Hotels (Q27686)</option>
+                                <option value="airports">Flughäfen (Q1248784)</option>
+                                <option value="stadiums">Stadien (Q483110)</option>
+                                <option value="swimmingPools">Schwimmbäder (Q200023)</option>
+                                <option value="serviceStation">Tankstellen (Q205495)</option>
+                                <option value="weatherStation">Wetterstationen (Q19010)</option>
+                                <option value="researchLaboratory">Forschungslaboratorien (Q483242)</option>
+                                <option value="port">Häfen (Q44782)</option>
+                                <option value="cities">Städte (Q515)</option>
+                            </select>
+                        </div>
+                        <div class='inline w30'>
+                            <!-- Cursor - It is possible to change the value range and the step of change on the input line -->
+                            <span style="font-weight: bold; font-size: 1.5em;">Max items number :</span>
+                            <span id="nbOfPoints"> </span>
+                            <input type="range" id="pointsCursor" min="100" max="1000" value="500" step="50" class="inputRange" oninput="showVal(this.value)" onclick="updateRequest()">
+                        </div>
+                        <div class='inline w30' >
+                            <!-- Text box showing the error, if the request does not work -->
+                            <span style="font-weight: bold; font-size: 1.5em;">Potential error</span>
+                            <pre style="margin-right: 30px; max-height: 400px;">
                             <code th:text="${errorMessage}"></code>
-                        </pre> 
-                    </div>
-
-                    <!-- Text box where the request is shown -->
-                    <div style="float: right;" onload="onLoad()">
-                        <form action="#" th:action="@{/enrichment/results}" th:object="${squery}" method="post">
-
-                            <!-- Text box -->
-                            <textarea id="sparqlText" rows="16" cols="60" style="font-size: 1.6em; width: 100%; height: 100%; line-height: 150%" th:field="*{results}">YOUR QUERY</textarea><br>
-                            <!-- Submit button -->
-                            <input style="margin-left: auto; margin-right: auto; font-size: 1.4em;" type="submit" name="Submit" value="Get the query results">
-                        </form>
-                        <br><br><br>
-                    </div>
+                            </pre> 
+                        </div>
+                    </section>
                 </div>
+
+                <!-- Text box where the request is shown -->
+                <div style="float: right;" onload="onLoad()">
+                    <form action="#" th:action="@{/enrichment/results}" th:object="${squery}" method="post">
+
+                        <!-- Text box -->
+                        <textarea id="sparqlText" rows="16" cols="60" style="font-size: 1.6em; width: 100%; height: 100%; line-height: 150%" th:field="*{results}">YOUR QUERY</textarea><br>
+                        <!-- Submit button -->
+                        <input style="margin-left: auto; margin-right: auto; font-size: 1.4em;" type="submit" name="Submit" value="Get the query results">
+                    </form>
+                </div>
+                <section>
+
+
+                </section>
                 <section> 
 
                     <!-- Map -->
@@ -170,118 +164,96 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
                         <!-- Leaflet script and stylesheet -->
                         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
                         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-                        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+                              integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+                        <link rel="stylesheet" href="../static/css/asideBox.css" type="text/css">
+                        <link rel="stylesheet" href="../static/css/main.css" type="text/css"/>
+                        <link rel="stylesheet" href="../static/css/testSPARQL.css" type="text/css">
+                        <link rel="stylesheet" href="../static/css/testSPARQL.css" type="text/css"/>
 
-                    <!-- Retreving data from the request -->
-                    <script th:inline="javascript">
-                            var dataArray = /*[[${MDlist}]]*/ 'default';
-                            // Function used to retrieve size of the data array 
-                            // Data is stored as followed :
-                            // data = [ itemIndex, itemLabel, latitude, longitude]
-                            Object.size = function(obj) {
-                              var size = 0,
-                              key;
-                              for (key in obj) {
-                                if (obj.hasOwnProperty(key)) size++;
-                            }
-                            return size;
-                        };
-                        var sizeOfArray = Object.size(dataArray);
 
-                    </script>
-                    <script>
-                        // Creation of one layer of points
-                        var query = new L.layerGroup()
 
-                        // Loop to add every point of the results to the map 
-                        for(let i = 0; i<sizeOfArray; i++){
 
-                            // To add a point :
-                            // L.marker([latitude, longitude]).bindPopup(nameOfThePoint).addTo(nameOfTheLayer);
-                            L.marker([dataArray[i][2],dataArray[i][3]]).bindPopup(dataArray[i][1]).addTo(query);
 
+                        <!-- Retreving data from the request -->
+                        <script th:inline="javascript">
+                    var dataArray = /*[[${MDlist}]]*/ 'default';
+                    // Function used to retrieve size of the data array 
+                    // Data is stored as followed :
+                    // data = [ itemIndex, itemLabel, latitude, longitude]
+                    Object.size = function (obj) {
+                        var size = 0,
+                                key;
+                        for (key in obj) {
+                            if (obj.hasOwnProperty(key))
+                                size++;
                         }
-                        var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-                        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                        mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+                        return size;
+                    };
+                    var sizeOfArray = Object.size(dataArray);
 
-                        // Creation of two layers : grayscale, and streets map 
-                        // It is also possible to add a satelite map, landform map, ..
-                        var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr}),
-                        streets  = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+                        </script>
+                        <script>
+                            // Creation of one layer of points
+                            var query = new L.layerGroup()
 
-                        // Definition of the map, and setup of details : coordinates of the center, zoom level and layers that appear on loading
-                        var map = L.map('map', {
-                            center: [49.99, 8.24],
-                            zoom: 6,
-                            layers: [streets, query]
-                        });
+                            // Loop to add every point of the results to the map 
+                            for (let i = 0; i < sizeOfArray; i++) {
 
-                        // Definition of layers
-                        var baseLayers = {
-                            "Grayscale": grayscale,
-                            "Streets": streets
-                        };
+                                // To add a point :
+                                // L.marker([latitude, longitude]).bindPopup(nameOfThePoint).addTo(nameOfTheLayer);
+                                L.marker([dataArray[i][2], dataArray[i][3]]).bindPopup(dataArray[i][1]).addTo(query);
 
-                        // Definition of point layers
-                        var overlays = {
-                            "Query" : query
-                        };
-                        // Add layers and points layers to the map 
-                        L.control.layers(baseLayers, overlays).addTo(map);
-                    </script>
-                </div> 
+                            }
+                            var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+                                    'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                                    mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
 
-                <br><br>
+                            // Creation of two layers : grayscale, and streets map 
+                            // It is also possible to add a satelite map, landform map, ..
+                            var grayscale = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr}),
+                                    streets = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
 
-                <!-- Displaying the table of results -->
-                <div class="tableContentSPARQL">
+                            // Definition of the map, and setup of details : coordinates of the center, zoom level and layers that appear on loading
+                            var map = L.map('map', {
+                                center: [49.99, 8.24],
+                                zoom: 6,
+                                layers: [streets, query]
+                            });
 
-                    <span id="nbOfResults" style="width: 150px; height: 10px"> 0 result(s).</span>
+                            // Definition of layers
+                            var baseLayers = {
+                                "Grayscale": grayscale,
+                                "Streets": streets
+                            };
 
-                    <script type="text/javascript">
-                        document.getElementById("nbOfResults").innerHTML = sizeOfArray.toString().concat(" result(s).");
-                    </script>                    
-                    <table border="1" style="width: 700px; margin: 0 auto;">
-                        <thead>
-                            <!-- Definition of the 4 columns -->
-                            <tr><th colspan="4" style="text-align: center; font-size: 1.2em;">Results of the query</th></tr>
-                            <tr style="text-align: center;">
-                                <th><span>item</span></th>
-                                <th><span>itemLabel</span></th>
-                                <th><span>Latitude</span></th>
-                                <th><span>Longitude</span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Filling the 4 columns with the results from WikiData-->
-                            <tr th:each="md: ${MDlist}">
-                                <td style="width: 170px;"><span th:text="${md[0]}"></span></td>
-                                <td style="width: 170px;"><span th:text="${md[1]}"></span></td>
-                                <td style="width: 170px;"><span th:text="${md[2]}"></span></td>
-                                <td style="width: 170px;"><span th:text="${md[3]}"></span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+                            // Definition of point layers
+                            var overlays = {
+                                "Query": query
+                            };
+                            // Add layers and points layers to the map 
+                            L.control.layers(baseLayers, overlays).addTo(map);
+                        </script>
+                    </div> 
+                </section>
+                <section>
 
-        </div>
+                    <!-- Displaying the table of results -->
+                    <div th:if="${MDlist}" class="tableContentSPARQL">
+                        
+                        <form action="#" th:action="@{/enrichment/enrich}" th:object="${stringform}" method="post">
+                            <label id="mapname">Map Name:</label>
+                            <input id="nameMap" type="text" th:field="*{string}"/>
+                            <input type="submit" value="Enrich the ontology"/>
+                        </form>
+                        
+                        <span id="nbOfResults" style="width: 150px; height: 10px"> 0 result(s).</span>
 
-        <!--"Provider" and "Contact" boxes-->
-        <div class="containerbox">
-            <div class="box">
-                <div class="titlebox">
-                    <span> Provider</span>
-                </div>
-                <div class="normalfont">
-                    <br><span class="boldfont"> GDI-DE Geodateninfrastruktur Deutschland</span>
-                    <span><a href="https://www.gdi-de.org/" target="_blank" style="color: #007F7F;text-decoration: none;"> https://www.gdi-de.org</a></span><br><br>
-                </div>
-                <section> 
-                    <div class="tableContentSPARQL">                    
-                        <table border="1" style="width: 700px;">
+                        <script type="text/javascript">
+                            document.getElementById("nbOfResults").innerHTML = sizeOfArray.toString().concat(" result(s).");
+                        </script>                    
+                        <table border="1" style="width: 700px; margin: 0 auto;">
                             <thead>
+                                <!-- Definition of the 4 columns -->
                                 <tr><th colspan="4" style="text-align: center; font-size: 1.2em;">Results of the query</th></tr>
                                 <tr style="text-align: center;">
                                     <th><span>item</span></th>
@@ -291,6 +263,7 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
                                 </tr>
                             </thead>
                             <tbody>
+                                <!-- Filling the 4 columns with the results from WikiData-->
                                 <tr th:each="md: ${MDlist}">
                                     <td style="width: 170px;"><span th:text="${md[0]}"></span></td>
                                     <td style="width: 170px;"><span th:text="${md[1]}"></span></td>
@@ -301,50 +274,11 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
                         </table>
                     </div>
                 </section>
-
-            </div>
-
-            <!--The boxes "Provider" and "Contact"-->
-            <div class="containerbox">
-                <div class="box">
-                    <div class="titlebox">
-                        <span> Provider</span>
-                    </div>
-                    <div class="normalfont">
-                        <br><span class="boldfont"> GDI-DE Geodateninfrastruktur Deutschland</span>
-                        <span><a href="https://www.gdi-de.org/" target="_blank" style="color: #007F7F;text-decoration: none;"> https://www.gdi-de.org</a></span><br><br>
-                    </div>
-                </div>
-                <div class="box">
-                    <div class="titlebox">
-                        <span>Contact</span>
-                    </div>
-                    <div class="normalfont">
-                        <br><span class="boldfont"> Coordination Office SDI Germany:</span><br>
-                        Telefon: 069 6333-258<br>
-                        Telefax: 069 6333-446<br>
-                        <a href="mailto:mail@gdi-de.org" style="color: #000000; text-decoration: none;"> mail@gdi-de.org</a><br>
-                        <a href="https://www.gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;"> www.gdi-de.org</a><br><br>
-                        <span class="boldfont"> Postal address:</span><br>
-                        Coordination Office SDI Germany<br>
-                        Federal Office for Cartography and Geodesy<br>
-                        Richard-Strauss-Avenue 11<br>
-                        60598 Frankfurt am Main, Germany<br><br>
-                        <span class="boldfont"> Press contact:</span> <a href="mailto:pressekontakt@gdi-de.org" target="_blank" style="color: #000000; text-decoration: none;" >pressekontakt@gdi-de.org</a> <br><br>
-                        <span class="boldfont"> Twitter:</span> <a href="https://twitter.com/gdi_de" target="_blank" style="color: #000000; text-decoration: none;">www.twitter.com/gdi_de</a> <br><br>
-                    </div>
-                </div>  
             </div>
         </div>
-    </div>
-</body>
+        <!--The footer of the application-->
+        <footer th:replace="fragments/footer :: footer">
+    </body>
 
-    <!--The footer of the application-->
-    <footer>
-        <hr style="height: 1px; background-color: #FF0000">
-        <div style="float: right;">
-            <span class="footerpage">This page in [ <span style="color: #007F7F">XML</span>  ]  [<span style="color: #007F7F"> JSON </span>] </span><br>
-            <span class="footertext">© 2019 - Bundesamt für Kartographie und Geodäsie, Richard-Strauss-Allee 11, 60598 Frankfurt am Main<img style="width: 25px; margin-left: 10px;" src="https://logodix.com/logo/1010052.png"></span>
-        </div>
-    </footer>
-    </html>
+
+</html>
