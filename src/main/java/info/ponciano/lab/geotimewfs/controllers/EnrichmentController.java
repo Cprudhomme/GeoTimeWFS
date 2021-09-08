@@ -81,18 +81,20 @@ public class EnrichmentController {
             }
             GeoJsonRDF.featureUplift(features, ont, mapThem);
             KB.get().save();
-             model.addAttribute("message", "The ontology is enriched!");
-            return "success";
+            model.addAttribute("message", "The ontology is enriched!");
+             return "sparql/maps";
         } catch (Exception ex) {
             Logger.getLogger(EnrichmentController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("message", ex.getMessage());
             return "error";
         }
     }
+
     @ModelAttribute(name = "stringform")
     public StringForm stringform() {
         return new StringForm();
     }
+
     @ModelAttribute(name = "squery")
     public SparqlQuery sparqlquery() {
         return new SparqlQuery();
@@ -125,44 +127,14 @@ public class EnrichmentController {
             Query query = QueryFactory.create(queryString);
             System.out.println(queryString);
             QueryExecution qexec = QueryExecutionFactory.sparqlService("https://query.wikidata.org/sparql", query);
+            List<String> cn = new ArrayList<String>();
+            List<String[]> rl = new ArrayList<String[]>();
             //store results in ResultSet format
             ResultSet resultset = qexec.execSelect();
             //gives the column names of the query
-            columnNames = resultset.getResultVars();
-            System.out.println("Column Names : " + columnNames);
-
-            List<Integer> numberOfColumns = new ArrayList<Integer>();
-            for (int i = 0; i < columnNames.size(); i++) {
-                numberOfColumns.add(i);
-            }
-            System.out.println(numberOfColumns);
-
-            //for all the QuerySolution in the ResultSet file
-            while (resultset.hasNext()) {
-                QuerySolution solu = resultset.next();
-                String[] ls = new String[columnNames.size()];
-                for (int i = 0; i < columnNames.size(); i++) {
-                    String columnName = columnNames.get(i);
-                    RDFNode node = solu.get(columnName);
-                    String a = null;
-
-                    //test if resource
-                    if (node.isResource()) {
-                        a = node.asResource().getLocalName();
-                    }
-                    //test if literal
-                    if (node.isLiteral()) {
-                        a = node.asLiteral().toString();
-                    }
-                    if (a.contains("^^http://www.w3.org/2001/XMLSchema#double")) {
-                        a = a.replace("^^http://www.w3.org/2001/XMLSchema#double", "");
-                    }
-                    ls[i] = a;
-                }
-                Arrays.deepToString(ls);
-                resultList.add(ls);
-            }
-
+            cn = getResults(resultset, rl);
+            this.columnNames = cn;
+            this.resultList = rl;
         } catch (Exception e) {
             r = e.getMessage();
         }
@@ -171,6 +143,44 @@ public class EnrichmentController {
         model.addAttribute("MDlist", resultList);
         model.addAttribute("errorMessage", r);
         return "sparql";
+    }
+
+    public static List<String> getResults(ResultSet resultset, List<String[]> rl) {
+        List<String> cn;
+
+        cn = resultset.getResultVars();
+        System.out.println("Column Names : " + cn);
+        List<Integer> numberOfColumns = new ArrayList<Integer>();
+        for (int i = 0; i < cn.size(); i++) {
+            numberOfColumns.add(i);
+        }
+        System.out.println(numberOfColumns);
+        //for all the QuerySolution in the ResultSet file
+        while (resultset.hasNext()) {
+            QuerySolution solu = resultset.next();
+            String[] ls = new String[cn.size()];
+            for (int i = 0; i < cn.size(); i++) {
+                String columnName = cn.get(i);
+                RDFNode node = solu.get(columnName);
+                String a = null;
+
+                //test if resource
+                if (node.isResource()) {
+                    a = node.asResource().getLocalName();
+                }
+                //test if literal
+                if (node.isLiteral()) {
+                    a = node.asLiteral().toString();
+                }
+                if (a.contains("^^http://www.w3.org/2001/XMLSchema#double")) {
+                    a = a.replace("^^http://www.w3.org/2001/XMLSchema#double", "");
+                }
+                ls[i] = a;
+            }
+            Arrays.deepToString(ls);
+            rl.add(ls);
+        }
+        return cn;
     }
 
 }
