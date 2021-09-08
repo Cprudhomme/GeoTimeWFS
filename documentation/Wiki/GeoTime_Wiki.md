@@ -11,7 +11,7 @@ You will find here below the list of all the functionalities by clicking on a fu
   * [GeoJSON Uplift ](./pages/geojson_Uplift.md)
 * Downlift
   * [GeoJSON Downlift ](./pages/geojson_downlift.md)
-* [SPARQL endpoint](./pages/sparql.md)
+* [SPARQL endpoint](./pages/sparql_endpoint.md)
 
 ## vocabulary explanation
 
