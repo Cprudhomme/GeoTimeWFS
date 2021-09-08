@@ -16,7 +16,7 @@ After clicking on ‘’GeoJSON Uplift’’ you will be redirected here :
 
 
 
-You then just have to click on "choose the file" and to click on the file you want to integrate and click on upload to integrate your file.
+You then just have to click on "choose the file" and to click on the file you want to integrate, then click on upload to integrate your file.
 ![Geo3](../images/Geo3.jpg)
 
 
@@ -31,6 +31,6 @@ You now have the possibility of downloading the ontology  to do so just click on
 
 
 
-We recommend that you use Protégé to visualize the ontology , but any other ontology editor will do.
+We recommend that you use Protege to visualize the ontology , but any other ontology editor will do.
 
 GeoTime Wiki [GeoTime](../GeoTime_Wiki.md)
