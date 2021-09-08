@@ -19,6 +19,7 @@
 package info.ponciano.lab.geotimewfs.models.semantic;
 
 import info.ponciano.lab.pisemantic.PiOnt;
+import info.ponciano.lab.pisemantic.PiSparql;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -124,7 +125,7 @@ public class KB implements KnowledgeBaseInterface {
     }
 
     @Override
-    public PiOnt getOnt() {
+    public PiSparql getOnt() {
         return this.model.ont;
     }
 
