@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import info.ponciano.lab.pisemantic.PiSparql;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.models.SparqlQuery;
+import info.ponciano.lab.geotimewfs.models.StringForm;
 import info.ponciano.lab.geotimewfs.models.geojson.Feature;
 import info.ponciano.lab.geotimewfs.models.geojson.GeoJsonRDF;
 import info.ponciano.lab.geotimewfs.models.geojson.Geometry;
@@ -56,14 +57,16 @@ public class EnrichmentController {
 
     }
 
-    @GetMapping("/enrich")
-    public String enrich(@ModelAttribute("squery") SparqlQuery sq, Model model) {
+    @PostMapping("/enrich")
+    public String enrich(@ModelAttribute("stringform") StringForm sq, Model model) {
         try {
             PiSparql ont = KB.get().getOnt();
             //creation of thematic map dataset
             OntClass dataset = ont.createClass(GeoJsonRDF.DCAT_DATASET);
             OntClass mt = ont.createClass(KB.NS + "Thematic_Map");
-            Individual mapThem = dataset.createIndividual(KB.NS + sq.getResults());
+            String name = KB.NS + sq.getString();
+
+            Individual mapThem = dataset.createIndividual(name);
             mapThem.addProperty(RDF.type, mt);
 
             List<Feature> features = new ArrayList<>();
@@ -86,7 +89,10 @@ public class EnrichmentController {
             return "error";
         }
     }
-
+    @ModelAttribute(name = "stringform")
+    public StringForm stringform() {
+        return new StringForm();
+    }
     @ModelAttribute(name = "squery")
     public SparqlQuery sparqlquery() {
         return new SparqlQuery();
