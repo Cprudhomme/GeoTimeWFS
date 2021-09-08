@@ -2,7 +2,7 @@ Here we will show you how to uplift a file
 
 ## Step 1 :
 The first thing you need to do is to locate the data management tab and in that tab select GeoJSON Uplift.
-
+![Geo1](../images/Geo1jpg)
 
 
 

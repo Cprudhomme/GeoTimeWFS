@@ -22,3 +22,5 @@ In the Query box (the one below « Query : ») just enter your query and click o
 You can fully customize your query according to the ontology vocabulary.
 
 Your results will displayed below the query box.
+
+GeoTime Wiki [GeoTime](../GeoTime Wiki.md)
