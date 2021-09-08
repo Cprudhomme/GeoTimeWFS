@@ -8,7 +8,7 @@ You will find here below the list of all the functionalities by clicking on a fu
 
 ### functionalities:
  * Uplift : Transformation of a data file into RDF triples
-  * [GeoJSON Uplift ](./pages/GeoJSONuplift.md)
+  * [GeoJSON Uplift ](./pages/geojson_Uplift.md)
 * Downlift
   * [GeoJSON Downlift ](./pages/geojson_downlift.md)
 * [SPARQL endpoint](./pages/sparql.md)
