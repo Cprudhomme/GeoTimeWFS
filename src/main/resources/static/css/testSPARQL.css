@@ -57,3 +57,8 @@ caption.tableContentSPARQL{
 .w30 {
     width: 30%;
 }
+
+sparqlQuery {
+  max-width: 100%;
+  border: #870909 solid 3px;
+}
