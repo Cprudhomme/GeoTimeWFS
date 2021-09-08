@@ -27,7 +27,7 @@ import org.apache.jena.rdf.model.Literal;
  *
  * @author jean-jacquesponciano
  */
- class Geometry {
+public  class Geometry {
 
     private final String type;
     private final List<Double> coordinates;
