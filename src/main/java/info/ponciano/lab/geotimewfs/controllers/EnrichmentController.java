@@ -31,6 +31,8 @@ public class EnrichmentController {
     
     private PiSparql ont = new PiSparql();
     private final StorageService storageService;
+    private List<String> header;
+    private List<String[]> results;
     
     @Autowired
     public EnrichmentController(StorageService storageService) {
@@ -120,7 +122,8 @@ public class EnrichmentController {
         } catch (Exception e) {
             r = e.getMessage();
         }
-
+this.header=columnNames;
+this.results=resultList;
         //add attributes to model
         model.addAttribute("cl", columnNames);
         model.addAttribute("MDlist", resultList);
