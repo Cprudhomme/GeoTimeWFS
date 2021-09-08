@@ -30,8 +30,9 @@ import org.apache.jena.sparql.core.Prologue;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
- public abstract class OntoManagement implements KnowledgeBaseInterface{
-     private PiSparql pisparql=new PiSparql();
+public abstract class OntoManagement implements KnowledgeBaseInterface {
+
+    private PiSparql pisparql = new PiSparql();
     protected PiSparql ont;
     protected String prefix;
 
@@ -55,11 +56,11 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      */
     public OntoManagement(String ontologyPath) throws OntoManagementException {
         this.ont = new PiSparql();//ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-         try {
-             this.ont.read(ontologyPath);
-         } catch (FileNotFoundException ex) {
-             Logger.getLogger(OntoManagement.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        try {
+            this.ont.read(ontologyPath);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(OntoManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
 //        String checkOntology = this.checkOntology();
 //        if (!checkOntology.isEmpty()) {
 //            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
@@ -82,10 +83,11 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         prefix += "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n";
         prefix += "PREFIX gtdcat: <http://lab.ponciano.info/ontology/2020/geotime/dcat#>\n";
         prefix += "PREFIX adms: <http://www.w3.org/ns/adms#>\n";
-        this.ont.addPrefix("dcat", "<http://www.w3.org/ns/dcat#>");
-         this.ont.addPrefix("geosparql", "<http://www.w3.org/ns/dcat#>");
-         this.ont.addPrefix("spalod", "<http://lab.ponciano.info/ont/spalod#>");
-         this.ont.addPrefix("geosparql", "<http://www.opengis.net/ont/geosparql#>");
+        
+        this.ont.addPrefix("dcat", "http://www.w3.org/ns/dcat#");
+        this.ont.addPrefix("geosparql", "http://www.w3.org/ns/dcat#");
+        this.ont.addPrefix("spalod", "http://lab.ponciano.info/ont/spalod#");
+        this.ont.addPrefix("geosparql", "http://www.opengis.net/ont/geosparql#");
     }
 
     /**
@@ -95,13 +97,13 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @throws OntoManagementException If the model is wrong
      */
     public OntoManagement() throws OntoManagementException {
-         this.ont = new PiSparql();//ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-         try {
-             this.ont.read("src/main/resources/ontologies/iso-19115.owl");
-         } catch (FileNotFoundException ex) {
-             Logger.getLogger(OntoManagement.class.getName()).log(Level.SEVERE, null, ex);
-         }
-       
+        this.ont = new PiSparql();//ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+        try {
+            this.ont.read("src/main/resources/ontologies/iso-19115.owl");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(OntoManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
 //        String checkOntology = this.checkOntology();
 //        if (!checkOntology.isEmpty()) {
 //            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
@@ -238,7 +240,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @return the URI generated.
      */
     public static String generateURI() {
-        return NS +"_"+ UUID.randomUUID().toString();
+        return NS + "_" + UUID.randomUUID().toString();
     }
 
     /**
@@ -344,15 +346,16 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * <h2> Example of insert:</h2>
      * <p>
      * <pre><code>INSERT DATA { gtdcat:gdi_metadata rdf:type <http://www.w3.org/ns/dcat#CatalogRecord> .}</code></pre>
-     </p>
+     * </p>
      * * <h2> Example of update:</h2>
      * <p>
-     * <pre><code>
+     * <
+     * pre><code>
      * DELETE { <ind> <property> ?v .}
      * INSERT { <ind> <property> "value" .}
      * WHERE { <ind> <property> ?v .}
      * </code></pre>
-     </p>
+     * </p>
      */
     @Override
     public void update(String query) throws OntoManagementException {
@@ -385,10 +388,10 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @param query contains the SPARQL query to execute
      * @param var contains the different variables of the SPARQL query, whose
      * the result will be returned
-     * @param fullURI: if fullURI is true, returns the full URI of the resources, 
-     * else returns the local name of the resources
-     * @param onlyNS: if onlyNS is true, it does not return results with external 
-     * name space, else returns all results
+     * @param fullURI: if fullURI is true, returns the full URI of the
+     * resources, else returns the local name of the resources
+     * @param onlyNS: if onlyNS is true, it does not return results with
+     * external name space, else returns all results
      * @return a list of string table containing each result row for the seta of
      * variables
      */
@@ -400,68 +403,64 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         while (rs.hasNext()) {
             QuerySolution solu = rs.next();
             //create the table for the row result
-            String[] ls= new String[var.length];
+            String[] ls = new String[var.length];
             //fill the table with results
-            for(int i=0; i<var.length; i++)
-            {
-                RDFNode node=solu.get(var[i]);
+            for (int i = 0; i < var.length; i++) {
+                RDFNode node = solu.get(var[i]);
                 //test if literal
                 boolean literal = node.isLiteral();
-                if(literal){
+                if (literal) {
                     Literal asLiteral = node.asLiteral();
-                    ls[i]=asLiteral.toString();
-                }  
+                    ls[i] = asLiteral.toString();
+                }
                 //test if resource
                 boolean resource = node.isResource();
-                if(resource){
+                if (resource) {
                     Resource asResource = node.asResource();
-                    if(onlyNS){
+                    if (onlyNS) {
                         final String nameSpace = asResource.getNameSpace();
-                        if(containsNS(nameSpace)){
-                            if(fullURI){
-                                ls[i]=asResource.getURI();
-                            }
-                            else{
-                            	ls[i]=getIndName(asResource.getURI());//ls[i]=asResource.getLocalName();
+                        if (containsNS(nameSpace)) {
+                            if (fullURI) {
+                                ls[i] = asResource.getURI();
+                            } else {
+                                ls[i] = getIndName(asResource.getURI());//ls[i]=asResource.getLocalName();
                             }
                         }
-                    }
-                    else{
-                        if(fullURI){
-                            ls[i]=asResource.getURI();
-                        }
-                        else{
-                            ls[i]=getIndName(asResource.getURI());//asResource.getLocalName();
+                    } else {
+                        if (fullURI) {
+                            ls[i] = asResource.getURI();
+                        } else {
+                            ls[i] = getIndName(asResource.getURI());//asResource.getLocalName();
                             System.out.println(ls[i]);
                         }
                     }
                 }
-               
+
             }
             //add the filled table to the list
             info.add(ls);
         }
         return info;
     }
+
     private String getIndName(String fullUri) {
-    	String res;
-    	if(fullUri.contains("#")) {
-    		String[] var=fullUri.split("#");
-    		res=var[var.length-1];
-    	}
-    	else{
-    		String[] var=fullUri.split("/");
-    		res=var[var.length-1];
-    	}
-    	
-    	return res;
+        String res;
+        if (fullUri.contains("#")) {
+            String[] var = fullUri.split("#");
+            res = var[var.length - 1];
+        } else {
+            String[] var = fullUri.split("/");
+            res = var[var.length - 1];
+        }
+
+        return res;
     }
 
-	public PiSparql getPisparql() {
-		return pisparql;
-	}
+    public PiSparql getPisparql() {
+        return pisparql;
+    }
 
-	public void setPisparql(PiSparql pisparql) {
-		this.pisparql = pisparql;
-	}
+    public void setPisparql(PiSparql pisparql) {
+        this.pisparql = pisparql;
+    }
 }
