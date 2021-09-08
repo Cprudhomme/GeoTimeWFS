@@ -36,7 +36,6 @@ public class SparqlController {
     
     @GetMapping("/")
     public String home(Model model) {
-        System.out.println("ON");
         model.addAttribute("queryresult", "");
         return "sparql/sparqlEP";
     }
