@@ -30,8 +30,10 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
 
         <div id="wrapper">
             <!-- Main -->
-            <div id="main">
-                <div class="inner">
+           
+        <div class="containerfull">
+            <div class="containercontent">
+
 
 
                     <header id="header">
@@ -50,10 +52,10 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
 
                         <div  th:if="${not #lists.isEmpty(individuals)}">
                             <form th:action="@{/maps/select}"th:object="${dataindiv}" method="post" enctype="multipart/form-data">
-                                <select th:field="*{name}" th:each="md: ${individuals}">
-
+                                <select th:field="*{name}" >
+                                    <div th:each="md: ${individuals}">
                                     <option th:value="${md}" th:text="${md}"></option>
-
+</div>
                                 </select>
 
                                 <input type="submit" value="Select" />
