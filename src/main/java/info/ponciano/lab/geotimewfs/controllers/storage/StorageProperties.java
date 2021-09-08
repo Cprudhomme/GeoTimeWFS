@@ -1,5 +1,6 @@
 package info.ponciano.lab.geotimewfs.controllers.storage;
 
+import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.pitools.files.PiFile;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -10,7 +11,7 @@ public class StorageProperties {
     /**
      * Folder location for storing files
      */
-    private String location = "upload-dir";
+    private  String location = KB.STORAGE_DIR;
 
     public String getLocation() {
         return location;
@@ -25,6 +26,5 @@ public class StorageProperties {
     public StorageProperties() {
         new PiFile(this.location).mkdir();
     }
-
 
 }

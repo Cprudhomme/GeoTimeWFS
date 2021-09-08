@@ -84,7 +84,7 @@ public class MetadataController {
                     //file is replaced by files.get(i) to indicate that the method is apply to each element of the list
                         "You successfully uplift " + files.get(i) + "!");
                 
-                boolean upliftOk = KB.get().uplift("upload-dir/" + files.get(i).getOriginalFilename());
+                boolean upliftOk = KB.get().uplift(KB.STORAGE_DIR+"/"+ files.get(i).getOriginalFilename());
                 if (upliftOk) {
                     int index = files.get(i).getOriginalFilename().indexOf(".");
                     String fn = files.get(i).getOriginalFilename().substring(0, index);
@@ -96,7 +96,7 @@ public class MetadataController {
                     throw new ControllerException("file format was incorrect");
                 }
             } catch (OntoManagementException | ControllerException | IOException ex) {
-            	//TODO remove file from upload-dir
+            	//TODO remove file from KB.STORAGE_DIR
                 final String message = "The uplift fails: " + ex.getMessage();
                 rtn = "redirect:/error?name=" + message;
             }

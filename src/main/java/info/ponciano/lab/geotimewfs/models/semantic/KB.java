@@ -18,9 +18,13 @@
  */
 package info.ponciano.lab.geotimewfs.models.semantic;
 
+import info.ponciano.lab.pisemantic.PiOnt;
+import info.ponciano.lab.pisemantic.PiSparql;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.ResultSet;
 
@@ -31,10 +35,14 @@ import org.apache.jena.query.ResultSet;
  */
 public class KB implements KnowledgeBaseInterface {
 
+    public static final String STORAGE_DIR="dynamic_storage";
+    public static final String URI="http://lab.ponciano.info/ont/spalod";
     private static KB kb = null;
-    private static final String DEFAULT_ONTO = "src/main/resources/ontologies/iso-19115.owl";
-    private static final String OUT_ONTO = "geotimeOutput.owl";
-    private OwlManagement model;
+    public static final String NS="http://lab.ponciano.info/ont/spalod#";
+    private static final String DEFAULT_ONTO_ISO = "src/main/resources/ontologies/iso-19115.owl";
+    private static final String DEFAULT_ONTO = "src/main/resources/ontologies/spalod.owl";
+    public static final String OUT_ONTO = "geotimeOutput.owl";
+    private final OwlManagement model;
 
     public static KB get() throws OntoManagementException {
         if (kb == null) {
@@ -44,11 +52,19 @@ public class KB implements KnowledgeBaseInterface {
     }
 
     private KB() throws OntoManagementException {
-        if(new File(OUT_ONTO).exists())
-        this.model = new OwlManagement(OUT_ONTO);
-        else  this.model = new OwlManagement(DEFAULT_ONTO);
+        if (new File(OUT_ONTO).exists()) {
+            this.model = new OwlManagement(OUT_ONTO);
+        } else {
+            this.model = new OwlManagement(DEFAULT_ONTO);
+              this.model.ont.setNs(NS);
+        }
     }
 
+    public  String getOutputPath() {
+        return OUT_ONTO;
+    }
+
+    
     /**
      * Save the current ontology in an OWL file.
      *
@@ -64,8 +80,8 @@ public class KB implements KnowledgeBaseInterface {
     }
 
     @Override
-    public boolean uplift(String xml) {
-        return this.model.uplift(xml);
+    public boolean uplift(String xmlPathfile) {
+        return this.model.uplift(xmlPathfile);
     }
 
     @Override
@@ -95,21 +111,32 @@ public class KB implements KnowledgeBaseInterface {
 
     @Override
     public void update(String query) throws OntoManagementException {
-         this.model.update(query);
-    }
-    
-    @Override
-    public List<String[]> queryAsArray(String query, String[] var, boolean fullURI, boolean onlyNS){
-         return this.model.queryAsArray(query, var, fullURI, onlyNS);
+        this.model.update(query);
     }
 
     @Override
-    public void dataImport(String mduri, String ttlpath){
-         this.model.dataImport(mduri, ttlpath);
+    public List<String[]> queryAsArray(String query, String[] var, boolean fullURI, boolean onlyNS) {
+        return this.model.queryAsArray(query, var, fullURI, onlyNS);
     }
-    
+
     @Override
-    public OntModel getOnt() {
+    public void dataImport(String mduri, String ttlpath) {
+        this.model.dataImport(mduri, ttlpath);
+    }
+
+    @Override
+    public PiSparql getOnt() {
         return this.model.ont;
+    }
+
+    public void add(OntModel ont) {
+        this.model.ont.getOnt().add(ont);
+    }
+    public static void main(String[] args) {
+        try {
+            KB.get();
+        } catch (OntoManagementException ex) {
+            Logger.getLogger(KB.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
