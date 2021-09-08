@@ -7,6 +7,7 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
 -->
 <html>
     <head th:replace="fragments/head :: head"></head>
+    <link rel="stylesheet" type="text/css" href="/css/last.css">
     <script type='text/javascript'>
         function toggle(className, displayState) {
             var elements = document.getElementsByClassName(className)
@@ -33,7 +34,6 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
                 <div class="inner">
 
 
-
                     <header id="header">
                         <h1 class="en">Enter your query</h1>
                         <h1 class="fr">Entrez votre requête</h1>
@@ -45,10 +45,11 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
                         </div>
                     </header>
 
+                    
                     <section>
                         <form action="#" th:action="@{/sparqlend/query}" th:object="${squery}" method="post">
                             <label id="title">Query:</label>
-                            <textarea  rows="4" cols="150" th:field="*{query}">SELECT WHERE{}</textarea>
+                            <textarea  id="sparqlQuery" rows="10" cols="500" th:field="*{query}">SELECT WHERE{}</textarea>
                             <input type="submit" value="Submit">
                         </form>
 
@@ -58,7 +59,7 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
                             <code th:text="${queryresult}"></code>
                         </pre>
                     </section>
-                </div>Ï
+                </div><!-- End inner -->
             </div> <!--  END Main -->
         </div> <!-- END Wrapper -->
         <div th:insert="fragments/footer :: footer"></div>
