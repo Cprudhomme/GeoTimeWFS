@@ -25,4 +25,4 @@ You can fully customize your query according to the ontology vocabulary.
 
 Your results will displayed below the query box.
 
-GeoTime Wiki [GeoTime](../GeoTime Wiki.md)
+GeoTime Wiki [GeoTime](../GeoTime_Wiki.md)

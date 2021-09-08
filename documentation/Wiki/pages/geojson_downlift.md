@@ -13,9 +13,10 @@ So once again go to the data management tab , but this time select GeoJSON Downl
 
 ## Step2 :
 Now select the URI you want to Downlift
+
 ![Geo9](../images/Geo9.jpg)
 
 And click on the Downlift button.
 
 
-GeoTime Wiki [GeoTime](../GeoTime Wiki.md)
+GeoTime Wiki [GeoTime](../GeoTime_Wiki.md)

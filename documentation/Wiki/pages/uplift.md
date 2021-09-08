@@ -33,4 +33,4 @@ You now have the possibility of downloading the ontology  to do so just click on
 
 We recommend that you use Protégé to visualize the ontology , but any other ontology editor will do.
 
-GeoTime Wiki [GeoTime](../GeoTime Wiki.md)
+GeoTime Wiki [GeoTime](../GeoTime_Wiki.md)
