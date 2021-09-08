@@ -240,9 +240,9 @@ This view represents the submenu "Linked Data enrichment" of the menu "Data mana
                     <!-- Displaying the table of results -->
                     <div th:if="${MDlist}" class="tableContentSPARQL">
                         
-                        <form action="#" th:action="@{/enrichment/enrich}" th:object="${squery}" method="post">
+                        <form action="#" th:action="@{/enrichment/enrich}" th:object="${stringform}" method="post">
                             <label id="mapname">Map Name:</label>
-                            <input id="nameMap" type="text" th:field="*{results}"/>
+                            <input id="nameMap" type="text" th:field="*{string}"/>
                             <input type="submit" value="Enrich the ontology"/>
                         </form>
                         
