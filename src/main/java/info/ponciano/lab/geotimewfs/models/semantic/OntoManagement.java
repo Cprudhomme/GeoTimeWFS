@@ -32,7 +32,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 
  public abstract class OntoManagement implements KnowledgeBaseInterface{
      private PiSparql pisparql=new PiSparql();
-    protected PiOnt ont;
+    protected PiSparql ont;
     protected String prefix;
 
     public static final String NS = "http://lab.ponciano.info/ontology/2020/geotime/iso-19115#";
@@ -54,7 +54,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @throws OntoManagementException if the model is wrong.
      */
     public OntoManagement(String ontologyPath) throws OntoManagementException {
-        this.ont = new PiOnt();//ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+        this.ont = new PiSparql();//ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
          try {
              this.ont.read(ontologyPath);
          } catch (FileNotFoundException ex) {
@@ -82,6 +82,10 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         prefix += "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n";
         prefix += "PREFIX gtdcat: <http://lab.ponciano.info/ontology/2020/geotime/dcat#>\n";
         prefix += "PREFIX adms: <http://www.w3.org/ns/adms#>\n";
+        this.ont.addPrefix("dcat", "<http://www.w3.org/ns/dcat#>");
+         this.ont.addPrefix("geosparql", "<http://www.w3.org/ns/dcat#>");
+         this.ont.addPrefix("spalod", "<http://lab.ponciano.info/ont/spalod#>");
+         this.ont.addPrefix("geosparql", "<http://www.opengis.net/ont/geosparql#>");
     }
 
     /**
@@ -91,7 +95,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @throws OntoManagementException If the model is wrong
      */
     public OntoManagement() throws OntoManagementException {
-         this.ont = new PiOnt();//ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+         this.ont = new PiSparql();//ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
          try {
              this.ont.read("src/main/resources/ontologies/iso-19115.owl");
          } catch (FileNotFoundException ex) {
