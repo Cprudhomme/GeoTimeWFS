@@ -2,7 +2,7 @@
   Here we will show you how to Downlift a file in GeoTime
 
 ## Step1 :
-So once again go to the data management tab , but this time select GeoJSON Downlift
+So once again go to the data management tab , but this time select "GeoJSON Downlift"
 ![Geo8](../images/Geo8.jpg)
 
 
