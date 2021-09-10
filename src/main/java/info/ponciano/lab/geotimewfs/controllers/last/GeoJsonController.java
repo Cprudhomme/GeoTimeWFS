@@ -42,7 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author jean-jacquesponciano
+ * @author Dr. Jean-Jacques Ponciano
  */
 @Controller
 @RequestMapping("/geojson")
