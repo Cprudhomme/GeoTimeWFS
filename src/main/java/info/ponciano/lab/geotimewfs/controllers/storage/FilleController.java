@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
- * @author jean-jacquesponciano
+ * @author Dr. Jean-Jacques Ponciano
  */
 @Controller
 
