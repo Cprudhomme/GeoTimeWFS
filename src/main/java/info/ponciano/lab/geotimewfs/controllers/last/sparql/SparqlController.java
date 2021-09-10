@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
- * @author jean-jacquesponciano
+ * @author Dr. Jean-Jacques Ponciano
  */
 @Controller
 @RequestMapping(value = "/sparqlend")
