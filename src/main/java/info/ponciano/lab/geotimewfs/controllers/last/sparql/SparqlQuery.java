@@ -20,7 +20,7 @@ package info.ponciano.lab.geotimewfs.controllers.last.sparql;
 
 /**
  *
- * @author jean-jacquesponciano
+ * @author Dr. Jean-Jacques Ponciano
  */
 public class SparqlQuery {
     String query;
