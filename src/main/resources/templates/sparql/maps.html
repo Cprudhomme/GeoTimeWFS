@@ -30,9 +30,9 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
 
         <div id="wrapper">
             <!-- Main -->
-           
-        <div class="containerfull">
-            <div class="containercontent">
+
+            <div class="containerfull">
+                <div class="containercontent">
 
 
 
@@ -54,8 +54,8 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
                             <form th:action="@{/maps/select}"th:object="${dataindiv}" method="post" enctype="multipart/form-data">
                                 <select th:field="*{name}" >
                                     <div th:each="md: ${individuals}">
-                                    <option th:value="${md}" th:text="${md}"></option>
-</div>
+                                        <option th:value="${md}" th:text="${md}"></option>
+
                                 </select>
 
                                 <input type="submit" value="Select" />
@@ -98,8 +98,8 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
                             // -----------------------------  MARKER -----------------------------
 
                             // Deffinition
-                            var  hs= L.icon({
-                                iconUrl: 'leaf-shadow.png',
+                            var hs = L.icon({
+                                iconUrl: 'http://localhost:8080/pictures/signaturen/HS.png',
                                 iconSize: [38, 95], // size of the icon
                                 shadowSize: [50, 64], // size of the shadow
                                 iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
@@ -113,7 +113,7 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
 
                                 // To add a point :
                                 // L.marker([latitude, longitude]).bindPopup(nameOfThePoint).addTo(nameOfTheLayer);
-                                L.marker([dataArray[i][2], dataArray[i][3]]).bindPopup(dataArray[i][1],{icon: hs}).addTo(query);
+                                L.marker([dataArray[i][2], dataArray[i][3]]).bindPopup(dataArray[i][1], {icon: hs}).addTo(query);
 
                             }
                             //  ----------------------------- END MARKER -----------------------------
