@@ -1,8 +1,25 @@
+/*
+ * Copyright (C) 2021 Dr. Jean-Jacques Ponciano.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
 package info.ponciano.lab.geotimewfs.controllers.last;
 
 import org.apache.jena.query.*;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,8 +31,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import info.ponciano.lab.pisemantic.PiSparql;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
@@ -25,17 +40,13 @@ import info.ponciano.lab.geotimewfs.models.geojson.Feature;
 import info.ponciano.lab.geotimewfs.models.geojson.GeoJsonRDF;
 import info.ponciano.lab.geotimewfs.models.geojson.Geometry;
 import info.ponciano.lab.geotimewfs.models.semantic.KB;
-import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.wololo.geojson.GeoJSON;
 
 @Controller
 @RequestMapping(value = "/enrichment")
