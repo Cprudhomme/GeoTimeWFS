@@ -20,7 +20,6 @@ package info.ponciano.lab.geotimewfs.controllers.last;
 
 import info.ponciano.lab.geotimewfs.array_uplift.PropertyForm;
 import info.ponciano.lab.geotimewfs.array_uplift.PropertyMapping;
-import info.ponciano.lab.geotimewfs.controllers.EnrichmentController;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageProperties;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.models.geojson.GeoJsonRDF;
@@ -110,6 +109,18 @@ public class MapsController {
                     + " ?g geosparql:asWKT  ?value"
                     + "}";
             ResultSet select = KB.get().getOnt().select(query);
+            boolean hasNext = select.hasNext();
+            //if the results has no next its mean they is no labels
+            if (!hasNext) {
+                query = "SELECT  ?item ?itemLabel ?value Where{"
+                        + "<" + uriMap + "> spalod:hasFeature ?item . "
+                        + "?item spalod:Name  ?itemLabel ."
+                        + " ?item geosparql:hasGeometry ?g."
+                        + " ?g geosparql:asWKT  ?value"
+                        + "}";
+                select = KB.get().getOnt().select(query);
+            }
+
             List<String> cn = new ArrayList<String>();
             List<String[]> rl = new ArrayList<String[]>();
             cn = EnrichmentController.getResults(select, rl);
