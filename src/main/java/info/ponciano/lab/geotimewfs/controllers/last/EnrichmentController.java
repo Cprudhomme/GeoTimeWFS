@@ -1,4 +1,4 @@
-package info.ponciano.lab.geotimewfs.controllers;
+package info.ponciano.lab.geotimewfs.controllers.last;
 
 import org.apache.jena.query.*;
 
