@@ -18,6 +18,7 @@
  */
 package info.ponciano.lab.geotimewfs.models.geojson;
 
+import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.pisemantic.PiOnt;
 import info.ponciano.lab.pisemantic.PiOntologyException;
 import info.ponciano.lab.pitools.utility.PiRegex;
@@ -79,22 +80,22 @@ public class GeoJsonRDF {
         String name = featureCollection.getName();
         //create an individual
         OntClass dataset = ont.createClass(DCAT_DATASET);
-
+       // System.out.println(dataset);
         //creates the individual data
         String nameFC = ont.getNs() + name;
         //generate a new name if the name is already known
         if (ont.getIndividual(nameFC) != null) {
-            nameFC = ont.getNs() +dataset.getLocalName().toLowerCase()+"_" + UUID.randomUUID().toString();
+            nameFC = ont.getNs() + dataset.getLocalName().toLowerCase() + "_" + UUID.randomUUID().toString();
         }
         Individual data = dataset.createIndividual(nameFC);
-
+       // System.out.println(data);
         featureUplift(allfeatures, ont, data);
 
     }
 
     public static void featureUplift(List<Feature> allfeatures, PiOnt ont, Individual data) throws Exception {
         for (Feature f : allfeatures) {
-            
+
             //creates the geometry
             Geometry geometry = f.getGeometry();
             String type = geometry.getType();
@@ -103,28 +104,29 @@ public class GeoJsonRDF {
             if (ontClassGeo == null) {
                 throw new Exception(name1 + "\" does not exists but is requiered");
             }
-            Individual indGeo = ontClassGeo.createIndividual(ont.getNs() +ontClassGeo.getLocalName().toLowerCase()+ "_" + UUID.randomUUID().toString());
+            Individual indGeo = ontClassGeo.createIndividual(ont.getNs() + ontClassGeo.getLocalName().toLowerCase() + "_" + UUID.randomUUID().toString());
+           // System.out.println(indGeo);
             var asWKT = ont.getDataProperty(GEOSPARQLAS_WKT);
             if (asWKT == null) {
                 throw new PiOntologyException("the property \"http://www.opengis.net/ont/geosparql#asWKT\" does not exists but is requiered");
             }
             var value = geometry.getWKTPoint();
             indGeo.addLiteral(asWKT, value);
-
+           // System.out.println(asWKT + " -> " + value);
             //creates a feature
             OntClass ontClassFeature = ont.getOntClass(GEOSPARQL_FEATURE);
             if (ontClassFeature == null) {
                 throw new PiOntologyException("the class \"http://www.opengis.net/ont/geosparql#Feature\" does not exists but is requiered");
             }
-            Individual indF = ontClassFeature.createIndividual(ont.getNs() +ontClassFeature.getLocalName().toLowerCase()+ "_" + UUID.randomUUID().toString());
-
+            Individual indF = ontClassFeature.createIndividual(KB.NS + ontClassFeature.getLocalName().toLowerCase() + "_" + UUID.randomUUID().toString());
+           // System.out.println(indF);
             //asigns a geometry to the feature
             var hasGeometry = ont.getObjectProperty(GEOSPARQLHAS_GEOMETRY);
             if (hasGeometry == null) {
                 throw new PiOntologyException("the property \"http://www.opengis.net/ont/geosparql#hasGeometry\" does not exists but is requiered");
             }
             indF.addProperty(hasGeometry, indGeo);
-
+           // System.out.println(hasGeometry + " -> " + indGeo);
             //asigns properties
             Map<String, Object> properties = f.getProperties();
             properties.forEach((k, v) -> {
@@ -134,6 +136,7 @@ public class GeoJsonRDF {
             //asigns the feature to the datasets
             ObjectProperty hasFeature = ont.createObjectProperty("hasFeature");
             data.addProperty(hasFeature, indF);
+             // System.out.println(hasFeature + " -> " + indF);
 
         }
     }
