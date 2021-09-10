@@ -73,7 +73,7 @@ public class EnrichmentController {
             //for each item
             for (String[] r : resultList) {
                 //create a feature
-                Geometry geo = new Geometry("Point", Double.parseDouble(r[2]), Double.parseDouble(r[3]));
+                Geometry geo = new Geometry("Point", Double.parseDouble(r[3]), Double.parseDouble(r[2]));
                 Feature f = new Feature(geo);
                 f.addProperty("hasWikidataOrigin", r[0]);
                 f.addProperty("hasLabel", r[1]);
