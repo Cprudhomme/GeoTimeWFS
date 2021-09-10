@@ -136,8 +136,8 @@ public class MapsController {
                 int b = strings[2].indexOf("(") + 1;
                 int e = strings[2].lastIndexOf(")");
                 String[] s = strings[2].substring(b, e).split(PiRegex.whiteCharacter);
-                val[2] = s[0];
-                val[3] = s[1];
+                val[2] = s[1];
+                val[3] = s[0];
                 results.add(val);
             }
             //add attributes to model
