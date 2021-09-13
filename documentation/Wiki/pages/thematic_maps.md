@@ -52,3 +52,7 @@ Then go to the Thematic maps tab and select Thematic maps
  now you can just admire the result
 
  ![Geo21](../images/Geo21.jpg)
+
+Here's a short video so that you can have a visual and oral explanation :
+
+ [ Thematic maps](https://youtu.be/f58nZVhrcGQ?list=PL3We9TPZ7wgL_idQDAoR3vvYemEmzh0jG)

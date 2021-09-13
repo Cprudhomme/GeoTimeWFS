@@ -29,4 +29,4 @@ GeoTime Wiki [GeoTime](../GeoTime_Wiki.md)
 
 Here's a short video so that you can have a visual and oral explanation :
 
-[sparql endpoint ](https://www.youtube.com/watch?v=J-8c6wWu7Bs&list=PL3We9TPZ7wgL_idQDAoR3vvYemEmzh0jG
+[sparql endpoint ](https://www.youtube.com/watch?v=J-8c6wWu7Bs&list=PL3We9TPZ7wgL_idQDAoR3vvYemEmzh0jG)
