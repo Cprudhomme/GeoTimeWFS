@@ -1,6 +1,25 @@
+/*
+ * Copyright (C) 2021 Dr. Dr. Jean-Jacques Ponciano.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
 package info.ponciano.lab.geotimewfs.array_uplift;
 
-import java.io.FileNotFoundException;
+import info.ponciano.lab.geotimewfs.models.PropertyForm;
+import info.ponciano.lab.geotimewfs.models.PropertyMapping;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +35,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,8 +43,8 @@ import javax.validation.Valid;
 import org.springframework.validation.BindingResult;
 
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
-import info.ponciano.lab.geotimewfs.models.Metadata;
 import info.ponciano.lab.geotimewfs.models.SHPdata;
+import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.pitools.files.PiFile;
 
 @Controller
@@ -96,7 +114,7 @@ public class ArrayUpliftController {
 			//File reading
 			String filename=file.getOriginalFilename();
 			if(filename.substring(filename.length()-4).equals("csv"));
-			PiFile pf= new PiFile("upload-dir/"+filename);
+			PiFile pf= new PiFile(KB.STORAGE_DIR+"/"+filename);
 			String [][] attribute=pf.readCSV(";");
 			//init the array uplift model with attribute
 			this.am=new ArrayUpliftModelImp(attribute, "rdf-data/"+filename.substring(0, filename.length()-4)+".owl");
@@ -159,7 +177,7 @@ public class ArrayUpliftController {
 				else
 					message="The model has not been initialized";
 					model.addAttribute("message", message);
-				return "sucess";
+				return "success";
 		}
 
 

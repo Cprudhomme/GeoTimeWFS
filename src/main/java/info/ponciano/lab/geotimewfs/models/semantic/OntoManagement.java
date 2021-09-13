@@ -1,13 +1,33 @@
+/*
+ * Copyright (C) 2021 Dr. Jean-Jacques Ponciano.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
 package info.ponciano.lab.geotimewfs.models.semantic;
 
+import info.ponciano.lab.pisemantic.PiOnt;
 import info.ponciano.lab.pisemantic.PiSparql;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.ontology.OntProperty;
 import org.apache.jena.ontology.OntResource;
 import org.apache.jena.query.Query;
@@ -19,16 +39,16 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.sparql.core.Prologue;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.util.iterator.ExtendedIterator;
 
- public abstract class OntoManagement implements KnowledgeBaseInterface{
-     private PiSparql pisparql=new PiSparql();
-    protected OntModel ont;
+public abstract class OntoManagement implements KnowledgeBaseInterface {
+
+    private PiSparql pisparql = new PiSparql();
+    protected PiSparql ont;
     protected String prefix;
 
     public static final String NS = "http://lab.ponciano.info/ontology/2020/geotime/iso-19115#";
@@ -50,12 +70,16 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @throws OntoManagementException if the model is wrong.
      */
     public OntoManagement(String ontologyPath) throws OntoManagementException {
-        this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-        this.ont.read(ontologyPath);
-        String checkOntology = this.checkOntology();
-        if (!checkOntology.isEmpty()) {
-            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
+        this.ont = new PiSparql();//ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+        try {
+            this.ont.read(ontologyPath);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(OntoManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        String checkOntology = this.checkOntology();
+//        if (!checkOntology.isEmpty()) {
+//            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
+//        }
         prefix = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n";
         prefix += "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n";
         prefix += "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n";
@@ -74,6 +98,11 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         prefix += "PREFIX dcat: <http://www.w3.org/ns/dcat#>\n";
         prefix += "PREFIX gtdcat: <http://lab.ponciano.info/ontology/2020/geotime/dcat#>\n";
         prefix += "PREFIX adms: <http://www.w3.org/ns/adms#>\n";
+        
+        this.ont.addPrefix("dcat", "http://www.w3.org/ns/dcat#");
+        this.ont.addPrefix("geosparql", "http://www.w3.org/ns/dcat#");
+        this.ont.addPrefix("spalod", "http://lab.ponciano.info/ont/spalod#");
+        this.ont.addPrefix("geosparql", "http://www.opengis.net/ont/geosparql#");
     }
 
     /**
@@ -83,12 +112,17 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @throws OntoManagementException If the model is wrong
      */
     public OntoManagement() throws OntoManagementException {
-        this.ont = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-        this.ont.read("src/main/resources/ontologies/iso-19115.owl");
-        String checkOntology = this.checkOntology();
-        if (!checkOntology.isEmpty()) {
-            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
+        this.ont = new PiSparql();//ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+        try {
+            this.ont.read("src/main/resources/ontologies/iso-19115.owl");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(OntoManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+//        String checkOntology = this.checkOntology();
+//        if (!checkOntology.isEmpty()) {
+//            throw new OntoManagementException("Ontology mal-formed:\n" + checkOntology);
+//        }
         prefix = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n";
         prefix += "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n";
         prefix += "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n";
@@ -137,7 +171,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      */
     @Override
     public String getSPARQL(String query) {
-        return ResultSetFormatter.asText(this.select(query), new Prologue(ont));
+        return ResultSetFormatter.asText(this.select(query), new Prologue(ont.getOnt()));
 
     }
 
@@ -151,10 +185,10 @@ import org.apache.jena.util.iterator.ExtendedIterator;
     @Override
     public boolean construct(String queryString) throws OntoManagementException {
         Model execConstruct = this.execConstruct(queryString);
-        if (execConstruct == null || execConstruct.isEmpty() || this.ont.containsAll(execConstruct)) {
+        if (execConstruct == null || execConstruct.isEmpty() || this.ont.getOnt().containsAll(execConstruct)) {
             return false;
         }
-        this.ont.add(execConstruct);
+        this.ont.getOnt().add(execConstruct);
         return true;
     }
 
@@ -168,7 +202,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
     protected Model execConstruct(String queryString) throws OntoManagementException {
         queryString = prefix + queryString;
         Query query = QueryFactory.create(removeGraph(queryString));
-        QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont);
+        QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont.getOnt());
         return queryExecution.execConstruct();
     }
 
@@ -181,9 +215,9 @@ import org.apache.jena.util.iterator.ExtendedIterator;
     private String checkOntology() {
         List<String> localname = new ArrayList<>();
         //get all resources of the ontology
-        ExtendedIterator<OntProperty> listOntProperties = this.ont.listOntProperties();
-        ExtendedIterator<Individual> listIndividuals = this.ont.listIndividuals();
-        ExtendedIterator<OntClass> listClasses = this.ont.listClasses();
+        ExtendedIterator<OntProperty> listOntProperties = this.ont.getOnt().listOntProperties();
+        ExtendedIterator<Individual> listIndividuals = this.ont.getOnt().listIndividuals();
+        ExtendedIterator<OntClass> listClasses = this.ont.getOnt().listClasses();
         String error = "";
         while (listClasses.hasNext()) {
             OntClass next = listClasses.next();
@@ -221,7 +255,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @return the URI generated.
      */
     public static String generateURI() {
-        return NS +"_"+ UUID.randomUUID().toString();
+        return NS + "_" + UUID.randomUUID().toString();
     }
 
     /**
@@ -236,8 +270,8 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 
         for (String ns : possibleNS) {
             Resource resource = this.ont.getResource(ns + nodeName);
-            if (this.ont.containsResource(resource)) {
-                return this.ont.getOntResource(ns + nodeName);
+            if (this.ont.getOnt().containsResource(resource)) {
+                return this.ont.getOnt().getOntResource(ns + nodeName);
             }
         }
         return null;
@@ -248,7 +282,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      *
      * @return this ontModel.
      */
-    public OntModel getOnt() {
+    public PiOnt getOnt() {
         return ont;
     }
 
@@ -260,7 +294,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      */
     public ExtendedIterator<Individual> listsMetadataIndividuals() {
         //Lists the Metadata individuals
-        return this.ont.listIndividuals(this.ont.getOntClass(OntoManagement.NS + "MD_Metadata"));
+        return this.ont.getOnt().listIndividuals(this.ont.getOntClass(OntoManagement.NS + "MD_Metadata"));
     }
 
     /**
@@ -284,7 +318,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      */
     @Override
     public void addPrefix(String key, String namespace) {
-        this.ont.setNsPrefix(key, namespace);
+        this.ont.getOnt().setNsPrefix(key, namespace);
         prefix += "PREFIX " + key + ": <" + namespace + ">\n";
     }
     //**************************************************************************
@@ -314,7 +348,7 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         }
         queryString = prefix + queryString;
         Query query = QueryFactory.create(queryString);
-        QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont);
+        QueryExecution queryExecution = QueryExecutionFactory.create(query, this.ont.getOnt());
         return queryExecution.execSelect();
     }
 
@@ -327,22 +361,23 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * <h2> Example of insert:</h2>
      * <p>
      * <pre><code>INSERT DATA { gtdcat:gdi_metadata rdf:type <http://www.w3.org/ns/dcat#CatalogRecord> .}</code></pre>
-     </p>
+     * </p>
      * * <h2> Example of update:</h2>
      * <p>
-     * <pre><code>
+     * <
+     * pre><code>
      * DELETE { <ind> <property> ?v .}
      * INSERT { <ind> <property> "value" .}
      * WHERE { <ind> <property> ?v .}
      * </code></pre>
-     </p>
+     * </p>
      */
     @Override
     public void update(String query) throws OntoManagementException {
         if (query != null && !query.isEmpty()) {
             query = prefix + query;
             String res = removeGraph(query);
-            UpdateAction.parseExecute(res, this.ont);
+            UpdateAction.parseExecute(res, this.ont.getOnt());
         }
     }
 
@@ -368,10 +403,10 @@ import org.apache.jena.util.iterator.ExtendedIterator;
      * @param query contains the SPARQL query to execute
      * @param var contains the different variables of the SPARQL query, whose
      * the result will be returned
-     * @param fullURI: if fullURI is true, returns the full URI of the resources, 
-     * else returns the local name of the resources
-     * @param onlyNS: if onlyNS is true, it does not return results with external 
-     * name space, else returns all results
+     * @param fullURI: if fullURI is true, returns the full URI of the
+     * resources, else returns the local name of the resources
+     * @param onlyNS: if onlyNS is true, it does not return results with
+     * external name space, else returns all results
      * @return a list of string table containing each result row for the seta of
      * variables
      */
@@ -383,68 +418,64 @@ import org.apache.jena.util.iterator.ExtendedIterator;
         while (rs.hasNext()) {
             QuerySolution solu = rs.next();
             //create the table for the row result
-            String[] ls= new String[var.length];
+            String[] ls = new String[var.length];
             //fill the table with results
-            for(int i=0; i<var.length; i++)
-            {
-                RDFNode node=solu.get(var[i]);
+            for (int i = 0; i < var.length; i++) {
+                RDFNode node = solu.get(var[i]);
                 //test if literal
                 boolean literal = node.isLiteral();
-                if(literal){
+                if (literal) {
                     Literal asLiteral = node.asLiteral();
-                    ls[i]=asLiteral.toString();
-                }  
+                    ls[i] = asLiteral.toString();
+                }
                 //test if resource
                 boolean resource = node.isResource();
-                if(resource){
+                if (resource) {
                     Resource asResource = node.asResource();
-                    if(onlyNS){
+                    if (onlyNS) {
                         final String nameSpace = asResource.getNameSpace();
-                        if(containsNS(nameSpace)){
-                            if(fullURI){
-                                ls[i]=asResource.getURI();
-                            }
-                            else{
-                            	ls[i]=getIndName(asResource.getURI());//ls[i]=asResource.getLocalName();
+                        if (containsNS(nameSpace)) {
+                            if (fullURI) {
+                                ls[i] = asResource.getURI();
+                            } else {
+                                ls[i] = getIndName(asResource.getURI());//ls[i]=asResource.getLocalName();
                             }
                         }
-                    }
-                    else{
-                        if(fullURI){
-                            ls[i]=asResource.getURI();
-                        }
-                        else{
-                            ls[i]=getIndName(asResource.getURI());//asResource.getLocalName();
+                    } else {
+                        if (fullURI) {
+                            ls[i] = asResource.getURI();
+                        } else {
+                            ls[i] = getIndName(asResource.getURI());//asResource.getLocalName();
                             System.out.println(ls[i]);
                         }
                     }
                 }
-               
+
             }
             //add the filled table to the list
             info.add(ls);
         }
         return info;
     }
+
     private String getIndName(String fullUri) {
-    	String res;
-    	if(fullUri.contains("#")) {
-    		String[] var=fullUri.split("#");
-    		res=var[var.length-1];
-    	}
-    	else{
-    		String[] var=fullUri.split("/");
-    		res=var[var.length-1];
-    	}
-    	
-    	return res;
+        String res;
+        if (fullUri.contains("#")) {
+            String[] var = fullUri.split("#");
+            res = var[var.length - 1];
+        } else {
+            String[] var = fullUri.split("/");
+            res = var[var.length - 1];
+        }
+
+        return res;
     }
 
-	public PiSparql getPisparql() {
-		return pisparql;
-	}
+    public PiSparql getPisparql() {
+        return pisparql;
+    }
 
-	public void setPisparql(PiSparql pisparql) {
-		this.pisparql = pisparql;
-	}
+    public void setPisparql(PiSparql pisparql) {
+        this.pisparql = pisparql;
+    }
 }
