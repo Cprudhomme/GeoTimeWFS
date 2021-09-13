@@ -12,7 +12,7 @@ You will find here below the list of all the functionalities by clicking on a fu
 * Downlift
   * [GeoJSON Downlift ](./pages/geojson_downlift.md)
 * [SPARQL endpoint](./pages/sparql_endpoint.md)
-
+* [Thematic maps](./pages/thematic_maps.md)
 ## vocabulary explanation
 
 Below you will find further information about some of the  vocabulary by clicking on the keywords
