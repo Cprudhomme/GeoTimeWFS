@@ -18,6 +18,7 @@
  */
 package info.ponciano.lab.geotimewfs.models.semantic;
 
+import info.ponciano.lab.pisemantic.PiOnt;
 import java.util.List;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.ResultSet;
@@ -134,5 +135,5 @@ public interface KnowledgeBaseInterface {
      * 
      * @return the OntModel of the knowledge base
      */
-    public OntModel getOnt();
+    public PiOnt getOnt();
 }
