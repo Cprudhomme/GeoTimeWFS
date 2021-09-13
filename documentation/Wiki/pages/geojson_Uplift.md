@@ -34,3 +34,7 @@ You now have the possibility of downloading the ontology  to do so just click on
 We recommend that you use Protege to visualize the ontology , but any other ontology editor will do.
 
 GeoTime Wiki [GeoTime](../GeoTime_Wiki.md)
+
+Here's a short video so that you can have a visual and oral explanation :
+
+[Uplift ](https://www.youtube.com/watch?v=J-8c6wWu7Bs&list=PL3We9TPZ7wgL_idQDAoR3vvYemEmzh0jG)
