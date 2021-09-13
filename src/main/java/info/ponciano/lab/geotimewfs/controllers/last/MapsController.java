@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 jean-jacquesponciano.
+ * Copyright (C) 2021 Dr. Jean-Jacques Ponciano.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,52 +18,30 @@
  */
 package info.ponciano.lab.geotimewfs.controllers.last;
 
-import info.ponciano.lab.geotimewfs.array_uplift.PropertyForm;
-import info.ponciano.lab.geotimewfs.array_uplift.PropertyMapping;
-import info.ponciano.lab.geotimewfs.controllers.EnrichmentController;
-import info.ponciano.lab.geotimewfs.controllers.storage.StorageProperties;
 import info.ponciano.lab.geotimewfs.controllers.storage.StorageService;
 import info.ponciano.lab.geotimewfs.models.geojson.GeoJsonRDF;
 import info.ponciano.lab.geotimewfs.models.semantic.KB;
-import info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException;
 import info.ponciano.lab.pisemantic.PiOnt;
-import info.ponciano.lab.pisemantic.PiOntologyException;
-import info.ponciano.lab.pisemantic.PiSparql;
-import info.ponciano.lab.pitools.files.PiFile;
 import info.ponciano.lab.pitools.utility.PiRegex;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import javax.validation.Valid;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.query.ResultSet;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 /**
  *
- * @author jean-jacquesponciano
+ * @author Dr. Jean-Jacques Ponciano
  */
 @Controller
 @RequestMapping("/maps")
@@ -110,6 +88,18 @@ public class MapsController {
                     + " ?g geosparql:asWKT  ?value"
                     + "}";
             ResultSet select = KB.get().getOnt().select(query);
+            boolean hasNext = select.hasNext();
+            //if the results has no next its mean they is no labels
+            if (!hasNext) {
+                query = "SELECT  ?item ?itemLabel ?value Where{"
+                        + "<" + uriMap + "> spalod:hasFeature ?item . "
+                        + "?item spalod:Name  ?itemLabel ."
+                        + " ?item geosparql:hasGeometry ?g."
+                        + " ?g geosparql:asWKT  ?value"
+                        + "}";
+                select = KB.get().getOnt().select(query);
+            }
+
             List<String> cn = new ArrayList<String>();
             List<String[]> rl = new ArrayList<String[]>();
             cn = EnrichmentController.getResults(select, rl);
@@ -125,8 +115,8 @@ public class MapsController {
                 int b = strings[2].indexOf("(") + 1;
                 int e = strings[2].lastIndexOf(")");
                 String[] s = strings[2].substring(b, e).split(PiRegex.whiteCharacter);
-                val[2] = s[0];
-                val[3] = s[1];
+                val[2] = s[1];
+                val[3] = s[0];
                 results.add(val);
             }
             //add attributes to model

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 jean-jacquesponciano.
+ * Copyright (C) 2021 Dr. Jean-Jacques Ponciano.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  *
- * @author jean-jacquesponciano
+ * @author Dr. Jean-Jacques Ponciano
  */
  public class FeatureCollection {
 

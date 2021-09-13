@@ -35,14 +35,14 @@ import org.apache.jena.query.ResultSet;
  */
 public class KB implements KnowledgeBaseInterface {
 
-    public static final String STORAGE_DIR="dynamic_storage";
-    public static final String URI="http://lab.ponciano.info/ont/spalod";
+    public static final String STORAGE_DIR = "dynamic_storage";
+    public static final String URI = "http://lab.ponciano.info/ont/spalod";
     private static KB kb = null;
-    public static final String NS="http://lab.ponciano.info/ont/spalod#";
+    public static final String NS = "http://lab.ponciano.info/ont/spalod#";
     private static final String DEFAULT_ONTO_ISO = "src/main/resources/ontologies/iso-19115.owl";
     private static final String DEFAULT_ONTO = "src/main/resources/ontologies/spalod.owl";
     public static final String OUT_ONTO = "geotimeOutput.owl";
-    private final OwlManagement model;
+    private OwlManagement model;
 
     public static KB get() throws OntoManagementException {
         if (kb == null) {
@@ -52,19 +52,26 @@ public class KB implements KnowledgeBaseInterface {
     }
 
     private KB() throws OntoManagementException {
-        if (new File(OUT_ONTO).exists()) {
-            this.model = new OwlManagement(OUT_ONTO);
+        File file = new File(OUT_ONTO);
+        if (file.exists()) {
+            try {
+                this.model = new OwlManagement(OUT_ONTO);
+            } catch (Exception e) {
+                file.delete();
+                this.model = new OwlManagement(DEFAULT_ONTO);
+                this.model.ont.setNs(NS);
+            }
+
         } else {
             this.model = new OwlManagement(DEFAULT_ONTO);
-              this.model.ont.setNs(NS);
+            this.model.ont.setNs(NS);
         }
     }
 
-    public  String getOutputPath() {
+    public String getOutputPath() {
         return OUT_ONTO;
     }
 
-    
     /**
      * Save the current ontology in an OWL file.
      *
@@ -132,6 +139,7 @@ public class KB implements KnowledgeBaseInterface {
     public void add(OntModel ont) {
         this.model.ont.getOnt().add(ont);
     }
+
     public static void main(String[] args) {
         try {
             KB.get();

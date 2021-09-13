@@ -1,9 +1,20 @@
 <!DOCTYPE html>
 <!--
-Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All Rights Reserved
- Unauthorized copying of this file, via any medium is strictly prohibited
- Proprietary and confidential
-
+ Copyright (C) 2021 Dr. Jean-Jacques Ponciano.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+ 
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+ 
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ MA 02110-1301  USA
 -->
 <html>
     <head th:replace="fragments/head :: head"></head>
@@ -30,9 +41,9 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
 
         <div id="wrapper">
             <!-- Main -->
-           
-        <div class="containerfull">
-            <div class="containercontent">
+
+            <div class="containerfull">
+                <div class="containercontent">
 
 
 
@@ -54,8 +65,8 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
                             <form th:action="@{/maps/select}"th:object="${dataindiv}" method="post" enctype="multipart/form-data">
                                 <select th:field="*{name}" >
                                     <div th:each="md: ${individuals}">
-                                    <option th:value="${md}" th:text="${md}"></option>
-</div>
+                                        <option th:value="${md}" th:text="${md}"></option>
+
                                 </select>
 
                                 <input type="submit" value="Select" />
@@ -98,8 +109,8 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
                             // -----------------------------  MARKER -----------------------------
 
                             // Deffinition
-                            var  hs= L.icon({
-                                iconUrl: 'leaf-shadow.png',
+                            var hs = L.icon({
+                                iconUrl: 'http://localhost:8080/pictures/signaturen/HS.png',
                                 iconSize: [38, 95], // size of the icon
                                 shadowSize: [50, 64], // size of the shadow
                                 iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
@@ -113,7 +124,7 @@ Copyright (C) Jean-Jacques Ponciano jean-jacques@ponciano.info, 2015-2020, All R
 
                                 // To add a point :
                                 // L.marker([latitude, longitude]).bindPopup(nameOfThePoint).addTo(nameOfTheLayer);
-                                L.marker([dataArray[i][2], dataArray[i][3]]).bindPopup(dataArray[i][1],{icon: hs}).addTo(query);
+                                L.marker([dataArray[i][2], dataArray[i][3]]).bindPopup(dataArray[i][1], {icon: hs}).addTo(query);
 
                             }
                             //  ----------------------------- END MARKER -----------------------------
