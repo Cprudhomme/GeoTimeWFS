@@ -31,7 +31,13 @@ import org.json.JSONObject;
  * @author Dr Jean-Jacques Ponciano (Contact: jean-jacques@ponciano.info)
  */
 public class Conf {
+    /**
+     * Instance of the singleton
+     */
     public static Conf instance;
+    /**
+     * WFS JSON object
+     */
     protected JSONObject wfsconf;
 
     private Conf() {
