@@ -49,8 +49,8 @@ public class Conf {
     }
 
     /**
-     *Public access point of Conf get 
-     * @return creation of a return instance 
+     *get is a function that provides a reading access to the instance of the class conf
+     * @return an instance of conf classe  
      */
     public static Conf get(){
         if (instance==null)instance=new Conf();
@@ -59,7 +59,7 @@ public class Conf {
 
     /**
      *
-     * @return Returns wfsconf 
+     * @return gives access to wfsconf 
      */
     public JSONObject getWfsconf() {
         return wfsconf;

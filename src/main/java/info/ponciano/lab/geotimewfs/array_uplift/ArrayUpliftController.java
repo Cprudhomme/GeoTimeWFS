@@ -49,7 +49,7 @@ import info.ponciano.lab.pitools.files.PiFile;
 
 /**
  *
- * Controls the storage service
+ * 
  */
 @Controller
 public class ArrayUpliftController {
@@ -192,9 +192,10 @@ public class ArrayUpliftController {
 		}
 /**
  * 
- * @param propmap this parameter is the mapping of properties defined in the web interface
- * @param model Specific model parameters 
- * @return returns views
+ * @param propmap
+ * @param model
+ * @return 
+ * @author A.H
  */
 	@PostMapping("/uplift_validation")
     public String ontologyPopulation(@ModelAttribute("propmap") PropertyMapping propmap, Model model) {
