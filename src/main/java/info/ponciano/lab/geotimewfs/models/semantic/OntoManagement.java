@@ -356,6 +356,7 @@ public abstract class OntoManagement implements KnowledgeBaseInterface {
      * Execute a update query on the dataset
      *
      * @param query query to be executed
+     * @throws info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException
      * @throws info.ponciano.lab.pisemantic.OntoManagementException if something
      * bad happens
      * <h2> Example of insert:</h2>

@@ -52,6 +52,10 @@ public class Conf {
         return instance;
     }
 
+    /**
+     *
+     * @return 
+     */
     public JSONObject getWfsconf() {
         return wfsconf;
     }
