@@ -71,7 +71,10 @@ public abstract class ArrayUpliftModel {
 		this.initpropertyRanges();
 	}
 
-	protected abstract void initpropertyNames();
+    /**
+     *protects the abstract initial property names
+     */
+    protected abstract void initpropertyNames();
 	protected abstract void initpropertyRanges();
 	
 	public abstract List<String> getProperties();

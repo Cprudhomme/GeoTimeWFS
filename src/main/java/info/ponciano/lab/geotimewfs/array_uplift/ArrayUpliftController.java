@@ -187,11 +187,10 @@ public class ArrayUpliftController {
 			return new PropertyMapping();
 		}
 /**
- * 
- * @param propmap
+ * this parameter is the mapping of properties defined in the web interface
+ * @param propmap 
  * @param model
  * @return 
- * @author A.H
  */
 	@PostMapping("/uplift_validation")
     public String ontologyPopulation(@ModelAttribute("propmap") PropertyMapping propmap, Model model) {

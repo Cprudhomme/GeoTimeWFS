@@ -59,6 +59,10 @@ public class GeotimewfsApplication {
 
     }
 
+    /**
+     *Public access point of GeotimewfsApplication
+     * @param args
+     */
     public static void main(String[] args) {
         SpringApplication.run(GeotimewfsApplication.class, args);
     }

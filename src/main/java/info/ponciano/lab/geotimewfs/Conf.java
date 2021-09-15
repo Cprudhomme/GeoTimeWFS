@@ -47,6 +47,11 @@ public class Conf {
             Logger.getLogger(Conf.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     *Public access point of Conf get 
+     * @return 
+     */
     public static Conf get(){
         if (instance==null)instance=new Conf();
         return instance;
