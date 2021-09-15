@@ -360,15 +360,15 @@ public abstract class OntoManagement implements KnowledgeBaseInterface {
      * bad happens
      * <h2> Example of insert:</h2>
      * <p>
-     * <pre><code>INSERT DATA { gtdcat:gdi_metadata rdf:type <http://www.w3.org/ns/dcat#CatalogRecord> .}</code></pre>
+     * <pre><code>INSERT DATA { gtdcat:gdi_metadata rdf:type &#60;http://www.w3.org/ns/dcat#CatalogRecord &#62; .}</code></pre>
      * </p>
      * * <h2> Example of update:</h2>
      * <p>
      * <
      * pre><code>
-     * DELETE { <ind> <property> ?v .}
-     * INSERT { <ind> <property> "value" .}
-     * WHERE { <ind> <property> ?v .}
+     * DELETE { &#60;ind> &#60;property&#62; ?v .}
+     * INSERT { &#60;ind> &#60;property	&#62; "value" .}
+     * WHERE { &#60;ind> &#60;propert	&#62;0	&#62; ?v .}
      * </code></pre>
      * </p>
      */
