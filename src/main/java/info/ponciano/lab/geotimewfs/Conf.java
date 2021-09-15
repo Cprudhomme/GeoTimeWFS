@@ -50,7 +50,7 @@ public class Conf {
 
     /**
      *Public access point of Conf get 
-     * @return 
+     * @return creation of a return instance 
      */
     public static Conf get(){
         if (instance==null)instance=new Conf();
@@ -58,8 +58,8 @@ public class Conf {
     }
 
     /**
-     *Returns wfsconf 
-     * @return 
+     *
+     * @return Returns wfsconf 
      */
     public JSONObject getWfsconf() {
         return wfsconf;
