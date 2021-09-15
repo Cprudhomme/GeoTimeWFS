@@ -47,6 +47,10 @@ import info.ponciano.lab.geotimewfs.models.SHPdata;
 import info.ponciano.lab.geotimewfs.models.semantic.KB;
 import info.ponciano.lab.pitools.files.PiFile;
 
+/**
+ *
+ * Controls the storage service
+ */
 @Controller
 public class ArrayUpliftController {
 
@@ -187,10 +191,10 @@ public class ArrayUpliftController {
 			return new PropertyMapping();
 		}
 /**
- * this parameter is the mapping of properties defined in the web interface
- * @param propmap 
- * @param model
- * @return 
+ * 
+ * @param propmap this parameter is the mapping of properties defined in the web interface
+ * @param model Specific model parameters 
+ * @return returns views
  */
 	@PostMapping("/uplift_validation")
     public String ontologyPopulation(@ModelAttribute("propmap") PropertyMapping propmap, Model model) {
