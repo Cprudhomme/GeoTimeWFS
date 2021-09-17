@@ -57,6 +57,10 @@ public class ArrayUpliftController {
 	private ArrayUpliftModel am;
 	private final StorageService storageService;
 
+    /**
+     *
+     * @param storageService 
+     */
     @Autowired
     public ArrayUpliftController(StorageService storageService) {
         this.storageService = storageService;
@@ -192,10 +196,10 @@ public class ArrayUpliftController {
 		}
 /**
  * 
- * @param propmap
+ * @param propmap property mapping provided by the graphic interface
  * @param model
- * @return 
- * @author A.H
+ * @return html page corresponding to "view"
+ 
  */
 	@PostMapping("/uplift_validation")
     public String ontologyPopulation(@ModelAttribute("propmap") PropertyMapping propmap, Model model) {
