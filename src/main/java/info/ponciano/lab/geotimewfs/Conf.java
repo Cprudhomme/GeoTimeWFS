@@ -49,8 +49,13 @@ public class Conf {
     }
 
     /**
+<<<<<<< Updated upstream
      *get is a function that provides a reading access to the instance of the class conf
      * @return an instance of conf classe  
+=======
+     *
+     * @return instance of conf if instance is null or instance = new 
+>>>>>>> Stashed changes
      */
     public static Conf get(){
         if (instance==null)instance=new Conf();
