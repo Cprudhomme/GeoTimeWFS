@@ -178,9 +178,9 @@ public class ArrayUpliftController {
 		//require to update hashmap and list
 
     /**
-     *
-     * @param perPropertyForm  adds a now property type to the ontology 
-     * @param bindingResult
+     *adds a now property type to the ontology
+     * @param perPropertyForm   
+     * @param bindingResult 
      * @param model
      * @return
      */
