@@ -59,7 +59,7 @@ public class ArrayUpliftController {
 
     /**
      *
-     * @param storageService 
+     * @param storageService re sends the page to add a new table in the ontology  
      */
     @Autowired
     public ArrayUpliftController(StorageService storageService) {
@@ -84,6 +84,11 @@ public class ArrayUpliftController {
         return "csvloading";
     }
 
+    /**
+     *
+     * @param filename 
+     * @return 
+     */
     @GetMapping("/csv_loading/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
@@ -98,6 +103,14 @@ public class ArrayUpliftController {
     //public abstract String getDbfLoadingView(Model model);
 
 	//View with name of uploaded file and view of the array to define the properties of the ontology
+
+    /**
+     *
+     * @param file requests the files properties
+     * @param perPropertyForm all the properties selected by the user in the form
+     * @param model of the view
+     * @return the HTML view of an array uplift
+     */
 	@PostMapping("/array_uplift")
     public String arrayUpliftView(@RequestParam("file") MultipartFile file,PropertyForm perPropertyForm, Model model) {//RedirectAttributes redirectAttributes) {
 		// store file
@@ -163,6 +176,14 @@ public class ArrayUpliftController {
 
 	//adding of a new Property from its local name, range and type
 		//require to update hashmap and list
+
+    /**
+     *
+     * @param perPropertyForm  adds a now property type to the ontology 
+     * @param bindingResult
+     * @param model
+     * @return
+     */
 		@PostMapping("/property_adding")
 	    public String addNewProperty(@Valid PropertyForm perPropertyForm, BindingResult bindingResult,Model model) {
 				
