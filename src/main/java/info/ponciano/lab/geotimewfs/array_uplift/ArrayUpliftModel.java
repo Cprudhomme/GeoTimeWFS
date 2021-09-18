@@ -25,10 +25,21 @@ import java.util.List;
 import info.ponciano.lab.pisemantic.PiOnt;
 import info.ponciano.lab.pisemantic.PiSparql;
 
+/**
+ *
+ * This class is a model to manage the transformation of an array to RDF triples 
+ */
 public abstract class ArrayUpliftModel {
 
-	public static final String dataUri = "http://lab.ponciano.info/ontology/2020/geotime/data#";
-	public static final String xsdUri = "http://www.w3.org/2001/XMLSchema#";
+    /**
+     *Prefix for data comming from the array
+     */
+    public static final String dataUri = "http://lab.ponciano.info/ontology/2020/geotime/data#";
+
+    /**
+     *Prefix for XSD vocabulary
+     */
+    public static final String xsdUri = "http://www.w3.org/2001/XMLSchema#";
 	/**
 	 * table representing a data to uplift as RDF triples
 	 */
@@ -48,8 +59,13 @@ public abstract class ArrayUpliftModel {
 	//Hashmap having property URI as key and its corresponding range as value
 	protected HashMap<String, String> propertyRanges;
 	
-	
-	public ArrayUpliftModel (String [][] attributesArray, String ontpath) throws FileNotFoundException {
+    /**
+     *Constructor of the class 
+     * @param attributesArray Corresponds to the array to uplift
+     * @param ontpath Corresponds to the path of the ontology where the array will be uplifted
+     * @throws FileNotFoundException Exception that is triggered if the ontology file is not found
+     */
+    public ArrayUpliftModel (String [][] attributesArray, String ontpath) throws FileNotFoundException {
 		this.attributes=attributesArray;
 		this.ontopath=ontpath;
 		this.ontology= new PiSparql();
@@ -60,7 +76,14 @@ public abstract class ArrayUpliftModel {
 		this.initpropertyRanges();
 	}
 	
-	public ArrayUpliftModel (String [][] attributesArray, String ontpath, String vocabpath) throws FileNotFoundException {
+    /**
+     *Constructor of the class
+     * @param attributesArray Corresponds to the array uplift
+     * @param ontpath Corresponds to the path of the ontology where the array will be uplifted 
+     * @param vocabpath Corresponds to the path of a specific vocabulary 
+     * @throws FileNotFoundException Exception that is triggered if the ontology is not found
+     */
+    public ArrayUpliftModel (String [][] attributesArray, String ontpath, String vocabpath) throws FileNotFoundException {
 		this.attributes=attributesArray;
 		this.ontopath=ontpath;
 		this.ontology= new PiSparql();
@@ -91,7 +114,13 @@ public abstract class ArrayUpliftModel {
 	 */
 	public abstract boolean addProperty(String localname, String range);
 	
-	public abstract boolean addPropertyMapping(String localname, String label);
+    /**
+     *adding of a new mapping property from its local name and label
+     * @param localname 
+     * @param label
+     * @return
+     */
+    public abstract boolean addPropertyMapping(String localname, String label);
 	
 	
 	public abstract boolean createOntology(String classname, List<String> mappedProperties) throws Exception;
