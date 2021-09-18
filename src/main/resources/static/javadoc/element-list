@@ -1,0 +1,15 @@
+info.ponciano.lab.geotimewfs
+info.ponciano.lab.geotimewfs.array_uplift
+info.ponciano.lab.geotimewfs.controllers
+info.ponciano.lab.geotimewfs.controllers.last
+info.ponciano.lab.geotimewfs.controllers.last.sparql
+info.ponciano.lab.geotimewfs.controllers.security
+info.ponciano.lab.geotimewfs.controllers.storage
+info.ponciano.lab.geotimewfs.models
+info.ponciano.lab.geotimewfs.models.geojson
+info.ponciano.lab.geotimewfs.models.importer
+info.ponciano.lab.geotimewfs.models.parser
+info.ponciano.lab.geotimewfs.models.semantic
+org.geotoolkit.coverage
+org.geotoolkit.coverage.wkb
+org.geotoolkit.io
