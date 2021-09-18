@@ -86,8 +86,8 @@ public class ArrayUpliftController {
 
     /**
      *
-     * @param filename 
-     * @return 
+     * @param filename name of the file hosted by the server
+     * @return the file
      */
     @GetMapping("/csv_loading/files/{filename:.+}")
     @ResponseBody
