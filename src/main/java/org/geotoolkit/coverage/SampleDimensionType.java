@@ -150,10 +150,10 @@ public final class SampleDimensionType extends CodeList<SampleDimensionType> {
 
     /**
      * Returns the list of codes of the same kind than this code list element.
-     * Invoking this method is equivalent to invoking {@link #values()}, except that
+    
      * this method can be invoked on an instance of the parent {@code CodeList} class.
      *
-     * @return all code {@linkplain #values() values} for this code list.
+     * @return Something
      */
     @Override
     public SampleDimensionType[] family() {
