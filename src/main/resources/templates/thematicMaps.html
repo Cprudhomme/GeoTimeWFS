@@ -19,9 +19,11 @@ MA 02110-1301  USA
 -->
 <html>
 
-<head th:replace="fragments/head :: head"></head>
+    <head th:replace="fragments/head :: head">
+       
+    </head>
 
-<body>
+<body> <link rel="stylesheet" type="text/css" href="/css/slidebar.css">
 
  <!--Header with the picture, title and Contact-->
  <div class="containerfull">
@@ -40,6 +42,7 @@ MA 02110-1301  USA
     <div class="containerfull">
         <div class="containercontent">
             <h2> Welcome to BKG Linked Data and Semantic Data management. </h2>
+            
             <div class="sticky row crumbs">
                 <div class="container-fluid" role="main">
                     <div class="row">
@@ -53,6 +56,62 @@ MA 02110-1301  USA
                                 <br>
                                 It gives an access to the triplestore, where data and metadata are semantically stored through RDF graph. Finally, you can create thematic map from integrated Feature collection and Linked Open Data.
                             </p>
+                             <div class="row">
+            <div class="column">
+                <div class="content">
+                    <img src="https://github.com/Cprudhomme/GeoTimeWFS/wiki//images/Geo21.jpg" alt="" style="width:100%">
+                    <h3>
+                        <a href="/maps/">Thematic map</a>
+                    </h3>
+                     
+ 
+                    <p>
+                        Create a thematic map according to a chosen class from Wikidata or from the local ontology.
+                    </p>
+ 
+ 
+                </div>
+            </div>
+             
+            <div class="column">
+                <div class="content">
+                    <img src="https://github.com/Cprudhomme/GeoTimeWFS/wiki//images/13-2.jpg" alt="" style="width:100%">
+                        
+                    <h3>
+                        <a href="/enrichment/">Enrichment</a>
+                    </h3>
+                     
+                     
+ 
+                    <p>
+                        Enrich the local </br> ontology thanks to </br> a SPARQL query </br> from Wikidata.
+                    </p>
+ 
+ 
+                </div>
+            </div>
+             
+            <div class="column">
+                <div class="content">
+                    <img src="https://github.com/Cprudhomme/GeoTimeWFS/wiki//images/menu3.jpg"  alt="" style="width:100%">
+
+                       
+                    <h3>
+                        <a href="/geotimeWFS/collections">Metadata Catalogue</a>
+                    </h3>
+                     
+                     
+ 
+<p>
+                        Overview of Metadata to choose and access on the wanted data.
+                    </p>
+ 
+ 
+                </div>
+            </div>
+             
+          
+        </div>
                         </div>
                     </div>
                 </div>

@@ -282,6 +282,7 @@ public abstract class OntoManagement implements KnowledgeBaseInterface {
      *
      * @return this ontModel.
      */
+    @Override
     public PiOnt getOnt() {
         return ont;
     }
@@ -329,11 +330,11 @@ public abstract class OntoManagement implements KnowledgeBaseInterface {
      * Executes SPARQL select query.
      * <p>
      * Example of use:
-     * <p>
-     * <
-     * pre><code>
+     * </p>
+     * 
+     * <pre><code>
      *   ResultSet select = this.select(query);
-     * List<Resource> gts = new ArrayList<>(); while (select.hasNext()) {
+     * List gts = new ArrayList(); while (select.hasNext()) {
      * Resource resource = select.next().getResource(vcode); gts.add(resource);
      * }
      * </code></pre>
@@ -356,21 +357,7 @@ public abstract class OntoManagement implements KnowledgeBaseInterface {
      * Execute a update query on the dataset
      *
      * @param query query to be executed
-     * @throws info.ponciano.lab.pisemantic.OntoManagementException if something
-     * bad happens
-     * <h2> Example of insert:</h2>
-     * <p>
-     * <pre><code>INSERT DATA { gtdcat:gdi_metadata rdf:type <http://www.w3.org/ns/dcat#CatalogRecord> .}</code></pre>
-     * </p>
-     * * <h2> Example of update:</h2>
-     * <p>
-     * <
-     * pre><code>
-     * DELETE { <ind> <property> ?v .}
-     * INSERT { <ind> <property> "value" .}
-     * WHERE { <ind> <property> ?v .}
-     * </code></pre>
-     * </p>
+     * @throws info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException
      */
     @Override
     public void update(String query) throws OntoManagementException {

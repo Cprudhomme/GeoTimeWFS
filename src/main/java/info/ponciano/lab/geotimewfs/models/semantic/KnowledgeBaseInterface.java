@@ -83,11 +83,11 @@ public interface KnowledgeBaseInterface {
      * Executes SPARQL select query.
      * <p>
      * Example of use:
-     * <p>
-     * <
-     * pre><code>
+     * </p>
+     * 
+     * <pre><code>
      *   ResultSet select = this.select(query);
-     * List<Resource> gts = new ArrayList<>(); while (select.hasNext()) {
+     * List gts = new ArrayList(); while (select.hasNext()) {
      * Resource resource = select.next().getResource(vcode); gts.add(resource);
      * }
      * </code></pre>
@@ -101,8 +101,7 @@ public interface KnowledgeBaseInterface {
      * Execute a update query on the data set
      *
      * @param query query to be executed
-     * @throws info.ponciano.lab.pisemantic.OntoManagementException if something
-     * bad happens
+     * @throws info.ponciano.lab.geotimewfs.models.semantic.OntoManagementException if something is wrong
      */
     public abstract void update(String query) throws OntoManagementException;
     

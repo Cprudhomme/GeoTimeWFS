@@ -83,7 +83,7 @@ public class MetadataController {
     
     /**
      * 
-     * @param file represents XML files to uplift into RDF triples
+     * @param files list of files to uplift
      * @param redirectAttributes attributes provided to the view
      * @return the same view with a message informing about the successful uplift and the link to provided XML files
      */

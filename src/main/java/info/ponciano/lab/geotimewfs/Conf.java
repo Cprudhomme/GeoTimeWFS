@@ -31,7 +31,13 @@ import org.json.JSONObject;
  * @author Dr Jean-Jacques Ponciano (Contact: jean-jacques@ponciano.info)
  */
 public class Conf {
+    /**
+     * Instance of the singleton
+     */
     public static Conf instance;
+    /**
+     * WFS JSON object
+     */
     protected JSONObject wfsconf;
 
     private Conf() {
@@ -41,11 +47,20 @@ public class Conf {
             Logger.getLogger(Conf.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     *get is a function that provides a reading access to the instance of the class conf
+     * @return an instance of conf class 
+     */
     public static Conf get(){
         if (instance==null)instance=new Conf();
         return instance;
     }
 
+    /**
+     *
+     * @return gives access to wfsconf 
+     */
     public JSONObject getWfsconf() {
         return wfsconf;
     }
